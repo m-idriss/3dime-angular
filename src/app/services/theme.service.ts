@@ -135,15 +135,20 @@ export class ThemeService {
   }
 
   private updateThemeColor(theme: string): void {
-    const themeColorMeta = document.querySelector('#theme-color-meta') as HTMLMetaElement;
-    if (themeColorMeta) {
-      const themeColors: { [key: string]: string } = {
-        'dark': '#000000',
-        'white': '#ffffff',
-        'glass': '#1a1a1a'
-      };
-      themeColorMeta.content = themeColors[theme] || themeColors['glass'];
+    let themeColorMeta = document.querySelector('#theme-color-meta') as HTMLMetaElement;
+    if (!themeColorMeta) {
+      // Create the meta element if it doesn't exist
+      themeColorMeta = document.createElement('meta');
+      themeColorMeta.name = 'theme-color';
+      themeColorMeta.id = 'theme-color-meta';
+      document.head.appendChild(themeColorMeta);
     }
+    const themeColors: { [key: string]: string } = {
+      'dark': '#000000',
+      'white': '#ffffff',
+      'glass': '#1a1a1a'
+    };
+    themeColorMeta.content = themeColors[theme] || themeColors['glass'];
   }
 
   getThemeDisplayName(theme: string): string {
