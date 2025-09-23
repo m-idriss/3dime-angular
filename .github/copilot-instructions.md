@@ -68,7 +68,7 @@ Always run these steps after making changes:
    npm run build
    ```
    - Should complete in ~8 seconds with warnings (normal)
-   - Check `dist/converter-app/` directory is created
+   - Check `dist/3dime-angular/` directory is created
 
 2. **Application Functionality:**
    ```bash
@@ -241,4 +241,4 @@ firebase deploy
 ```
 
 ### Manual Deployment
-The `dist/converter-app/` directory contains static files ready for any web server.
+The `dist/3dime-angular/` directory contains static files ready for any web server.

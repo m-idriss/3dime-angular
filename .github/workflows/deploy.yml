@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ${{ secrets.FTP_PATH }}
-          local-dir: ./dist/converter-app/browser/
+          local-dir: ./dist/3dime-angular/browser/
           exclude: |
             **/.git*
             **/.git*/**
