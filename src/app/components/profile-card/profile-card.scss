@@ -3,7 +3,9 @@
    ======================== */
 
 .burger-menu {
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .burger-menu.active .burger-button {
