@@ -1,0 +1,53 @@
+/* ========================
+   Social Icons
+   ======================== */
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.socials i {
+  font-size: 32px;
+  color: var(--text-primary);
+  opacity: 0.65;
+  cursor: pointer;
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+  transition: all var(--t-medium);
+}
+
+.socials i:hover {
+  transform: scale(1.25);
+  opacity: 1;
+  background: var(--glass-bg);
+}
+
+.icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--badge-color);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 5px;
+  border-radius: var(--radius-full);
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hide badges when notifications are disabled */
+body.notifications-off .badge {
+  display: none !important;
+}

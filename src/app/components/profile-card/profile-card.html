@@ -1,0 +1,48 @@
+<section class="container" aria-label="profile" id="profile-section">
+  <header class="profile-header">
+    <img src="assets/logo.png" alt="Logo" class="logo">
+
+    <div class="burger-menu">
+      <button class="burger-button" (click)="toggleMenu()" aria-label="Profile options">
+        <i class="fas fa-ellipsis-v"></i>
+      </button>
+
+      <!-- Dropdown menu -->
+      <div
+        class="profile-dropdown"
+        *ngIf="menuOpen"
+        role="menu"
+        aria-labelledby="burger-btn"
+      >
+        <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+          <span>Dark Theme</span>
+        </button>
+
+        <div class="dropdown-separator" role="separator"></div>
+
+        <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
+          <i class="fas fa-circle" aria-hidden="true"></i>
+          <span>Dark Background</span>
+        </button>
+
+        <div class="dropdown-separator" role="separator"></div>
+
+        <button class="dropdown-item font-size-toggle" role="menuitem" (click)="changeFontSize()">
+          <i class="fas fa-text-height" aria-hidden="true"></i>
+          <span>Font Size: Normal</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <h2>✨ Idriss ✨</h2>
+  <div class="socials">
+    <a href="https://github.com/m-idriss" target="_blank" rel="noopener noreferrer"><i class="fa fa-brands fa-github" aria-hidden="true"></i></a>
+    <a href="https://www.linkedin.com/in/i-mohamady/" target="_blank" rel="noopener noreferrer"><i class="fa fa-brands fa-linkedin" aria-hidden="true"></i></a>
+    <a href="https://x.com/3dime13" target="_blank" rel="noopener noreferrer"><i class="fa fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/imohamady/" target="_blank" rel="noopener noreferrer"><i class="fa fa-brands fa-facebook-square" aria-hidden="true"></i></a>
+    <a href="https://www.instagram.com/3dime13/" target="_blank" rel="noopener noreferrer"><i class="fa fa-brands fa-instagram" aria-hidden="true"></i></a>
+  </div>
+</section>
+

@@ -2,12 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>3dimeAngular</title>
+  <title>3dime-angular</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Theme color for mobile browser status bar -->
+  <meta name="theme-color" content="#000000" id="theme-color-meta">
+
+  <!-- Security Headers (meta tags only - frame-ancestors and X-Frame-Options require HTTP headers) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://d3js.org; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+
+  <!-- Resource Hints for Performance -->
+  <link rel="preload" href="assets/js/main.js" as="script" crossorigin>
+  <link rel="preload" href="assets/logo.png" as="image">
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="//unpkg.com">
+  <link rel="dns-prefetch" href="//d3js.org">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="//api.github.com">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
+
+  <!-- Standard favicon with multiple sizes for better Safari compatibility -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="assets/icons/icon-16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="assets/icons/icon.png" type="image/png" sizes="32x32">
+
+  <!-- Safari-specific icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="assets/icons/icon-512.png">
+  <link rel="mask-icon" href="assets/icons/mask-icon.svg" color="#000000">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="assets/manifest.json">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
+  <script src="https://unpkg.com/cal-heatmap/dist/plugins/CalendarLabel.min.js"></script>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/cal-heatmap/dist/plugins/Tooltip.min.js"></script>
 </head>
-<body>
-  <app-root></app-root>
+<body class="loaded glass-theme bg-black">
+<!-- Skip Links for Accessibility -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<a href="#profile-section" class="skip-link">Skip to profile</a>
+<div class="bg" aria-hidden="true" style="background: none;">
+  <video autoplay="" muted="" loop="" playsinline="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;" aria-hidden="true">
+    <source src="assets/background.mp4" type="video/mp4">
+  </video>
+</div>
+<app-root></app-root>
 </body>
 </html>
