@@ -1,6 +1,12 @@
-# 3dimeAngular
+# 3dime-angular
+
+> **Personal Portfolio Website for Idriss** - A modern Angular 20+ application showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.2.
+
+## 📋 Project Roadmap
+
+For a comprehensive overview of planned features, improvements, and development timeline, see [ROADMAP.md](./ROADMAP.md).
 
 ## Development server
 
