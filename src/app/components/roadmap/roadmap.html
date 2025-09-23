@@ -1,0 +1,172 @@
+<section class="container roadmap-container">
+  <h2>Roadmap Creator</h2>
+  <p>Create and manage your project roadmaps and track progress.</p>
+
+  <!-- Create New Roadmap Button -->
+  <div class="roadmap-actions">
+    <button class="btn btn-primary" (click)="toggleCreateRoadmap()">
+      {{ showCreateRoadmap() ? 'Cancel' : '+ Create Roadmap' }}
+    </button>
+  </div>
+
+  <!-- Create Roadmap Form -->
+  @if (showCreateRoadmap()) {
+    <div class="create-form">
+      <h3>Create New Roadmap</h3>
+      <input 
+        type="text" 
+        placeholder="Roadmap name"
+        [(ngModel)]="newRoadmapName"
+        class="form-input"
+      />
+      <textarea 
+        placeholder="Description (optional)"
+        [(ngModel)]="newRoadmapDescription"
+        class="form-textarea"
+      ></textarea>
+      <div class="form-actions">
+        <button class="btn btn-success" (click)="createRoadmap()">Create</button>
+        <button class="btn btn-secondary" (click)="showCreateRoadmap.set(false)">Cancel</button>
+      </div>
+    </div>
+  }
+
+  <!-- Roadmaps List -->
+  @if (roadmaps().length === 0 && !showCreateRoadmap()) {
+    <div class="empty-state">
+      <p>No roadmaps yet. Create your first roadmap to get started!</p>
+    </div>
+  }
+
+  @for (roadmap of roadmaps(); track roadmap.id) {
+    <div class="roadmap-card">
+      <div class="roadmap-header" (click)="selectRoadmap(roadmap.id)">
+        <div class="roadmap-info">
+          <h3>{{ roadmap.name }}</h3>
+          @if (roadmap.description) {
+            <p class="roadmap-description">{{ roadmap.description }}</p>
+          }
+          <div class="roadmap-meta">
+            <span class="item-count">{{ roadmap.items.length }} items</span>
+            <span class="created-date">Created {{ formatDate(roadmap.createdAt) }}</span>
+          </div>
+        </div>
+        <div class="roadmap-actions">
+          <button class="btn-icon" (click)="$event.stopPropagation(); deleteRoadmap(roadmap.id)" title="Delete roadmap">
+            🗑️
+          </button>
+          <button class="btn-icon expand-btn" [class.expanded]="selectedRoadmap() === roadmap.id">
+            {{ selectedRoadmap() === roadmap.id ? '▲' : '▼' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Roadmap Items -->
+      @if (selectedRoadmap() === roadmap.id) {
+        <div class="roadmap-content">
+          
+          <!-- Add Item Button -->
+          <div class="add-item-section">
+            <button class="btn btn-outline" (click)="toggleCreateItem(roadmap.id)">
+              {{ showCreateItem() === roadmap.id ? 'Cancel' : '+ Add Item' }}
+            </button>
+          </div>
+
+          <!-- Create Item Form -->
+          @if (showCreateItem() === roadmap.id) {
+            <div class="create-item-form">
+              <input 
+                type="text" 
+                placeholder="Item title"
+                [(ngModel)]="newItemTitle"
+                class="form-input"
+              />
+              <textarea 
+                placeholder="Description"
+                [(ngModel)]="newItemDescription"
+                class="form-textarea"
+              ></textarea>
+              <div class="form-row">
+                <select [(ngModel)]="newItemPriority" class="form-select">
+                  <option value="low">Low Priority</option>
+                  <option value="medium">Medium Priority</option>
+                  <option value="high">High Priority</option>
+                </select>
+                <input 
+                  type="date" 
+                  [(ngModel)]="newItemDueDate"
+                  class="form-input"
+                  title="Due date (optional)"
+                />
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-success" (click)="createItem(roadmap.id)">Add Item</button>
+                <button class="btn btn-secondary" (click)="showCreateItem.set(null)">Cancel</button>
+              </div>
+            </div>
+          }
+
+          <!-- Items List -->
+          @if (roadmap.items.length === 0) {
+            <div class="empty-items">
+              <p>No items in this roadmap yet.</p>
+            </div>
+          } @else {
+            <div class="items-list">
+              @for (item of roadmap.items; track item.id) {
+                <div class="roadmap-item" [class]="getStatusClass(item.status)">
+                  <div class="item-header">
+                    <div class="item-info">
+                      <h4>{{ item.title }}</h4>
+                      @if (item.description) {
+                        <p class="item-description">{{ item.description }}</p>
+                      }
+                      <div class="item-meta">
+                        <span class="priority" [class]="getPriorityClass(item.priority)">
+                          {{ item.priority }} priority
+                        </span>
+                        @if (item.dueDate) {
+                          <span class="due-date">Due: {{ formatDate(item.dueDate) }}</span>
+                        }
+                      </div>
+                    </div>
+                    <div class="item-actions">
+                      <button class="btn-icon" (click)="deleteItem(roadmap.id, item.id)" title="Delete item">
+                        🗑️
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <!-- Status Controls -->
+                  <div class="status-controls">
+                    <button 
+                      class="status-btn" 
+                      [class.active]="item.status === 'not-started'"
+                      (click)="updateItemStatus(roadmap.id, item.id, 'not-started')"
+                    >
+                      Not Started
+                    </button>
+                    <button 
+                      class="status-btn" 
+                      [class.active]="item.status === 'in-progress'"
+                      (click)="updateItemStatus(roadmap.id, item.id, 'in-progress')"
+                    >
+                      In Progress
+                    </button>
+                    <button 
+                      class="status-btn" 
+                      [class.active]="item.status === 'completed'"
+                      (click)="updateItemStatus(roadmap.id, item.id, 'completed')"
+                    >
+                      Completed
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</section>

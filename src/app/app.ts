@@ -10,6 +10,7 @@ import { Education } from './components/education/education';
 import { Stuff } from './components/stuff/stuff';
 import { Hobbies } from './components/hobbies/hobbies';
 import { Contact } from './components/contact/contact';
+import { Roadmap } from './components/roadmap/roadmap';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ import { Contact } from './components/contact/contact';
     Education,
     Stuff,
     Hobbies,
-    Contact
+    Contact,
+    Roadmap
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
