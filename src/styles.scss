@@ -2,8 +2,8 @@
    3DIME - MODERN BASE STYLES (Refined & Optimized)
    ============================================== */
 
-/* Load Inter efficiently */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+/* Load Inter efficiently - commented out for local development */
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap'); */
 
 /* ========================
    CSS Variables
@@ -358,59 +358,9 @@ textarea:focus,
   transform: rotate(180deg);
 }
 
-/* Dropdown Menu */
-.profile-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: var(--space-xs);
-  min-width: 200px;
-  background: var(--primary-bg);
-  backdrop-filter: blur(16px);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-card-hover);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all var(--t-medium);
-  z-index: 100;
-}
+/* Dropdown Menu styles moved to component-specific SCSS */
 
-.profile-dropdown.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  color: var(--text-primary);
-  text-decoration: none;
-  border: none;
-  background: transparent;
-  border-radius: var(--radius-md);
-  margin: var(--space-xs);
-  font-size: var(--font-size-base);
-  cursor: pointer;
-  width: calc(100% - (var(--space-xs) * 2));
-  transition: background var(--t-medium);
-}
-
-.dropdown-item:hover {
-  background: var(--glass-bg-hover);
-  transform: translateX(4px);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
-}
-
-.dropdown-item i {
-  font-size: 16px;
-  width: 20px;
-  text-align: center;
-}
+/* Dropdown Item styles moved to component-specific SCSS */
 
 /* Theme Toggle */
 .theme-toggle {
@@ -1169,3 +1119,27 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
     transform: none !important;
   }
 }
+
+/* ========================
+   Font Size Classes
+   ======================== */
+body.font-small {
+  font-size: 0.875rem; /* 14px */
+}
+
+body.font-normal {
+  font-size: 1rem; /* 16px - default */
+}
+
+body.font-large {
+  font-size: 1.125rem; /* 18px */
+}
+
+/* Font size adjustments for headings */
+body.font-small h1 { font-size: 1.75rem; }
+body.font-small h2 { font-size: 1.5rem; }
+body.font-small h3 { font-size: 1.25rem; }
+
+body.font-large h1 { font-size: 2.5rem; }
+body.font-large h2 { font-size: 2rem; }
+body.font-large h3 { font-size: 1.75rem; }

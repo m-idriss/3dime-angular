@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // indispensable pour *ngIf
+import { Component, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-profile-card',
-  standalone: true,   // si vous utilisez standalone components
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './profile-card.html',
   styleUrls: ['./profile-card.scss']
@@ -11,20 +12,73 @@ import { CommonModule } from '@angular/common'; // indispensable pour *ngIf
 export class ProfileCard {
   menuOpen = false;
 
+  constructor(private themeService: ThemeService) {}
+
   toggleMenu() {
-    console.log('Menu clicked'); // pour vérifier que le click est détecté
     this.menuOpen = !this.menuOpen;
   }
 
+  closeMenu() {
+    this.menuOpen = false;
+  }
+
+  // Close menu when clicking outside
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    const burgerMenu = target.closest('.burger-menu');
+    
+    // If click is outside burger menu, close it
+    if (!burgerMenu && this.menuOpen) {
+      this.closeMenu();
+    }
+  }
+
+  // Close menu on ESC key
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape' && this.menuOpen) {
+      this.closeMenu();
+    }
+  }
+
   cycleTheme() {
-    console.log('Cycle theme');
+    this.themeService.cycleTheme();
+    // Menu stays open to see immediate feedback
   }
 
   toggleVideoBg() {
-    console.log('Toggle video bg');
+    this.themeService.toggleBackground();
+    // Menu stays open to see immediate feedback
   }
 
   changeFontSize() {
-    console.log('Change font size');
+    this.themeService.cycleFontSize();
+    // Menu stays open to see immediate feedback
+  }
+
+  // Helper methods for template
+  get currentTheme(): string {
+    return this.themeService.getCurrentTheme();
+  }
+
+  get currentBackground(): string {
+    return this.themeService.getCurrentBackground();
+  }
+
+  get currentFontSize(): string {
+    return this.themeService.getCurrentFontSize();
+  }
+
+  get themeDisplayName(): string {
+    return this.themeService.getThemeDisplayName(this.currentTheme);
+  }
+
+  get backgroundDisplayName(): string {
+    return this.themeService.getBackgroundDisplayName(this.currentBackground);
+  }
+
+  get fontSizeDisplayName(): string {
+    return this.themeService.getFontSizeDisplayName(this.currentFontSize);
   }
 }

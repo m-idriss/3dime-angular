@@ -2,8 +2,15 @@
   <header class="profile-header">
     <img src="assets/logo.png" alt="Logo" class="logo">
 
-    <div class="burger-menu">
-      <button class="burger-button" (click)="toggleMenu()" aria-label="Profile options">
+    <div class="burger-menu" [class.active]="menuOpen">
+      <button 
+        class="burger-button" 
+        [class.active]="menuOpen"
+        (click)="toggleMenu()" 
+        aria-label="Profile options"
+        [attr.aria-expanded]="menuOpen"
+        aria-haspopup="true"
+      >
         <i class="fas fa-ellipsis-v"></i>
       </button>
 
@@ -15,22 +22,30 @@
         aria-labelledby="burger-btn"
       >
         <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
-          <i class="fas fa-moon" aria-hidden="true"></i>
-          <span>Dark Theme</span>
+          <i class="fas" 
+             [class.fa-moon]="currentTheme === 'dark'"
+             [class.fa-sun]="currentTheme === 'white'" 
+             [class.fa-gem]="currentTheme === 'glass'"
+             aria-hidden="true"></i>
+          <span>{{ themeDisplayName }}</span>
         </button>
 
         <div class="dropdown-separator" role="separator"></div>
 
         <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
-          <i class="fas fa-circle" aria-hidden="true"></i>
-          <span>Dark Background</span>
+          <i class="fas" 
+             [class.fa-circle]="currentBackground === 'black'"
+             [class.fa-circle-notch]="currentBackground === 'white'"
+             [class.fa-play]="currentBackground === 'video'"
+             aria-hidden="true"></i>
+          <span>{{ backgroundDisplayName }}</span>
         </button>
 
         <div class="dropdown-separator" role="separator"></div>
 
         <button class="dropdown-item font-size-toggle" role="menuitem" (click)="changeFontSize()">
           <i class="fas fa-text-height" aria-hidden="true"></i>
-          <span>Font Size: Normal</span>
+          <span>Font Size: {{ fontSizeDisplayName }}</span>
         </button>
       </div>
     </div>
