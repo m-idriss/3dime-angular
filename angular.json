@@ -27,6 +27,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "*.php",
+                "input": ".",
+                "output": "."
+              },
+              {
+                "glob": "**/*.php",
+                "input": "services",
+                "output": "services"
               }
             ],
             "styles": [
@@ -85,6 +95,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "*.php",
+                "input": ".",
+                "output": "."
+              },
+              {
+                "glob": "**/*.php",
+                "input": "services",
+                "output": "services"
               }
             ],
             "styles": [
