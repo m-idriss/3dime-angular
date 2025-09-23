@@ -112,14 +112,50 @@ export class ThemeService {
 
   private applyBackground(background: string): void {
     const body = document.body;
+    const bgElement = document.querySelector('.bg') as HTMLElement;
     
     // Remove existing background classes
     this.config.BACKGROUND_MODES.forEach(mode => {
       body.classList.remove(`bg-${mode}`);
     });
     
-    // Add new background class
-    body.classList.add(`bg-${background}`);
+    // If bg element doesn't exist, just add the class and return
+    if (!bgElement) {
+      body.classList.add(`bg-${background}`);
+      return;
+    }
+    
+    // Apply background-specific DOM changes
+    switch(background) {
+      case 'black':
+        bgElement.innerHTML = '';
+        bgElement.style.background = '#000000';
+        body.classList.add('bg-black');
+        break;
+        
+      case 'white':
+        bgElement.innerHTML = '';
+        bgElement.style.background = '#ffffff';
+        body.classList.add('bg-white');
+        break;
+        
+      case 'video':
+        bgElement.innerHTML = `
+          <video autoplay muted loop playsinline 
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;"
+                 aria-hidden="true">
+            <source src="assets/background.mp4" type="video/mp4">
+          </video>
+        `;
+        bgElement.style.background = 'transparent';
+        body.classList.add('bg-video');
+        break;
+        
+      default:
+        bgElement.innerHTML = '';
+        bgElement.style.background = '#000000';
+        body.classList.add('bg-black');
+    }
   }
 
   private applyFontSize(fontSize: string): void {
