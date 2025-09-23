@@ -1,6 +1,94 @@
 /* ========================
-   Social Icons
+   Profile Card Burger Menu Enhancements
    ======================== */
+
+.burger-menu {
+  position: relative;
+}
+
+.burger-menu.active .burger-button {
+  background: var(--glass-bg-hover);
+  backdrop-filter: blur(20px);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+.burger-button.active i {
+  transform: rotate(180deg);
+  color: var(--accent-color);
+}
+
+/* Dropdown Menu Enhancements */
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: var(--primary-bg);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card);
+  z-index: 1000;
+  
+  /* Animation */
+  animation: dropdownSlideIn 0.2s ease-out;
+  transform-origin: top right;
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--t-medium);
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background: var(--glass-bg);
+  color: var(--accent-color);
+}
+
+.dropdown-item:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -2px;
+}
+
+.dropdown-item i {
+  width: 16px;
+  text-align: center;
+  transition: all var(--t-medium);
+}
+
+.dropdown-item:hover i {
+  transform: scale(1.1);
+}
+
+.dropdown-separator {
+  height: 1px;
+  background: var(--glass-border);
+  margin: var(--space-xs) var(--space-sm);
+}
+
+/* Social Icons Styling */
 .socials {
   display: flex;
   justify-content: center;
