@@ -1169,3 +1169,27 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
     transform: none !important;
   }
 }
+
+/* ========================
+   Font Size Classes
+   ======================== */
+body.font-small {
+  font-size: 0.875rem; /* 14px */
+}
+
+body.font-normal {
+  font-size: 1rem; /* 16px - default */
+}
+
+body.font-large {
+  font-size: 1.125rem; /* 18px */
+}
+
+/* Font size adjustments for headings */
+body.font-small h1 { font-size: 1.75rem; }
+body.font-small h2 { font-size: 1.5rem; }
+body.font-small h3 { font-size: 1.25rem; }
+
+body.font-large h1 { font-size: 2.5rem; }
+body.font-large h2 { font-size: 2rem; }
+body.font-large h3 { font-size: 1.75rem; }
