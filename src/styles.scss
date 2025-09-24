@@ -762,10 +762,12 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  /* Increase margins for better mobile design */
+  /* Improve mobile design with centered alignment */
   .cards-container {
-    padding-left: var(--space-mobile);
-    padding-right: var(--space-mobile);
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+    align-items: center;
+    max-width: 100%;
   }
 }
 
