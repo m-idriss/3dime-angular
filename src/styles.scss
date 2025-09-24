@@ -760,6 +760,12 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
   .theme-options {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  /* Increase margins for better mobile design */
+  .cards-container {
+    padding-left: var(--space-xl);
+    padding-right: var(--space-xl);
+  }
 }
 
 /* Progressive disclosure for better mobile UX */
