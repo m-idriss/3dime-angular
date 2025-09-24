@@ -35,6 +35,7 @@
   --space-md: 0.5rem;
   --space-lg: 0.75rem;
   --space-xl: 2rem;
+  --space-mobile: 2.5rem;
 
   /* Radius */
   --radius-md: 0.75rem;
@@ -763,8 +764,8 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
 
   /* Increase margins for better mobile design */
   .cards-container {
-    padding-left: var(--space-xl);
-    padding-right: var(--space-xl);
+    padding-left: var(--space-mobile);
+    padding-right: var(--space-mobile);
   }
 }
 
