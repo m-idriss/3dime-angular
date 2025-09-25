@@ -35,7 +35,6 @@
   --space-md: 0.5rem;
   --space-lg: 0.75rem;
   --space-xl: 2rem;
-  --space-mobile: 2.5rem;
 
   /* Radius */
   --radius-md: 0.75rem;
@@ -761,22 +760,6 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
   .theme-options {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  /* Improve mobile design with centered alignment */
-  .cards-container {
-    padding-left: var(--space-lg);
-    padding-right: var(--space-lg);
-    align-items: center;
-    max-width: 100%;
-  }
-
-  .container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
-
 }
 
 /* Progressive disclosure for better mobile UX */
