@@ -5,8 +5,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:server": "tsc --project tsconfig.node.json",
-    "server": "npm run build:server && node dist/server/server.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
