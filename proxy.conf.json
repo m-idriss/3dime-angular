@@ -1,0 +1,11 @@
+{
+  "/api/github": {
+    "target": "https://www.3dime.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api/github": "/proxy.php?service=github&type=commits_all"
+    }
+  }
+}

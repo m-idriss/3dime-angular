@@ -9,6 +9,7 @@ import { Education } from './components/education/education';
 import { Stuff } from './components/stuff/stuff';
 import { Hobbies } from './components/hobbies/hobbies';
 import { Contact } from './components/contact/contact';
+import { GithubActivity } from './components/github-activity/github-activity';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ import { Contact } from './components/contact/contact';
     Education,
     Stuff,
     Hobbies,
-    Contact
+    Contact,
+    GithubActivity
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
