@@ -1,11 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LinkItem } from '../../models/link-item.model';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-hobbies',
-  imports: [],
-  templateUrl: './hobbies.html',
-  styleUrl: './hobbies.scss'
+  templateUrl: './hobbies.html'
 })
-export class Hobbies {
+export class Hobbies implements OnInit {
+  hobbies: LinkItem[] = [];
 
+  constructor(private readonly dataService: DataService) {}
+
+  ngOnInit() {
+    this.dataService.getHobbies().subscribe((data: LinkItem[]) => {
+      this.hobbies = data;
+    });
+  }
 }

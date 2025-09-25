@@ -1,3 +1,11 @@
 <section class="container" aria-label="contact">
-  <a href="mailto:contact%403dime.com" class="link">contact@3dime.com</a>
+  <ul>
+    @for (con of contact; track con.name) {
+    <a [href]="con.url" target="_blank" rel="noopener noreferrer" class="link">
+      {{ con.name }}
+    </a>
+    } @empty {
+    No contact available.
+    }
+  </ul>
 </section>

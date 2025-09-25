@@ -1,7 +1,13 @@
 <section class="container" aria-label="education"><h2>Education &amp; Training</h2>
-  <p>From Energy learning to IT retraining.</p><a href="https://www.afpa.fr/centre/centre-de-marseille-st-jerome"
-                                                  target="_blank" rel="noopener noreferrer" class="link">AFPA St Jérôme
-    (Software Dev)</a><a href="https://www.brassart.fr/ecole/histoire#history" target="_blank" rel="noopener noreferrer"
-                         class="link">Aries Ecole Sup d'Infographie 3D</a><a
-    href="https://iut.univ-amu.fr/fr/formations/bachelor-universitaire-de-technologie/but-metiers-transition-efficacite-energetiques"
-    target="_blank" rel="noopener noreferrer" class="link">IUT Aix-Marseille</a></section>
+  <p>From Energy learning to IT retraining.</p>
+  <ul>
+    @for (edu of education; track edu.name) {
+    <a [href]="edu.url" target="_blank" rel="noopener noreferrer" class="link">
+      {{ edu.name }}
+    </a>
+    } @empty {
+    No education available.
+    }
+  </ul>
+
+</section>
