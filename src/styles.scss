@@ -769,6 +769,14 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
     align-items: center;
     max-width: 100%;
   }
+
+  .container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+
 }
 
 /* Progressive disclosure for better mobile UX */
