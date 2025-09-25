@@ -3,6 +3,13 @@
 > **Personal Portfolio Website for Idriss** - A modern Angular 20+ application showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.2.
+A personal portfolio application built with Angular 20+.
+
+## Features
+
+- 🎨 **Modern UI**: Clean, responsive design with multiple theme options
+- 📱 **Mobile Responsive**: Optimized for all device sizes
+- ⚡ **Fast Loading**: Optimized build with proper error handling and fallbacks
 
 ## 📋 Project Roadmap
 
@@ -42,6 +49,14 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+## Deployment
+
+The built application (`dist/3dime-angular/browser/`) contains:
+- Static Angular files
+- Configuration files
+
+Deploy to any web server with PHP 7.4+ support.
+
 ## Running unit tests
 
 To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
@@ -51,8 +66,16 @@ ng test
 ```
 
 ## Running end-to-end tests
+## Architecture
+
+### Frontend (Angular)
+- **Components**: Modular components for profile, experience, projects, etc.
+- **Styling**: SCSS with CSS custom properties for theming
 
 For end-to-end (e2e) testing, run:
+## Code scaffolding
+
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
 ```bash
 ng e2e

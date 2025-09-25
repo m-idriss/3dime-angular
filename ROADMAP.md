@@ -11,7 +11,6 @@
 - **Beautiful space-themed UI** with glassmorphism effects
 - **Responsive design** with mobile-first approach
 - **Comprehensive sections**: Profile, About, Tech Stack, GitHub Activity, Experience, Education, Stuff, Hobbies, Contact
-- **Interactive GitHub heatmap** showing contribution activity
 - **Clean component structure** with proper separation of concerns
 - **SCSS styling** with CSS custom properties and modern features
 - **Build system** working correctly with Angular CLI
