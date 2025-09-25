@@ -2,7 +2,7 @@
 
 **ALWAYS follow these instructions first and fallback to additional search and context gathering only if the information here is incomplete or found to be in error.**
 
-This is an Angular 20+ personal portfolio website showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design. The application displays sections for profile, about, tech stack, GitHub activity, experience, education, stuff recommendations, hobbies, and contact information.
+This is an Angular 20+ personal portfolio website showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design. The application displays sections for profile, about, tech stack, experience, education, stuff recommendations, hobbies, and contact information.
 
 ## Working Effectively
 
@@ -101,7 +101,6 @@ src/
 │   │   ├── profile-card/      # Personal profile and social links
 │   │   ├── about/             # About me section
 │   │   ├── tech-stack/        # Technologies and skills
-│   │   ├── github-activity/   # GitHub contribution heatmap
 │   │   ├── experience/        # Work experience and projects
 │   │   ├── education/         # Education and training
 │   │   ├── stuff/             # Recommended products and tools
@@ -194,7 +193,6 @@ The application displays:
 1. **Profile section** with photo, name, and social links
 2. **About section** with personal description
 3. **Tech Stack** showing technologies and skills
-4. **GitHub Activity** with contribution heatmap
 5. **Experience & Projects** listing work history
 6. **Education & Training** showing academic background
 7. **Stuff** section with recommended products/tools
@@ -204,7 +202,6 @@ The application displays:
 ### Known Limitations
 - Bundle size exceeds Angular budget (283KB > 500KB) - performance warning only
 - Content is currently hardcoded in component templates
-- GitHub heatmap may fail to load due to external API dependencies
 - Some external CDN resources may be blocked in restricted environments
 
 ## Debugging Tips
@@ -221,7 +218,6 @@ The application displays:
 
 ### Runtime Issues
 - Check browser console for any JavaScript errors
-- Verify external resources (GitHub heatmap, social icons) are loading
 - Test space-themed animations and transitions
 
 ## Deployment

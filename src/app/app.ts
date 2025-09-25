@@ -4,7 +4,6 @@ import { RouterOutlet } from '@angular/router';
 import { ProfileCard } from './components/profile-card/profile-card';
 import { About } from './components/about/about';
 import { TechStack } from './components/tech-stack/tech-stack';
-import { GithubActivity } from './components/github-activity/github-activity';
 import { Experience } from './components/experience/experience';
 import { Education } from './components/education/education';
 import { Stuff } from './components/stuff/stuff';
@@ -19,7 +18,6 @@ import { Contact } from './components/contact/contact';
     ProfileCard,
     About,
     TechStack,
-    GithubActivity,
     Experience,
     Education,
     Stuff,
