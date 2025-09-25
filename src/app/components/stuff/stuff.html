@@ -1,12 +1,13 @@
-<section aria-label="stuff" class="container"><h2>Stuff</h2>
-  <p>Stuff I use and recommend.</p><a class="link" href="https://www.apple.com/macbook-pro/"
-                                      rel="noopener noreferrer" target="_blank">Apple MacBook Pro 14</a><a
-    class="link" href="https://www.apple.com/iphone/" rel="noopener noreferrer" target="_blank">Apple iPhone</a><a
-    class="link" href="https://www.apple.com/airpods-pro/" rel="noopener noreferrer" target="_blank">Apple AirPods
-    Pro</a><a class="link" href="https://www.logitech.com/fr-fr/shop/p/mx-keys-mini" rel="noopener noreferrer"
-              target="_blank">Logitech MX Keys Mini</a><a class="link" href="https://fr.tineco.com/"
-                                                          rel="noopener noreferrer" target="_blank">Tineco Vacuum
-    Cleaner</a><a class="link"
-                  href="https://www.amazon.fr/Remington-Electrique-R%C3%A9sultat-Flexibles-Utilisation/dp/B09RNCQSJL/"
-                  rel="noopener noreferrer" target="_blank">Remington Electric Shaver for Bald</a><a
-    class="link" href="https://www.revolut.com/" rel="noopener noreferrer" target="_blank">Revolut</a></section>
+<section class="container" aria-label="stuff">
+  <h2>Stuff</h2>
+  <p>Stuff I use and recommend.</p>
+  <ul>
+    @for (stuff of stuffs; track stuff.name) {
+      <a [href]="stuff.url" target="_blank" rel="noopener noreferrer" class="link">
+        {{ stuff.name }}
+      </a>
+    } @empty {
+    No stuffs available.
+    }
+  </ul>
+</section>

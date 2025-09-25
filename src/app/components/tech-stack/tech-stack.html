@@ -1,12 +1,15 @@
 <section class="container">
   <h2>Tech Stack</h2>
   <p>Some of the technologies I worked with.</p>
-  <a href="https://www.java.com/" target="_blank" rel="noopener noreferrer" class="chip-little link">Java</a>
-  <a href="https://quarkus.io/" target="_blank" rel="noopener noreferrer" class="chip-little link">Quarkus</a>
-  <a href="https://spring.io/projects/spring-boot" target="_blank" rel="noopener noreferrer" class="chip-little link">Spring Boot</a>
-  <a href="https://agilemanifesto.org/" target="_blank" rel="noopener noreferrer" class="chip-little link">Agile</a>
-  <a href="https://www.docker.com/" target="_blank" rel="noopener noreferrer" class="chip-little link">Docker</a>
-  <a href="https://www.postgresql.org/" target="_blank" rel="noopener noreferrer" class="chip-little link">PostgreSQL</a>
-  <a href="https://www.mongodb.com/" target="_blank" rel="noopener noreferrer" class="chip-little link">MongoDB</a>
-  <a href="https://www.canva.com/" target="_blank" rel="noopener noreferrer" class="chip-little link">Canva</a>
+
+  <ul>
+    @for (tech of techStack; track tech.name) {
+      <a [href]="tech.url" target="_blank" rel="noopener noreferrer" class="chip-little link">
+        {{ tech.name }}
+      </a>
+    } @empty {
+    <li>No technologies available.</li>
+    }
+  </ul>
+
 </section>
