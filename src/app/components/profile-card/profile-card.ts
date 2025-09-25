@@ -12,7 +12,7 @@ import { ThemeService } from '../../services/theme.service';
 export class ProfileCard {
   menuOpen = false;
 
-  constructor(private themeService: ThemeService) {}
+  constructor(private readonly themeService: ThemeService) {}
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
@@ -27,7 +27,7 @@ export class ProfileCard {
   onDocumentClick(event: Event) {
     const target = event.target as HTMLElement;
     const burgerMenu = target.closest('.burger-menu');
-    
+
     // If click is outside burger menu, close it
     if (!burgerMenu && this.menuOpen) {
       this.closeMenu();
