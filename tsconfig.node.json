@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2020",
+    "outDir": "./dist/server",
+    "rootDir": "./",
+    "lib": ["ES2020"],
+    "types": ["node"],
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "server.ts"
+  ],
+  "exclude": [
+    "src/**/*",
+    "public/**/*",
+    "node_modules",
+    "dist"
+  ]
+}
