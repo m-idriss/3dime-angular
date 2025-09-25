@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
 import Tooltip from 'cal-heatmap/plugins/Tooltip';
-import { HttpHeaders } from '@angular/common/http';
 
 interface CommitWeek {
   week: number;
@@ -14,11 +13,6 @@ interface CommitWeek {
 interface CommitResponse {
   commit_activity: CommitWeek[];
 }
-
-const headers = new HttpHeaders({
-  'Accept': 'application/json',
-  'Access-Control-Allow-Origin': '*'
-});
 
 @Component({
   selector: 'app-github-activity',
@@ -32,13 +26,10 @@ export class GithubActivity implements AfterViewInit {
   constructor(private readonly http: HttpClient) {}
 
   ngAfterViewInit(): void {
-this.http.get<CommitResponse>(
-  'https://www.3dime.com/proxy.php?service=github&type=commits_all',
-  { headers }
-).subscribe((res) => {
-  this.data = res.commit_activity;
-  this.renderHeatmap();
-});
+    this.http.get<CommitResponse>('/api/github').subscribe((res) => {
+      this.data = res.commit_activity;
+      this.renderHeatmap();
+    });
   }
 
   renderHeatmap() {
