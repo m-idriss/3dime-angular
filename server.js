@@ -1,14 +1,14 @@
-/* server.ts - Environment file generator for Firebase configuration */
-import * as fs from 'fs';
-import * as path from 'path';
+/* server.js in root directory */
+const fs = require('fs');
+const path = require('path');
 
-const dir: string = 'src/environments';
-const file: string = 'environment.ts';
-const prodFile: string = 'environment.prod.ts'; // For production deployment
+const dir = 'src/environments';
+const file = 'environment.ts';
+const prodFile = 'environment.prod.ts'; // For production deployment
 
-const content: string = `${process.env['FIREBASE_DETAILS'] || ''}`;
+const content = `${process.env.FIREBASE_DETAILS}`;
 
-fs.access(dir, fs.constants.F_OK, (err: NodeJS.ErrnoException | null) => {
+fs.access(dir, fs.constants.F_OK, (err) => {
   if (err) {
     // Directory doesn't exist
     console.log("src doesn't exist, creating now", process.cwd());
@@ -27,7 +27,7 @@ fs.access(dir, fs.constants.F_OK, (err: NodeJS.ErrnoException | null) => {
     console.log('Created successfully in', process.cwd());
     if (fs.existsSync(path.join(dir, file))) {
       console.log('File is created', path.resolve(path.join(dir, file)));
-      const str: string = fs.readFileSync(path.join(dir, file)).toString();
+      const str = fs.readFileSync(path.join(dir, file)).toString();
       console.log(str);
     }
   } catch (error) {
