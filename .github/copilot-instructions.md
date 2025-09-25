@@ -1,8 +1,8 @@
-# File to Calendar Converter - Copilot Instructions
+# 3dime-angular Portfolio - Copilot Instructions
 
 **ALWAYS follow these instructions first and fallback to additional search and context gathering only if the information here is incomplete or found to be in error.**
 
-This is an Angular 20+ application that converts images and PDFs into ICS calendar files using OCR (Tesseract.js), PDF processing (PDF.js), and Firebase integration for authentication and optional server-side processing.
+This is an Angular 20+ personal portfolio website showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design. The application displays sections for profile, about, tech stack, GitHub activity, experience, education, stuff recommendations, hobbies, and contact information.
 
 ## Working Effectively
 
@@ -98,70 +98,57 @@ npx prettier --write src/
 src/
 ├── app/
 │   ├── components/
-│   │   ├── auth/              # Google authentication component
-│   │   └── file-upload/       # Drag & drop file upload interface
+│   │   ├── profile-card/      # Personal profile and social links
+│   │   ├── about/             # About me section
+│   │   ├── tech-stack/        # Technologies and skills
+│   │   ├── github-activity/   # GitHub contribution heatmap
+│   │   ├── experience/        # Work experience and projects
+│   │   ├── education/         # Education and training
+│   │   ├── stuff/             # Recommended products and tools
+│   │   ├── hobbies/           # Personal interests
+│   │   └── contact/           # Contact information
 │   ├── services/
-│   │   ├── auth.ts            # Firebase authentication service
-│   │   ├── file-processor.ts  # OCR and PDF text extraction
-│   │   └── calendar.ts        # ICS calendar file generation
+│   │   └── theme.service.ts   # Theme management service
 │   ├── app.ts                 # Main standalone app component
 │   └── app.config.ts          # Application configuration
-├── environments/              # Environment-specific configs
-└── styles.scss               # Global SCSS styles
-
-functions/
-├── src/index.ts              # Firebase Functions (OpenAI integration)
-└── package.json              # Functions dependencies (Node 22)
+├── environments/              # Environment-specific configs (unused)
+└── styles.scss               # Global SCSS styles with space theme
 ```
 
 ### Key Files to Know
 - `package.json` - Main dependencies and npm scripts
 - `angular.json` - Angular project configuration
-- `firebase.json` - Firebase hosting and functions config
-- `src/environments/` - Environment configurations (Firebase keys)
+- `ROADMAP.md` - Comprehensive project roadmap and planning
+- `src/styles.scss` - Main styling with CSS custom properties
 
 ## Technology Stack
 
 ### Frontend
 - **Angular 20.2.2** with standalone components
 - **TypeScript 5.9+** for type safety
-- **SCSS** for styling with modern CSS features
+- **SCSS** for styling with modern CSS features and custom properties
+- **RxJS** for reactive programming
+- **Glassmorphism** UI design with space theme
 
-### File Processing
-- **Tesseract.js 6.0+** for OCR (text extraction from images)
-- **PDF.js 5.4+** for PDF text extraction
-- **Moment.js 2.30+** for date/time parsing
-- **ICS 3.8+** for calendar file generation
-- **file-saver 2.0+** for file downloads
+### Styling & Design
+- **CSS Custom Properties** for theming
+- **Modern CSS** with grid, flexbox, and backdrop-filter
+- **Responsive Design** with mobile-first approach
+- **Space-themed UI** with particle effects and gradient backgrounds
+- **Accessibility** features and semantic HTML
 
-### Firebase Integration (Optional)
-- **Firebase Auth** with Google provider
-- **Firebase Functions** with OpenAI integration
-- **Firebase Hosting** for deployment
+### Development Tools
+- **Angular CLI** for project management and builds
+- **Jasmine + Karma** for unit testing
+- **Prettier** for code formatting
+- **TypeScript strict mode** for type safety
 
 ## Configuration
 
-### Environment Setup
-Update `src/environments/environment.ts`:
-```typescript
-export const environment = {
-  production: false, // true for prod
-  firebase: {
-    apiKey: "your-api-key",
-    authDomain: "your-project-id.firebaseapp.com", 
-    projectId: "your-project-id",
-    storageBucket: "your-project-id.appspot.com",
-    messagingSenderId: "your-messaging-sender-id",
-    appId: "your-app-id"
-  }
-};
-```
+### Development Setup
+The application works out-of-the-box with no additional configuration needed.
 
-### Firebase Functions Setup (Optional)
-If using Firebase Functions for server-side processing:
-1. Configure `.env.image-to-ics` in `functions/` directory
-2. Set `OPENAI_API_KEY` environment variable
-3. Deploy with `cd functions && npm run deploy`
+Environment variables are currently unused but can be added to `src/environments/` for future features.
 
 ## Common Development Tasks
 
@@ -172,10 +159,14 @@ ng generate component components/my-component --style=scss
 ```
 
 ### Working with Services
-All services are injectable singletons (`providedIn: 'root'`):
-- `AuthService` - Handle Google authentication
-- `FileProcessor` - Process uploaded files (images/PDFs) 
-- `Calendar` - Parse text and generate ICS files
+Current services:
+- `ThemeService` - Manage theme switching and preferences (if implemented)
+
+### Content Updates
+Most content is currently hardcoded in component templates. Future improvements will include:
+- JSON-based content management
+- Dynamic data loading
+- CMS integration options
 
 ### Testing Changes
 1. **Always start with a clean build:**
@@ -198,19 +189,23 @@ All services are injectable singletons (`providedIn: 'root'`):
    npm run build -- --configuration=production
    ```
 
-### File Upload Flow
-The application supports:
-1. Drag & drop file upload (images: JPG, PNG; PDFs)
-2. OCR text extraction using Tesseract.js
-3. PDF text extraction using PDF.js  
-4. Smart date/time parsing with Moment.js
-5. ICS calendar file generation and download
+### Portfolio Content Flow
+The application displays:
+1. **Profile section** with photo, name, and social links
+2. **About section** with personal description
+3. **Tech Stack** showing technologies and skills
+4. **GitHub Activity** with contribution heatmap
+5. **Experience & Projects** listing work history
+6. **Education & Training** showing academic background
+7. **Stuff** section with recommended products/tools
+8. **Hobbies & Interests** displaying personal interests
+9. **Contact** information and links
 
 ### Known Limitations
-- Bundle size exceeds Angular budget (839KB > 500KB) - performance warning only
-- CommonJS dependencies cause optimization warnings - doesn't affect functionality
-- Tests require manual HttpClient provider setup for full coverage
-- Firebase Functions need Node 22+ (but work with Node 20+)
+- Bundle size exceeds Angular budget (283KB > 500KB) - performance warning only
+- Content is currently hardcoded in component templates
+- GitHub heatmap may fail to load due to external API dependencies
+- Some external CDN resources may be blocked in restricted environments
 
 ## Debugging Tips
 
@@ -219,26 +214,29 @@ The application supports:
 - Verify all dependencies installed with `npm install`
 - Clear `dist/` directory and rebuild if needed
 
-### Test Issues  
-- Ensure Chrome/Chromium is installed for headless testing
-- Use `CHROME_BIN` environment variable to specify Chrome path
-- Missing providers in tests are expected with current setup
+### Styling Issues  
+- Check CSS custom properties are properly defined in `styles.scss`
+- Verify glassmorphism effects work in supported browsers
+- Test responsive breakpoints on different screen sizes
 
 ### Runtime Issues
-- Check browser console for Firebase configuration errors
-- Verify environment files have correct Firebase keys
-- OCR processing is CPU-intensive and may take time for large images
+- Check browser console for any JavaScript errors
+- Verify external resources (GitHub heatmap, social icons) are loading
+- Test space-themed animations and transitions
 
 ## Deployment
 
-### Firebase Hosting (if configured)
+### Static Site Hosting
+The `dist/3dime-angular/` directory contains static files ready for deployment to:
+- **GitHub Pages** (recommended for portfolio sites)
+- **Netlify** with automatic builds
+- **Vercel** with optimized performance
+- **Any static hosting service**
+
+### Manual Deployment
 ```bash
 # Build for production
 npm run build -- --configuration=production
 
-# Deploy (requires Firebase CLI)
-firebase deploy
+# The dist/ folder contains deployable files
 ```
-
-### Manual Deployment
-The `dist/3dime-angular/` directory contains static files ready for any web server.
