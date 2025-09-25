@@ -32,7 +32,7 @@
 ### 🎯 Short-term Goals (1-2 months)
 
 #### Content & Information Architecture
-- [ ] **Update copilot instructions** - Fix incorrect "File to Calendar Converter" description
+- [x] **Update copilot instructions** - Fix incorrect "File to Calendar Converter" description
 - [ ] **Content audit and refresh**
   - [ ] Update experience section with latest projects and roles
   - [ ] Refresh tech stack with current technologies
