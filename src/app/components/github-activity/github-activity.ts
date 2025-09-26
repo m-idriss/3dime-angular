@@ -61,10 +61,11 @@ export class GithubActivity implements AfterViewInit {
           source: dataObj,
           x: (d: { date: number; value: number }) => d.date,
           y: (d: { date: number; value: number }) => d.value,
+          defaultValue: 0,
         },
       theme: 'dark',
       date: {
-            start: new Date(new Date().setMonth(new Date().getMonth() - 3)),
+            start: new Date(new Date().setMonth(new Date().getMonth() - 5)),
             locale: { weekStart: 1 },
             highlight: [new Date()],
           },
