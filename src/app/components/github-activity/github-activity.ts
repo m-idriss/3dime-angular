@@ -26,14 +26,13 @@ export class GithubActivity implements AfterViewInit {
   constructor(private readonly http: HttpClient) {}
 
   ngAfterViewInit(): void {
-    this.http.get<CommitResponse>('/proxy.php?service=github&type=commits_all').subscribe((res) => {
+    this.http.get<CommitResponse>('https://www.3dime.com/proxy.php?service=github&type=commits_all').subscribe((res) => {
       this.data = res.commit_activity;
       this.renderHeatmap();
     });
   }
 
   renderHeatmap() {
-    // typage loose volontaire (les types officiels ne couvrent pas encore v4)
     const cal: any = new (CalHeatmap as any)();
 
     const dataObj: { date: number; value: number }[] = [];
@@ -72,10 +71,10 @@ export class GithubActivity implements AfterViewInit {
         range: 7,
         scale: {
               color: {
-                range: ['rgba(255, 255, 255, 0.2)', 'green'],
+                range: ['rgba(55, 155, 55, 0.1)', 'green'],
                 interpolate: 'hsl',
                 type: 'linear',
-                domain: [0, 30],
+                domain: [0, 15],
               },
             }
       },
