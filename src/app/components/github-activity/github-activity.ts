@@ -71,7 +71,7 @@ export class GithubActivity implements AfterViewInit {
         range: 7,
         scale: {
               color: {
-                range: ['rgba(55, 155, 55, 0.1)', 'green'],
+                range: ['rgba(0, 50, 0, 0.1)', 'green'],
                 interpolate: 'hsl',
                 type: 'linear',
                 domain: [0, 15],
