@@ -26,7 +26,7 @@ export class GithubActivity implements AfterViewInit {
   constructor(private readonly http: HttpClient) {}
 
   ngAfterViewInit(): void {
-    this.http.get<CommitResponse>('/api/github').subscribe((res) => {
+    this.http.get<CommitResponse>('/proxy.php?service=github&type=commits_all').subscribe((res) => {
       this.data = res.commit_activity;
       this.renderHeatmap();
     });
