@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
+import { ProfileService, GithubUser } from '../../services/profile.service';
 
 @Component({
   selector: 'app-about',
-  imports: [],
   templateUrl: './about.html',
-  styleUrl: './about.scss'
+  styleUrls: ['./about.scss']
 })
 export class About implements OnInit {
- about: { title: string; content: string } | null = null;
+  bio: string | null = null;
 
- constructor(private readonly dataService: DataService) {}
+  constructor(private readonly profileService: ProfileService) {}
 
- ngOnInit() {
-   this.dataService.getAbout().subscribe(data => {
-     this.about = data;
-   });
- }
+  ngOnInit() {
+    this.profileService.getProfile().subscribe((user: GithubUser) => {
+      this.bio = user.bio || 'No bio available.';
+    });
+  }
 }

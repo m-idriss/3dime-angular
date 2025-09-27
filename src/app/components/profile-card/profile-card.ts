@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
 
 @Component({
   selector: 'app-profile-card',
@@ -12,45 +12,42 @@ import { ProfileService } from '../../services/profile.service';
 })
 export class ProfileCard implements OnInit {
   menuOpen = false;
-  socialLinks: { provider: string; url: string }[] = [];
-  studentData:any = {};
+  socialLinks: SocialLink[] = [];
+  profileData: GithubUser | null = null;
 
-  constructor(private readonly themeService: ThemeService,
-              private readonly profileService: ProfileService) {}
+  constructor(
+    private readonly themeService: ThemeService,
+    private readonly profileService: ProfileService
+  ) {}
 
   ngOnInit() {
-    this.socialLinks =  [{ provider: 'GitHub', url: this.profileService.getGithubUrl() }];
+    this.socialLinks = [{ provider: 'GitHub', url: this.profileService.getGithubUrl() }];
 
-    this.profileService.getSocialLinks().subscribe((data: { provider: string; url: string }[]) => {
-      this.socialLinks = [...this.socialLinks, ...data];
+    this.profileService.getSocialLinks().subscribe(links => {
+      this.socialLinks = [...this.socialLinks, ...links];
     });
 
-    this.profileService.getProfile().subscribe(res => {
-      console.log(res);
-        this.studentData = res;
-      }
-    );
+    this.profileService.getProfile().subscribe(user => {
+      this.profileData = user;
+    });
   }
 
   get name(): string {
-    return this.studentData.name
+    return this.profileData?.name || this.profileData?.login || '';
   }
 
   get avatar(): string {
-    return this.studentData.avatar_url
+    return this.profileData?.avatar_url || '';
   }
 
   getFontAwesomeLinks(provider: string): string {
-
     if (!provider) return 'fa fa-brands fa-link';
 
-    provider = provider.toLowerCase();
+    let icon = provider.toLowerCase();
+    if (icon === 'twitter') icon = 'x-twitter';
+    if (icon === 'facebook') icon = 'facebook-square';
 
-    if (provider === 'twitter') provider = 'x-twitter';
-
-    if (provider === 'facebook') provider = 'facebook-square';
-
-    return 'fa fa-brands fa-' + provider;
+    return 'fa fa-brands fa-' + icon;
   }
 
   toggleMenu() {
@@ -61,19 +58,15 @@ export class ProfileCard implements OnInit {
     this.menuOpen = false;
   }
 
-  // Close menu when clicking outside
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event) {
     const target = event.target as HTMLElement;
     const burgerMenu = target.closest('.burger-menu');
-
-    // If click is outside burger menu, close it
     if (!burgerMenu && this.menuOpen) {
       this.closeMenu();
     }
   }
 
-  // Close menu on ESC key
   @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape' && this.menuOpen) {
@@ -83,20 +76,16 @@ export class ProfileCard implements OnInit {
 
   cycleTheme() {
     this.themeService.cycleTheme();
-    // Menu stays open to see immediate feedback
   }
 
   toggleVideoBg() {
     this.themeService.toggleBackground();
-    // Menu stays open to see immediate feedback
   }
 
   changeFontSize() {
     this.themeService.cycleFontSize();
-    // Menu stays open to see immediate feedback
   }
 
-  // Helper methods for template
   get currentTheme(): string {
     return this.themeService.getCurrentTheme();
   }
