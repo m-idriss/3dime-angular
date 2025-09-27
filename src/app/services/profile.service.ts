@@ -24,7 +24,6 @@ export interface GithubUser {
 })
 export class ProfileService {
   private readonly apiUrl = 'https://api.github.com/users/m-idriss';
-  private readonly gitHubUrl = 'https://github.com/m-idriss';
 
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
@@ -49,7 +48,4 @@ export class ProfileService {
     return this.socialLinks$;
   }
 
-  getGithubUrl(): string {
-    return this.gitHubUrl;
-  }
 }
