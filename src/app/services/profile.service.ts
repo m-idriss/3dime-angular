@@ -31,20 +31,16 @@ export class ProfileService {
   constructor(private readonly http: HttpClient) {}
 
   getProfile(): Observable<GithubUser> {
-    if (!this.profile$) {
-      this.profile$ = this.http.get<GithubUser>(this.apiUrl).pipe(
-        shareReplay(1)
-      );
-    }
+    this.profile$ ??= this.http.get<GithubUser>(this.apiUrl).pipe(
+      shareReplay(1)
+    );
     return this.profile$;
   }
 
   getSocialLinks(): Observable<SocialLink[]> {
-    if (!this.socialLinks$) {
-      this.socialLinks$ = this.http.get<SocialLink[]>(`${this.apiUrl}/social_accounts`).pipe(
-        shareReplay(1)
-      );
-    }
+    this.socialLinks$ ??= this.http.get<SocialLink[]>(`${this.apiUrl}/social_accounts`).pipe(
+      shareReplay(1)
+    );
     return this.socialLinks$;
   }
 
