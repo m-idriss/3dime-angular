@@ -1,12 +1,12 @@
 <section class="container" aria-label="profile" id="profile-section">
   <header class="profile-header">
-    <img src="assets/logo.png" alt="Logo" class="logo">
+    <img [src]="avatar" alt="Logo" class="logo">
 
     <div class="burger-menu" [class.active]="menuOpen">
-      <button 
-        class="burger-button" 
+      <button
+        class="burger-button"
         [class.active]="menuOpen"
-        (click)="toggleMenu()" 
+        (click)="toggleMenu()"
         aria-label="Profile options"
         [attr.aria-expanded]="menuOpen"
         aria-haspopup="true"
@@ -22,9 +22,9 @@
         aria-labelledby="burger-btn"
       >
         <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
-          <i class="fas" 
+          <i class="fas"
              [class.fa-moon]="currentTheme === 'dark'"
-             [class.fa-sun]="currentTheme === 'white'" 
+             [class.fa-sun]="currentTheme === 'white'"
              [class.fa-gem]="currentTheme === 'glass'"
              aria-hidden="true"></i>
           <span>{{ themeDisplayName }}</span>
@@ -33,7 +33,7 @@
         <div class="dropdown-separator" role="separator"></div>
 
         <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
-          <i class="fas" 
+          <i class="fas"
              [class.fa-circle]="currentBackground === 'black'"
              [class.fa-circle-notch]="currentBackground === 'white'"
              [class.fa-play]="currentBackground === 'video'"
@@ -51,13 +51,16 @@
     </div>
   </header>
 
-  <h2>✨ Idriss ✨</h2>
+
+  <h2>✨ {{ name }} ✨</h2>
   <div class="socials">
-    <a href="https://github.com/m-idriss" target="_blank" rel="noopener noreferrer"><i class="fa fa-brands fa-github" aria-hidden="true"></i></a>
-    <a href="https://www.linkedin.com/in/i-mohamady/" target="_blank" rel="noopener noreferrer"><i class="fa fa-brands fa-linkedin" aria-hidden="true"></i></a>
-    <a href="https://x.com/3dime13" target="_blank" rel="noopener noreferrer"><i class="fa fa-brands fa-x-twitter" aria-hidden="true"></i></a>
-    <a href="https://www.facebook.com/imohamady/" target="_blank" rel="noopener noreferrer"><i class="fa fa-brands fa-facebook-square" aria-hidden="true"></i></a>
-    <a href="https://www.instagram.com/3dime13/" target="_blank" rel="noopener noreferrer"><i class="fa fa-brands fa-instagram" aria-hidden="true"></i></a>
+    @for (link of socialLinks; track link.provider) {
+    <a [href]="link.url" target="_blank" rel="noopener noreferrer">
+      <i [ngClass]="getFontAwesomeLinks(link.provider)" aria-hidden="true"></i></a>
+    } @empty {
+    No socialLinks available.
+    }
   </div>
+
 </section>
 
