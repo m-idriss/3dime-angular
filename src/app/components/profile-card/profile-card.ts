@@ -21,7 +21,6 @@ export class ProfileCard implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.socialLinks = [{ provider: 'GitHub', url: this.profileService.getGithubUrl() }];
 
     this.profileService.getSocialLinks().subscribe(links => {
       this.socialLinks = [...this.socialLinks, ...links];
@@ -29,6 +28,7 @@ export class ProfileCard implements OnInit {
 
     this.profileService.getProfile().subscribe(user => {
       this.profileData = user;
+      this.socialLinks.unshift({ provider: 'GitHub', url: user.html_url});
     });
   }
 
