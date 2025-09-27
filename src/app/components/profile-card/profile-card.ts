@@ -1,6 +1,7 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-profile-card',
@@ -9,10 +10,48 @@ import { ThemeService } from '../../services/theme.service';
   templateUrl: './profile-card.html',
   styleUrls: ['./profile-card.scss']
 })
-export class ProfileCard {
+export class ProfileCard implements OnInit {
   menuOpen = false;
+  socialLinks: { provider: string; url: string }[] = [];
+  studentData:any = {};
 
-  constructor(private readonly themeService: ThemeService) {}
+  constructor(private readonly themeService: ThemeService,
+              private readonly profileService: ProfileService) {}
+
+  ngOnInit() {
+    this.socialLinks =  [{ provider: 'GitHub', url: this.profileService.getGithubUrl() }];
+
+    this.profileService.getSocialLinks().subscribe((data: { provider: string; url: string }[]) => {
+      this.socialLinks = [...this.socialLinks, ...data];
+    });
+
+    this.profileService.getProfile().subscribe(res => {
+      console.log(res);
+        this.studentData = res;
+      }
+    );
+  }
+
+  get name(): string {
+    return this.studentData.name
+  }
+
+  get avatar(): string {
+    return this.studentData.avatar_url
+  }
+
+  getFontAwesomeLinks(provider: string): string {
+
+    if (!provider) return 'fa fa-brands fa-link';
+
+    provider = provider.toLowerCase();
+
+    if (provider === 'twitter') provider = 'x-twitter';
+
+    if (provider === 'facebook') provider = 'facebook-square';
+
+    return 'fa fa-brands fa-' + provider;
+  }
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
