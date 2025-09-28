@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { LinkItem } from '../models/link-item.model';
 import hobbiesData from '../data/hobbies.json';
-import stuffData from '../data/stuff.json';
 import techStackData from '../data/techstack.json';
 import experienceData from '../data/experiences.json';
 import educationData from '../data/education.json';
@@ -15,10 +14,6 @@ export class DataService {
 
   getHobbies(): Observable<LinkItem[]> {
     return of(hobbiesData);
-  }
-
-  getStuffs(): Observable<LinkItem[]> {
-    return of(stuffData);
   }
 
   getTechStacks(): Observable<LinkItem[]> {
