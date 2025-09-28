@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { LinkItem } from '../../models/link-item.model';
-import { DataService } from '../../services/data.service';
+import { NotionService } from '../../services/notion.service';
 
 @Component({
   selector: 'app-hobbies',
+  standalone: true,
   templateUrl: './hobbies.html'
 })
 export class Hobbies implements OnInit {
   hobbies: LinkItem[] = [];
 
-  constructor(private readonly dataService: DataService) {}
+  constructor(private readonly notionService: NotionService) {}
 
   ngOnInit() {
-    this.dataService.getHobbies().subscribe((data: LinkItem[]) => {
-      this.hobbies = data;
+    this.notionService.fetchAll().subscribe(() => {
+      this.hobbies = this.notionService.getHobbies();
     });
   }
 }
