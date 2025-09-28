@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LinkItem } from '../../models/link-item.model';
-import { DataService } from '../../services/data.service';
+import { ProfileService, GithubUser } from '../../services/profile.service';
 
 @Component({
   selector: 'app-contact',
@@ -9,13 +8,13 @@ import { DataService } from '../../services/data.service';
   styleUrl: './contact.scss'
 })
 export class Contact implements OnInit {
-  contact: LinkItem[] = [];
+  email: string | null = null;
 
-  constructor(private readonly dataService: DataService) {}
+  constructor(private readonly profileService: ProfileService) {}
 
   ngOnInit() {
-   this.dataService.getContact().subscribe((data: LinkItem[]) => {
-     this.contact = data;
-   });
+    this.profileService.getProfile().subscribe((user: GithubUser) => {
+      this.email = user.email || 'nothing@nothing.com';
+    });
   }
 }

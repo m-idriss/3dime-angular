@@ -1,11 +1,5 @@
 <section class="container" aria-label="contact">
-  <ul>
-    @for (con of contact; track con.name) {
-    <a [href]="con.url" target="_blank" rel="noopener noreferrer" class="link">
-      {{ con.name }}
+    <a [href]="'mailto:' + email" target="_blank" rel="noopener noreferrer" class="link">
+      {{ email }}
     </a>
-    } @empty {
-    No contact available.
-    }
-  </ul>
 </section>
