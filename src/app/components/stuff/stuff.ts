@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { LinkItem } from '../../models/link-item.model';
-import { DataService } from '../../services/data.service';
+import { NotionService } from '../../services/notion.service';
 
 @Component({
   selector: 'app-stuff',
-  imports: [],
+  standalone: true,
   templateUrl: './stuff.html',
-  styleUrl: './stuff.scss'
+  styleUrls: ['./stuff.scss']
 })
 export class Stuff implements OnInit {
   stuffs: LinkItem[] = [];
 
-  constructor(private readonly dataService: DataService) {}
+  constructor(private readonly notionService: NotionService) {}
 
   ngOnInit() {
-    this.dataService.getStuffs().subscribe((data: LinkItem[]) => {
-      this.stuffs = data;
+    this.notionService.fetchAll().subscribe(() => {
+      this.stuffs = this.notionService.getStuffs();
     });
   }
 }
