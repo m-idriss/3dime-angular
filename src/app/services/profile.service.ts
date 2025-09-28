@@ -23,7 +23,7 @@ export interface GithubUser {
   providedIn: 'root'
 })
 export class ProfileService {
-  private readonly apiUrl = 'https://api.github.com/users/m-idriss';
+  private readonly apiUrl = 'https://www.3dime.com/proxy.php?service=github';
 
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
@@ -31,14 +31,14 @@ export class ProfileService {
   constructor(private readonly http: HttpClient) {}
 
   getProfile(): Observable<GithubUser> {
-    this.profile$ ??= this.http.get<GithubUser>('https://www.3dime.com/proxy.php?service=github').pipe(
+    this.profile$ ??= this.http.get<GithubUser>(this.apiUrl).pipe(
       shareReplay(1)
     );
     return this.profile$;
   }
 
   getSocialLinks(): Observable<SocialLink[]> {
-    this.socialLinks$ ??= this.http.get<SocialLink[]>(`${this.apiUrl}/social_accounts`).pipe(
+    this.socialLinks$ ??= this.http.get<SocialLink[]>(`${this.apiUrl}&type=social`).pipe(
       shareReplay(1)
     );
     return this.socialLinks$;
