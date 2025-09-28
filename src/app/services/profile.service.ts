@@ -31,7 +31,7 @@ export class ProfileService {
   constructor(private readonly http: HttpClient) {}
 
   getProfile(): Observable<GithubUser> {
-    this.profile$ ??= this.http.get<GithubUser>(this.apiUrl).pipe(
+    this.profile$ ??= this.http.get<GithubUser>('https://www.3dime.com/proxy.php?service=github').pipe(
       shareReplay(1)
     );
     return this.profile$;
