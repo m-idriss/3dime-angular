@@ -6,7 +6,6 @@ import stuffData from '../data/stuff.json';
 import techStackData from '../data/techstack.json';
 import experienceData from '../data/experiences.json';
 import educationData from '../data/education.json';
-import contactData from '../data/contact.json';
 
 @Injectable({
   providedIn: 'root'
@@ -35,12 +34,6 @@ export class DataService {
   getEducation(): Observable<any[]> {
     // Firebase: return this.firestore.collection<any>('education').valueChanges();
     return of(educationData);
-  }
-
-
-  getContact(): Observable<any> {
-    // Firebase: return this.firestore.collection<any>('contact').valueChanges();
-    return of(contactData);
   }
 
 }

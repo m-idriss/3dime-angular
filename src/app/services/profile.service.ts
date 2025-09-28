@@ -17,13 +17,14 @@ export interface GithubUser {
   bio?: string;
   location?: string;
   public_repos: number;
+  email?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
-  private readonly apiUrl = 'https://www.3dime.com/proxy.php?service=github';
+  private readonly apiUrl = 'https://www.3dime.com/proxy.php';
 
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
@@ -31,14 +32,14 @@ export class ProfileService {
   constructor(private readonly http: HttpClient) {}
 
   getProfile(): Observable<GithubUser> {
-    this.profile$ ??= this.http.get<GithubUser>(this.apiUrl).pipe(
+    this.profile$ ??= this.http.get<GithubUser>(`${this.apiUrl}?service=github`).pipe(
       shareReplay(1)
     );
     return this.profile$;
   }
 
   getSocialLinks(): Observable<SocialLink[]> {
-    this.socialLinks$ ??= this.http.get<SocialLink[]>(`${this.apiUrl}&type=social`).pipe(
+    this.socialLinks$ ??= this.http.get<SocialLink[]>(`${this.apiUrl}?service=github&type=social`).pipe(
       shareReplay(1)
     );
     return this.socialLinks$;
