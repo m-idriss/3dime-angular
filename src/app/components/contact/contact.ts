@@ -3,7 +3,7 @@ import { ProfileService, GithubUser } from '../../services/profile.service';
 
 @Component({
   selector: 'app-contact',
-  imports: [],
+  standalone: true,
   templateUrl: './contact.html',
   styleUrl: './contact.scss'
 })

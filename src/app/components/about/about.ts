@@ -3,6 +3,7 @@ import { ProfileService, GithubUser } from '../../services/profile.service';
 
 @Component({
   selector: 'app-about',
+  standalone: true,
   templateUrl: './about.html',
   styleUrls: ['./about.scss']
 })
