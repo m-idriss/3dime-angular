@@ -15,6 +15,7 @@ export class NotionService {
   experiences: LinkItem[] = [];
   educations: LinkItem[] = [];
   hobbies: LinkItem[] = [];
+  techStacks: LinkItem[] = [];
 
   constructor(private readonly http: HttpClient) {}
 
@@ -25,10 +26,11 @@ export class NotionService {
         this.experiences = res.profile.experience || [];
         this.educations = res.profile.education || [];
         this.hobbies = res.profile.hobbies || [];
+        this.techStacks = res.profile.tech_stack || [];
       }),
       catchError(err => {
-        console.error('Erreur lors de la récupération des données Notion', err);
-        return of(); // Ne fait rien si erreur
+        console.error('Error fetching data from Notion API', err);
+        return of();
       })
     );
   }
@@ -47,5 +49,9 @@ export class NotionService {
 
   getHobbies(): LinkItem[] {
     return this.hobbies;
+  }
+
+  getTechStacks(): LinkItem[] {
+    return this.techStacks;
   }
 }

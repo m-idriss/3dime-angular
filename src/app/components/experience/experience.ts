@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { LinkItem } from '../../models/link-item.model';
-import { DataService } from '../../services/data.service';
+import { NotionService } from '../../services/notion.service';
 
 @Component({
   selector: 'app-experience',
-  imports: [],
+  standalone: true,
   templateUrl: './experience.html',
   styleUrl: './experience.scss'
 })
 export class Experience implements OnInit {
   experiences: LinkItem[] = [];
 
-  constructor(private readonly dataService: DataService) {}
+  constructor(private readonly notionService: NotionService) {}
 
   ngOnInit() {
-    this.dataService.getExperiences().subscribe((data: LinkItem[]) => {
-      this.experiences = data;
+    this.notionService.fetchAll().subscribe(() => {
+      this.experiences = this.notionService.getExperiences();
     });
   }
 }
