@@ -156,6 +156,7 @@ export class ThemeService {
         bgElement.innerHTML = '';
         bgElement.style.background = '#000000';
         body.classList.add('bg-black');
+        this.updateThemeColor('dark');
     }
   }
 
@@ -185,7 +186,7 @@ export class ThemeService {
       'white': '#ffffff',
       'glass': '#1a1a1a'
     };
-    themeColorMeta.content = themeColors[theme] || themeColors['glass'];
+    themeColorMeta.content = themeColors[theme] || themeColors['dark'];
   }
 
   getThemeDisplayName(theme: string): string {
