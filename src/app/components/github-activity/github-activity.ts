@@ -1,47 +1,31 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
 import Tooltip from 'cal-heatmap/plugins/Tooltip';
-
-interface CommitWeek {
-  week: number;
-  total: number;
-  days: number[];
-}
-
-interface CommitResponse {
-  commit_activity: CommitWeek[];
-}
+import { ProfileService, CommitData } from '../../services/profile.service';
 
 @Component({
   selector: 'app-github-activity',
+    standalone: true,
+      imports: [],
   templateUrl: './github-activity.html',
   styleUrls: ['./github-activity.scss'],
 })
 export class GithubActivity implements AfterViewInit {
   @ViewChild('heatmapContainer', { static: true }) container!: ElementRef;
-  data: CommitWeek[] = [];
+  data: CommitData[] = [];
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly profileService: ProfileService) {}
 
   ngAfterViewInit(): void {
-    this.http.get<CommitResponse>('https://www.3dime.com/proxy.php?service=github&type=commits_all').subscribe((res) => {
-      this.data = res.commit_activity;
+    this.profileService.getCommits().subscribe((commits: CommitData[]) => {
+      this.data = commits;
       this.renderHeatmap();
     });
   }
 
   renderHeatmap() {
-    const cal: any = new (CalHeatmap as any)();
-
-    const dataObj: { date: number; value: number }[] = [];
-    this.data.forEach((week) => {
-      week.days.forEach((count, i) => {
-        const dayTimestamp = (week.week + i * 86400) * 1000;
-        dataObj.push({ date: dayTimestamp, value: count });
-      });
-    });
+    const cal: any = new CalHeatmap();
 
     cal.paint(
       {
@@ -58,7 +42,7 @@ export class GithubActivity implements AfterViewInit {
               gutter: 1,
             },
         data: {
-          source: dataObj,
+          source: this.data,
           x: (d: { date: number; value: number }) => d.date,
           y: (d: { date: number; value: number }) => d.value,
           defaultValue: 0,
