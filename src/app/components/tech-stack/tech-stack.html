@@ -1,15 +1,11 @@
 <section class="container">
   <h2>Tech Stack</h2>
   <p>Some of the technologies I worked with.</p>
-
-  <ul>
     @for (tech of techStack; track tech.name) {
       <a [href]="tech.url" target="_blank" rel="noopener noreferrer" class="chip-little link">
         {{ tech.name }}
       </a>
     } @empty {
-    <li>No technologies available.</li>
+    No technologies available.
     }
-  </ul>
-
 </section>

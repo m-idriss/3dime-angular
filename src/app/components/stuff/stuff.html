@@ -1,7 +1,6 @@
 <section class="container" aria-label="stuff">
   <h2>Stuff</h2>
   <p>Stuff I use and recommend.</p>
-  <ul>
     @for (stuff of stuffs; track stuff.name) {
       <a [href]="stuff.url" target="_blank" rel="noopener noreferrer" class="link">
         {{ stuff.name }}
@@ -9,5 +8,4 @@
     } @empty {
     No stuffs available.
     }
-  </ul>
 </section>
