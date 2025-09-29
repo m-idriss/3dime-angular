@@ -21,9 +21,6 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: node server.js
-        env:
-          FIREBASE_DETAILS: ${{ secrets.ENV_PROD_TS }}
 
       - name: Install dependencies
         run: npm ci

@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { LinkItem } from '../models/link-item.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotionService {
 
-  private readonly apiUrl = 'https://www.3dime.com/proxy.php?service=notion&db=all';
+  private readonly baseUrl = environment.apiUrl + '/proxy.php?service=notion';
 
   stuffs: LinkItem[] = [];
   experiences: LinkItem[] = [];
@@ -20,7 +21,7 @@ export class NotionService {
   constructor(private readonly http: HttpClient) {}
 
   fetchAll(): Observable<void> {
-    return this.http.get<any>(this.apiUrl).pipe(
+    return this.http.get<any>(`${this.baseUrl}&db=all`).pipe(
       map(res => {
         this.stuffs = res.profile.stuff || [];
         this.experiences = res.profile.experience || [];
