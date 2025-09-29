@@ -31,7 +31,7 @@ export class ThemeService {
     this.currentTheme = localStorage.getItem('theme') || this.config.DEFAULT_THEME;
     this.currentBackground = localStorage.getItem('background') || this.config.DEFAULT_BACKGROUND;
     this.currentFontSize = localStorage.getItem('fontSize') || this.config.DEFAULT_FONT_SIZE;
-    
+
     // Apply initial theme
     this.applyTheme(this.currentTheme);
     this.applyBackground(this.currentBackground);
@@ -54,7 +54,7 @@ export class ThemeService {
     const currentIndex = this.config.THEME_MODES.indexOf(this.currentTheme);
     const nextIndex = (currentIndex + 1) % this.config.THEME_MODES.length;
     const nextTheme = this.config.THEME_MODES[nextIndex];
-    
+
     this.setTheme(nextTheme);
     return nextTheme;
   }
@@ -63,7 +63,7 @@ export class ThemeService {
     const currentIndex = this.config.BACKGROUND_MODES.indexOf(this.currentBackground);
     const nextIndex = (currentIndex + 1) % this.config.BACKGROUND_MODES.length;
     const nextBackground = this.config.BACKGROUND_MODES[nextIndex];
-    
+
     this.setBackground(nextBackground);
     return nextBackground;
   }
@@ -72,7 +72,7 @@ export class ThemeService {
     const currentIndex = this.config.FONT_SIZES.indexOf(this.currentFontSize);
     const nextIndex = (currentIndex + 1) % this.config.FONT_SIZES.length;
     const nextFontSize = this.config.FONT_SIZES[nextIndex];
-    
+
     this.setFontSize(nextFontSize);
     return nextFontSize;
   }
@@ -97,51 +97,51 @@ export class ThemeService {
 
   private applyTheme(theme: string): void {
     const body = document.body;
-    
+
     // Remove existing theme classes
     this.config.THEME_MODES.forEach(mode => {
       body.classList.remove(`${mode}-theme`);
     });
-    
+
     // Add new theme class
     body.classList.add(`${theme}-theme`);
-    
-    // Update meta theme color
-    this.updateThemeColor(theme);
+
   }
 
   private applyBackground(background: string): void {
     const body = document.body;
     const bgElement = document.querySelector('.bg') as HTMLElement;
-    
+
     // Remove existing background classes
     this.config.BACKGROUND_MODES.forEach(mode => {
       body.classList.remove(`bg-${mode}`);
     });
-    
+
     // If bg element doesn't exist, just add the class and return
     if (!bgElement) {
       body.classList.add(`bg-${background}`);
       return;
     }
-    
+
     // Apply background-specific DOM changes
     switch(background) {
       case 'black':
         bgElement.innerHTML = '';
         bgElement.style.background = '#000000';
         body.classList.add('bg-black');
+        this.updateThemeColor('dark');
         break;
-        
+
       case 'white':
         bgElement.innerHTML = '';
         bgElement.style.background = '#ffffff';
         body.classList.add('bg-white');
+        this.updateThemeColor('white');
         break;
-        
+
       case 'video':
         bgElement.innerHTML = `
-          <video autoplay muted loop playsinline 
+          <video autoplay muted loop playsinline
                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;"
                  aria-hidden="true">
             <source src="assets/background.mp4" type="video/mp4">
@@ -149,8 +149,9 @@ export class ThemeService {
         `;
         bgElement.style.background = 'transparent';
         body.classList.add('bg-video');
+        this.updateThemeColor('dark');
         break;
-        
+
       default:
         bgElement.innerHTML = '';
         bgElement.style.background = '#000000';
@@ -160,12 +161,12 @@ export class ThemeService {
 
   private applyFontSize(fontSize: string): void {
     const body = document.body;
-    
+
     // Remove existing font size classes
     this.config.FONT_SIZES.forEach(size => {
       body.classList.remove(`font-${size}`);
     });
-    
+
     // Add new font size class
     body.classList.add(`font-${fontSize}`);
   }
