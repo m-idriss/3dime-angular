@@ -1,13 +1,11 @@
-<section class="container" aria-label="education"><h2>Education &amp; Training</h2>
+<section class="container" aria-label="education">
+  <h2>Education &amp; Training</h2>
   <p>From Energy learning to IT retraining.</p>
-  <ul>
     @for (edu of education; track edu.name) {
-    <a [href]="edu.url" target="_blank" rel="noopener noreferrer" class="link">
-      {{ edu.name }}
-    </a>
+      <a [href]="edu.url" target="_blank" rel="noopener noreferrer" class="link">
+        {{ edu.name }}
+      </a>
     } @empty {
     No education available.
     }
-  </ul>
-
 </section>

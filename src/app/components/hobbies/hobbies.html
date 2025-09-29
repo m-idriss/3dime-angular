@@ -1,7 +1,6 @@
 <section class="container" aria-label="hobbies">
   <h2>Hobbies & Interests</h2>
   <p>Things I enjoy watching/doing.</p>
-  <ul>
     @for (hobby of hobbies; track hobby.name) {
       <a [href]="hobby.url" target="_blank" rel="noopener noreferrer" class="chip-little link">
         {{ hobby.name }}
@@ -9,5 +8,4 @@
     } @empty {
     No hobbies available.
     }
-  </ul>
 </section>

@@ -1,7 +1,6 @@
 <section class="container" aria-label="experience">
   <h2>Experience &amp; Projects</h2>
   <p>Companies and projects I've contributed to.</p>
-  <ul>
     @for (experience of experiences; track experience.name) {
       <a [href]="experience.url" target="_blank" rel="noopener noreferrer" class="link">
         {{ experience.name }}
@@ -9,5 +8,4 @@
     } @empty {
     No experiences available.
     }
-  </ul>
 </section>
