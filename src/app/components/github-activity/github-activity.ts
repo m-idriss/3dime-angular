@@ -49,7 +49,7 @@ export class GithubActivity implements AfterViewInit {
         },
       theme: 'dark',
       date: {
-            start: new Date(new Date().setMonth(new Date().getMonth() - 6)),
+            start: new Date(new Date().setMonth(new Date().getMonth() - 5)),
             locale: { weekStart: 1 },
             highlight: [new Date()],
           },
