@@ -78,4 +78,21 @@ export class ProfileService {
       );
     return this.commits$;
   }
+
+  getCommitsV2(): Observable<CommitData[]> {
+    return this.http
+      .get<{ commit_activity: { date: string; value: number }[] }>(
+        `${this.baseUrl}&type=contributions`
+      )
+      .pipe(
+        map((res) =>
+          res.commit_activity.map((d) => ({
+            date: new Date(d.date).getTime(),
+            value: d.value,
+          }))
+        ),
+        shareReplay(1)
+      );
+  }
+
 }
