@@ -9,12 +9,11 @@
   <meta name="theme-color" content="#000000" id="theme-color-meta">
 
   <!-- Security Headers (meta tags only - frame-ancestors and X-Frame-Options require HTTP headers) -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://d3js.org; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://www.3dime.com https://api.notion.com http://localhost:8000; base-uri 'self'; form-action 'self'; ">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://d3js.org; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://www.3dime.com http://localhost:8000 https://*.a.run.app https://proxyapi-fuajdt22nq-uc.a.run.app; base-uri 'self'; form-action 'self'; ">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-XSS-Protection" content="1; mode=block">
 
   <!-- Resource Hints for Performance -->
-  <link rel="preload" href="assets/logo.png" as="image">
   <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
   <link rel="dns-prefetch" href="//unpkg.com">
   <link rel="dns-prefetch" href="//d3js.org">
