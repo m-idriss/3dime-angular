@@ -32,6 +32,7 @@
 
 #### Content & Information Architecture
 - [x] **Update copilot instructions** - Fix incorrect "File to Calendar Converter" description
+- [x] **Repository cleanup** - Remove unused files, fix documentation inconsistencies
 - [ ] **Content audit and refresh**
   - [ ] Update experience section with latest projects and roles
   - [ ] Refresh tech stack with current technologies
