@@ -120,7 +120,6 @@ export class ThemeService {
     // If bg element doesn't exist, just add the class and return
     if (!bgElement) {
       body.classList.add(`bg-${background}`);
-      this.updateThemeColor(background);
       return;
     }
 
@@ -130,7 +129,7 @@ export class ThemeService {
         bgElement.innerHTML = '';
         bgElement.style.background = '#000000';
         body.classList.add('bg-black');
-        this.updateThemeColor('black');
+        this.updateThemeColor('dark');
         break;
 
       case 'white':
@@ -150,14 +149,14 @@ export class ThemeService {
         `;
         bgElement.style.background = 'transparent';
         body.classList.add('bg-video');
-        this.updateThemeColor('video');
+        this.updateThemeColor('dark');
         break;
 
       default:
         bgElement.innerHTML = '';
         bgElement.style.background = '#000000';
         body.classList.add('bg-black');
-        this.updateThemeColor('black');
+        this.updateThemeColor('dark');
     }
   }
 
@@ -173,7 +172,7 @@ export class ThemeService {
     body.classList.add(`font-${fontSize}`);
   }
 
-  private updateThemeColor(background: string): void {
+  private updateThemeColor(theme: string): void {
     let themeColorMeta = document.querySelector('#theme-color-meta') as HTMLMetaElement;
     if (!themeColorMeta) {
       // Create the meta element if it doesn't exist
@@ -182,12 +181,12 @@ export class ThemeService {
       themeColorMeta.id = 'theme-color-meta';
       document.head.appendChild(themeColorMeta);
     }
-    const backgroundColors: { [key: string]: string } = {
-      'black': '#000000',
+    const themeColors: { [key: string]: string } = {
+      'dark': '#000000',
       'white': '#ffffff',
-      'video': '#000000'
+      'glass': '#1a1a1a'
     };
-    themeColorMeta.content = backgroundColors[background] || backgroundColors['black'];
+    themeColorMeta.content = themeColors[theme] || themeColors['dark'];
   }
 
   getThemeDisplayName(theme: string): string {
