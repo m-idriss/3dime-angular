@@ -144,7 +144,7 @@ export class ThemeService {
           <video autoplay muted loop playsinline
                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;"
                  aria-hidden="true">
-            <source src="background.mp4" type="video/mp4">
+            <source src="assets/background.mp4" type="video/mp4">
           </video>
         `;
         bgElement.style.background = 'transparent';
