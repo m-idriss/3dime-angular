@@ -66,22 +66,20 @@ ng test
 ```
 
 ## Running end-to-end tests
-## Architecture
-
-### Frontend (Angular)
-- **Components**: Modular components for profile, experience, projects, etc.
-- **Styling**: SCSS with CSS custom properties for theming
 
 For end-to-end (e2e) testing, run:
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
 ```bash
 ng e2e
 ```
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Architecture
+
+### Frontend (Angular)
+- **Components**: Modular components for profile, experience, projects, etc.
+- **Styling**: SCSS with CSS custom properties for theming
 
 ## Additional Resources
 

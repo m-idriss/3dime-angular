@@ -1,6 +1,5 @@
 import {setGlobalOptions} from "firebase-functions";
 import {onRequest} from "firebase-functions/https";
-export { helloWorld } from "./proxies/helloWorld";
 export { githubCommits } from "./proxies/githubCommits";
 export { githubSocial } from "./proxies/githubSocial";
 export { notionFunction } from "./proxies/notion";
@@ -21,7 +20,6 @@ export const proxyApi = onRequest(async (req, res) => {
     const target = req.query.target as string;
 
     const targets: Record<string, string> = {
-      hello: "https://helloworld-fuajdt22nq-uc.a.run.app",
       profile: "https://githubsocial-fuajdt22nq-uc.a.run.app",
       social: "https://githubsocial-fuajdt22nq-uc.a.run.app?target=social",
       commit: "https://githubcommits-fuajdt22nq-uc.a.run.app",
