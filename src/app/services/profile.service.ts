@@ -44,7 +44,7 @@ export class ProfileService {
 
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
-  private readonly commits$?: Observable<CommitData[]>;
+  private commits$?: Observable<CommitData[]>;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -63,17 +63,20 @@ export class ProfileService {
   }
 
   getCommitsV2(): Observable<CommitData[]> {
-    return this.http
-      .get<CommitData[]>(`${this.baseUrl}?target=commit`)
-      .pipe(
-        map((commits) =>
-          commits.map((d) => ({
-            date: typeof d.date === "string" ? new Date(d.date).getTime() : d.date,
-            value: d.value,
-          }))
-        ),
-        shareReplay(1)
-      );
+    if (!this.commits$) {
+      this.commits$ = this.http
+        .get<CommitData[]>(`${this.baseUrl}?target=commit`)
+        .pipe(
+          map((commits) =>
+            commits.map((d) => ({
+              date: typeof d.date === "string" ? new Date(d.date).getTime() : d.date,
+              value: d.value,
+            }))
+          ),
+          shareReplay(1)
+        );
+    }
+    return this.commits$;
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
 import Tooltip from 'cal-heatmap/plugins/Tooltip';
@@ -10,6 +10,7 @@ import { ProfileService, CommitData } from '../../services/profile.service';
       imports: [],
   templateUrl: './github-activity.html',
   styleUrls: ['./github-activity.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GithubActivity implements AfterViewInit {
   @ViewChild('heatmapContainer', { static: true }) container!: ElementRef;

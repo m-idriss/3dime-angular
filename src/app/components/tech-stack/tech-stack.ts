@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { LinkItem } from '../../models/link-item.model';
 import { NotionService } from '../../services/notion.service';
 
@@ -6,16 +6,21 @@ import { NotionService } from '../../services/notion.service';
   selector: 'app-tech-stack',
   standalone: true,
   templateUrl: './tech-stack.html',
-  styleUrl: './tech-stack.scss'
+  styleUrl: './tech-stack.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TechStack implements OnInit {
   techStack: LinkItem[] = [];
 
-  constructor(private readonly notionService: NotionService) {}
+  constructor(
+    private readonly notionService: NotionService,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.notionService.fetchAll().subscribe(() => {
       this.techStack = this.notionService.getTechStacks();
+      this.cdr.markForCheck();
     });
   }
 }
