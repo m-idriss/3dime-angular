@@ -51,11 +51,33 @@ This will compile your project and store the build artifacts in the `dist/` dire
 
 ## Deployment
 
+The application is configured to deploy at the root path (`/`).
+
+### Building for Production
+
+To build the project for production deployment:
+
+```bash
+ng build --configuration=production --base-href=/
+```
+
 The built application (`dist/3dime-angular/browser/`) contains:
 - Static Angular files
 - Configuration files
 
-Deploy to any web server with PHP 7.4+ support.
+Deploy to any static web server (Nginx, Apache, etc.) that serves the application from the root path.
+
+### CI/CD Pipeline
+
+The project uses GitHub Actions for automated deployment. On push to `main`, the workflow:
+1. Builds the Angular app with `--base-href=/`
+2. Deploys via FTP to the configured server
+
+### Server Configuration
+
+Ensure your web server:
+- Serves the app from the root path (`/`)
+- Handles Angular routing by redirecting all requests to `index.html` (for deep linking and refresh support)
 
 ## Running unit tests
 
