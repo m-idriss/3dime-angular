@@ -5,12 +5,26 @@
     <app-tech-stack></app-tech-stack>
   </div>
   <div class="group-column">
-    <app-github-activity></app-github-activity>
+    @defer (on viewport) {
+      <app-github-activity></app-github-activity>
+    } @placeholder {
+      <section class="container" aria-label="Loading GitHub activity">
+        <h2>Github Activity</h2>
+        <div class="loading-placeholder">Loading activity data...</div>
+      </section>
+    }
     <app-experience></app-experience>
     <app-education></app-education>
   </div>
   <div class="group-column">
-    <app-stuff></app-stuff>
+    @defer (on viewport) {
+      <app-stuff></app-stuff>
+    } @placeholder {
+      <section class="container">
+        <h2>Stuff</h2>
+        <p class="subtitle">Loading recommendations...</p>
+      </section>
+    }
     <app-hobbies></app-hobbies>
     <app-contact></app-contact>
   </div>

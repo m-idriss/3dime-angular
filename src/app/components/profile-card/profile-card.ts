@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
@@ -8,7 +8,8 @@ import { ProfileService, SocialLink, GithubUser } from '../../services/profile.s
   standalone: true,
   imports: [CommonModule],
   templateUrl: './profile-card.html',
-  styleUrls: ['./profile-card.scss']
+  styleUrls: ['./profile-card.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileCard implements OnInit {
   menuOpen = false;

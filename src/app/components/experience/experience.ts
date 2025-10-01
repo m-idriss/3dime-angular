@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { LinkItem } from '../../models/link-item.model';
 import { NotionService } from '../../services/notion.service';
 
@@ -6,7 +6,8 @@ import { NotionService } from '../../services/notion.service';
   selector: 'app-experience',
   standalone: true,
   templateUrl: './experience.html',
-  styleUrl: './experience.scss'
+  styleUrl: './experience.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Experience implements OnInit {
   experiences: LinkItem[] = [];

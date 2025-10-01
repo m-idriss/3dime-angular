@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ProfileService, GithubUser } from '../../services/profile.service';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
   templateUrl: './contact.html',
-  styleUrl: './contact.scss'
+  styleUrl: './contact.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Contact implements OnInit {
   email: string | null = null;
