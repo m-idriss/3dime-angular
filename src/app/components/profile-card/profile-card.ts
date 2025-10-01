@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
@@ -8,7 +8,8 @@ import { ProfileService, SocialLink, GithubUser } from '../../services/profile.s
   standalone: true,
   imports: [CommonModule],
   templateUrl: './profile-card.html',
-  styleUrls: ['./profile-card.scss']
+  styleUrls: ['./profile-card.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileCard implements OnInit {
   menuOpen = false;
@@ -17,18 +18,21 @@ export class ProfileCard implements OnInit {
 
   constructor(
     private readonly themeService: ThemeService,
-    private readonly profileService: ProfileService
+    private readonly profileService: ProfileService,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
 
     this.profileService.getSocialLinks().subscribe(links => {
       this.socialLinks = [...this.socialLinks, ...links];
+      this.cdr.markForCheck();
     });
 
     this.profileService.getProfile().subscribe(user => {
       this.profileData = user;
-      this.socialLinks.unshift({ provider: 'GitHub', url: user.html_url});
+      this.socialLinks = [{ provider: 'GitHub', url: user.html_url}, ...this.socialLinks];
+      this.cdr.markForCheck();
     });
   }
 
