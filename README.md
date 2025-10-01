@@ -11,9 +11,15 @@ A personal portfolio application built with Angular 20+.
 - 📱 **Mobile Responsive**: Optimized for all device sizes
 - ⚡ **Fast Loading**: Optimized build with proper error handling and fallbacks
 
-## 📋 Project Roadmap
+## 📚 Documentation
 
-For a comprehensive overview of planned features, improvements, and development timeline, see [ROADMAP.md](./ROADMAP.md).
+- **[Development Guidelines](./docs/DEVELOPMENT.md)** - Setup, workflow, and best practices
+- **[Component Documentation](./docs/COMPONENTS.md)** - Component architecture and usage
+- **[Services Documentation](./docs/SERVICES.md)** - Service APIs and data management
+- **[Design System](./docs/DESIGN_SYSTEM.md)** - Design principles, colors, and styling
+- **[API Documentation](./docs/API.md)** - Firebase Functions and API endpoints
+- **[Contributing Guidelines](./CONTRIBUTING.md)** - How to contribute to the project
+- **[Project Roadmap](./ROADMAP.md)** - Planned features and development timeline
 
 ## Development server
 
@@ -102,6 +108,30 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ### Frontend (Angular)
 - **Components**: Modular components for profile, experience, projects, etc.
 - **Styling**: SCSS with CSS custom properties for theming
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Architecture
+
+### Frontend (Angular)
+- **Components**: Modular standalone components for profile, experience, projects, etc.
+- **Services**: Theme management, profile data, and API integration
+- **Styling**: SCSS with CSS custom properties for theming
+
+### Key Technologies
+- **Angular 20+**: Standalone components with modern features
+- **TypeScript 5.9+**: Strict mode for type safety
+- **RxJS**: Reactive programming for data streams
+- **SCSS**: Advanced styling with variables and mixins
+- **Glassmorphism**: Modern UI design with frosted glass effects
+
+For detailed component documentation, see [docs/COMPONENTS.md](./docs/COMPONENTS.md).
 
 ## Additional Resources
 
