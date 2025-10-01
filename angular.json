@@ -28,7 +28,9 @@
                 "glob": "**/*",
                 "input": "public",
                 "output": "/"
-              }
+              },
+              "src/favicon.ico",
+              "src/manifest.json"
             ],
             "styles": [
               "src/styles.scss"
