@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { LinkItem } from '../../models/link-item.model';
 import { NotionService } from '../../services/notion.service';
 
@@ -6,16 +6,21 @@ import { NotionService } from '../../services/notion.service';
   selector: 'app-education',
   standalone: true,
   templateUrl: './education.html',
-  styleUrl: './education.scss'
+  styleUrl: './education.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Education implements OnInit {
   education: LinkItem[] = [];
 
-  constructor(private readonly notionService: NotionService) {}
+  constructor(
+    private readonly notionService: NotionService,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.notionService.fetchAll().subscribe(() => {
       this.education = this.notionService.getEducations();
+      this.cdr.markForCheck();
    });
   }
 }
