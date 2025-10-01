@@ -13,8 +13,22 @@
         <div class="loading-placeholder">Loading activity data...</div>
       </section>
     }
-    <app-experience></app-experience>
-    <app-education></app-education>
+    @defer (on viewport) {
+      <app-experience></app-experience>
+    } @placeholder {
+      <section class="container">
+        <h2>Experience & Projects</h2>
+        <p class="subtitle">Loading experience...</p>
+      </section>
+    }
+    @defer (on viewport) {
+      <app-education></app-education>
+    } @placeholder {
+      <section class="container">
+        <h2>Education & Training</h2>
+        <p class="subtitle">Loading education...</p>
+      </section>
+    }
   </div>
   <div class="group-column">
     @defer (on viewport) {
@@ -25,7 +39,14 @@
         <p class="subtitle">Loading recommendations...</p>
       </section>
     }
-    <app-hobbies></app-hobbies>
+    @defer (on viewport) {
+      <app-hobbies></app-hobbies>
+    } @placeholder {
+      <section class="container">
+        <h2>Hobbies & Interests</h2>
+        <p class="subtitle">Loading hobbies...</p>
+      </section>
+    }
     <app-contact></app-contact>
   </div>
   <router-outlet />
