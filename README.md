@@ -9,7 +9,21 @@ A personal portfolio application built with Angular 20+.
 
 - 🎨 **Modern UI**: Clean, responsive design with multiple theme options
 - 📱 **Mobile Responsive**: Optimized for all device sizes
-- ⚡ **Fast Loading**: Optimized build with proper error handling and fallbacks
+- ⚡ **Fast Loading**: Optimized build with lazy loading and code splitting
+- 🚀 **High Performance**: 53% smaller bundle size with 83% reduction in main JS
+- ♿ **Accessible**: WCAG compliant with proper ARIA labels and keyboard navigation
+
+## ⚡ Performance
+
+This portfolio has been heavily optimized for performance:
+
+- **Initial Bundle**: 310 KB (down from 664 KB - 53% reduction)
+- **Main JavaScript**: 101 KB (down from 611 KB - 83% reduction)
+- **Lazy Loading**: Components load on-demand using Angular @defer
+- **Change Detection**: OnPush strategy for all components
+- **Resource Optimization**: Deferred CSS loading and optimized external resources
+
+See [PERFORMANCE_IMPROVEMENTS.md](./PERFORMANCE_IMPROVEMENTS.md) for detailed information.
 
 ## 📋 Project Roadmap
 
