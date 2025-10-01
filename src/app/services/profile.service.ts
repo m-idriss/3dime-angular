@@ -40,54 +40,35 @@ export interface CommitData {
   providedIn: 'root'
 })
 export class ProfileService {
-  private readonly baseUrl = environment.apiUrl + '/proxy.php?service=github';
+  private readonly baseUrl = environment.apiUrl;
 
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
-  private commits$?: Observable<CommitData[]>;
+  private readonly commits$?: Observable<CommitData[]>;
 
   constructor(private readonly http: HttpClient) {}
 
   getProfile(): Observable<GithubUser> {
     this.profile$ ??= this.http
-      .get<GithubUser>(`${this.baseUrl}`)
+      .get<GithubUser>(`${this.baseUrl}?target=profile`)
       .pipe(shareReplay(1));
     return this.profile$;
   }
 
   getSocialLinks(): Observable<SocialLink[]> {
     this.socialLinks$ ??= this.http
-      .get<SocialLink[]>(`${this.baseUrl}&type=social`)
+      .get<SocialLink[]>(`${this.baseUrl}?target=social`)
       .pipe(shareReplay(1));
     return this.socialLinks$;
   }
 
-  getCommits(): Observable<CommitData[]> {
-    this.commits$ ??= this.http
-      .get<CommitResponse>(`${this.baseUrl}&type=commits_all`)
-      .pipe(
-        map((res) =>
-          res.commit_activity.flatMap((week) =>
-            week.days.map((count, i) => ({
-              date: (week.week + i * 86400) * 1000,
-              value: count,
-            }))
-          )
-        ),
-        shareReplay(1)
-      );
-    return this.commits$;
-  }
-
   getCommitsV2(): Observable<CommitData[]> {
     return this.http
-      .get<{ commit_activity: { date: string; value: number }[] }>(
-        `${this.baseUrl}&type=contributions`
-      )
+      .get<CommitData[]>(`${this.baseUrl}?target=commit`)
       .pipe(
-        map((res) =>
-          res.commit_activity.map((d) => ({
-            date: new Date(d.date).getTime(),
+        map((commits) =>
+          commits.map((d) => ({
+            date: typeof d.date === "string" ? new Date(d.date).getTime() : d.date,
             value: d.value,
           }))
         ),

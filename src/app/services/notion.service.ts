@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 })
 export class NotionService {
 
-  private readonly baseUrl = environment.apiUrl + '/proxy.php?service=notion';
+  private readonly baseUrl = environment.apiUrl;
 
   stuffs: LinkItem[] = [];
   experiences: LinkItem[] = [];
@@ -21,13 +21,13 @@ export class NotionService {
   constructor(private readonly http: HttpClient) {}
 
   fetchAll(): Observable<void> {
-    return this.http.get<any>(`${this.baseUrl}&db=all`).pipe(
+    return this.http.get<any>(`${this.baseUrl}?target=notion`).pipe(
       map(res => {
-        this.stuffs = res.profile.stuff || [];
-        this.experiences = res.profile.experience || [];
-        this.educations = res.profile.education || [];
-        this.hobbies = res.profile.hobbies || [];
-        this.techStacks = res.profile.tech_stack || [];
+        this.stuffs = res.stuff ?? [];
+        this.experiences = res.experience ?? [];
+        this.educations = res.education ?? [];
+        this.hobbies = res.hobbies ?? [];
+        this.techStacks = res.tech_stack ?? [];
       }),
       catchError(err => {
         console.error('Error fetching data from Notion API', err);

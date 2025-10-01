@@ -49,8 +49,8 @@ export class GithubActivity implements AfterViewInit {
         },
       theme: 'dark',
       date: {
-            start: new Date(new Date().setMonth(new Date().getMonth() - 5)),
-            locale: { weekStart: 1 },
+            start: new Date(new Date().setMonth(new Date().getMonth() - 6)),
+            locale: { weekStart: 7 },
             highlight: [new Date()],
           },
         range: 7,
@@ -69,7 +69,7 @@ export class GithubActivity implements AfterViewInit {
         {
           position: 'left',
           key: 'left',
-          text: () => ['Mon', '', '', 'Thu', '', '', 'Sun'],
+          text: () => ['', 'Mon', '', 'Wen', '', 'Fri', ''],
           textAlign: 'end',
           width: 20,
           padding: [25, 5, 0, 0],
