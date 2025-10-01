@@ -196,6 +196,46 @@ export class ThemeService {
       document.head.appendChild(themeColorMeta);
     }
     themeColorMeta.content = color;
+
+    // Update Safari-specific status bar style
+    this.updateAppleStatusBarStyle(color);
+  }
+
+  private updateAppleStatusBarStyle(color: string): void {
+    let appleStatusBarMeta = document.querySelector('#apple-status-bar-meta') as HTMLMetaElement;
+    if (!appleStatusBarMeta) {
+      // Create the meta element if it doesn't exist
+      appleStatusBarMeta = document.createElement('meta');
+      appleStatusBarMeta.name = 'apple-mobile-web-app-status-bar-style';
+      appleStatusBarMeta.id = 'apple-status-bar-meta';
+      document.head.appendChild(appleStatusBarMeta);
+    }
+
+    // Determine the appropriate status bar style based on background color
+    // Safari supports: 'default' (white), 'black', and 'black-translucent'
+    const brightness = this.getColorBrightness(color);
+    
+    if (brightness > 200) {
+      // Light background - use default (white status bar with dark text)
+      appleStatusBarMeta.content = 'default';
+    } else if (brightness > 100) {
+      // Medium background - use black-translucent for better blend
+      appleStatusBarMeta.content = 'black-translucent';
+    } else {
+      // Dark background - use black-translucent for seamless integration
+      appleStatusBarMeta.content = 'black-translucent';
+    }
+  }
+
+  private getColorBrightness(hexColor: string): number {
+    // Convert hex color to RGB and calculate perceived brightness
+    // Formula: (299*R + 587*G + 114*B) / 1000
+    const hex = hexColor.replace('#', '');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    return (299 * r + 587 * g + 114 * b) / 1000;
   }
 
   getThemeDisplayName(theme: string): string {
