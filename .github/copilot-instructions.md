@@ -75,9 +75,9 @@ Always run these steps after making changes:
    npm start
    ```
    - Navigate to `http://localhost:4200/`
-   - Verify clean UI with "File to Calendar Converter" header
-   - Check Google Sign-in button is present
-   - Verify "Authentication Required" section displays
+   - Verify clean UI with portfolio sections displayed
+   - Check profile card with social links
+   - Verify all sections render correctly (Profile, About, Tech Stack, GitHub Activity, Experience, Education, Stuff, Hobbies, Contact)
 
 3. **Test Validation:**
    ```bash
