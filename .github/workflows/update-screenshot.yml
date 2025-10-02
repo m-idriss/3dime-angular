@@ -1,0 +1,85 @@
+name: 📸 Update Screenshots
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Install serve
+        run: npm install -g serve
+
+      - name: Start server in background
+        run: |
+          cd dist/3dime-angular/browser
+          serve -s . -l 4200 &
+          echo "Waiting for server to start..."
+          sleep 5
+
+      - name: Install puppeteer-headful
+        uses: mujo-code/puppeteer-headful@master
+        env:
+          CI: 'true'
+
+      - name: Generate screenshots
+        uses: flameddd/screenshots-ci-action@master
+        with:
+          url: http://localhost:4200
+          devices: iPhone 13 Pro Max
+          noCommitHashFileName: true
+          waitUntil: networkidle2
+          waitForSelector: 'section[aria-label="contact"]'
+          waitForSelectorTimeout: 60000
+
+      - name: Move screenshots into public/assets/screenshots
+        run: |
+          mkdir -p public/assets/screenshots
+          mv screenshots/desktopPage1920x1080.jpeg public/assets/screenshots/
+          mv screenshots/iPhone_13_Pro_Max.jpeg public/assets/screenshots/
+
+      - name: Create Pull Request to main
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: Update screenshots [skip ci]
+          branch: update-screenshots-assets
+          base: main
+          title: Update screenshots
+          body: Automated update of screenshots.
+          add-paths: public/assets/screenshots/
+          labels: ''
+
+      - name: Auto-merge Pull Request (squash with fixed message)
+        if: steps.cpr.outputs.pull-request-number
+        run: |
+          gh pr merge ${{ steps.cpr.outputs.pull-request-number }} \
+            --squash \
+            --admin \
+            --delete-branch \
+            --body "Update screenshots [skip ci]" \
+            --subject "Update screenshots [skip ci]"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
