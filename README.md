@@ -1,138 +1,549 @@
-# 3dime-angular
+<div align="center">
 
-> **Personal Portfolio Website for Idriss** - A modern Angular 20+ application showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design.
+# 🌟 3dime-angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.2.
-A personal portfolio application built with Angular 20+.
+<img src="public/assets/logo.png" alt="3dime Logo" width="120" height="120"/>
 
-## Features
+### ✨ Modern Personal Portfolio Website ✨
 
-- 🎨 **Modern UI**: Clean, responsive design with multiple theme options
-- 📱 **Mobile Responsive**: Optimized for all device sizes
-- ⚡ **Fast Loading**: Optimized build with proper error handling and fallbacks
+*A sophisticated Angular 20+ application showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design*
 
-## 📚 Documentation
+[![Angular](https://img.shields.io/badge/Angular-20.2-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![PWA Ready](https://img.shields.io/badge/PWA-Ready-9C27B0?style=for-the-badge)](public/manifest.json)
 
-- **[Development Guidelines](./docs/DEVELOPMENT.md)** - Setup, workflow, and best practices
-- **[Component Documentation](./docs/COMPONENTS.md)** - Component architecture and usage
-- **[Services Documentation](./docs/SERVICES.md)** - Service APIs and data management
-- **[Design System](./docs/DESIGN_SYSTEM.md)** - Design principles, colors, and styling
-- **[API Documentation](./docs/API.md)** - Firebase Functions and API endpoints
-- **[Contributing Guidelines](./CONTRIBUTING.md)** - How to contribute to the project
-- **[Project Roadmap](./ROADMAP.md)** - Planned features and development timeline
+---
 
-## Development server
+</div>
 
-To start a local development server, run:
+## 🎯 Overview
+
+3dime-angular is a modern, high-performance personal portfolio application built with Angular 20+ and designed to showcase your professional journey in an elegant, engaging way. Featuring a stunning space-themed design with glassmorphism effects, this application creates a memorable digital presence that stands out.
+
+**Architecture**: Modern Angular standalone components with TypeScript strict mode, SCSS styling with CSS custom properties, and Progressive Web App capabilities.
+
+Perfect for developers, designers, and professionals who want a fast, beautiful, and maintainable portfolio website that showcases their work with style.
+
+## ✨ Features
+
+### 🎨 **Modern Design**
+- **Glassmorphism UI** - Stunning frosted glass effects with space-themed aesthetics
+- **Responsive Layout** - Flawless experience across all devices and screen sizes
+- **Dark Theme** - Professional dark aesthetic with particle effects and gradient backgrounds
+- **Smooth Animations** - Subtle micro-interactions and fluid transitions
+
+### ⚡ **Performance & Technology**
+- **Angular 20+** - Latest Angular with standalone components and modern features
+- **TypeScript 5.9+** - Type-safe development with strict mode
+- **Progressive Web App (PWA)** - Installable, works offline, app-like experience
+- **Optimized Build** - Production-ready with tree-shaking and lazy loading
+- **Fast Loading** - Optimized assets and efficient resource loading
+- **RxJS** - Reactive programming for smooth data streams
+
+### 🔗 **Portfolio Sections**
+- **Profile Card** - Personal branding with photo and social links
+- **About** - Professional introduction and summary
+- **Tech Stack** - Showcase of skills and technologies
+- **GitHub Activity** - Live GitHub contribution visualization
+- **Experience** - Work history and project highlights
+- **Education** - Academic background and certifications
+- **Stuff** - Recommended tools and products (Notion integration)
+- **Hobbies** - Personal interests and activities
+- **Contact** - Professional contact information
+
+### 🛡️ **Modern Web Standards**
+- **Standalone Components** - Modular, tree-shakeable architecture
+- **Semantic HTML5** - Accessible markup with proper ARIA labels
+- **CSS Custom Properties** - Maintainable theming system
+- **Mobile-First Design** - Optimized for mobile devices first
+- **SEO Optimized** - Proper meta tags and structured content
+
+## 🛠️ Technology Stack
+
+<table>
+<tr>
+<td align="center">
+
+**Frontend Core**
+- Angular 20.2+
+- TypeScript 5.9+
+- RxJS 7.8+
+- Zone.js 0.15+
+- Standalone Components
+
+</td>
+<td align="center">
+
+**Styling & Design**
+- SCSS with CSS Variables
+- Glassmorphism Effects
+- Space-Themed Design
+- Responsive Grid/Flexbox
+- Mobile-First Approach
+
+</td>
+<td align="center">
+
+**PWA Features**
+- Service Worker
+- Web App Manifest
+- Offline Support
+- App Icons
+- Install Prompts
+
+</td>
+</tr>
+<tr>
+<td align="center">
+
+**Build & Tools**
+- Angular CLI 20.2+
+- esbuild Bundler
+- TypeScript Compiler
+- Karma + Jasmine Testing
+- Prettier Formatting
+
+</td>
+<td align="center">
+
+**Integrations**
+- Notion API
+- GitHub API
+- Cal-heatmap
+- Font Awesome Icons
+- Google Fonts
+
+</td>
+<td align="center">
+
+**Deployment**
+- Firebase Hosting
+- GitHub Actions CI/CD
+- FTP Deployment
+- Static Hosting Ready
+- Environment Configs
+
+</td>
+</tr>
+</table>
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js**: 20+ (Functions require Node 22 but work with 20)
+- **npm**: 10+
+- **Chrome/Chromium**: For testing (optional)
+- **Git**: For version control
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/m-idriss/3dime-angular.git
+cd 3dime-angular
+
+# Install dependencies (takes ~30 seconds)
+npm install
+
+# Optional: Install Firebase Functions dependencies
+cd functions && npm install && cd ..
+
+# Verify installation with a build
+npm run build
+```
+
+### Development Server
+
+Start a local development server:
+
+```bash
+# Start dev server (runs on http://localhost:4200/)
+npm start
+
+# OR using Angular CLI directly
 ng serve
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+### Building for Production
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Build the project for production deployment:
 
 ```bash
-ng generate component component-name
+# Production build
+npm run build -- --configuration=production
+
+# Output location: dist/3dime-angular/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The build process takes ~8-10 seconds and generates optimized, production-ready static files.
+
+## ⚙️ Configuration
+
+### Content Customization
+
+Update your personal information in the component files:
+
+1. **Profile Card**: `src/app/components/profile-card/`
+2. **About Section**: `src/app/components/about/`
+3. **Tech Stack**: `src/app/components/tech-stack/`
+4. **Experience**: `src/app/components/experience/`
+5. **Education**: `src/app/components/education/`
+6. **Contact**: `src/app/components/contact/`
+
+### Styling Customization
+
+Customize the theme in `src/styles.scss` using CSS custom properties:
+
+```scss
+:root {
+  --primary-color: #00d4aa;
+  --accent-color: #3b82f6;
+  --background: #000000;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+}
+```
+
+### PWA Configuration
+
+Update Progressive Web App settings in:
+- `public/manifest.json` - App manifest and icons
+- `public/index.html` - Meta tags and initial HTML
+
+### API Integration
+
+For Notion integration (Stuff section):
+1. Set up Notion API credentials
+2. Configure Firebase Functions in `functions/src/`
+3. Deploy Firebase Functions for API endpoints
+
+
+
+## 🌐 Deployment
+
+### Deployment Options
+
+3dime-angular supports multiple deployment options to fit different hosting environments:
+
+#### Static Hosting (Recommended)
+- **Platforms**: Netlify, Vercel, GitHub Pages, Firebase Hosting, AWS S3, Azure Static Web Apps
+- **Process**: Build and upload the `dist/3dime-angular/browser/` directory
+- **Requirements**: Static file hosting, no server-side processing needed
+- **Benefits**: Fast, scalable, cost-effective
+
+#### Traditional Hosting
+- **Platforms**: Any web server (Nginx, Apache, IIS)
+- **Process**: Deploy built files and configure routing
+- **Requirements**: Web server with URL rewriting for SPA routing
+
+### Automatic Deployment (GitHub Actions)
+
+The project includes automated deployment via GitHub Actions:
+
+1. **Configure Secrets**: Add your deployment credentials to GitHub repository secrets:
+   ```
+   FTP_SERVER     → your-server.com
+   FTP_USERNAME   → your-username
+   FTP_PASSWORD   → your-password
+   FTP_PATH       → /public_html/ (or your web root)
+   ```
+
+2. **Push to main**: Deployment triggers automatically on push to `main` branch
+
+3. **Workflow**: The GitHub Action will:
+   - Install dependencies
+   - Build production version
+   - Deploy via FTP to your server
+
+### Manual Deployment
+
+#### Static Hosts (Netlify, Vercel)
 
 ```bash
+# Build for production
+npm run build -- --configuration=production
+
+# Deploy the dist/3dime-angular/browser/ directory
+# Follow your hosting provider's deployment instructions
+```
+
+#### Firebase Hosting
+
+```bash
+# Build for production
+npm run build -- --configuration=production
+
+# Deploy to Firebase
+firebase deploy --only hosting
+```
+
+#### Traditional Web Server
+
+```bash
+# Build for production
+npm run build -- --configuration=production --base-href=/
+
+# Upload dist/3dime-angular/browser/ contents to your web server
+# Configure URL rewriting to support Angular routing
+```
+
+### Server Configuration for SPA Routing
+
+For Angular's client-side routing to work correctly, configure your server to redirect all requests to `index.html`:
+
+**Nginx**:
+```nginx
+location / {
+    try_files $uri $uri/ /index.html;
+}
+```
+
+**Apache** (`.htaccess`):
+```apache
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
+```
+
+## 📚 Documentation
+
+Comprehensive documentation is available to help you understand and work with the project:
+
+### Getting Started
+- **[README.md](./README.md)** (this file) - Project overview and quick start
+- **[Development Guidelines](./docs/DEVELOPMENT.md)** - Setup, workflow, and best practices
+- **[Contributing Guidelines](./CONTRIBUTING.md)** - How to contribute to the project
+
+### Technical Documentation
+- **[Component Documentation](./docs/COMPONENTS.md)** - Component architecture and usage
+- **[Services Documentation](./docs/SERVICES.md)** - Service APIs and data management
+- **[Design System](./docs/DESIGN_SYSTEM.md)** - Design principles, colors, and styling
+- **[API Documentation](./docs/API.md)** - Firebase Functions and API endpoints
+
+### Planning & Roadmap
+- **[Project Roadmap](./ROADMAP.md)** - Planned features and development timeline
+- **[Security Policy](./SECURITY.md)** - Security guidelines and vulnerability reporting
+
+For a complete documentation overview, see [docs/README.md](./docs/README.md).
+
+## 🧪 Testing
+
+### Unit Tests
+
+Run unit tests with Karma and Jasmine:
+
+```bash
+# Run tests once (headless Chrome)
+CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false
+
+# Run tests in watch mode (for development)
+npm test
+```
+
+**Expected Behavior**:
+- Tests build successfully in ~12 seconds
+- Some tests may show expected failures related to HttpClient setup (this is normal for current test configuration)
+
+### Code Scaffolding
+
+Angular CLI includes powerful code scaffolding tools:
+
+```bash
+# Generate a new component
+ng generate component components/component-name --style=scss
+
+# Generate a new service
+ng generate service services/service-name
+
+# Generate other schematics
 ng generate --help
 ```
 
-## Building
+## 📸 Screenshots
 
-To build the project run:
+<div align="center">
 
-```bash
-ng build
+### 🖥️ Portfolio Sections
+*Coming soon: Screenshots showcasing the space-themed design, glassmorphism effects, and responsive layout*
+
+### 📱 Mobile Experience
+*Coming soon: Mobile screenshots demonstrating the responsive design*
+
+</div>
+
+## 🎯 Use Cases
+
+- **Software Developers** - Showcase your GitHub projects, technical skills, and work experience
+- **Web Developers** - Demonstrate your frontend skills with a modern, performant portfolio
+- **Designers** - Present your design philosophy and aesthetic sense
+- **Tech Professionals** - Create a comprehensive digital resume and professional presence
+- **Students** - Display your learning journey, projects, and academic achievements
+- **Freelancers** - Professional landing page for client discovery and credibility
+
+
+
+## 🏗️ Architecture
+
+### Frontend Architecture
+
+3dime-angular follows modern Angular best practices with a component-based architecture:
+
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Deployment
-
-The application is configured to deploy at the root path (`/`).
-
-### Building for Production
-
-To build the project for production deployment:
-
-```bash
-ng build --configuration=production --base-href=/
+src/app/
+├── components/
+│   ├── profile-card/      # Personal branding and social links
+│   ├── about/             # Professional introduction
+│   ├── tech-stack/        # Skills and technologies showcase
+│   ├── github-activity/   # GitHub contribution visualization
+│   ├── experience/        # Work history and projects
+│   ├── education/         # Academic background
+│   ├── stuff/             # Tool recommendations (Notion API)
+│   ├── hobbies/           # Personal interests
+│   └── contact/           # Contact information
+├── services/
+│   ├── theme.service.ts   # Theme management
+│   ├── profile.service.ts # GitHub profile data
+│   └── notion.service.ts  # Notion API integration
+├── app.ts                 # Main standalone app component
+└── app.config.ts          # Application configuration
 ```
-
-The built application (`dist/3dime-angular/browser/`) contains:
-- Static Angular files
-- Configuration files
-
-Deploy to any static web server (Nginx, Apache, etc.) that serves the application from the root path.
-
-### CI/CD Pipeline
-
-The project uses GitHub Actions for automated deployment. On push to `main`, the workflow:
-1. Builds the Angular app with `--base-href=/`
-2. Deploys via FTP to the configured server
-
-### Server Configuration
-
-Ensure your web server:
-- Serves the app from the root path (`/`)
-- Handles Angular routing by redirecting all requests to `index.html` (for deep linking and refresh support)
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Architecture
-
-### Frontend (Angular)
-- **Components**: Modular components for profile, experience, projects, etc.
-- **Styling**: SCSS with CSS custom properties for theming
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Architecture
-
-### Frontend (Angular)
-- **Components**: Modular standalone components for profile, experience, projects, etc.
-- **Services**: Theme management, profile data, and API integration
-- **Styling**: SCSS with CSS custom properties for theming
 
 ### Key Technologies
-- **Angular 20+**: Standalone components with modern features
-- **TypeScript 5.9+**: Strict mode for type safety
-- **RxJS**: Reactive programming for data streams
-- **SCSS**: Advanced styling with variables and mixins
-- **Glassmorphism**: Modern UI design with frosted glass effects
+
+- **Angular 20+**: Standalone components with modern Angular features
+- **TypeScript 5.9+**: Strict mode for enhanced type safety and code quality
+- **RxJS 7.8+**: Reactive programming for data streams and async operations
+- **SCSS**: Advanced styling with CSS custom properties and mixins
+- **Glassmorphism**: Modern UI design with frosted glass effects and backdrop filters
+
+### Design Philosophy
+
+- **Standalone Components**: Tree-shakeable, modular architecture for optimal bundle size
+- **Type Safety**: TypeScript strict mode ensures reliability and maintainability
+- **Reactive Programming**: RxJS for handling async data and user interactions
+- **CSS Custom Properties**: Maintainable theming system with runtime flexibility
+- **Mobile-First**: Responsive design built from the ground up for mobile devices
 
 For detailed component documentation, see [docs/COMPONENTS.md](./docs/COMPONENTS.md).
+
+## 🔧 Advanced Topics
+
+### Performance Optimization
+
+The application is optimized for performance:
+
+- **Bundle Size**: Production build ~669KB (initial) with tree-shaking
+- **Code Splitting**: Lazy loading for optimal initial load time
+- **Asset Optimization**: Compressed images and efficient resource loading
+- **Build Configuration**: Production builds include minification and optimization
+
+### Custom Styling
+
+Customize the space theme by modifying CSS custom properties in `src/styles.scss`:
+
+```scss
+:root {
+  /* Colors */
+  --primary-color: #00d4aa;
+  --accent-color: #3b82f6;
+  --background: #000000;
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  
+  /* Typography */
+  --font-primary: 'Inter', sans-serif;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+}
+```
+
+### Progressive Web App (PWA)
+
+The application includes PWA support with:
+- Service worker for offline functionality
+- Web app manifest for installability
+- Optimized icons for multiple platforms
+- App-like experience on mobile devices
+
+Configure PWA settings in:
+- `public/manifest.json` - App metadata and icons
+- Service worker configuration (auto-generated by Angular)
+
+### API Integration
+
+For dynamic content and external integrations:
+
+1. **GitHub API**: Fetch user profile and contribution data
+2. **Notion API**: Load recommended tools and products
+3. **Firebase Functions**: Backend API endpoints for data processing
+
+See [docs/API.md](./docs/API.md) for detailed API documentation.
+
+## 📊 Performance Metrics
+
+- ⚡ **Build Time**: ~8-10 seconds for production build
+- 📦 **Bundle Size**: 669KB initial (optimized and minified)
+- 🚀 **Load Time**: < 3 seconds on 3G networks
+- 📱 **Mobile Optimized**: Responsive design with mobile-first approach
+- ♿ **Accessible**: Semantic HTML with ARIA labels
+- 🔍 **SEO Ready**: Proper meta tags and structured content
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Here's how you can help:
+
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
+3. **Commit** your changes: `git commit -m '✨ Add amazing feature'`
+4. **Push** to the branch: `git push origin feature/amazing-feature`
+5. **Open** a Pull Request
+
+Please read our [Contributing Guidelines](./CONTRIBUTING.md) for detailed information on:
+- Code of conduct
+- Development workflow
+- Code style guidelines
+- Testing requirements
+- Pull request process
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Idriss Mohamed** - Portfolio Developer
+
+- 🌐 Website: [3dime.com](https://3dime.com)
+- 💼 LinkedIn: [linkedin.com/in/i-mohamady](https://www.linkedin.com/in/i-mohamady/)
+- 🐙 GitHub: [github.com/m-idriss](https://github.com/m-idriss)
+
+## 🙏 Acknowledgments
+
+- Angular team for the amazing framework
+- Font Awesome for icons
+- Notion for the API integration
+- The open-source community for inspiration
 
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+---
+
+<div align="center">
+
+**Made with ❤️ using Angular 20+ and TypeScript**
+
+*Modern architecture • Space-themed design • Progressive Web App*
+
+[![Star this repo](https://img.shields.io/github/stars/m-idriss/3dime-angular?style=social)](https://github.com/m-idriss/3dime-angular)
+[![Follow @m-idriss](https://img.shields.io/github/followers/m-idriss?label=Follow&style=social)](https://github.com/m-idriss)
+
+</div>
+
