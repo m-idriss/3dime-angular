@@ -43,9 +43,14 @@
   - [ ] Add location and availability status
   
 #### Technical Improvements
-- [ ] **Performance optimization**
+- [x] **Performance optimization** - Core optimizations completed, see PERFORMANCE_IMPROVEMENTS.md
+  - [x] OnPush change detection strategy implemented on all components
+  - [x] API call optimization with caching (shareReplay)
+  - [x] Native Fetch API for HTTP requests
+  - [x] Immutable state updates for better change detection
+  - [x] Optimized template tracking with Angular 20 @for control flow
   - [ ] Implement lazy loading for images
-  - [ ] Optimize bundle size (currently 283KB initial)
+  - [ ] Further optimize bundle size (currently 668.92 KB raw / 180.93 KB gzipped)
   - [ ] Add image compression pipeline
 - [ ] **SEO enhancements**
   - [ ] Add meta tags and structured data
@@ -276,9 +281,9 @@ This is a personal portfolio project, but the roadmap serves as a guide for:
 
 ## 📝 Notes
 
-- **Last Updated**: January 2025
-- **Next Review**: Quarterly (April 2025)
-- **Version**: 1.0.0
+- **Last Updated**: October 2025
+- **Next Review**: Quarterly (January 2026)
+- **Version**: 1.0.1
 - **Maintainer**: Idriss (@m-idriss)
 
 ---
