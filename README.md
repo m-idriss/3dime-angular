@@ -368,10 +368,18 @@ ng generate --help
 <div align="center">
 
 ### 🖥️ Portfolio Sections
-*Coming soon: Screenshots showcasing the space-themed design, glassmorphism effects, and responsive layout*
+
+![3dime-angular Desktop Screenshot](public/assets/screenshots/desktopPage1920x1080.jpeg)
+
+*Space-themed design showcasing glassmorphism effects and responsive layout*
 
 ### 📱 Mobile Experience
-*Coming soon: Mobile screenshots demonstrating the responsive design*
+
+<img src="public/assets/screenshots/iPhone_13_Pro_Max.jpeg" alt="3dime-angular Mobile Screenshot" width="375" />
+
+*Responsive design optimized for mobile devices*
+
+> 📝 **Note**: Screenshots are automatically updated daily via GitHub Actions. See `.github/workflows/update-screenshot.yml` for details.
 
 </div>
 
