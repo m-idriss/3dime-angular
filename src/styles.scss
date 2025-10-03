@@ -243,13 +243,24 @@ textarea:focus,
 }
 
 /* ========================
+   Wrapper (Generic Container Base)
+   ======================== */
+.wrapper {
+  width: 100%;
+  max-width: clamp(280px, 90%, 400px);
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+/* ========================
    Container Card
    ======================== */
 .container {
   text-align: center;
-  padding: var(--space-lg);
   width: 100%;
-  max-width: 400px;
+  max-width: clamp(280px, 90%, 400px);
+  margin: 0 auto;
+  padding: var(--space-lg);
   background: var(--primary-bg);
   backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
@@ -541,8 +552,9 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
   gap: var(--space-lg);
   align-items: center;
   width: 100%;
-  max-width: 1200px;
-  padding: var(--space-md);
+  max-width: clamp(280px, 90%, 1200px);
+  margin: 0 auto;
+  padding: var(--space-lg);
   z-index: 1;
   padding-top: 50px;
   padding-bottom: calc(50px + env(safe-area-inset-bottom));
@@ -755,17 +767,6 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
 
   .theme-options {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  /* Increase horizontal margins for better mobile spacing */
-  .cards-container {
-    padding-left: var(--space-xl);
-    padding-right: var(--space-xl);
-  }
-
-  .container {
-    padding-left: var(--space-xl);
-    padding-right: var(--space-xl);
   }
 }
 
