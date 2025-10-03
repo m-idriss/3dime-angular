@@ -257,10 +257,9 @@ textarea:focus,
    ======================== */
 .container {
   text-align: center;
-  width: 100%;
-  max-width: clamp(280px, 90%, 400px);
-  margin: 0 auto;
   padding: var(--space-lg);
+  width: 100%;
+  max-width: 400px;
   background: var(--primary-bg);
   backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
