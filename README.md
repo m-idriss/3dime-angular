@@ -297,7 +297,15 @@ The project includes automated deployment via GitHub Actions:
    FTP_PATH       → /public_html/ (or your web root)
    ```
 
-2. **Push to main**: Deployment triggers automatically on push to `main` branch
+2. **Push to main**: Deployment triggers automatically on push to `main` branch when relevant files change:
+   - Source code (`src/**`, `public/**`)
+   - Dependencies (`package.json`, `package-lock.json`)
+   - Build configuration (`angular.json`, `tsconfig*.json`)
+   - Firebase Functions (`functions/**`)
+   - Deployment workflow (`.github/workflows/deploy.yml`)
+   - Firebase configuration (`firebase.json`, `.firebaserc`)
+   
+   **Note**: Documentation changes, screenshots, and other non-deployment files won't trigger deployment.
 
 3. **Workflow**: The GitHub Action will:
    - Install dependencies
