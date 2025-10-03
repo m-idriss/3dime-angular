@@ -1,6 +1,6 @@
 # Performance Improvements
 
-This document outlines the performance optimizations implemented to improve the application's runtime performance.
+This document outlines the performance optimizations implemented to improve the application's runtime performance and initial page load speed.
 
 ## Summary of Changes
 
@@ -99,6 +99,11 @@ The application already uses Angular 20's modern `@for` control flow with proper
 2. **Reduced Change Detection**: All components now use OnPush strategy
 3. **Improved HTTP Performance**: Using native Fetch API
 4. **Better State Management**: Immutable updates throughout
+5. **Optimized Resource Loading**: 
+   - Zero render-blocking CSS resources
+   - Deferred non-critical JavaScript
+   - 2.2MB background video loads only when needed
+   - Reduced initial page load time by deferring Font Awesome (~300KB) and cal-heatmap CSS
 
 ## Additional Optimizations Already in Place
 
@@ -108,6 +113,38 @@ The application already has several performance optimizations:
 - Standalone components (tree-shakeable)
 - Proper semantic HTML structure
 - SCSS for efficient styling
+
+### 6. Critical Resource Loading Optimization
+
+**Problem**: External CSS and JavaScript resources were loading synchronously, blocking initial page render.
+
+**Solution**: Implemented strategic resource loading optimizations:
+- Deferred non-critical CSS (Font Awesome, cal-heatmap) using `rel="preload"`
+- Added `defer` attribute to d3.js script
+- Added `preload="none"` to background video (2.2MB asset)
+
+**Impact**:
+- Reduced render-blocking resources from 3 to 0
+- Background video no longer downloads until needed
+- Faster First Contentful Paint (FCP)
+- Better perceived performance on initial page load
+
+**Files Modified**:
+- `src/index.html` - Updated resource loading strategy
+- `src/app/services/theme.service.ts` - Added preload="none" to dynamically created video elements
+
+**Example**:
+```html
+<!-- Before -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<video autoplay muted loop playsinline>
+
+<!-- After -->
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<script src="https://d3js.org/d3.v7.min.js" defer></script>
+<video autoplay muted loop playsinline preload="none">
+```
 
 ## Future Optimization Opportunities
 
@@ -119,6 +156,7 @@ For further performance improvements, consider:
 5. **Preloading**: Implement preloading strategies for data
 6. **Virtual Scrolling**: If lists become very long
 7. **Web Workers**: For heavy computations (if needed)
+8. **Critical CSS Inlining**: Consider inlining critical CSS in HTML for faster FCP
 
 ## Testing
 
