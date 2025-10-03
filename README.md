@@ -220,7 +220,53 @@ For Notion integration (Stuff section):
 2. Configure Firebase Functions in `functions/src/`
 3. Deploy Firebase Functions for API endpoints
 
+## 🔒 Security
 
+### Environment Configuration
+
+The application uses environment files for configuration:
+- `src/environments/environment.ts` - Development environment
+- `src/environments/environment.prod.ts` - Production environment
+
+**Important Security Notes:**
+
+⚠️ **Never commit secrets, API keys, or credentials to the repository!**
+
+#### Best Practices
+
+1. **For Development:**
+   - Use example files as templates (`environment.example.ts`)
+   - Configure actual environment files locally
+   - Keep sensitive data in environment variables or secure storage
+
+2. **For Production:**
+   - Use platform-specific environment configuration (Netlify, Vercel, etc.)
+   - Use Firebase Hosting environment configuration for Firebase deployments
+   - Restrict API keys to specific domains in service provider consoles
+
+3. **API Key Security:**
+   - Firebase API keys can be restricted in Google Cloud Console
+   - Enable only the APIs you need
+   - Set domain restrictions to prevent unauthorized use
+
+#### Secret Management
+
+For Firebase Functions and backend services:
+```bash
+# Set secrets using Firebase CLI (never commit these)
+firebase functions:secrets:set GITHUB_TOKEN
+firebase functions:secrets:set NOTION_TOKEN
+firebase functions:secrets:set NOTION_DATASOURCE_ID
+```
+
+#### GitHub Actions Secrets
+
+Store CI/CD secrets in GitHub repository settings:
+- Go to Settings → Secrets and variables → Actions
+- Add repository secrets (FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, etc.)
+- Never log or echo secrets in workflows
+
+For detailed security guidelines, see [SECURITY.md](./SECURITY.md).
 
 ## 🌐 Deployment
 

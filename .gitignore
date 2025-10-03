@@ -40,3 +40,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment files with secrets
+# Keep environment.example.ts files as templates
+# Actual environment files should be configured per deployment
+

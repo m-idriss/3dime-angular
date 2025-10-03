@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://proxyapi-fuajdt22nq-uc.a.run.app'
+  apiUrl: 'https://your-api-url.example.com'
 };
