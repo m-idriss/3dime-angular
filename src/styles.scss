@@ -87,6 +87,15 @@ body.glass-theme {
   --text-secondary: rgba(255, 255, 255, 0.9);
 }
 
+/* Glass theme with white background - adjust text for readability */
+body.glass-theme.bg-white {
+  --text-primary: #1a1a1a;
+  --text-secondary: rgba(26, 26, 26, 0.8);
+  --glass-bg: rgba(0, 0, 0, 0.1);
+  --glass-bg-hover: rgba(0, 0, 0, 0.2);
+  --glass-border: rgba(0, 0, 0, 0.15);
+}
+
 /* Font size options */
 body.font-small {
   --font-size-base: 0.875rem;
