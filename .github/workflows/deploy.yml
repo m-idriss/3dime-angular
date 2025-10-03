@@ -7,6 +7,26 @@ on:
   push:
     branches:
       - main
+    paths:
+      # Source code that affects the build
+      - 'src/**'
+      - 'public/**'
+      
+      # Build and dependency configuration
+      - 'package.json'
+      - 'package-lock.json'
+      - 'angular.json'
+      - 'tsconfig*.json'
+      
+      # Firebase Functions (if used)
+      - 'functions/**'
+      
+      # Deployment configuration
+      - '.github/workflows/deploy.yml'
+      
+      # Environment files
+      - 'firebase.json'
+      - '.firebaserc'
 
 jobs:
   build-and-deploy:
