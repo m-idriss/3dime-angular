@@ -155,7 +155,7 @@ export class ThemeService {
 
       case 'video':
         bgElement.innerHTML = `
-          <video autoplay muted loop playsinline
+          <video autoplay muted loop playsinline preload="none"
                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 100dvh; min-width: 100vw; object-fit: cover; z-index: -1;"
                  aria-hidden="true">
             <source src="assets/background.mp4" type="video/mp4">

@@ -20,8 +20,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
+  <!-- Defer non-critical CSS for better initial load performance -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"></noscript>
+  
+  <link rel="preload" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css"></noscript>
 
   <!-- Standard favicon with multiple sizes for better Safari compatibility -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -36,14 +40,16 @@
 
   <!-- PWA manifest -->
   <link rel="manifest" href="assets/manifest.json">
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+  
+  <!-- Load d3.js asynchronously to not block page rendering -->
+  <script src="https://d3js.org/d3.v7.min.js" defer></script>
 </head>
 <body class="loaded glass-theme bg-black">
 <!-- Skip Links for Accessibility -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <a href="#profile-section" class="skip-link">Skip to profile</a>
 <div class="bg" aria-hidden="true" style="background: #1a1a2e;">
-  <video autoplay="" muted="" loop="" playsinline="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 100dvh; min-width: 100vw; object-fit: cover; z-index: -1;" aria-hidden="true">
+  <video autoplay="" muted="" loop="" playsinline="" preload="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 100dvh; min-width: 100vw; object-fit: cover; z-index: -1;" aria-hidden="true">
     <source src="assets/background.mp4" type="video/mp4">
   </video>
 </div>
