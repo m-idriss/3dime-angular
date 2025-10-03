@@ -36,6 +36,12 @@ export class ThemeService {
     this.applyTheme(this.currentTheme);
     this.applyBackground(this.currentBackground);
     this.applyFontSize(this.currentFontSize);
+    
+    // Initialize video height adjustment if video background is active
+    if (this.currentBackground === 'video') {
+      // Use setTimeout to ensure DOM is ready
+      setTimeout(() => this.adjustVideoHeight(), 0);
+    }
   }
 
   getCurrentTheme(): string {
@@ -150,14 +156,15 @@ export class ThemeService {
       case 'video':
         bgElement.innerHTML = `
           <video autoplay muted loop playsinline
-                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;"
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 100dvh; min-width: 100vw; object-fit: cover; z-index: -1;"
                  aria-hidden="true">
             <source src="assets/background.mp4" type="video/mp4">
           </video>
         `;
-        bgElement.style.background = 'transparent';
+        bgElement.style.background = '#1a1a2e';
         body.classList.add('bg-video');
         this.updateThemeColor('#1a1a2e');
+        this.adjustVideoHeight();
         break;
 
       default: // 'black' and any other cases
@@ -179,6 +186,24 @@ export class ThemeService {
 
     // Add new font size class
     body.classList.add(`font-${fontSize}`);
+  }
+
+  private adjustVideoHeight(): void {
+    // Adjust video height for iOS Safari viewport issues
+    const video = document.querySelector('.bg video') as HTMLVideoElement;
+    if (video) {
+      const setVideoHeight = () => {
+        // Use window.innerHeight for the actual visible height
+        video.style.minHeight = `${window.innerHeight}px`;
+      };
+      
+      // Set initial height
+      setVideoHeight();
+      
+      // Update on resize and orientation change
+      window.addEventListener('resize', setVideoHeight);
+      window.addEventListener('orientationchange', setVideoHeight);
+    }
   }
 
   private updateThemeColor(color: string): void {

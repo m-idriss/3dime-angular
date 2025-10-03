@@ -247,8 +247,23 @@ textarea:focus,
 .bg {
   position: fixed;
   inset: 0;
-  background: var(--body-bg);
+  background: #1a1a2e;
+  min-height: 100dvh;
+  min-width: 100vw;
   z-index: -1;
+}
+
+/* Fallback background colors for different modes */
+body.bg-black .bg {
+  background: #000000;
+}
+
+body.bg-white .bg {
+  background: #ffffff;
+}
+
+body.bg-video .bg {
+  background: #1a1a2e;
 }
 
 /* ========================
