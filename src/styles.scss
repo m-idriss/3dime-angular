@@ -582,7 +582,12 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
    Responsive
    ======================== */
 @media (min-width: 1024px) {
+  .wrapper {
+    max-width: clamp(280px, 100%, 400px);
+  }
+
   .cards-container {
+    max-width: clamp(280px, 100%, 1200px);
     flex-direction: row;
     justify-content: center;
   }
