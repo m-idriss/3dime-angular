@@ -377,6 +377,7 @@ Comprehensive documentation is available to help you understand and work with th
 - **[Services Documentation](./docs/SERVICES.md)** - Service APIs and data management
 - **[Design System](./docs/DESIGN_SYSTEM.md)** - Design principles, colors, and styling
 - **[API Documentation](./docs/API.md)** - Firebase Functions and API endpoints
+- **[Bruno API Collection](./bruno-collections/3dime-api/README.md)** - API testing with Bruno
 
 ### Planning & Roadmap
 - **[Project Roadmap](./ROADMAP.md)** - Planned features and development timeline
@@ -401,6 +402,28 @@ npm test
 **Expected Behavior**:
 - Tests build successfully in ~12 seconds
 - Some tests may show expected failures related to HttpClient setup (this is normal for current test configuration)
+
+### API Testing with Bruno
+
+This repository includes a Bruno API collection for testing API endpoints:
+
+```bash
+# Install Bruno desktop app from https://www.usebruno.com/downloads
+# Or install Bruno CLI
+npm install -g @usebruno/cli
+
+# Run all API tests
+bru run bruno-collections/3dime-api
+
+# Run specific test
+bru run bruno-collections/3dime-api --filename "GitHub User Profile.bru"
+```
+
+**Available Tests**:
+- GitHub User Profile API - Verifies API response and login field
+- More tests coming soon for Firebase Functions
+
+See [Bruno Collection Documentation](./bruno-collections/3dime-api/README.md) for detailed information.
 
 ### Code Scaffolding
 
