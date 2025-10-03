@@ -34,8 +34,8 @@ cd functions && npm run build
 ```
 
 **Expected Build Warnings (NORMAL):**
-- Bundle size exceeds budget (839KB > 500KB limit) - WARNING only, build succeeds
-- CommonJS dependencies (file-saver, moment) cause optimization warnings - non-breaking
+- Bundle size exceeds budget (669.64 kB > 500KB limit) - WARNING only, build succeeds
+- CommonJS dependencies may cause optimization warnings - non-breaking
 
 ### Development Server
 ```bash
@@ -56,9 +56,9 @@ npm test
 ```
 
 **Expected Test Behavior:**
-- Some tests fail due to missing HttpClient providers (normal for current test setup)
+- All tests currently fail due to missing HttpClient providers (normal for current test setup)
 - Tests build successfully and execute in headless Chrome
-- 7 total tests with 2 expected failures related to dependency injection setup
+- 11 total tests with all failures related to dependency injection setup (HttpClient not provided)
 
 ### Validation Steps
 Always run these steps after making changes:
@@ -83,7 +83,7 @@ Always run these steps after making changes:
    ```bash
    CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false
    ```
-   - Should show "5 SUCCESS, 2 FAILED" (expected pattern)
+   - Currently shows "11 FAILED" due to missing HttpClient providers (expected pattern)
 
 ### Code Formatting
 ```bash
@@ -101,12 +101,15 @@ src/
 │   │   ├── profile-card/      # Personal profile and social links
 │   │   ├── about/             # About me section
 │   │   ├── tech-stack/        # Technologies and skills
+│   │   ├── github-activity/   # GitHub contribution activity
 │   │   ├── experience/        # Work experience and projects
 │   │   ├── education/         # Education and training
 │   │   ├── stuff/             # Recommended products and tools
 │   │   ├── hobbies/           # Personal interests
 │   │   └── contact/           # Contact information
 │   ├── services/
+│   │   ├── profile.service.ts # GitHub profile and activity data
+│   │   ├── notion.service.ts  # Notion API integration
 │   │   └── theme.service.ts   # Theme management service
 │   ├── app.ts                 # Main standalone app component
 │   └── app.config.ts          # Application configuration
@@ -159,7 +162,9 @@ ng generate component components/my-component --style=scss
 
 ### Working with Services
 Current services:
-- `ThemeService` - Manage theme switching and preferences (if implemented)
+- `ProfileService` - Fetch GitHub profile data and commit activity
+- `NotionService` - Integrate with Notion API for stuff/recommendations
+- `ThemeService` - Manage theme switching and preferences
 
 ### Content Updates
 Most content is currently hardcoded in component templates. Future improvements will include:
@@ -200,9 +205,10 @@ The application displays:
 9. **Contact** information and links
 
 ### Known Limitations
-- Bundle size exceeds Angular budget (283KB > 500KB) - performance warning only
+- Bundle size exceeds Angular budget (669.64 kB > 500KB) - performance warning only
 - Content is currently hardcoded in component templates
 - Some external CDN resources may be blocked in restricted environments
+- Tests require HttpClient provider setup (currently all tests fail with NG0201 errors)
 
 ## Debugging Tips
 
