@@ -2,7 +2,23 @@
 
 **ALWAYS follow these instructions first and fallback to additional search and context gathering only if the information here is incomplete or found to be in error.**
 
+## Project Overview
+
 This is an Angular 20+ personal portfolio website showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design. The application displays sections for profile, about, tech stack, experience, education, stuff recommendations, hobbies, and contact information.
+
+**Project Goals:**
+- Showcase professional portfolio with modern, engaging design
+- Maintain high performance and accessibility standards
+- Use latest Angular features (standalone components, signals)
+- Serve as a reference implementation for Angular best practices
+
+## Table of Contents
+- [Quick Start](#working-effectively)
+- [Project Structure](#project-structure)
+- [Technology Stack](#technology-stack)
+- [Common Development Tasks](#common-development-tasks)
+- [Testing & Validation](#testing-changes)
+- [Important Guidelines](#important-guidelines)
 
 ## Working Effectively
 
@@ -209,6 +225,42 @@ The application displays:
 - Content is currently hardcoded in component templates
 - Some external CDN resources may be blocked in restricted environments
 - Tests require HttpClient provider setup (currently all tests fail with NG0201 errors)
+
+## Important Guidelines
+
+### What TO DO ✅
+- **Always run builds and tests** before committing changes
+- **Use adequate timeouts** for long-running commands (30+ seconds for builds, tests)
+- **Follow existing patterns** in the codebase for consistency
+- **Test responsive design** on different screen sizes
+- **Verify glassmorphism effects** work in supported browsers
+- **Check accessibility** with semantic HTML and ARIA labels
+- **Use TypeScript strict mode** for type safety
+- **Follow Angular style guide** for component and service structure
+- **Document new features** in relevant markdown files
+- **Use standalone components** (Angular 20+ pattern)
+
+### What NOT TO DO ❌
+- **Never cancel build/test commands** - they need time to complete
+- **Don't remove working tests** - all current test failures are expected (HttpClient setup)
+- **Don't add dependencies** without checking bundle size impact
+- **Don't modify environment files** with real secrets (use .example files)
+- **Don't change global styles** without considering all components
+- **Don't break responsive design** - test on mobile and desktop
+- **Don't ignore accessibility** - maintain WCAG AA compliance
+- **Don't use class-based components** - use standalone functional components
+- **Don't skip code formatting** - use Prettier before committing
+- **Don't push to main directly** - use feature branches
+
+### When to Ask for Help 🤔
+Ask the user for guidance when:
+- **Security concerns** - handling API keys, authentication, or sensitive data
+- **Architecture decisions** - major refactoring or new patterns
+- **External dependencies** - adding new npm packages
+- **Breaking changes** - modifications that affect existing functionality
+- **Unclear requirements** - ambiguous feature requests
+- **Performance issues** - bundle size grows significantly
+- **Test failures** - unexpected test failures (beyond HttpClient issues)
 
 ## Debugging Tips
 
