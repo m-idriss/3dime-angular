@@ -139,12 +139,6 @@ export class ThemeService {
 
     // Apply background-specific DOM changes
     switch(background) {
-      case 'black':
-        bgElement.innerHTML = '';
-        bgElement.style.background = '#000000';
-        body.classList.add('bg-black');
-        this.updateThemeColor('#000000');
-        break;
 
       case 'white':
         bgElement.innerHTML = '';
@@ -166,11 +160,12 @@ export class ThemeService {
         this.updateThemeColor('#1a1a2e');
         break;
 
-      default:
+      default: // 'black' and any other cases
         bgElement.innerHTML = '';
         bgElement.style.background = '#000000';
         body.classList.add('bg-black');
         this.updateThemeColor('#000000');
+        break;
     }
   }
 
@@ -196,6 +191,7 @@ export class ThemeService {
       document.head.appendChild(themeColorMeta);
     }
     themeColorMeta.content = color;
+    document.body.style.setProperty('--body-bg', color);
   }
 
   getThemeDisplayName(theme: string): string {
