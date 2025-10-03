@@ -316,6 +316,7 @@ body.bg-video .bg {
   display: block;
   grid-column: 2;
   transition: all var(--t-medium);
+  font-size: 0; /* Remove inline gap */
 }
 
 .logo:hover {
