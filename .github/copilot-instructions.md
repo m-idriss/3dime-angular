@@ -34,8 +34,8 @@ cd functions && npm run build
 ```
 
 **Expected Build Warnings (NORMAL):**
-- Bundle size exceeds budget (839KB > 500KB limit) - WARNING only, build succeeds
-- CommonJS dependencies (file-saver, moment) cause optimization warnings - non-breaking
+- Bundle size exceeds budget (669.64 kB > 500KB limit) - WARNING only, build succeeds
+- CommonJS dependencies may cause optimization warnings - non-breaking
 
 ### Development Server
 ```bash
@@ -56,9 +56,9 @@ npm test
 ```
 
 **Expected Test Behavior:**
-- Some tests fail due to missing HttpClient providers (normal for current test setup)
+- All tests currently fail due to missing HttpClient providers (normal for current test setup)
 - Tests build successfully and execute in headless Chrome
-- 7 total tests with 2 expected failures related to dependency injection setup
+- 11 total tests with all failures related to dependency injection setup (HttpClient not provided)
 
 ### Validation Steps
 Always run these steps after making changes:
@@ -83,7 +83,7 @@ Always run these steps after making changes:
    ```bash
    CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false
    ```
-   - Should show "5 SUCCESS, 2 FAILED" (expected pattern)
+   - Currently shows "11 FAILED" due to missing HttpClient providers (expected pattern)
 
 ### Code Formatting
 ```bash
@@ -200,9 +200,10 @@ The application displays:
 9. **Contact** information and links
 
 ### Known Limitations
-- Bundle size exceeds Angular budget (283KB > 500KB) - performance warning only
+- Bundle size exceeds Angular budget (669.64 kB > 500KB) - performance warning only
 - Content is currently hardcoded in component templates
 - Some external CDN resources may be blocked in restricted environments
+- Tests require HttpClient provider setup (currently all tests fail with NG0201 errors)
 
 ## Debugging Tips
 
