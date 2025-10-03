@@ -101,12 +101,15 @@ src/
 │   │   ├── profile-card/      # Personal profile and social links
 │   │   ├── about/             # About me section
 │   │   ├── tech-stack/        # Technologies and skills
+│   │   ├── github-activity/   # GitHub contribution activity
 │   │   ├── experience/        # Work experience and projects
 │   │   ├── education/         # Education and training
 │   │   ├── stuff/             # Recommended products and tools
 │   │   ├── hobbies/           # Personal interests
 │   │   └── contact/           # Contact information
 │   ├── services/
+│   │   ├── profile.service.ts # GitHub profile and activity data
+│   │   ├── notion.service.ts  # Notion API integration
 │   │   └── theme.service.ts   # Theme management service
 │   ├── app.ts                 # Main standalone app component
 │   └── app.config.ts          # Application configuration
@@ -159,7 +162,9 @@ ng generate component components/my-component --style=scss
 
 ### Working with Services
 Current services:
-- `ThemeService` - Manage theme switching and preferences (if implemented)
+- `ProfileService` - Fetch GitHub profile data and commit activity
+- `NotionService` - Integrate with Notion API for stuff/recommendations
+- `ThemeService` - Manage theme switching and preferences
 
 ### Content Updates
 Most content is currently hardcoded in component templates. Future improvements will include:
