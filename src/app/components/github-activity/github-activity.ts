@@ -15,11 +15,12 @@ import { ProfileService, CommitData } from '../../services/profile.service';
 export class GithubActivity implements AfterViewInit {
   @ViewChild('heatmapContainer', { static: true }) container!: ElementRef;
   data: CommitData[] = [];
+  months = 6;
 
   constructor(private readonly profileService: ProfileService) {}
 
   ngAfterViewInit(): void {
-    this.profileService.getCommits().subscribe((commits: CommitData[]) => {
+    this.profileService.getCommits(this.months).subscribe((commits: CommitData[]) => {
       this.data = commits;
       this.renderHeatmap();
     });
@@ -36,52 +37,52 @@ export class GithubActivity implements AfterViewInit {
           label: { text: 'MMM', textAlign: 'start', position: 'top'}
         },
         subDomain: {
-              type: 'ghDay',
-              radius: 2,
-              width: 9,
-              height: 9,
-              gutter: 1,
-            },
+          type: 'ghDay',
+          radius: 2,
+          width: 9,
+          height: 9,
+          gutter: 1,
+        },
         data: {
           source: this.data,
           x: (d: { date: number; value: number }) => d.date,
           y: (d: { date: number; value: number }) => d.value,
           defaultValue: 0,
         },
-      theme: 'dark',
-      date: {
-            start: new Date(new Date().setMonth(new Date().getMonth() - 5)),
-            locale: { weekStart: 7 },
-            highlight: [new Date()],
-          },
-        range: 6,
+        theme: 'dark',
+        date: {
+          start: new Date(new Date().setMonth(new Date().getMonth() - (this.months - 1))),
+          locale: { weekStart: 7 },
+          highlight: [new Date()],
+        },
+        range: this.months,
         scale: {
-              color: {
-                range: ['rgba(0, 100, 0, 0.1)', 'green'],
-                interpolate: 'hsl',
-                type: 'linear',
-                domain: [0, 15],
-              },
-            }
+          color: {
+            range: ['rgba(0, 100, 0, 0.1)', 'green'],
+            interpolate: 'hsl',
+            type: 'linear',
+            domain: [0, 15],
+          },
+        },
       },
       [
-[
-        CalendarLabel,
-        {
-          position: 'left',
-          key: 'left',
-          text: () => ['', 'Mon', '', 'Wen', '', 'Fri', ''],
-          textAlign: 'end',
-          width: 20,
-          padding: [25, 5, 0, 0],
-        },
-      ],
         [
-  Tooltip,
-  {
-    text: (timestamp: number, value: number, dayjsDate: any) =>
-      `${value ?? 0} commits on ${dayjsDate.format('LL')}`,
-  },
+          CalendarLabel,
+          {
+            position: 'left',
+            key: 'left',
+            text: () => ['', 'Mon', '', 'Wen', '', 'Fri', ''],
+            textAlign: 'end',
+            width: 20,
+            padding: [25, 5, 0, 0],
+          },
+        ],
+        [
+          Tooltip,
+          {
+            text: (timestamp: number, value: number, dayjsDate: any) =>
+              `${value ?? 0} commits on ${dayjsDate.format('LL')}`,
+          },
         ],
       ]
     );
