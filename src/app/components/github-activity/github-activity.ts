@@ -19,7 +19,7 @@ export class GithubActivity implements AfterViewInit {
   constructor(private readonly profileService: ProfileService) {}
 
   ngAfterViewInit(): void {
-    this.profileService.getCommitsV2().subscribe((commits: CommitData[]) => {
+    this.profileService.getCommits().subscribe((commits: CommitData[]) => {
       this.data = commits;
       this.renderHeatmap();
     });
