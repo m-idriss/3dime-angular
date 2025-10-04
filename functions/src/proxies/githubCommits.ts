@@ -12,63 +12,59 @@ export interface CommitData {
 export const githubCommits = onRequest(
   { secrets: ["GITHUB_TOKEN"] },
   (req, res) => {
-    corsHandler(req, res, async () => {
-      try {
-        const token = process.env.GITHUB_TOKEN;
-        if (!token) {
-          res.status(500).json({ error: "GitHub token not configured" });
-          return;
-        }
+    return corsHandler(req, res, () => {
+      const token = process.env.GITHUB_TOKEN;
+      if (!token) {
+        return res.status(500).json({ error: "GitHub token not configured" });
+      }
 
-        const body = {
-          query: `
-            query {
-              user(login: "m-idriss") {
-                contributionsCollection {
-                  contributionCalendar {
-                    totalContributions
-                    weeks {
-                      contributionDays {
-                        contributionCount
-                        date
-                      }
+      const body = {
+        query: `
+          query {
+            user(login: "m-idriss") {
+              contributionsCollection {
+                contributionCalendar {
+                  weeks {
+                    contributionDays {
+                      contributionCount
+                      date
                     }
                   }
                 }
               }
             }
-          `,
-        };
+          }
+        `,
+      };
 
-        const response = await fetch("https://api.github.com/graphql", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(body),
+      return fetch("https://api.github.com/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      })
+        .then((response) => response.json())
+        .then((data: any) => {
+          if (data.errors) {
+            return res.status(500).json({ error: data.errors });
+          }
+
+          const weeks = data.data.user.contributionsCollection.contributionCalendar.weeks;
+          const commits = weeks.flatMap((week: any) =>
+            week.contributionDays.map((day: any) => ({
+              date: new Date(day.date).getTime(),
+              value: day.contributionCount,
+            }))
+          );
+
+          return res.status(200).json(commits);
+        })
+        .catch((err) => {
+          console.error("GitHub proxy error:", err);
+          return res.status(500).json({ error: err.message });
         });
-
-        const data: any = await response.json();
-
-        if (data.errors) {
-          res.status(500).json({ error: data.errors });
-          return;
-        }
-
-        const weeks = data.data.user.contributionsCollection.contributionCalendar.weeks;
-        const commits: CommitData[] = weeks.flatMap((week: any) =>
-          week.contributionDays.map((day: any) => ({
-            date: new Date(day.date).getTime(),
-            value: day.contributionCount
-          }))
-        );
-
-        res.status(200).json(commits);
-      } catch (err: any) {
-        console.error("GitHub proxy error:", err);
-        res.status(500).json({ error: err.message });
-      }
     });
   }
 );
