@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { shareReplay, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface SocialLink {
@@ -21,16 +21,6 @@ export interface GithubUser {
   email?: string;
 }
 
-export interface CommitWeek {
-  week: number;
-  total: number;
-  days: number[];
-}
-
-export interface CommitResponse {
-  commit_activity: CommitWeek[];
-}
-
 export interface CommitData {
   date: number;
   value: number;
@@ -40,7 +30,11 @@ export interface CommitData {
   providedIn: 'root'
 })
 export class ProfileService {
-  private readonly baseUrl = environment.apiUrl;
+  private readonly endpoints = {
+    profile: `${environment.apiUrl}?target=profile`,
+    social: `${environment.apiUrl}?target=social`,
+    commits: `${environment.apiUrl}?target=commit`
+  };
 
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
@@ -49,34 +43,30 @@ export class ProfileService {
   constructor(private readonly http: HttpClient) {}
 
   getProfile(): Observable<GithubUser> {
-    this.profile$ ??= this.http
-      .get<GithubUser>(`${this.baseUrl}?target=profile`)
-      .pipe(shareReplay(1));
+    this.profile$ ??= this.http.get<GithubUser>(this.endpoints.profile).pipe(
+      shareReplay(1),
+      catchError(() => of({} as GithubUser))
+    );
     return this.profile$;
   }
 
   getSocialLinks(): Observable<SocialLink[]> {
-    this.socialLinks$ ??= this.http
-      .get<SocialLink[]>(`${this.baseUrl}?target=social`)
-      .pipe(shareReplay(1));
+    this.socialLinks$ ??= this.http.get<SocialLink[]>(this.endpoints.social).pipe(
+      shareReplay(1),
+      catchError(() => of([]))
+    );
     return this.socialLinks$;
   }
 
-  getCommitsV2(): Observable<CommitData[]> {
-    if (!this.commits$) {
-      this.commits$ = this.http
-        .get<CommitData[]>(`${this.baseUrl}?target=commit`)
-        .pipe(
-          map((commits) =>
-            commits.map((d) => ({
-              date: typeof d.date === "string" ? new Date(d.date).getTime() : d.date,
-              value: d.value,
-            }))
-          ),
-          shareReplay(1)
-        );
-    }
+  getCommits(): Observable<CommitData[]> {
+    this.commits$ ??= this.http.get<CommitData[]>(this.endpoints.commits).pipe(
+      shareReplay(1),
+      catchError(() => of([]))
+    );
     return this.commits$;
   }
 
+  refreshCommits(): void {
+    this.commits$ = undefined;
+  }
 }

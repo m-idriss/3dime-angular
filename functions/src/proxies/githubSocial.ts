@@ -4,6 +4,8 @@ import cors from "cors";
 
 const corsHandler = cors({ origin: true });
 
+type GitHubError = { message?: string };
+
 export const githubSocial = onRequest(
   { secrets: ["GITHUB_TOKEN"] },
   (req, res) => {
@@ -15,32 +17,35 @@ export const githubSocial = onRequest(
           return;
         }
 
-        let api_url = `https://api.github.com/users/m-idriss`;
-
-        const target = req.query.target as string;
-
-        if (target === "social") {
-          api_url += `/social_accounts`;
+        // Build API URL safely
+        const apiUrl = new URL(`https://api.github.com/users/m-idriss`);
+        if (req.query.target === "social") {
+          apiUrl.pathname += "/social_accounts";
         }
 
-        const response = await fetch(api_url,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        // Fetch with proper headers
+        const response = await fetch(apiUrl.toString(), {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "User-Agent": "firebase-function-proxy",
+          },
+        });
 
+        // Handle errors with proper typing
         if (!response.ok) {
-          res
-            .status(response.status)
-            .json({ error: "Failed to fetch social accounts" });
+          const errBody = (await response.json().catch(() => ({}))) as GitHubError;
+          res.status(response.status).json({
+            error: errBody.message || "GitHub API error",
+          });
           return;
         }
 
-        const data: any = await response.json();
+        const data = await response.json();
+
+        // Cache response for 5 minutes
+        res.set("Cache-Control", "public, max-age=300, s-maxage=600");
+
         res.status(200).json(data);
 
       } catch (err: any) {
