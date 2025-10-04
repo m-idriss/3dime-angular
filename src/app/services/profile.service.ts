@@ -58,12 +58,12 @@ export class ProfileService {
     return this.socialLinks$;
   }
 
-  getCommits(): Observable<CommitData[]> {
-    this.commits$ ??= this.http.get<CommitData[]>(this.endpoints.commits).pipe(
+  getCommits(months: number = 6): Observable<CommitData[]> {
+    const url = `${this.endpoints.commits}&months=${months}`;
+    return this.http.get<CommitData[]>(url).pipe(
       shareReplay(1),
       catchError(() => of([]))
     );
-    return this.commits$;
   }
 
   refreshCommits(): void {
