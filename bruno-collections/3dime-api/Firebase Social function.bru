@@ -1,17 +1,17 @@
 meta {
-  name: Firebase function Notion
+  name: Firebase Social function
   type: http
-  seq: 2
+  seq: 4
 }
 
 get {
-  url: {{api_url}}?target=notion
+  url: {{api_url}}?target=social
   body: none
   auth: none
 }
 
 params:query {
-  target: notion
+  target: social
 }
 
 tests {
@@ -19,30 +19,19 @@ tests {
     expect(res.getStatus()).to.equal(200);
   });
 
-  test("Response is valid JSON", function() {
-    expect(res.getBody()).to.be.an("object");
+  test("Response is an array", function() {
+    expect(res.getBody()).to.be.an("array");
   });
 
-  test("Response has section field", function() {
-    expect(res.getBody()).to.have.property("tech_stack");
-    expect(res.getBody()).to.have.property("experience");
-    expect(res.getBody()).to.have.property("hobbies");
-    expect(res.getBody()).to.have.property("education");
-    expect(res.getBody()).to.have.property("stuff");
-  });
-
-  test("Tech stack is an array", function() {
+  test("Response has expected social providers", function() {
     const body = res.getBody();
-    expect(body.tech_stack).to.be.an("array");
-  });
-
-  test("Tech stack contains Java", function() {
-    const body = res.getBody();
-    const javaTech = body.tech_stack.find(tech => tech.name === 'Java');
-    expect(javaTech).to.exist;
-    expect(javaTech).to.have.property('url', 'https://www.java.com/');
-    expect(javaTech).to.have.property('description', '');
-    expect(javaTech).to.have.property('rank', 1);
+    const expectedProviders = ['linkedin', 'twitter', 'facebook', 'instagram'];
+    expectedProviders.forEach(provider => {
+      const socialItem = body.find(item => item.provider === provider);
+      expect(socialItem).to.exist;
+      expect(socialItem).to.have.property('url').that.is.a('string').and.is.not.empty;
+      expect(socialItem.url).to.match(/^https:\/\//);
+    });
   });
 
 }
