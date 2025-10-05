@@ -11,6 +11,7 @@ import { NotionService } from '../../services/notion.service';
 })
 export class TechStack implements OnInit {
   techStack: LinkItem[] = [];
+  isLoading = true;
 
   constructor(
     private readonly notionService: NotionService,
@@ -20,6 +21,7 @@ export class TechStack implements OnInit {
   ngOnInit() {
     this.notionService.fetchAll().subscribe(() => {
       this.techStack = this.notionService.getTechStacks();
+      this.isLoading = false;
       this.cdr.markForCheck();
     });
   }

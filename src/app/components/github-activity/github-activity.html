@@ -1,4 +1,13 @@
 <section class="container" aria-label="heatmap">
   <h2>Github Activity</h2>
+  @if (isLoading) {
+    <div class="loading-container">
+      <div class="spinner">
+        <div class="spinner-circle"></div>
+      </div>
+      <p>Loading activity...</p>
+    </div>
+  } @else {
     <div #heatmapContainer id="heatmap-container" class="heatmap-container" style="opacity: 1;"></div>
+  }
 </section>
