@@ -15,6 +15,8 @@ export class ProfileCard implements OnInit {
   menuOpen = false;
   socialLinks: SocialLink[] = [];
   profileData: GithubUser | null = null;
+  isLoading = true;
+  private loadingCount = 0;
 
   constructor(
     private readonly themeService: ThemeService,
@@ -23,15 +25,20 @@ export class ProfileCard implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadingCount = 2; // We're loading 2 resources
 
     this.profileService.getSocialLinks().subscribe(links => {
       this.socialLinks = [...this.socialLinks, ...links];
+      this.loadingCount--;
+      if (this.loadingCount === 0) this.isLoading = false;
       this.cdr.markForCheck();
     });
 
     this.profileService.getProfile().subscribe(user => {
       this.profileData = user;
       this.socialLinks = [{ provider: 'GitHub', url: user.html_url}, ...this.socialLinks];
+      this.loadingCount--;
+      if (this.loadingCount === 0) this.isLoading = false;
       this.cdr.markForCheck();
     });
   }

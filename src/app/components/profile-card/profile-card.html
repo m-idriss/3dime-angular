@@ -1,65 +1,73 @@
 <section class="container" aria-label="profile" id="profile-section">
-  <header class="profile-header">
-    <img [src]="avatar" alt="Logo" class="logo">
-
-    <div class="burger-menu" [class.active]="menuOpen">
-      <button
-        class="burger-button"
-        [class.active]="menuOpen"
-        (click)="toggleMenu()"
-        aria-label="Profile options"
-        [attr.aria-expanded]="menuOpen"
-        aria-haspopup="true"
-      >
-        <i class="fas fa-ellipsis-v"></i>
-      </button>
-
-      <!-- Dropdown menu -->
-      <div
-        class="profile-dropdown"
-        *ngIf="menuOpen"
-        role="menu"
-        aria-labelledby="burger-btn"
-      >
-        <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
-          <i class="fas"
-             [class.fa-moon]="currentTheme === 'dark'"
-             [class.fa-sun]="currentTheme === 'white'"
-             [class.fa-gem]="currentTheme === 'glass'"
-             aria-hidden="true"></i>
-          <span>{{ themeDisplayName }}</span>
-        </button>
-
-        <div class="dropdown-separator" role="separator"></div>
-
-        <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
-          <i class="fas"
-             [class.fa-circle]="currentBackground === 'black'"
-             [class.fa-circle-notch]="currentBackground === 'white'"
-             [class.fa-play]="currentBackground === 'video'"
-             aria-hidden="true"></i>
-          <span>{{ backgroundDisplayName }}</span>
-        </button>
-
-        <div class="dropdown-separator" role="separator"></div>
-
-        <button class="dropdown-item font-size-toggle" role="menuitem" (click)="changeFontSize()">
-          <i class="fas fa-text-height" aria-hidden="true"></i>
-          <span>Font Size: {{ fontSizeDisplayName }}</span>
-        </button>
+  @if (isLoading) {
+    <div class="loading-container">
+      <div class="spinner">
+        <div class="spinner-circle"></div>
       </div>
+      <p>Loading profile...</p>
     </div>
-  </header>
+  } @else {
+    <header class="profile-header">
+      <img [src]="avatar" alt="Logo" class="logo">
 
-  <h2>✨ {{ name }} ✨</h2>
-  <div class="socials">
-    @for (link of socialLinks; track link.provider) {
-    <a [href]="link.url" target="_blank" rel="noopener noreferrer">
-      <i [ngClass]="getFontAwesomeLinks(link.provider)" aria-hidden="true"></i></a>
-    } @empty {
-    No socialLinks available.
-    }
-  </div>
+      <div class="burger-menu" [class.active]="menuOpen">
+        <button
+          class="burger-button"
+          [class.active]="menuOpen"
+          (click)="toggleMenu()"
+          aria-label="Profile options"
+          [attr.aria-expanded]="menuOpen"
+          aria-haspopup="true"
+        >
+          <i class="fas fa-ellipsis-v"></i>
+        </button>
 
+        <!-- Dropdown menu -->
+        <div
+          class="profile-dropdown"
+          *ngIf="menuOpen"
+          role="menu"
+          aria-labelledby="burger-btn"
+        >
+          <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
+            <i class="fas"
+               [class.fa-moon]="currentTheme === 'dark'"
+               [class.fa-sun]="currentTheme === 'white'"
+               [class.fa-gem]="currentTheme === 'glass'"
+               aria-hidden="true"></i>
+            <span>{{ themeDisplayName }}</span>
+          </button>
+
+          <div class="dropdown-separator" role="separator"></div>
+
+          <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
+            <i class="fas"
+               [class.fa-circle]="currentBackground === 'black'"
+               [class.fa-circle-notch]="currentBackground === 'white'"
+               [class.fa-play]="currentBackground === 'video'"
+               aria-hidden="true"></i>
+            <span>{{ backgroundDisplayName }}</span>
+          </button>
+
+          <div class="dropdown-separator" role="separator"></div>
+
+          <button class="dropdown-item font-size-toggle" role="menuitem" (click)="changeFontSize()">
+            <i class="fas fa-text-height" aria-hidden="true"></i>
+            <span>Font Size: {{ fontSizeDisplayName }}</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <h2>✨ {{ name }} ✨</h2>
+    <div class="socials">
+      @for (link of socialLinks; track link.provider) {
+      <a [href]="link.url" target="_blank" rel="noopener noreferrer">
+        <i [ngClass]="getFontAwesomeLinks(link.provider)" aria-hidden="true"></i></a>
+      } @empty {
+      No socialLinks available.
+      }
+    </div>
+  }
 </section>
 

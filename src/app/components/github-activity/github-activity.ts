@@ -16,12 +16,14 @@ export class GithubActivity implements AfterViewInit {
   @ViewChild('heatmapContainer', { static: true }) container!: ElementRef;
   data: CommitData[] = [];
   months = 6;
+  isLoading = true;
 
   constructor(private readonly profileService: ProfileService) {}
 
   ngAfterViewInit(): void {
     this.profileService.getCommits(this.months).subscribe((commits: CommitData[]) => {
       this.data = commits;
+      this.isLoading = false;
       this.renderHeatmap();
     });
   }

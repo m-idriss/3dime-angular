@@ -1,11 +1,20 @@
 <section class="container">
   <h2>Tech Stack</h2>
   <p>Some of the technologies I worked with.</p>
+  @if (isLoading) {
+    <div class="loading-container">
+      <div class="spinner">
+        <div class="spinner-circle"></div>
+      </div>
+      <p>Loading tech stack...</p>
+    </div>
+  } @else {
     @for (tech of techStack; track tech.name) {
       <a [href]="tech.url" target="_blank" rel="noopener noreferrer" class="chip-little link">
         {{ tech.name }}
       </a>
     } @empty {
-    No technologies available.
+      No technologies available.
     }
+  }
 </section>

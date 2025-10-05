@@ -10,6 +10,7 @@ import { NotionService } from '../../services/notion.service';
 })
 export class Hobbies implements OnInit {
   hobbies: LinkItem[] = [];
+  isLoading = true;
 
   constructor(
     private readonly notionService: NotionService,
@@ -19,6 +20,7 @@ export class Hobbies implements OnInit {
   ngOnInit() {
     this.notionService.fetchAll().subscribe(() => {
       this.hobbies = this.notionService.getHobbies();
+      this.isLoading = false;
       this.cdr.markForCheck();
     });
   }
