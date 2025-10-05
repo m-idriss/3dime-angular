@@ -520,9 +520,9 @@ prerequisite versions and troubleshooting tips.
 
 ### Documentation
 
-- [Development Guidelines](./DEVELOPMENT.md)
-- [Component Documentation](./COMPONENTS.md)
-- [Design System](./DESIGN_SYSTEM.md)
+- [Development Guidelines](./docs/DEVELOPMENT.md)
+- [Component Documentation](./docs/COMPONENTS.md)
+- [Design System](./docs/DESIGN_SYSTEM.md)
 
 ### External Resources
 
