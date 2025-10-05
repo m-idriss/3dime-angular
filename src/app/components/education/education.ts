@@ -11,6 +11,7 @@ import { NotionService } from '../../services/notion.service';
 })
 export class Education implements OnInit {
   education: LinkItem[] = [];
+  isLoading = true;
 
   constructor(
     private readonly notionService: NotionService,
@@ -20,6 +21,7 @@ export class Education implements OnInit {
   ngOnInit() {
     this.notionService.fetchAll().subscribe(() => {
       this.education = this.notionService.getEducations();
+      this.isLoading = false;
       this.cdr.markForCheck();
    });
   }

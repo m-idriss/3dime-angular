@@ -1,11 +1,20 @@
 <section class="container" aria-label="stuff">
   <h2>Stuff</h2>
   <p>Stuff I use and recommend.</p>
+  @if (isLoading) {
+    <div class="loading-container">
+      <div class="spinner">
+        <div class="spinner-circle"></div>
+      </div>
+      <p>Loading stuff...</p>
+    </div>
+  } @else {
     @for (stuff of stuffs; track stuff.name) {
       <a [href]="stuff.url" target="_blank" rel="noopener noreferrer" class="link">
         {{ stuff.name }}
       </a>
     } @empty {
-    No stuffs available.
+      No stuffs available.
     }
+  }
 </section>
