@@ -3,11 +3,12 @@ import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
 import Tooltip from 'cal-heatmap/plugins/Tooltip';
 import { ProfileService, CommitData } from '../../services/profile.service';
+import { Card } from '../card/card';
 
 @Component({
   selector: 'app-github-activity',
     standalone: true,
-      imports: [],
+      imports: [Card],
   templateUrl: './github-activity.html',
   styleUrls: ['./github-activity.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
