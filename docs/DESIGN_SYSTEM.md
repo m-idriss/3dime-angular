@@ -12,6 +12,9 @@
 - [Components](#components)
 - [Animations](#animations)
 - [Responsive Design](#responsive-design)
+  - [Breakpoints](#breakpoints)
+  - [Grid System](#grid-system)
+  - [Mobile-First Approach](#mobile-first-approach)
 - [Accessibility](#accessibility)
 
 ---
@@ -438,17 +441,118 @@ Respect user preferences:
 ### Breakpoints
 
 ```scss
-// Mobile
-@media (max-width: 480px) { }
+// Mobile (default)
+// Base styles are mobile-first
 
 // Tablet
-@media (max-width: 768px) { }
+@media (min-width: 768px) { }
 
 // Desktop
-@media (min-width: 769px) { }
+@media (min-width: 1024px) { }
 
 // Large Desktop
 @media (min-width: 1200px) { }
+```
+
+### Grid System
+
+The portfolio uses a **flexible CSS Grid system** for responsive layouts. The grid automatically adapts from 1 column (mobile) to 2 columns (tablet) to 3 columns (desktop).
+
+#### Basic Grid Container
+
+```scss
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr;  // Single column on mobile
+  gap: var(--space-lg);
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);  // Two columns on tablet
+  }
+  
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);  // Three columns on desktop
+  }
+}
+```
+
+#### Grid Utility Classes
+
+Use these classes for flexible grid layouts:
+
+```scss
+// Fixed grid templates
+.grid-1   { grid-template-columns: repeat(1, 1fr); }
+.grid-2   { grid-template-columns: repeat(2, 1fr); }
+.grid-3   { grid-template-columns: repeat(3, 1fr); }
+.grid-4   { grid-template-columns: repeat(4, 1fr); }
+.grid-6   { grid-template-columns: repeat(6, 1fr); }
+.grid-12  { grid-template-columns: repeat(12, 1fr); }
+
+// Auto-responsive grids
+.grid-auto-fit  { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid-auto-fill { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+```
+
+#### Column Span Utilities
+
+Control how many columns an element spans:
+
+```scss
+// Mobile (default)
+.col-1  { grid-column: span 1; }
+.col-2  { grid-column: span 2; }
+.col-3  { grid-column: span 3; }
+// ... up to col-12
+
+// Tablet (min-width: 768px)
+.col-md-1  { grid-column: span 1; }
+.col-md-2  { grid-column: span 2; }
+.col-md-6  { grid-column: span 6; }
+.col-md-12 { grid-column: span 12; }
+
+// Desktop (min-width: 1024px)
+.col-lg-1  { grid-column: span 1; }
+.col-lg-2  { grid-column: span 2; }
+.col-lg-3  { grid-column: span 3; }
+.col-lg-12 { grid-column: span 12; }
+
+// Large Desktop (min-width: 1200px)
+.col-xl-1  { grid-column: span 1; }
+.col-xl-2  { grid-column: span 2; }
+.col-xl-6  { grid-column: span 6; }
+.col-xl-12 { grid-column: span 12; }
+```
+
+#### Example Usage
+
+```html
+<!-- Basic 3-column grid (responsive) -->
+<main class="cards-container">
+  <div class="group-column">
+    <app-profile-card></app-profile-card>
+    <app-about></app-about>
+  </div>
+  <div class="group-column">
+    <app-experience></app-experience>
+  </div>
+  <div class="group-column">
+    <app-contact></app-contact>
+  </div>
+</main>
+
+<!-- Custom grid with specific column spans -->
+<div class="grid grid-12">
+  <div class="col-12 col-md-6 col-lg-4">Full width on mobile, half on tablet, third on desktop</div>
+  <div class="col-12 col-md-6 col-lg-8">Full width on mobile, half on tablet, two-thirds on desktop</div>
+</div>
+
+<!-- Auto-responsive grid -->
+<div class="grid grid-auto-fit">
+  <div class="card">Card 1</div>
+  <div class="card">Card 2</div>
+  <div class="card">Card 3</div>
+</div>
 ```
 
 ### Mobile-First Approach
@@ -456,7 +560,7 @@ Respect user preferences:
 Write base styles for mobile, enhance for larger screens:
 
 ```scss
-.grid {
+.custom-grid {
   display: grid;
   grid-template-columns: 1fr;  // Single column on mobile
   gap: var(--space-md);
@@ -465,7 +569,7 @@ Write base styles for mobile, enhance for larger screens:
     grid-template-columns: repeat(2, 1fr);  // Two columns on tablet
   }
   
-  @media (min-width: 1200px) {
+  @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);  // Three columns on desktop
   }
 }
