@@ -237,7 +237,6 @@ The application displays:
 - **Check accessibility** with semantic HTML and ARIA labels
 - **Use TypeScript strict mode** for type safety
 - **Follow Angular style guide** for component and service structure
-- **Document new features** in relevant markdown files
 - **Use standalone components** (Angular 20+ pattern)
 
 ### What NOT TO DO ❌
