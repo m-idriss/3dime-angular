@@ -1,13 +1,16 @@
-<section class="container" aria-label="heatmap">
-  <h2>Github Activity</h2>
-  @if (isLoading) {
-    <div class="loading-container">
-      <div class="spinner">
-        <div class="spinner-circle"></div>
+<mat-card class="container" aria-label="heatmap">
+  <mat-card-header>
+    <mat-card-title>Github Activity</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content>
+    @if (isLoading) {
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading activity...</p>
       </div>
-      <p>Loading activity...</p>
-    </div>
-  } @else {
-    <div #heatmapContainer id="heatmap-container" class="heatmap-container" style="opacity: 1;"></div>
-  }
-</section>
+    } @else {
+      <div #heatmapContainer id="heatmap-container" class="heatmap-container" style="opacity: 1;"></div>
+    }
+  </mat-card-content>
+</mat-card>

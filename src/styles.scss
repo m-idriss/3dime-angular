@@ -1,3 +1,30 @@
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    density: 0,
+  ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Reset the user agent margin.
+  margin: 0;
+}
 /* ==============================================
    3DIME - MODERN BASE STYLES (Refined & Optimized)
    ============================================== */
@@ -1180,3 +1207,128 @@ body.font-small h3 { font-size: 1.25rem; }
 body.font-large h1 { font-size: 2.5rem; }
 body.font-large h2 { font-size: 2rem; }
 body.font-large h3 { font-size: 1.75rem; }
+
+/* ==============================================
+   Angular Material Custom Styling
+   ============================================== */
+
+// Override Material card styles to integrate with glassmorphism theme
+mat-card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-card) !important;
+  color: var(--text-primary) !important;
+  transition: all var(--t-medium) !important;
+
+  &:hover {
+    box-shadow: var(--shadow-card-hover) !important;
+    border-color: var(--accent-color) !important;
+  }
+}
+
+mat-card-header {
+  mat-card-title {
+    color: var(--text-primary) !important;
+    font-weight: var(--fw-semibold) !important;
+  }
+
+  mat-card-subtitle {
+    color: var(--text-secondary) !important;
+  }
+}
+
+mat-card-content {
+  color: var(--text-primary) !important;
+}
+
+// Override Material chip styles
+mat-chip-set {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: var(--space-sm) !important;
+}
+
+mat-chip-option {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-md) !important;
+  transition: all var(--t-fast) !important;
+
+  &:hover {
+    background: var(--glass-bg-hover) !important;
+    border-color: var(--accent-color) !important;
+  }
+
+  .chip-link {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+}
+
+// Override Material button styles
+.mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-icon-button {
+  color: var(--text-primary) !important;
+  
+  &:hover {
+    background: var(--glass-bg-hover) !important;
+  }
+}
+
+mat-icon-button {
+  color: var(--text-primary) !important;
+}
+
+// Override Material menu styles
+.mat-mdc-menu-panel {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.mat-mdc-menu-item {
+  color: var(--text-primary) !important;
+
+  &:hover {
+    background: var(--glass-bg-hover) !important;
+  }
+
+  mat-icon {
+    color: var(--text-primary) !important;
+  }
+}
+
+// Override Material list styles
+mat-nav-list {
+  .mat-mdc-list-item {
+    color: var(--text-primary) !important;
+    border-radius: var(--radius-md) !important;
+    margin-bottom: var(--space-sm) !important;
+    transition: all var(--t-fast) !important;
+
+    &:hover {
+      background: var(--glass-bg-hover) !important;
+    }
+  }
+}
+
+// Override Material spinner styles
+mat-spinner {
+  circle {
+    stroke: var(--accent-color) !important;
+  }
+}
+
+// Ensure Material components respect theme changes
+body.dark-theme, body.glass-theme {
+  .mat-mdc-card, .mat-mdc-menu-panel, .mat-mdc-chip {
+    color: var(--text-primary) !important;
+  }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: var(--font-family); }

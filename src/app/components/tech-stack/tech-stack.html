@@ -1,20 +1,27 @@
-<section class="container">
-  <h2>Tech Stack</h2>
-  <p>Some of the technologies I worked with.</p>
-  @if (isLoading) {
-    <div class="loading-container">
-      <div class="spinner">
-        <div class="spinner-circle"></div>
+<mat-card class="container">
+  <mat-card-header>
+    <mat-card-title>Tech Stack</mat-card-title>
+    <mat-card-subtitle>Some of the technologies I worked with.</mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    @if (isLoading) {
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading tech stack...</p>
       </div>
-      <p>Loading tech stack...</p>
-    </div>
-  } @else {
-    @for (tech of techStack; track tech.name) {
-      <a [href]="tech.url" target="_blank" rel="noopener noreferrer" class="chip-little link">
-        {{ tech.name }}
-      </a>
-    } @empty {
-      No technologies available.
+    } @else {
+      <mat-chip-set aria-label="Technologies">
+        @for (tech of techStack; track tech.name) {
+          <mat-chip-option>
+            <a [href]="tech.url" target="_blank" rel="noopener noreferrer" class="chip-link">
+              {{ tech.name }}
+            </a>
+          </mat-chip-option>
+        } @empty {
+          No technologies available.
+        }
+      </mat-chip-set>
     }
-  }
-</section>
+  </mat-card-content>
+</mat-card>

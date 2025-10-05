@@ -1,20 +1,25 @@
-<section class="container" aria-label="experience">
-  <h2>Experience &amp; Projects</h2>
-  <p>Companies and projects I've contributed to.</p>
-  @if (isLoading) {
-    <div class="loading-container">
-      <div class="spinner">
-        <div class="spinner-circle"></div>
+<mat-card class="container" aria-label="experience">
+  <mat-card-header>
+    <mat-card-title>Experience &amp; Projects</mat-card-title>
+    <mat-card-subtitle>Companies and projects I've contributed to.</mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    @if (isLoading) {
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading experience...</p>
       </div>
-      <p>Loading experience...</p>
-    </div>
-  } @else {
-    @for (experience of experiences; track experience.name) {
-      <a [href]="experience.url" target="_blank" rel="noopener noreferrer" class="link">
-        {{ experience.name }}
-      </a>
-    } @empty {
-      No experiences available.
+    } @else {
+      <mat-nav-list>
+        @for (experience of experiences; track experience.name) {
+          <a mat-list-item [href]="experience.url" target="_blank" rel="noopener noreferrer" class="link">
+            {{ experience.name }}
+          </a>
+        } @empty {
+          No experiences available.
+        }
+      </mat-nav-list>
     }
-  }
-</section>
+  </mat-card-content>
+</mat-card>

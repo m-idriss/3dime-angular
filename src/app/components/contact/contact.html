@@ -1,5 +1,7 @@
-<section class="container" aria-label="contact">
-    <a [href]="'mailto:' + email" target="_blank" rel="noopener noreferrer" class="link">
+<mat-card class="container" aria-label="contact">
+  <mat-card-content>
+    <a mat-raised-button [href]="'mailto:' + email" target="_blank" rel="noopener noreferrer" class="link">
       {{ email }}
     </a>
-</section>
+  </mat-card-content>
+</mat-card>

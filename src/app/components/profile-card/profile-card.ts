@@ -1,18 +1,29 @@
 import { Component, HostListener, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
 
 @Component({
   selector: 'app-profile-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './profile-card.html',
   styleUrls: ['./profile-card.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileCard implements OnInit {
-  menuOpen = false;
   socialLinks: SocialLink[] = [];
   profileData: GithubUser | null = null;
   isLoading = true;
@@ -59,30 +70,6 @@ export class ProfileCard implements OnInit {
     if (icon === 'facebook') icon = 'facebook-square';
 
     return 'fa fa-brands fa-' + icon;
-  }
-
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
-  }
-
-  closeMenu() {
-    this.menuOpen = false;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event) {
-    const target = event.target as HTMLElement;
-    const burgerMenu = target.closest('.burger-menu');
-    if (!burgerMenu && this.menuOpen) {
-      this.closeMenu();
-    }
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape' && this.menuOpen) {
-      this.closeMenu();
-    }
   }
 
   cycleTheme() {

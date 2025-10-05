@@ -1,9 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { ProfileService, GithubUser } from '../../services/profile.service';
 
 @Component({
   selector: 'app-about',
   standalone: true,
+  imports: [MatCardModule],
   templateUrl: './about.html',
   styleUrls: ['./about.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

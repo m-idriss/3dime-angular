@@ -1,9 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 import { ProfileService, GithubUser } from '../../services/profile.service';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
+  imports: [MatCardModule, MatButtonModule],
   templateUrl: './contact.html',
   styleUrl: './contact.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

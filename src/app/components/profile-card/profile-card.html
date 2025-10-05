@@ -1,73 +1,63 @@
-<section class="container" aria-label="profile" id="profile-section">
+<mat-card class="container" aria-label="profile" id="profile-section">
   @if (isLoading) {
     <div class="loading-container">
-      <div class="spinner">
-        <div class="spinner-circle"></div>
-      </div>
+      <mat-spinner diameter="40"></mat-spinner>
       <p>Loading profile...</p>
     </div>
   } @else {
-    <header class="profile-header">
-      <img [src]="avatar" alt="Logo" class="logo">
+    <mat-card-header class="profile-header">
+      <img [src]="avatar" alt="Logo" class="logo" mat-card-avatar>
 
-      <div class="burger-menu" [class.active]="menuOpen">
-        <button
-          class="burger-button"
-          [class.active]="menuOpen"
-          (click)="toggleMenu()"
-          aria-label="Profile options"
-          [attr.aria-expanded]="menuOpen"
-          aria-haspopup="true"
-        >
-          <i class="fas fa-ellipsis-v"></i>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Profile options">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="cycleTheme()">
+          <mat-icon>
+            @if (currentTheme === 'dark') {
+              dark_mode
+            } @else if (currentTheme === 'white') {
+              light_mode
+            } @else {
+              auto_awesome
+            }
+          </mat-icon>
+          <span>{{ themeDisplayName }}</span>
         </button>
 
-        <!-- Dropdown menu -->
-        <div
-          class="profile-dropdown"
-          *ngIf="menuOpen"
-          role="menu"
-          aria-labelledby="burger-btn"
-        >
-          <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
-            <i class="fas"
-               [class.fa-moon]="currentTheme === 'dark'"
-               [class.fa-sun]="currentTheme === 'white'"
-               [class.fa-gem]="currentTheme === 'glass'"
-               aria-hidden="true"></i>
-            <span>{{ themeDisplayName }}</span>
-          </button>
+        <button mat-menu-item (click)="toggleVideoBg()">
+          <mat-icon>
+            @if (currentBackground === 'black') {
+              circle
+            } @else if (currentBackground === 'white') {
+              brightness_1
+            } @else {
+              play_arrow
+            }
+          </mat-icon>
+          <span>{{ backgroundDisplayName }}</span>
+        </button>
 
-          <div class="dropdown-separator" role="separator"></div>
+        <button mat-menu-item (click)="changeFontSize()">
+          <mat-icon>text_fields</mat-icon>
+          <span>Font Size: {{ fontSizeDisplayName }}</span>
+        </button>
+      </mat-menu>
+    </mat-card-header>
 
-          <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
-            <i class="fas"
-               [class.fa-circle]="currentBackground === 'black'"
-               [class.fa-circle-notch]="currentBackground === 'white'"
-               [class.fa-play]="currentBackground === 'video'"
-               aria-hidden="true"></i>
-            <span>{{ backgroundDisplayName }}</span>
-          </button>
-
-          <div class="dropdown-separator" role="separator"></div>
-
-          <button class="dropdown-item font-size-toggle" role="menuitem" (click)="changeFontSize()">
-            <i class="fas fa-text-height" aria-hidden="true"></i>
-            <span>Font Size: {{ fontSizeDisplayName }}</span>
-          </button>
-        </div>
+    <mat-card-content>
+      <h2>✨ {{ name }} ✨</h2>
+      <div class="socials">
+        @for (link of socialLinks; track link.provider) {
+          <a [href]="link.url" target="_blank" rel="noopener noreferrer" mat-icon-button>
+            <i [ngClass]="getFontAwesomeLinks(link.provider)" aria-hidden="true"></i>
+          </a>
+        } @empty {
+          No socialLinks available.
+        }
       </div>
-    </header>
-
-    <h2>✨ {{ name }} ✨</h2>
-    <div class="socials">
-      @for (link of socialLinks; track link.provider) {
-      <a [href]="link.url" target="_blank" rel="noopener noreferrer">
-        <i [ngClass]="getFontAwesomeLinks(link.provider)" aria-hidden="true"></i></a>
-      } @empty {
-      No socialLinks available.
-      }
-    </div>
+    </mat-card-content>
   }
-</section>
+</mat-card>
 

@@ -1,20 +1,27 @@
-<section class="container" aria-label="hobbies">
-  <h2>Hobbies & Interests</h2>
-  <p>Things I enjoy watching/doing.</p>
-  @if (isLoading) {
-    <div class="loading-container">
-      <div class="spinner">
-        <div class="spinner-circle"></div>
+<mat-card class="container" aria-label="hobbies">
+  <mat-card-header>
+    <mat-card-title>Hobbies & Interests</mat-card-title>
+    <mat-card-subtitle>Things I enjoy watching/doing.</mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    @if (isLoading) {
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading hobbies...</p>
       </div>
-      <p>Loading hobbies...</p>
-    </div>
-  } @else {
-    @for (hobby of hobbies; track hobby.name) {
-      <a [href]="hobby.url" target="_blank" rel="noopener noreferrer" class="chip-little link">
-        {{ hobby.name }}
-      </a>
-    } @empty {
-      No hobbies available.
+    } @else {
+      <mat-chip-set aria-label="Hobbies">
+        @for (hobby of hobbies; track hobby.name) {
+          <mat-chip-option>
+            <a [href]="hobby.url" target="_blank" rel="noopener noreferrer" class="chip-link">
+              {{ hobby.name }}
+            </a>
+          </mat-chip-option>
+        } @empty {
+          No hobbies available.
+        }
+      </mat-chip-set>
     }
-  }
-</section>
+  </mat-card-content>
+</mat-card>

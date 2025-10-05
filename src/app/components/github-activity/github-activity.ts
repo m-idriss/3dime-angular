@@ -1,4 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
 import Tooltip from 'cal-heatmap/plugins/Tooltip';
@@ -7,7 +9,7 @@ import { ProfileService, CommitData } from '../../services/profile.service';
 @Component({
   selector: 'app-github-activity',
     standalone: true,
-      imports: [],
+      imports: [MatCardModule, MatProgressSpinnerModule],
   templateUrl: './github-activity.html',
   styleUrls: ['./github-activity.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

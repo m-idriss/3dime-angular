@@ -1,20 +1,25 @@
-<section class="container" aria-label="stuff">
-  <h2>Stuff</h2>
-  <p>Stuff I use and recommend.</p>
-  @if (isLoading) {
-    <div class="loading-container">
-      <div class="spinner">
-        <div class="spinner-circle"></div>
+<mat-card class="container" aria-label="stuff">
+  <mat-card-header>
+    <mat-card-title>Stuff</mat-card-title>
+    <mat-card-subtitle>Stuff I use and recommend.</mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    @if (isLoading) {
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading stuff...</p>
       </div>
-      <p>Loading stuff...</p>
-    </div>
-  } @else {
-    @for (stuff of stuffs; track stuff.name) {
-      <a [href]="stuff.url" target="_blank" rel="noopener noreferrer" class="link">
-        {{ stuff.name }}
-      </a>
-    } @empty {
-      No stuffs available.
+    } @else {
+      <mat-nav-list>
+        @for (stuff of stuffs; track stuff.name) {
+          <a mat-list-item [href]="stuff.url" target="_blank" rel="noopener noreferrer" class="link">
+            {{ stuff.name }}
+          </a>
+        } @empty {
+          No stuffs available.
+        }
+      </mat-nav-list>
     }
-  }
-</section>
+  </mat-card-content>
+</mat-card>
