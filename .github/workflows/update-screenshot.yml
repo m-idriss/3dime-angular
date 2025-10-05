@@ -58,7 +58,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick
-          convert screenshots/iPhone_13_Pro_Max.jpeg -crop 430x800+0+0 screenshots/iPhone_13_Pro_Max.jpeg
+          convert screenshots/iPhone_13_Pro_Max.jpeg -crop 1284x2200+0+0 screenshots/iPhone_13_Pro_Max.jpeg
 
       - name: Move screenshots into public/assets/screenshots
         run: |
