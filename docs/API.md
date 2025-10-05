@@ -328,24 +328,44 @@ this.http.get(`${apiUrl}?target=profile`).pipe(
 
 ## CORS Configuration
 
-All functions include CORS headers to allow cross-origin requests:
+All functions use a strict CORS allowlist for security:
 
 ```typescript
-res.setHeader("Access-Control-Allow-Origin", "*");
-res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-res.setHeader("Access-Control-Allow-Headers", "*");
+const allowedOrigins = [
+  'https://3dime.com',
+  'https://www.3dime.com',
+  'http://localhost:4200',
+  'http://localhost:5000'
+];
+
+const corsHandler = cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+});
 ```
+
+### Allowed Origins
+
+- `https://3dime.com` - Production website
+- `https://www.3dime.com` - Production website (www subdomain)
+- `http://localhost:4200` - Local development (Angular dev server)
+- `http://localhost:5000` - Local development (Firebase emulator)
 
 ### Preflight Requests
 
-OPTIONS requests are handled automatically:
-
-```typescript
-if (req.method === "OPTIONS") {
-  res.status(204).send("");
-  return;
-}
-```
+OPTIONS requests are handled automatically by the CORS middleware.
 
 ---
 
