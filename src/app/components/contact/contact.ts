@@ -1,9 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ProfileService, GithubUser } from '../../services/profile.service';
+import { Card } from '../card/card';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
+  imports: [Card],
   templateUrl: './contact.html',
   styleUrl: './contact.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

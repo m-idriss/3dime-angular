@@ -1,10 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { LinkItem } from '../../models/link-item.model';
 import { NotionService } from '../../services/notion.service';
+import { Card } from '../card/card';
 
 @Component({
   selector: 'app-hobbies',
   standalone: true,
+  imports: [Card],
   templateUrl: './hobbies.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
