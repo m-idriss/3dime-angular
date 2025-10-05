@@ -13,7 +13,7 @@ import { ProfileService, CommitData } from '../../services/profile.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GithubActivity implements AfterViewInit {
-  @ViewChild('heatmapContainer', { static: true }) container!: ElementRef;
+  @ViewChild('heatmapContainer', { static: false }) container!: ElementRef;
   data: CommitData[] = [];
   months = 6;
   isLoading = true;
@@ -28,7 +28,13 @@ export class GithubActivity implements AfterViewInit {
       this.data = commits;
       this.isLoading = false;
       this.cdr.markForCheck();
-      this.renderHeatmap();
+      
+      // Wait for next tick to ensure the view has been updated
+      setTimeout(() => {
+        if (this.container) {
+          this.renderHeatmap();
+        }
+      }, 0);
     });
   }
 
