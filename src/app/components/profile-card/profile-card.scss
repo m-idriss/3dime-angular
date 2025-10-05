@@ -1,11 +1,134 @@
 /* ========================
-   Profile Card Burger Menu Enhancements
+   Profile Card Styles
    ======================== */
 
+/* Container (profile card wrapper) */
+.container {
+  text-align: center;
+  padding: var(--space-lg);
+  width: 100%;
+  max-width: 400px;
+  background: var(--primary-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
+  transition: all var(--t-medium);
+}
+
+.container:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: var(--shadow-card-hover), var(--shadow-glow);
+  backdrop-filter: blur(20px);
+  background: var(--primary-bg-hover);
+  transition: all var(--ease-bounce);
+}
+
+.container h2 {
+  margin-bottom: var(--space-md);
+  font-size: var(--font-size-xl);
+  font-weight: var(--fw-semibold);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, var(--text-primary), rgba(59, 130, 246, 0.8));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.container h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  border-radius: 1px;
+}
+
+/* Profile Header Layout */
+.profile-header {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  justify-items: center;
+  margin-bottom: var(--space-md);
+}
+
+/* Logo/Avatar Styling */
+.logo {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-full);
+  object-fit: contain;
+  padding: var(--space-sm);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  display: block;
+  grid-column: 2;
+  transition: all var(--t-medium);
+  font-size: 0; /* Remove inline gap */
+}
+
+.logo:hover {
+  transform: scale(1.12) rotate(5deg);
+  backdrop-filter: blur(20px);
+  background: var(--glass-bg-hover);
+  box-shadow: var(--shadow-card-hover), var(--shadow-glow);
+  transition: all var(--ease-bounce);
+}
+
+.logo-text {
+  margin-top: var(--space-xs);
+  font-size: var(--font-size-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Burger Menu Positioning */
 .burger-menu {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.burger-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-card);
+  transition: all var(--t-medium);
+}
+
+.burger-button:hover {
+  background: var(--glass-bg-hover);
+  backdrop-filter: blur(20px);
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
+  transition: all var(--ease-bounce);
+}
+
+.burger-button i {
+  color: var(--text-primary);
+  font-size: 18px;
+  transition: transform var(--t-medium);
+}
+
+.burger-button.active i {
+  transform: rotate(180deg);
 }
 
 .burger-menu.active .burger-button {
@@ -20,7 +143,7 @@
   color: var(--accent-color);
 }
 
-/* Dropdown Menu Enhancements */
+/* Dropdown Menu */
 .profile-dropdown {
   position: absolute;
   top: calc(100% + 8px);
@@ -90,7 +213,7 @@
   margin: var(--space-xs) var(--space-sm);
 }
 
-/* Social Icons Styling */
+/* Social Icons */
 .socials {
   display: flex;
   justify-content: center;
@@ -140,4 +263,48 @@
 /* Hide badges when notifications are disabled */
 body.notifications-off .badge {
   display: none !important;
+}
+
+/* Enhanced focus indicators for profile-card elements */
+.logo:focus,
+.logo:focus-visible,
+.burger-button:focus,
+.burger-button:focus-visible,
+.dropdown-item:focus,
+.dropdown-item:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  transition: all var(--t-fast);
+}
+
+.logo:focus-visible,
+.burger-button:focus-visible {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 6px rgba(59, 130, 246, 0.2),
+    var(--shadow-card-hover);
+}
+
+.socials a:focus-visible,
+.socials i:focus-visible {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 3px;
+  transform: scale(1.2);
+  background: var(--glass-bg-hover);
+  box-shadow:
+    0 0 0 6px rgba(59, 130, 246, 0.2),
+    var(--shadow-card-hover);
+}
+
+/* Reduced motion for profile-card */
+@media (prefers-reduced-motion: reduce) {
+  .container:hover,
+  .logo:hover,
+  .burger-button:hover,
+  .socials a:hover,
+  .socials i:hover {
+    transform: none !important;
+  }
 }
