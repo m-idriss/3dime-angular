@@ -49,6 +49,7 @@ Perfect for developers, designers, and professionals who want a fast, beautiful,
 - **GitHub Activity** - Live GitHub contribution visualization
 - **Experience** - Work history and project highlights
 - **Education** - Academic background and certifications
+- **Calendar Converter** - AI-powered image/PDF to ICS calendar conversion
 - **Stuff** - Recommended tools and products (Notion integration)
 - **Hobbies** - Personal interests and activities
 - **Contact** - Professional contact information

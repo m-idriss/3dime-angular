@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { Converter } from './converter';
 
@@ -8,7 +10,11 @@ describe('Converter', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Converter]
+      imports: [Converter],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     })
     .compileComponents();
 

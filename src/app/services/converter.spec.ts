@@ -1,13 +1,20 @@
 import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { Converter } from './converter';
+import { ConverterService } from './converter';
 
-describe('Converter', () => {
-  let service: Converter;
+describe('ConverterService', () => {
+  let service: ConverterService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Converter);
+    TestBed.configureTestingModule({
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
+    });
+    service = TestBed.inject(ConverterService);
   });
 
   it('should be created', () => {
