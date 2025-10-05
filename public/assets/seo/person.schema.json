@@ -1,0 +1,22 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "3dime",
+  "url": "https://3dime.com",
+  "jobTitle": "Software Developer",
+  "description": "Full-stack developer specializing in Java, Angular, Spring Boot, and modern web technologies",
+  "knowsAbout": [
+    "Java",
+    "Angular",
+    "TypeScript",
+    "Spring Boot",
+    "Quarkus",
+    "JavaScript",
+    "Web Development",
+    "Full-Stack Development"
+  ],
+  "sameAs": [
+    "https://github.com/m-idriss",
+    "https://linkedin.com/in/yourusername"
+  ]
+}

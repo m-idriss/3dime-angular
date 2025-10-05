@@ -1,0 +1,16 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "3dime Portfolio",
+  "url": "https://3dime.com",
+  "description": "Personal portfolio showcasing projects, skills, and experience in software development",
+  "author": {
+    "@type": "Person",
+    "name": "3dime"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://3dime.com/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}

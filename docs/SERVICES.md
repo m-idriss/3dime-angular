@@ -6,6 +6,10 @@
 
 - [Overview](#overview)
 - [Core Services](#core-services)
+  - [ThemeService](#themeservice)
+  - [ProfileService](#profileservice)
+  - [NotionService](#notionservice)
+  - [SeoService](#seoservice)
 - [Service Guidelines](#service-guidelines)
 
 ---
@@ -21,6 +25,14 @@ src/app/services/
 ├── theme.service.ts      # Theme and appearance management
 ├── profile.service.ts    # GitHub profile and social data
 └── notion.service.ts     # Notion API integration
+
+src/app/shared/seo/
+├── seo.service.ts        # SEO and meta tag management
+├── seo.models.ts         # SEO interfaces and types
+└── schemas/              # JSON-LD structured data schemas
+    ├── person.schema.json
+    ├── website.schema.json
+    └── article.schema.json
 ```
 
 ---
@@ -413,6 +425,238 @@ export class StuffComponent implements OnInit {
   }
 }
 ```
+
+---
+
+### SeoService
+
+**Location**: `src/app/shared/seo/seo.service.ts`
+
+**Purpose**: Manage SEO metadata, Open Graph tags, Twitter Cards, and JSON-LD structured data dynamically.
+
+#### Features
+
+- Dynamic page title management
+- Meta tag injection (description, keywords, author, robots)
+- Open Graph protocol support
+- Twitter Card meta tags
+- Canonical URL management
+- JSON-LD structured data injection
+- Support for loading schemas from external files or inline objects
+
+#### Public Methods
+
+##### updateTags()
+Updates page title and meta tags dynamically.
+
+```typescript
+updateTags(config: SeoTagConfig): void
+```
+
+**Parameters**:
+```typescript
+interface SeoTagConfig {
+  title?: string;              // Page title
+  description?: string;        // Meta description
+  keywords?: string[];         // Meta keywords array
+  author?: string;            // Author name
+  image?: string;             // Open Graph image URL
+  url?: string;               // Canonical URL
+  type?: string;              // Open Graph type ('website', 'article', etc.)
+  twitterCard?: 'summary' | 'summary_large_image' | 'app' | 'player';
+  twitterSite?: string;       // Twitter handle
+  twitterCreator?: string;    // Twitter creator handle
+  robots?: string;            // Robots meta tag
+}
+```
+
+**Example**:
+```typescript
+this.seoService.updateTags({
+  title: 'My Portfolio – Java & Angular Developer',
+  description: 'Showcasing my projects and skills in Java, Angular, Spring Boot...',
+  keywords: ['Java', 'Angular', 'Spring Boot', 'Quarkus'],
+  image: 'https://example.com/preview.png',
+  url: 'https://example.com',
+  type: 'website',
+  twitterCard: 'summary_large_image',
+  robots: 'index, follow'
+});
+```
+
+##### injectJsonLd()
+Inject JSON-LD structured data from a URL (e.g., assets file).
+
+```typescript
+injectJsonLd(url: string, id?: string): void
+```
+
+**Parameters**:
+- `url`: URL to JSON-LD schema file
+- `id`: Unique identifier for this script tag (optional, defaults to url)
+
+**Example**:
+```typescript
+this.seoService.injectJsonLd('assets/seo/person.schema.json', 'person');
+this.seoService.injectJsonLd('assets/seo/website.schema.json', 'website');
+```
+
+##### injectJsonLdSchema()
+Inject JSON-LD structured data directly from an object.
+
+```typescript
+injectJsonLdSchema(schema: JsonLdSchema, id: string): void
+```
+
+**Parameters**:
+- `schema`: JSON-LD schema object
+- `id`: Unique identifier for this script tag
+
+**Example**:
+```typescript
+this.seoService.injectJsonLdSchema({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'John Doe',
+  jobTitle: 'Software Developer',
+  url: 'https://example.com'
+}, 'person-schema');
+```
+
+##### removeJsonLdSchema()
+Remove a JSON-LD schema by ID.
+
+```typescript
+removeJsonLdSchema(id: string): void
+```
+
+##### removeAllJsonLdSchemas()
+Remove all JSON-LD schemas.
+
+```typescript
+removeAllJsonLdSchemas(): void
+```
+
+##### getTitle()
+Get current page title.
+
+```typescript
+getTitle(): string
+```
+
+##### getMetaTag()
+Get meta tag content by name.
+
+```typescript
+getMetaTag(name: string): string | null
+```
+
+#### JSON-LD Schema Files
+
+The service supports loading JSON-LD schemas from the `public/assets/seo/schemas/` directory:
+
+**Person Schema** (`person.schema.json`):
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Your Name",
+  "jobTitle": "Software Developer",
+  "knowsAbout": ["Java", "Angular", "TypeScript"],
+  "sameAs": ["https://github.com/username"]
+}
+```
+
+**WebSite Schema** (`website.schema.json`):
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Portfolio Name",
+  "url": "https://example.com",
+  "description": "Portfolio description"
+}
+```
+
+**Article Schema** (`article.schema.json`):
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Article Title",
+  "author": {
+    "@type": "Person",
+    "name": "Author Name"
+  }
+}
+```
+
+#### Usage Example
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { SeoService } from './shared/seo';
+
+@Component({
+  selector: 'app-root',
+  template: `<router-outlet></router-outlet>`
+})
+export class App implements OnInit {
+  constructor(private readonly seoService: SeoService) {}
+
+  ngOnInit(): void {
+    // Set default SEO tags
+    this.seoService.updateTags({
+      title: '3dime – Java & Angular Developer Portfolio',
+      description: 'Personal portfolio showcasing projects and skills.',
+      keywords: ['Java', 'Angular', 'Spring Boot'],
+      author: '3dime',
+      url: 'https://3dime.com',
+      type: 'website',
+      twitterCard: 'summary_large_image',
+      robots: 'index, follow'
+    });
+
+    // Inject structured data
+    this.seoService.injectJsonLd('assets/seo/person.schema.json', 'person');
+    this.seoService.injectJsonLd('assets/seo/website.schema.json', 'website');
+  }
+}
+```
+
+#### Route-Specific SEO
+
+For route-specific SEO, inject the service in individual components:
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { SeoService } from '../shared/seo';
+
+@Component({
+  selector: 'app-about',
+  template: `<h1>About Me</h1>`
+})
+export class AboutComponent implements OnInit {
+  constructor(private readonly seoService: SeoService) {}
+
+  ngOnInit(): void {
+    this.seoService.updateTags({
+      title: 'About Me – My Portfolio',
+      description: 'Learn more about my experience and skills.',
+      url: 'https://example.com/about'
+    });
+  }
+}
+```
+
+#### Benefits
+
+- **Clean HTML**: Keeps `index.html` minimal and maintainable
+- **Dynamic Updates**: SEO tags update per route/component
+- **Structured Data**: Easy JSON-LD schema management
+- **Type Safety**: Full TypeScript support with interfaces
+- **SSR Ready**: Works with Angular Universal for server-side rendering
+- **Centralized**: Single service for all SEO concerns
 
 ---
 
