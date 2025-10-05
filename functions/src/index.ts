@@ -9,7 +9,30 @@ export { notionFunction } from "./proxies/notion";
 
 setGlobalOptions({ maxInstances: 10 });
 
-const corsHandler = cors({ origin: true });
+// Whitelist of allowed origins for CORS
+const allowedOrigins = [
+  'https://3dime.com',
+  'https://www.3dime.com',
+  'http://localhost:4200',
+  'http://localhost:5000'
+];
+
+const corsHandler = cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+});
 
 export const proxyApi = onRequest((req, res) => {
   return corsHandler(req, res, async () => {
