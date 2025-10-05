@@ -20,72 +20,86 @@ The portfolio uses a responsive CSS Grid system that automatically adapts to dif
 - **Tablet (≥ 768px)**: Two column layout
 - **Desktop (≥ 1024px)**: Three column layout
 
-### Default 3-Column Layout
+### Default Layout Structure
 
-This is the current layout structure:
+This is the current layout using CSS Grid with `grid-auto-flow: column`:
 
 ```html
 <main class="cards-container">
-  <!-- Column 1 -->
-  <div class="group-column">
-    <app-profile-card></app-profile-card>
-    <app-about></app-about>
-    <app-tech-stack></app-tech-stack>
-  </div>
-  
-  <!-- Column 2 -->
-  <div class="group-column">
-    <app-github-activity></app-github-activity>
-    <app-experience></app-experience>
-    <app-education></app-education>
-  </div>
-  
-  <!-- Column 3 -->
-  <div class="group-column">
-    <app-stuff></app-stuff>
-    <app-hobbies></app-hobbies>
-    <app-contact></app-contact>
-  </div>
+  <app-profile-card></app-profile-card>
+  <app-about></app-about>
+  <app-tech-stack></app-tech-stack>
+  <app-github-activity></app-github-activity>
+  <app-experience></app-experience>
+  <app-education></app-education>
+  <app-stuff></app-stuff>
+  <app-hobbies></app-hobbies>
+  <app-contact></app-contact>
 </main>
 ```
+
+**How it works:**
+- Components are direct children of `.cards-container`
+- Grid uses `grid-auto-flow: column` to fill columns vertically first
+- Mobile: 1 column × 9 rows
+- Tablet: 2 columns × 5 rows (fills column 1, then column 2)
+- Desktop: 3 columns × 3 rows (fills column 1, then column 2, then column 3)
 
 ---
 
 ## Adding New Containers
 
-### Example 1: Adding a New Component to Existing Column
+### Example 1: Adding New Components
 
-Simply add your new component inside any `group-column`:
-
-```html
-<div class="group-column">
-  <app-profile-card></app-profile-card>
-  <app-about></app-about>
-  <app-tech-stack></app-tech-stack>
-  <!-- NEW: Add your new component -->
-  <app-my-new-section></app-my-new-section>
-</div>
-```
-
-### Example 2: Adding a Fourth Column
-
-Add a new `group-column` to create a fourth column (will adjust responsively):
+Simply add your new component directly to the grid container:
 
 ```html
 <main class="cards-container">
-  <div class="group-column">...</div>
-  <div class="group-column">...</div>
-  <div class="group-column">...</div>
+  <app-profile-card></app-profile-card>
+  <app-about></app-about>
+  <app-tech-stack></app-tech-stack>
+  <app-github-activity></app-github-activity>
+  <app-experience></app-experience>
+  <app-education></app-education>
+  <app-stuff></app-stuff>
+  <app-hobbies></app-hobbies>
+  <app-contact></app-contact>
   
-  <!-- NEW: Fourth column -->
-  <div class="group-column">
-    <app-portfolio></app-portfolio>
-    <app-testimonials></app-testimonials>
-  </div>
+  <!-- NEW: Add your new component -->
+  <app-my-new-section></app-my-new-section>
+  <app-another-section></app-another-section>
 </main>
 ```
 
-On desktop (1024px+), the grid will automatically adjust to show all 4 columns, or wrap to multiple rows.
+**Result:** Grid automatically adjusts to accommodate new items.
+
+### Example 2: Adding Many Components
+
+The grid flows naturally with any number of components:
+
+```html
+<main class="cards-container">
+  <app-profile-card></app-profile-card>
+  <app-about></app-about>
+  <app-tech-stack></app-tech-stack>
+  <app-github-activity></app-github-activity>
+  <app-experience></app-experience>
+  <app-education></app-education>
+  <app-stuff></app-stuff>
+  <app-hobbies></app-hobbies>
+  <app-contact></app-contact>
+  
+  <!-- NEW: Multiple new components -->
+  <app-portfolio></app-portfolio>
+  <app-testimonials></app-testimonials>
+  <app-blog></app-blog>
+  <app-certifications></app-certifications>
+  
+  <router-outlet />
+</main>
+```
+
+On desktop (3 columns): Items distribute across columns automatically.
 
 ### Example 3: Full-Width Section
 
@@ -98,10 +112,10 @@ Create a section that spans all columns:
     <app-hero-banner></app-hero-banner>
   </div>
   
-  <!-- Regular columns -->
-  <div class="group-column">...</div>
-  <div class="group-column">...</div>
-  <div class="group-column">...</div>
+  <!-- Regular components -->
+  <app-profile-card></app-profile-card>
+  <app-about></app-about>
+  <app-tech-stack></app-tech-stack>
 </main>
 ```
 
@@ -116,19 +130,19 @@ Create a custom grid with different column widths:
 ```html
 <div class="grid grid-12">
   <!-- Takes 4 columns on desktop -->
-  <div class="col-12 col-lg-4 group-column">
+  <div class="col-12 col-lg-4 ">
     <app-profile-card></app-profile-card>
     <app-about></app-about>
   </div>
   
   <!-- Takes 4 columns on desktop -->
-  <div class="col-12 col-lg-4 group-column">
+  <div class="col-12 col-lg-4 ">
     <app-experience></app-experience>
     <app-education></app-education>
   </div>
   
   <!-- Takes 4 columns on desktop -->
-  <div class="col-12 col-lg-4 group-column">
+  <div class="col-12 col-lg-4 ">
     <app-contact></app-contact>
   </div>
 </div>
@@ -139,13 +153,13 @@ Create a custom grid with different column widths:
 ```html
 <div class="grid grid-12">
   <!-- Small sidebar: 1/4 width on desktop -->
-  <div class="col-12 col-lg-3 group-column">
+  <div class="col-12 col-lg-3 ">
     <app-profile-card></app-profile-card>
     <app-contact></app-contact>
   </div>
   
   <!-- Main content: 3/4 width on desktop -->
-  <div class="col-12 col-lg-9 group-column">
+  <div class="col-12 col-lg-9 ">
     <app-about></app-about>
     <app-experience></app-experience>
     <app-tech-stack></app-tech-stack>
@@ -191,17 +205,17 @@ Let the grid automatically fit items based on available space:
 ```html
 <div class="grid grid-12">
   <!-- Full width on mobile, half on tablet, third on desktop -->
-  <div class="col-12 col-md-6 col-lg-4 group-column">
+  <div class="col-12 col-md-6 col-lg-4 ">
     <app-profile-card></app-profile-card>
   </div>
   
   <!-- Full width on mobile, half on tablet, third on desktop -->
-  <div class="col-12 col-md-6 col-lg-4 group-column">
+  <div class="col-12 col-md-6 col-lg-4 ">
     <app-about></app-about>
   </div>
   
   <!-- Full width on mobile and tablet, third on desktop -->
-  <div class="col-12 col-md-12 col-lg-4 group-column">
+  <div class="col-12 col-md-12 col-lg-4 ">
     <app-contact></app-contact>
   </div>
 </div>
@@ -217,7 +231,7 @@ Let the grid automatically fit items based on available space:
   </div>
   
   <!-- Sidebar: Full width on mobile, 1/3 on desktop -->
-  <div class="col-12 col-lg-4 group-column">
+  <div class="col-12 col-lg-4 ">
     <app-quick-links></app-quick-links>
     <app-social-feed></app-social-feed>
   </div>
@@ -293,14 +307,15 @@ Let the grid automatically fit items based on available space:
 
 ## Tips & Best Practices
 
-### 1. Keep Components in Columns
-For consistent spacing and alignment, wrap related components in `group-column`:
+### 1. Add Components Directly
+Components are direct children of `.cards-container` - no wrapper divs needed:
 
 ```html
-<div class="group-column">
+<main class="cards-container">
   <app-component-1></app-component-1>
   <app-component-2></app-component-2>
-</div>
+  <app-component-3></app-component-3>
+</main>
 ```
 
 ### 2. Use Semantic Column Spans
@@ -315,11 +330,13 @@ Choose column spans that make sense for your content:
 Always check how your layout looks on different screen sizes:
 
 - **Mobile**: Single column (stacked)
-- **Tablet**: 2 columns
-- **Desktop**: 3+ columns
+- **Tablet**: 2 columns with vertical flow
+- **Desktop**: 3 columns with vertical flow
 
-### 4. Maintain Visual Balance
-Try to keep similar amounts of content in each column for visual balance.
+### 4. Understand Grid Flow
+The grid uses `grid-auto-flow: column` which fills columns vertically:
+- Items flow down column 1, then column 2, then column 3
+- This maintains the grouped appearance without wrapper divs
 
 ### 5. Use Auto-Fit for Dynamic Content
 When you don't know how many items you'll have, use `grid-auto-fit`:
@@ -334,41 +351,54 @@ When you don't know how many items you'll have, use `grid-auto-fit`:
 
 ## Migration Guide
 
-### Converting from Flexbox to Grid
+### Converting from Wrapper Divs to Direct Children
 
-**Old (Flexbox):**
+**Old (With wrapper divs):**
 ```html
-<div style="display: flex; flex-direction: column;">
-  <app-component></app-component>
-</div>
+<main class="cards-container">
+  <div class="group-column">
+    <app-profile-card></app-profile-card>
+    <app-about></app-about>
+  </div>
+  <div class="group-column">
+    <app-experience></app-experience>
+    <app-education></app-education>
+  </div>
+</main>
 ```
 
-**New (Grid):**
+**New (Direct children with grid-auto-flow):**
 ```html
-<div class="group-column">
-  <app-component></app-component>
-</div>
+<main class="cards-container">
+  <app-profile-card></app-profile-card>
+  <app-about></app-about>
+  <app-experience></app-experience>
+  <app-education></app-education>
+</main>
 ```
 
 ### Adding Flexibility
 
-The new grid system makes it easy to reorganize your layout without changing component code:
+The CSS Grid with `grid-auto-flow: column` makes it easy to add components:
 
 ```html
-<!-- Before: Fixed 3-column layout with flexbox -->
-<main class="cards-container" style="display: flex;">
-  <div style="flex: 1;">...</div>
-  <div style="flex: 1;">...</div>
-  <div style="flex: 1;">...</div>
+<!-- Before: Had to decide which wrapper div -->
+<main class="cards-container">
+  <div class="group-column">
+    <app-profile-card></app-profile-card>
+    <app-about></app-about>
+    <app-tech-stack></app-tech-stack>
+  </div>
+  <!-- Which column should new component go in? -->
 </main>
 
-<!-- After: Flexible grid with responsive breakpoints -->
+<!-- After: Just add the component -->
 <main class="cards-container">
-  <div class="group-column">...</div>
-  <div class="group-column">...</div>
-  <div class="group-column">...</div>
-  <!-- Easy to add more! -->
-  <div class="group-column">...</div>
+  <app-profile-card></app-profile-card>
+  <app-about></app-about>
+  <app-tech-stack></app-tech-stack>
+  <!-- Grid automatically places it! -->
+  <app-new-component></app-new-component>
 </main>
 ```
 

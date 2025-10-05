@@ -584,16 +584,6 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
   padding-bottom: calc(50px + env(safe-area-inset-bottom));
 }
 
-/* Column group for card components */
-.group-column {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  color: var(--text-primary);
-  width: 100%;
-  align-items: stretch;
-}
-
 /* Grid utility classes for flexible layouts */
 .grid {
   display: grid;
@@ -640,6 +630,8 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
 @media (min-width: 768px) {
   .cards-container {
     grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: column;
+    grid-template-rows: repeat(5, auto);
   }
 
   /* Tablet-specific grid utilities */
@@ -660,6 +652,8 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
   .cards-container {
     max-width: clamp(280px, 100%, 1200px);
     grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, auto);
   }
 
   /* Desktop-specific grid utilities */
