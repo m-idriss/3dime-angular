@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
 import Tooltip from 'cal-heatmap/plugins/Tooltip';
@@ -18,12 +18,16 @@ export class GithubActivity implements AfterViewInit {
   months = 6;
   isLoading = true;
 
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(
+    private readonly profileService: ProfileService,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   ngAfterViewInit(): void {
     this.profileService.getCommits(this.months).subscribe((commits: CommitData[]) => {
       this.data = commits;
       this.isLoading = false;
+      this.cdr.markForCheck();
       this.renderHeatmap();
     });
   }
