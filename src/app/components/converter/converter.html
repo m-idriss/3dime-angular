@@ -1,0 +1,106 @@
+<section class="converter-section" aria-labelledby="converter-title">
+  <div class="container">
+    <header class="section-header">
+      <h2 id="converter-title">📅 Calendar Converter</h2>
+      <p class="section-description">
+        Upload images or PDF files containing calendar events and convert them to ICS format
+      </p>
+    </header>
+
+    <div class="converter-content">
+      <!-- Upload Area -->
+      <div class="upload-area" 
+           [class.dragging]="isDragging()"
+           (dragover)="onDragOver($event)"
+           (dragleave)="onDragLeave($event)"
+           (drop)="onDrop($event)">
+        <div class="upload-icon">📤</div>
+        <h3>Drag & Drop Files Here</h3>
+        <p>or</p>
+        <label class="file-input-label">
+          <input type="file" 
+                 class="file-input"
+                 multiple
+                 accept="image/jpeg,image/jpg,image/png,application/pdf"
+                 (change)="onFileSelect($event)"
+                 [disabled]="isProcessing()">
+          <span class="button">Browse Files</span>
+        </label>
+        <p class="upload-hint">Supports JPG, PNG, and PDF files (max 10MB each)</p>
+      </div>
+
+      <!-- File List -->
+      @if (files().length > 0) {
+        <div class="file-list">
+          <h3>Selected Files ({{ files().length }})</h3>
+          <ul>
+            @for (file of files(); track $index) {
+              <li class="file-item">
+                <div class="file-info">
+                  <span class="file-icon">
+                    @if (file.type.startsWith('image/')) {
+                      🖼️
+                    } @else {
+                      📄
+                    }
+                  </span>
+                  <div class="file-details">
+                    <span class="file-name">{{ file.name }}</span>
+                    <span class="file-size">{{ formatFileSize(file.size) }}</span>
+                  </div>
+                </div>
+                <button class="remove-button" 
+                        (click)="removeFile($index)"
+                        [disabled]="isProcessing()"
+                        aria-label="Remove file">
+                  ✕
+                </button>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      <!-- Messages -->
+      @if (errorMessage()) {
+        <div class="message error-message" role="alert">
+          <span class="message-icon">❌</span>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      @if (successMessage()) {
+        <div class="message success-message" role="status">
+          <span class="message-icon">✅</span>
+          <span>{{ successMessage() }}</span>
+        </div>
+      }
+
+      <!-- Convert Button -->
+      <div class="actions">
+        <button class="convert-button"
+                (click)="convertToIcs()"
+                [disabled]="files().length === 0 || isProcessing()"
+                [class.processing]="isProcessing()">
+          @if (isProcessing()) {
+            <span class="spinner"></span>
+            <span>Processing...</span>
+          } @else {
+            <span>🔄 Convert to ICS</span>
+          }
+        </button>
+      </div>
+
+      <!-- Info Section -->
+      <div class="info-section">
+        <h3>How it works</h3>
+        <ol>
+          <li>📤 Upload one or more images or PDF files containing calendar events</li>
+          <li>🧠 AI automatically detects dates, times, and event information</li>
+          <li>📅 Generates a properly formatted ICS calendar file</li>
+          <li>💾 Download and import into your favorite calendar app</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>

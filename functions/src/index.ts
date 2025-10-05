@@ -6,6 +6,7 @@ import fetch from "node-fetch";
 export { githubCommits } from "./proxies/githubCommits";
 export { githubSocial } from "./proxies/githubSocial";
 export { notionFunction } from "./proxies/notion";
+export { converterFunction } from "./proxies/converter";
 
 setGlobalOptions({ maxInstances: 10 });
 
