@@ -160,26 +160,6 @@ textarea:focus,
   transition: outline var(--t-fast);
 }
 
-/* Enhanced focus for interactive elements */
-.logo:focus,
-.burger-button:focus,
-.dropdown-item:focus {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-  transition: all var(--t-fast);
-}
-
-/* Focus for technology links */
-.tech-item:focus,
-.item:focus {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
-  background: var(--glass-bg-hover);
-  transform: translateY(-2px);
-  transition: all var(--t-fast);
-}
-
 /* Re-apply focus for our custom implementation */
 *:focus-visible {
   outline: 2px solid var(--accent-color);
@@ -276,241 +256,9 @@ body.bg-video .bg {
   padding: var(--space-lg);
 }
 
-/* ========================
-   Container Card
-   ======================== */
-.container {
-  text-align: center;
-  padding: var(--space-lg);
-  width: 100%;
-  max-width: 400px;
-  background: var(--primary-bg);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-card);
-  border-radius: var(--radius-lg);
-  transition: all var(--t-medium);
-}
+/* Container card styles moved to card.scss */
 
-.container:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: var(--shadow-card-hover), var(--shadow-glow);
-  backdrop-filter: blur(20px);
-  background: var(--primary-bg-hover);
-  transition: all var(--ease-bounce);
-}
-
-/* ========================
-   Logo
-   ======================== */
-.logo {
-  width: 120px;
-  height: 120px;
-  border-radius: var(--radius-full);
-  object-fit: contain;
-  padding: var(--space-sm);
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-card);
-  cursor: pointer;
-  display: block;
-  grid-column: 2;
-  transition: all var(--t-medium);
-  font-size: 0; /* Remove inline gap */
-}
-
-.logo:hover {
-  transform: scale(1.12) rotate(5deg);
-  backdrop-filter: blur(20px);
-  background: var(--glass-bg-hover);
-  box-shadow: var(--shadow-card-hover), var(--shadow-glow);
-  transition: all var(--ease-bounce);
-}
-
-.logo-text {
-  margin-top: var(--space-xs);
-  font-size: var(--font-size-lg);
-  font-weight: var(--fw-semibold);
-  color: var(--text-primary);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-/* ========================
-   Profile Header
-   ======================== */
-.profile-header {
-  position: relative;
-  display: grid;
-  grid-template-columns: 40px 1fr 40px;
-  align-items: center;
-  justify-items: center;
-  margin-bottom: var(--space-md);
-}
-
-/* ========================
-   Burger Menu
-   ======================== */
-.burger-menu {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.burger-button {
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-card);
-  transition: all var(--t-medium);
-}
-
-.burger-button:hover {
-  background: var(--glass-bg-hover);
-  backdrop-filter: blur(20px);
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
-  transition: all var(--ease-bounce);
-}
-
-.burger-button i {
-  color: var(--text-primary);
-  font-size: 18px;
-  transition: transform var(--t-medium);
-}
-
-.burger-button.active i {
-  transform: rotate(180deg);
-}
-
-/* Dropdown Menu styles moved to component-specific SCSS */
-
-/* Dropdown Item styles moved to component-specific SCSS */
-
-/* Theme Toggle */
-.theme-toggle {
-  justify-content: flex-start;
-}
-
-.theme-toggle .toggle-switch {
-  width: 44px;
-  height: 24px;
-  background: var(--glass-bg);
-  border-radius: var(--radius-full);
-  border: 1px solid var(--glass-border);
-  position: relative;
-  transition: background var(--t-medium);
-}
-
-.theme-toggle .toggle-switch::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 18px;
-  height: 18px;
-  background: var(--text-primary);
-  border-radius: var(--radius-full);
-  transition: transform var(--t-medium);
-}
-
-body.dark-theme .theme-toggle .toggle-switch::after {
-  transform: translateX(20px);
-}
-
-body.dark-theme .theme-toggle .toggle-switch {
-  background: var(--accent-color);
-}
-
-/* Dropdown separator */
-.dropdown-separator {
-  height: 1px;
-  background: var(--glass-border);
-  margin: var(--space-xs) var(--space-md);
-}
-
-/* Notifications Toggle */
-.notifications-toggle {
-  justify-content: space-between;
-}
-
-.notifications-toggle .toggle-switch {
-  width: 44px;
-  height: 24px;
-  background: var(--glass-bg);
-  border-radius: var(--radius-full);
-  border: 1px solid var(--glass-border);
-  position: relative;
-  transition: background var(--t-medium);
-}
-
-.notifications-toggle .toggle-switch::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 18px;
-  height: 18px;
-  background: var(--text-primary);
-  border-radius: var(--radius-full);
-  transition: transform var(--t-medium);
-}
-
-/* When notifications are ON (default state), switch is to the right */
-body:not(.notifications-off) .notifications-toggle .toggle-switch::after {
-  transform: translateX(20px);
-}
-
-body:not(.notifications-off) .notifications-toggle .toggle-switch {
-  background: var(--accent-color);
-}
-
-/* Video Background Toggle */
-.video-bg-toggle {
-  justify-content: flex-start;
-}
-
-/* Font Size Toggle */
-.font-size-toggle {
-  justify-content: flex-start;
-}
-
-.video-bg-toggle .toggle-switch {
-  width: 44px;
-  height: 24px;
-  background: var(--glass-bg);
-  border-radius: var(--radius-full);
-  border: 1px solid var(--glass-border);
-  position: relative;
-  transition: background var(--t-medium);
-}
-
-.video-bg-toggle .toggle-switch::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 18px;
-  height: 18px;
-  background: var(--text-primary);
-  border-radius: var(--radius-full);
-  transition: transform var(--t-medium);
-}
-
-/* When video background is enabled, switch is to the right */
-body.video-bg-enabled .video-bg-toggle .toggle-switch::after {
-  transform: translateX(20px);
-}
-
-body.video-bg-enabled .video-bg-toggle .toggle-switch {
-  background: var(--accent-color);
-}
+/* Profile-specific styles moved to profile-card.scss */
 
 /* ========================
    Links
@@ -712,45 +460,7 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
   font-weight: var(--fw-semibold);
 }
 
-/* Micro-interactions for enhanced UX */
-.card {
-  transition: all 0.3s var(--ease);
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.tech-item {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.2s var(--ease);
-}
-
-.tech-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left 0.5s var(--ease);
-}
-
-.tech-item:hover::before {
-  left: 100%;
-}
-
-.tech-item:hover {
-  transform: scale(1.08) translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3), var(--shadow-glow);
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  background: linear-gradient(135deg, var(--glass-bg-hover), rgba(59, 130, 246, 0.1));
-}
-
-/* Loading state animations */
+/* Scrolling state optimizations */
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
@@ -814,7 +524,6 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
 }
 
 /* Touch device optimizations */
-.touch-device .tech-item,
 .touch-device a,
 .touch-device button {
   min-height: 44px;
@@ -859,13 +568,6 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
 }
 
 /* Scrolling state optimizations */
-.scrolling .card {
-  pointer-events: none;
-}
-
-.scrolling .tech-item {
-  transform: none !important;
-}
 
 /* Enhanced section toggles */
 .section-toggle {
@@ -920,31 +622,13 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
 }
 
 /* Enhanced focus indicators */
-.logo:focus-visible,
-.burger-button:focus-visible,
-.dropdown-item:focus-visible,
-.link:focus-visible,
-.socials a:focus-visible,
-.socials i:focus-visible,
-.tech-item:focus-visible {
+.link:focus-visible {
   outline: 3px solid var(--accent-color);
   outline-offset: 3px;
   box-shadow:
     0 0 0 6px rgba(59, 130, 246, 0.2),
     var(--shadow-card-hover);
   transition: all var(--t-fast);
-}
-
-/* Special focus for interactive elements */
-.tech-item:focus-visible {
-  transform: scale(1.05);
-  background: var(--glass-bg-hover);
-}
-
-.socials a:focus-visible,
-.socials i:focus-visible {
-  transform: scale(1.2);
-  background: var(--glass-bg-hover);
 }
 
 /* Skip links enhanced styling */
@@ -1009,43 +693,6 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
 }
 
 /* ========================
-   Improved Visual Hierarchy
-   ======================== */
-
-/* Enhanced container headers */
-.container h2 {
-  margin-bottom: var(--space-md);
-  font-size: var(--font-size-xl);
-  font-weight: var(--fw-semibold);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(135deg, var(--text-primary), rgba(59, 130, 246, 0.8));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  position: relative;
-}
-
-.container h2::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-  border-radius: 1px;
-}
-
-/* Enhanced spacing for better readability */
-.container p {
-  font-size: var(--font-size-base);
-  line-height: 1.6;
-  color: var(--text-secondary);
-  margin-bottom: var(--space-md);
-}
-
-/* ========================
    Reduced Motion Support for Accessibility
    ======================== */
 @media (prefers-reduced-motion: reduce) {
@@ -1059,12 +706,7 @@ body.video-bg-enabled .video-bg-toggle .toggle-switch {
   }
 
   /* Disable hover transforms for reduced motion */
-  .container:hover,
-  .logo:hover,
   .link:hover,
-  .tech-item:hover,
-  .socials a:hover,
-  .socials i:hover,
   .burger-button:hover {
     transform: none !important;
   }
