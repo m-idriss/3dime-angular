@@ -44,8 +44,6 @@ Thumbs.db
 # Environment files with secrets
 # Keep environment.example.ts files as templates
 # Actual environment files should be configured per deployment
-src/environments/environment.ts
-src/environments/environment.prod.ts
 
 # Firebase logs
 firebase-debug.log
