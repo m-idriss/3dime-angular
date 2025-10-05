@@ -78,6 +78,7 @@ Perfect for developers, designers, and professionals who want a fast, beautiful,
 
 **Styling & Design**
 - SCSS with CSS Variables
+- Flexible CSS Grid System
 - Glassmorphism Effects
 - Space-Themed Design
 - Responsive Grid/Flexbox
@@ -512,9 +513,24 @@ src/app/
 - **Type Safety**: TypeScript strict mode ensures reliability and maintainability
 - **Reactive Programming**: RxJS for handling async data and user interactions
 - **CSS Custom Properties**: Maintainable theming system with runtime flexibility
+- **Flexible Grid System**: CSS Grid with Bootstrap-like utilities for easy layouts
 - **Mobile-First**: Responsive design built from the ground up for mobile devices
 
 For detailed component documentation, see [docs/COMPONENTS.md](./docs/COMPONENTS.md).
+
+### Layout System
+
+The portfolio uses a **flexible CSS Grid system** that makes it easy to add and organize content:
+
+- **Responsive by Default**: 1 column (mobile) → 2 columns (tablet) → 3 columns (desktop)
+- **Bootstrap-like Utilities**: `.col-*`, `.col-md-*`, `.col-lg-*` for easy layout control
+- **Grid Templates**: `.grid-1` through `.grid-12` for fixed column layouts
+- **Auto-Responsive**: `.grid-auto-fit` and `.grid-auto-fill` for dynamic content
+
+**Quick Start Guides:**
+- [Adding New Containers](./docs/ADDING_CONTAINERS.md) - Add new sections in 5 minutes
+- [Grid Examples](./docs/GRID_EXAMPLES.md) - 8+ practical layout examples
+- [Design System](./docs/DESIGN_SYSTEM.md#grid-system) - Complete grid documentation
 
 ## 🔧 Advanced Topics
 
