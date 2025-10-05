@@ -311,5 +311,5 @@ When updating documentation:
 
 ---
 
-*Last Updated: January 2025*  
+*Last Updated: October 2025*  
 *Documentation Version: 1.0.0*
