@@ -120,8 +120,7 @@ export const converterFunction = onRequest(
 
         // Clean up the ICS content (remove markdown code blocks if present)
         let cleanedIcs = icsContent.trim();
-        cleanedIcs = cleanedIcs.replace(/```ics\n?/g, '');
-        cleanedIcs = cleanedIcs.replace(/```\n?/g, '');
+        cleanedIcs = cleanedIcs.replace(/```(?:ics)?\s*[\r\n]|```/gi, '');
         cleanedIcs = cleanedIcs.trim();
 
         return res.status(200).json({
