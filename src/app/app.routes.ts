@@ -3,6 +3,6 @@ import { Converter } from './components/converter/converter';
 
 export const routes: Routes = [
   { path: 'converter', component: Converter },
-  { path: '', redirectTo: '', pathMatch: 'full' }
+  { path: '', redirectTo: 'converter', pathMatch: 'full' }
 ];
 
