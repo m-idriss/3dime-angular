@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 
 import { ProfileCard } from './components/profile-card/profile-card';
-import { RouterOutlet } from '@angular/router';
 import { About } from './components/about/about';
 import { TechStack } from './components/tech-stack/tech-stack';
 import { Experience } from './components/experience/experience';
@@ -16,7 +15,6 @@ import { GithubActivity } from './components/github-activity/github-activity';
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
     ProfileCard,
     About,
     TechStack,

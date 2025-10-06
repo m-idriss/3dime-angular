@@ -19,7 +19,7 @@ export class ThemeService {
     BACKGROUND_MODES: ['black', 'white', 'video'],
     DEFAULT_BACKGROUND: 'video',
     FONT_SIZES: ['normal', 'large', 'small'],
-    DEFAULT_FONT_SIZE: 'normal'
+    DEFAULT_FONT_SIZE: 'small'
   };
 
   private currentTheme: string;
@@ -36,7 +36,7 @@ export class ThemeService {
     this.applyTheme(this.currentTheme);
     this.applyBackground(this.currentBackground);
     this.applyFontSize(this.currentFontSize);
-    
+
     // Initialize video height adjustment if video background is active
     if (this.currentBackground === 'video') {
       // Use setTimeout to ensure DOM is ready
@@ -196,10 +196,10 @@ export class ThemeService {
         // Use window.innerHeight for the actual visible height
         video.style.minHeight = `${window.innerHeight}px`;
       };
-      
+
       // Set initial height
       setVideoHeight();
-      
+
       // Update on resize and orientation change
       window.addEventListener('resize', setVideoHeight);
       window.addEventListener('orientationchange', setVideoHeight);
