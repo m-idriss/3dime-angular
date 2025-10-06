@@ -2,15 +2,19 @@
 
 ## Overview
 
-The Calendar Converter is a feature that allows users to upload images (JPG, PNG) or PDF files containing calendar information and convert them to ICS (iCalendar) format using AI-powered extraction.
+The Calendar Converter is a feature that allows users to upload images (JPG, PNG) containing calendar information and convert them to ICS (iCalendar) format using AI-powered extraction.
+
+**Note**: PDF files are not currently supported because the OpenAI GPT-4 Vision API only accepts image formats. To convert calendar information from a PDF, please first convert the PDF pages to images (PNG or JPG format).
 
 ## Features
 
-- **📤 File Upload**: Drag-and-drop interface for images and PDF files
+- **📤 File Upload**: Drag-and-drop interface for images (JPG, PNG)
 - **🧠 Smart Parsing**: Automatic detection of dates, times, and event information using OpenAI GPT-4 Vision
 - **📅 ICS Generation**: Creates downloadable calendar files with proper RFC 5545 formatting
 - **🔐 Firebase Integration**: Secure cloud function processing
 - **📱 Responsive Design**: Mobile-optimized interface with modern glassmorphism UI
+
+**Note**: PDF files are not supported. Please convert PDF pages to images before uploading.
 
 ## Architecture
 
@@ -31,7 +35,7 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 ### Backend (Firebase Function)
 
 **Function**: `functions/src/proxies/converter.ts`
-- Accepts POST requests with image/PDF data
+- Accepts POST requests with image data
 - Calls OpenAI GPT-4 Vision API for event extraction
 - Returns ICS content
 - Handles errors and timeouts
@@ -41,7 +45,7 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 ### User Workflow
 
 1. Navigate to the converter section on the homepage
-2. Upload one or more images or PDF files:
+2. Upload one or more image files:
    - Drag and drop files into the upload area, OR
    - Click "Browse Files" to select files
 3. Review the uploaded files
@@ -53,9 +57,12 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 ### Supported File Types
 
 - **Images**: JPG, JPEG, PNG
-- **Documents**: PDF
 - **Max file size**: 10MB per file
 - **Multiple files**: Yes, upload multiple files for batch processing
+
+**Note**: PDF files are not supported. The OpenAI GPT-4 Vision API only processes image formats. If you have a PDF with calendar information:
+1. Convert the PDF pages to images (PNG or JPG)
+2. Upload the converted images to the converter
 
 ### Calendar Applications
 
@@ -183,9 +190,10 @@ The converter requires manual testing with real calendar images/PDFs since it de
 
 **Test files to try**:
 - Calendar screenshots from phone/computer
-- PDF event flyers
 - Email screenshots with event details
 - Social media event posts
+- Images of printed calendars
+- **Note**: Convert PDF calendars to images before testing
 
 ### Troubleshooting
 
@@ -201,7 +209,8 @@ The converter requires manual testing with real calendar images/PDFs since it de
 
 **Issue**: Files not uploading
 - Check file size (max 10MB)
-- Verify file type (JPG, PNG, or PDF only)
+- Verify file type (JPG or PNG only)
+- PDF files are not supported - convert to images first
 
 ## Styling
 

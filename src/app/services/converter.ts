@@ -30,7 +30,8 @@ export class ConverterService {
   constructor(private readonly http: HttpClient) {}
 
   /**
-   * Convert image/PDF files to ICS calendar format
+   * Convert image files to ICS calendar format
+   * Note: PDF files are not supported by the AI vision API. Convert PDFs to images first.
    * @param files Array of file data (base64 encoded)
    * @param timeZone Optional timezone (defaults to browser timezone)
    * @param currentDate Optional current date (defaults to today)

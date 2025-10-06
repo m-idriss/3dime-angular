@@ -27,8 +27,9 @@ const corsHandler = cors({
 });
 
 /**
- * Firebase Function to convert images/PDF to ICS calendar files
- * Uses AI to extract calendar events from uploaded files
+ * Firebase Function to convert images to ICS calendar files
+ * Uses AI to extract calendar events from uploaded image files
+ * Note: Only image formats are supported (JPG, PNG). PDFs are not supported by GPT-4 Vision API.
  */
 export const converterFunction = onRequest(
   { 

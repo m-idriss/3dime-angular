@@ -25,7 +25,7 @@ export class Converter {
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
 
-  private readonly acceptedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+  private readonly acceptedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
   private readonly maxFileSize = 10 * 1024 * 1024; // 10MB
 
   constructor(private readonly converterService: ConverterService) {}
@@ -64,12 +64,16 @@ export class Converter {
     this.icsContent.set(null);
 
     const validFiles = newFiles.filter(file => {
+      if (file.type === 'application/pdf') {
+        this.errorMessage.set('PDF files are not supported. Please convert your PDF to an image (PNG or JPG) first.');
+        return false;
+      }
       if (!this.acceptedTypes.includes(file.type)) {
-        this.errorMessage.set(`Invalid file type: ${file.name}`);
+        this.errorMessage.set(`Invalid file type: ${file.name}. Please use JPG or PNG images.`);
         return false;
       }
       if (file.size > this.maxFileSize) {
-        this.errorMessage.set(`File too large: ${file.name}`);
+        this.errorMessage.set(`File too large: ${file.name}. Maximum size is 10MB.`);
         return false;
       }
       return true;
