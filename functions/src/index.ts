@@ -25,7 +25,7 @@ const corsHandler = cors({
       callback(null, true);
       return;
     }
-    
+
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -52,6 +52,7 @@ export const proxyApi = onRequest((req, res) => {
         social: "https://githubsocial-fuajdt22nq-uc.a.run.app?target=social",
         commit: "https://githubcommits-fuajdt22nq-uc.a.run.app",
         notion: "https://notionfunction-fuajdt22nq-uc.a.run.app",
+        converter: "https://converterfunction-fuajdt22nq-uc.a.run.app",
       };
 
       if (!targets[target]) {

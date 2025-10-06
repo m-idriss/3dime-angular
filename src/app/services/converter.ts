@@ -25,7 +25,7 @@ export interface ConversionResponse {
   providedIn: 'root'
 })
 export class ConverterService {
-  private readonly converterUrl = `${environment.apiUrl}/converterFunction`;
+  private readonly baseUrl = environment.apiUrl;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -49,7 +49,7 @@ export class ConverterService {
       currentDate: today
     };
 
-    return this.http.post<ConversionResponse>(this.converterUrl, request);
+    return this.http.post<ConversionResponse>(`${this.baseUrl}?target=converter`, request);
   }
 
   /**
