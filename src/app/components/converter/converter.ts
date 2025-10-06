@@ -100,15 +100,35 @@ export class Converter {
 
     try {
       const fileDataPromises = this.files().map(async file => {
-        const dataUrl = await this.converterService.fileToDataUrl(file);
-        return {
-          dataUrl,
-          name: file.name,
-          type: file.type
-        } as FileData;
+        // Check if file is a PDF
+        if (file.type === 'application/pdf') {
+          // Convert PDF to images (one per page)
+          try {
+            const imageDataUrls = await this.converterService.pdfToImages(file);
+            // Return multiple FileData objects, one for each page
+            return imageDataUrls.map((dataUrl, index) => ({
+              dataUrl,
+              name: `${file.name} (Page ${index + 1})`,
+              type: 'image/png'
+            } as FileData));
+          } catch (err) {
+            console.error('PDF conversion error:', err);
+            throw new Error(`Failed to process PDF: ${file.name}`);
+          }
+        } else {
+          // For images, use the existing method
+          const dataUrl = await this.converterService.fileToDataUrl(file);
+          return [{
+            dataUrl,
+            name: file.name,
+            type: file.type
+          } as FileData];
+        }
       });
 
-      const fileData = await Promise.all(fileDataPromises);
+      // Flatten the array since PDFs return multiple pages
+      const fileDataArrays = await Promise.all(fileDataPromises);
+      const fileData = fileDataArrays.flat();
 
       this.converterService.convertToIcs(fileData).subscribe({
         next: (response) => {
@@ -128,7 +148,7 @@ export class Converter {
       });
     } catch (err) {
       console.error('File processing error:', err);
-      this.errorMessage.set('Failed to process files. Please try again.');
+      this.errorMessage.set((err as Error).message || 'Failed to process files. Please try again.');
       this.isProcessing.set(false);
     }
   }
