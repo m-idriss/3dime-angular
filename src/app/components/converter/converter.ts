@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConverterService, FileData } from '../../services/converter';
+import { Card } from '../card/card';
 
 interface CalendarEvent {
   summary: string;
@@ -12,7 +13,7 @@ interface CalendarEvent {
 
 @Component({
   selector: 'app-converter',
-  imports: [CommonModule],
+  imports: [CommonModule, Card],
   templateUrl: './converter.html',
   styleUrl: './converter.scss'
 })
