@@ -1,0 +1,48 @@
+# Angular SPA Routing Configuration
+# Redirect all requests to index.html for client-side routing
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # If an existing asset or directory is requested, serve it directly
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  
+  # Otherwise, serve index.html and let Angular handle the routing
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Enable gzip compression for better performance
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Set proper MIME types
+<IfModule mod_mime.c>
+  AddType application/javascript js
+  AddType text/css css
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+  # Prevent clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+  
+  # Prevent MIME type sniffing
+  Header always set X-Content-Type-Options "nosniff"
+  
+  # Enable XSS protection
+  Header always set X-XSS-Protection "1; mode=block"
+  
+  # Cache control for static assets
+  <FilesMatch "\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  
+  # No cache for HTML files
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
