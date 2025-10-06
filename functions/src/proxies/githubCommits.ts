@@ -17,7 +17,7 @@ const corsHandler = cors({
       callback(null, true);
       return;
     }
-    
+
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -83,7 +83,7 @@ export const githubCommits = onRequest(
                 date: new Date(day.date).getTime(),
                 value: day.contributionCount,
               }))
-              .filter((d: any) => d.date >= cutoff.getTime()) // <= filtre ici
+              .filter((d: any) => d.date >= cutoff.getTime())
           );
 
           return res.status(200).json(commits);
