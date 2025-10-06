@@ -343,12 +343,22 @@ firebase deploy --only hosting
 npm run build -- --configuration=production --base-href=/
 
 # Upload dist/3dime-angular/browser/ contents to your web server
-# Configure URL rewriting to support Angular routing
+# For Apache servers, .htaccess is included automatically (no additional configuration needed)
+# For other servers, configure URL rewriting to support Angular routing (see Server Configuration section)
 ```
 
 ### Server Configuration for SPA Routing
 
-For Angular's client-side routing to work correctly, configure your server to redirect all requests to `index.html`:
+For Angular's client-side routing to work correctly, the server needs to redirect all requests to `index.html`.
+
+**Apache** (Automatic):
+The project includes a `.htaccess` file in the `public/` directory that is automatically copied to the build output. This file configures:
+- URL rewriting for SPA routing (redirects all non-file requests to index.html)
+- Gzip compression for better performance
+- Security headers (X-Frame-Options, X-Content-Type-Options, X-XSS-Protection)
+- Optimized cache control for static assets
+
+**No additional configuration needed for Apache/FTP deployments!**
 
 **Nginx**:
 ```nginx
@@ -357,7 +367,7 @@ location / {
 }
 ```
 
-**Apache** (`.htaccess`):
+For reference, the Apache configuration (already included):
 ```apache
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
