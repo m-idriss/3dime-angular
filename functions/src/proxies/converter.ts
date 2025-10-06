@@ -34,8 +34,8 @@ export const converterFunction = onRequest(
   { 
     secrets: ["OPENAI_API_KEY"],
     maxInstances: 10,
-    timeoutSeconds: 300,
-    memory: "512MiB"
+    timeoutSeconds: 60,
+    memory: "256MiB"
   },
   (req, res) => {
     return corsHandler(req, res, async () => {
