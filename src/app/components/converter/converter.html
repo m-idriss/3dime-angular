@@ -1,0 +1,99 @@
+<app-card title="📅 Calendar Converter">
+  <!-- Upload Area - Only show if no events extracted -->
+  @if (extractedEvents().length === 0) {
+    <div class="upload-zone" 
+         [class.dragging]="isDragging()"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)">
+      <div class="upload-icon">📤</div>
+      <p>Drop files here or</p>
+      <label class="upload-button">
+        <input type="file" 
+               class="file-input"
+               multiple
+               accept="image/jpeg,image/jpg,image/png,application/pdf"
+               (change)="onFileSelect($event)"
+               [disabled]="isProcessing()">
+        <span>Browse</span>
+      </label>
+    </div>
+
+    <!-- Selected Files - Minimalist -->
+    @if (files().length > 0) {
+      <div class="selected-files">
+        @for (file of files(); track $index) {
+          <div class="file-chip">
+            <span>{{ file.name }}</span>
+            <button class="chip-remove" 
+                    (click)="removeFile($index)"
+                    [disabled]="isProcessing()">✕</button>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Convert Button -->
+    @if (files().length > 0 && !isProcessing()) {
+      <button class="action-button" (click)="convertToIcs()">
+        Convert
+      </button>
+    }
+
+    @if (isProcessing()) {
+      <div class="processing">
+        <span class="spinner"></span>
+        <span>Processing...</span>
+      </div>
+    }
+  }
+
+  <!-- Error Message -->
+  @if (errorMessage()) {
+    <div class="alert error">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <!-- Extracted Events - Apple Calendar Style -->
+  @if (extractedEvents().length > 0) {
+    <div class="events-list">
+      @for (event of extractedEvents(); track $index) {
+        <div class="event-item">
+          <div class="event-date">
+            <div class="date-block">
+              <span [innerHTML]="getMonthDay(event.start)"></span>
+            </div>
+          </div>
+          <div class="event-details">
+            <h3 class="event-title">{{ event.summary }}</h3>
+            <div class="event-info">
+              <div class="event-location">
+                @if (event.location) {
+                  <span>📍 {{ event.location }}</span>
+                }
+              </div>
+              <div class="event-times">
+                <span class="event-time">{{ getTime(event.start) }}</span>
+                @if (event.end && getTime(event.end)) {
+                  <span class="event-time-separator">–</span>
+                  <span class="event-time-end">{{ getTime(event.end) }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Download Button -->
+    <div class="actions">
+      <button class="action-button download" (click)="downloadIcs()">
+        Download Calendar
+      </button>
+      <button class="action-button secondary" (click)="resetState()">
+        Convert Another
+      </button>
+    </div>
+  }
+</app-card>
