@@ -224,5 +224,14 @@ export class Converter {
     const parts = dateStr.split(' ');
     return parts.length > 1 ? parts[1] : '';
   }
+
+  protected resetState(): void {
+    this.files.set([]);
+    this.isDragging.set(false);
+    this.isProcessing.set(false);
+    this.errorMessage.set(null);
+    this.extractedEvents.set([]);
+    this.icsContent.set(null);
+  }
 }
 
