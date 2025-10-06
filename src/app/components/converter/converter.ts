@@ -2,6 +2,14 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConverterService, FileData } from '../../services/converter';
 
+interface CalendarEvent {
+  summary: string;
+  start: string;
+  end: string;
+  location?: string;
+  description?: string;
+}
+
 @Component({
   selector: 'app-converter',
   imports: [CommonModule],
@@ -13,7 +21,8 @@ export class Converter {
   protected readonly isDragging = signal(false);
   protected readonly isProcessing = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
-  protected readonly successMessage = signal<string | null>(null);
+  protected readonly extractedEvents = signal<CalendarEvent[]>([]);
+  protected readonly icsContent = signal<string | null>(null);
 
   private readonly acceptedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
   private readonly maxFileSize = 10 * 1024 * 1024; // 10MB
@@ -50,15 +59,16 @@ export class Converter {
 
   private addFiles(newFiles: File[]): void {
     this.errorMessage.set(null);
-    this.successMessage.set(null);
+    this.extractedEvents.set([]);
+    this.icsContent.set(null);
 
     const validFiles = newFiles.filter(file => {
       if (!this.acceptedTypes.includes(file.type)) {
-        this.errorMessage.set(`Invalid file type: ${file.name}. Only JPG, PNG, and PDF are accepted.`);
+        this.errorMessage.set(`Invalid file type: ${file.name}`);
         return false;
       }
       if (file.size > this.maxFileSize) {
-        this.errorMessage.set(`File too large: ${file.name}. Maximum size is 10MB.`);
+        this.errorMessage.set(`File too large: ${file.name}`);
         return false;
       }
       return true;
@@ -72,7 +82,8 @@ export class Converter {
   protected removeFile(index: number): void {
     this.files.update(current => current.filter((_, i) => i !== index));
     this.errorMessage.set(null);
-    this.successMessage.set(null);
+    this.extractedEvents.set([]);
+    this.icsContent.set(null);
   }
 
   protected async convertToIcs(): Promise<void> {
@@ -83,10 +94,10 @@ export class Converter {
 
     this.isProcessing.set(true);
     this.errorMessage.set(null);
-    this.successMessage.set(null);
+    this.extractedEvents.set([]);
+    this.icsContent.set(null);
 
     try {
-      // Convert files to base64
       const fileDataPromises = this.files().map(async file => {
         const dataUrl = await this.converterService.fileToDataUrl(file);
         return {
@@ -98,18 +109,11 @@ export class Converter {
 
       const fileData = await Promise.all(fileDataPromises);
 
-      // Call converter service
       this.converterService.convertToIcs(fileData).subscribe({
         next: (response) => {
           if (response.success && response.icsContent) {
-            // Download the ICS file
-            this.converterService.downloadIcsFile(response.icsContent);
-            this.successMessage.set('Calendar file downloaded successfully!');
-            
-            // Clear files after successful conversion
-            setTimeout(() => {
-              this.files.set([]);
-            }, 2000);
+            this.icsContent.set(response.icsContent);
+            this.parseIcsContent(response.icsContent);
           } else {
             this.errorMessage.set(response.error || 'Failed to convert files.');
           }
@@ -117,7 +121,7 @@ export class Converter {
         },
         error: (err) => {
           console.error('Conversion error:', err);
-          this.errorMessage.set(err.error?.message || 'An error occurred during conversion. Please try again.');
+          this.errorMessage.set(err.error?.message || 'An error occurred during conversion.');
           this.isProcessing.set(false);
         }
       });
@@ -128,12 +132,77 @@ export class Converter {
     }
   }
 
-  protected formatFileSize(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  private parseIcsContent(icsContent: string): void {
+    const events: CalendarEvent[] = [];
+    const lines = icsContent.split('\n');
+    let currentEvent: Partial<CalendarEvent> = {};
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      if (line.startsWith('BEGIN:VEVENT')) {
+        currentEvent = {};
+      } else if (line.startsWith('END:VEVENT')) {
+        if (currentEvent.summary && currentEvent.start) {
+          events.push(currentEvent as CalendarEvent);
+        }
+      } else if (line.startsWith('SUMMARY:')) {
+        currentEvent.summary = line.substring(8);
+      } else if (line.startsWith('DTSTART')) {
+        const dateStr = line.split(':')[1];
+        currentEvent.start = this.formatDate(dateStr);
+      } else if (line.startsWith('DTEND')) {
+        const dateStr = line.split(':')[1];
+        currentEvent.end = this.formatDate(dateStr);
+      } else if (line.startsWith('LOCATION:')) {
+        currentEvent.location = line.substring(9);
+      } else if (line.startsWith('DESCRIPTION:')) {
+        currentEvent.description = line.substring(12);
+      }
+    }
+
+    this.extractedEvents.set(events);
+  }
+
+  private formatDate(icsDate: string): string {
+    // Parse YYYYMMDDTHHMMSS or YYYYMMDD format
+    if (!icsDate) return '';
+    
+    const year = icsDate.substring(0, 4);
+    const month = icsDate.substring(4, 6);
+    const day = icsDate.substring(6, 8);
+    
+    if (icsDate.includes('T')) {
+      const hour = icsDate.substring(9, 11);
+      const minute = icsDate.substring(11, 13);
+      return `${day}/${month}/${year} ${hour}:${minute}`;
+    }
+    
+    return `${day}/${month}/${year}`;
+  }
+
+  protected downloadIcs(): void {
+    if (this.icsContent()) {
+      this.converterService.downloadIcsFile(this.icsContent()!);
+    }
+  }
+
+  protected getMonthDay(dateStr: string): string {
+    // Extract day and month from formatted date (DD/MM/YYYY HH:MM)
+    const parts = dateStr.split(' ')[0].split('/');
+    if (parts.length >= 3) {
+      const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+      const day = parts[0];
+      const monthIndex = parseInt(parts[1]) - 1;
+      return `${months[monthIndex]}\n${day}`;
+    }
+    return dateStr;
+  }
+
+  protected getTime(dateStr: string): string {
+    // Extract time from formatted date (DD/MM/YYYY HH:MM)
+    const parts = dateStr.split(' ');
+    return parts.length > 1 ? parts[1] : '';
   }
 }
 
