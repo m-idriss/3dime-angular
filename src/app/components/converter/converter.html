@@ -1,7 +1,7 @@
 <app-card title="📅 Calendar Converter">
   <!-- Upload Area - Only show if no events extracted -->
   @if (extractedEvents().length === 0) {
-    <div class="upload-zone" 
+    <div class="upload-zone"
          [class.dragging]="isDragging()"
          (dragover)="onDragOver($event)"
          (dragleave)="onDragLeave($event)"
@@ -9,7 +9,7 @@
       <div class="upload-icon">📤</div>
       <p>Drop files here or</p>
       <label class="upload-button">
-        <input type="file" 
+        <input type="file"
                class="file-input"
                multiple
                accept="image/jpeg,image/jpg,image/png,application/pdf"
@@ -25,7 +25,7 @@
         @for (file of files(); track $index) {
           <div class="file-chip">
             <span>{{ file.name }}</span>
-            <button class="chip-remove" 
+            <button class="chip-remove"
                     (click)="removeFile($index)"
                     [disabled]="isProcessing()">✕</button>
           </div>
@@ -77,7 +77,6 @@
             <div class="event-times">
               <span class="event-time">{{ getTime(event.start) }}</span>
               @if (event.end && getTime(event.end)) {
-                <span class="event-time-separator">–</span>
                 <span class="event-time-end">{{ getTime(event.end) }}</span>
               }
             </div>
