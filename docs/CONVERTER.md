@@ -7,6 +7,7 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 ## Features
 
 - **📤 File Upload**: Drag-and-drop interface for images and PDF files
+- **📄 PDF Support**: Automatic conversion of PDF pages to images using PDF.js before processing
 - **🧠 Smart Parsing**: Automatic detection of dates, times, and event information using OpenAI GPT-4 Vision
 - **📅 ICS Generation**: Creates downloadable calendar files with proper RFC 5545 formatting
 - **🔐 Firebase Integration**: Secure cloud function processing
@@ -26,6 +27,7 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 **Service**: `src/app/services/converter.ts`
 - HTTP communication with Firebase function
 - File-to-base64 conversion
+- PDF-to-image conversion using PDF.js
 - ICS file download helper
 
 ### Backend (Firebase Function)
@@ -53,9 +55,11 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 ### Supported File Types
 
 - **Images**: JPG, JPEG, PNG
-- **Documents**: PDF
+- **Documents**: PDF (automatically converted to images before processing)
 - **Max file size**: 10MB per file
 - **Multiple files**: Yes, upload multiple files for batch processing
+
+**Note**: PDF files are automatically converted to PNG images (one per page) using PDF.js before being sent to the AI for processing. This ensures compatibility with OpenAI's Vision API which only accepts image formats.
 
 ### Calendar Applications
 
@@ -71,6 +75,14 @@ The generated ICS files are compatible with:
 
 1. Firebase project with Functions enabled
 2. OpenAI API account with access to GPT-4 Vision
+3. Node.js 20+ installed
+
+### Dependencies
+
+The converter uses the following key dependencies:
+- `pdfjs-dist`: Mozilla's PDF.js library for client-side PDF rendering
+- `@angular/common/http`: For HTTP requests to Firebase Functions
+- PDF.js worker loaded from CDN
 
 ### Configuration
 
@@ -136,6 +148,22 @@ POST /converterFunction
 
 ## Technical Details
 
+### PDF Processing
+
+PDF files are processed client-side before being sent to the API:
+
+1. **Library**: Uses [PDF.js](https://mozilla.github.io/pdf.js/) (Mozilla's open-source PDF renderer)
+2. **Process**: Each PDF page is rendered to a canvas element at 1.5x scale for high quality
+3. **Output**: Canvas is converted to JPEG data URL (92% quality, base64 encoded) for smaller file sizes
+4. **Multi-page**: Each page becomes a separate image, processed individually by the AI
+5. **Worker**: PDF.js worker is loaded from CDN (unpkg.com) for optimal performance
+
+**Benefits of client-side conversion**:
+- No server-side PDF libraries needed
+- Reduces Firebase Function memory requirements
+- Works with OpenAI Vision API (which only accepts images)
+- Better privacy (PDF content processed in browser)
+
 ### AI Processing
 
 The converter uses OpenAI's GPT-4 Vision model (`gpt-4o`) with:
@@ -189,6 +217,12 @@ The converter requires manual testing with real calendar images/PDFs since it de
 
 ### Troubleshooting
 
+**Issue**: "Failed to convert PDF to images"
+- PDF may be corrupted or password-protected
+- PDF may use unsupported features
+- Try converting the PDF to images manually first
+- Check browser console for detailed error messages
+
 **Issue**: "Failed to process images with AI"
 - Check OpenAI API key is set correctly
 - Verify API key has GPT-4 Vision access
@@ -197,11 +231,17 @@ The converter requires manual testing with real calendar images/PDFs since it de
 **Issue**: "No ICS content generated"
 - Image quality may be too low
 - Calendar information may not be clearly visible
-- Try with a clearer image
+- Try with a clearer image or higher resolution PDF
 
 **Issue**: Files not uploading
 - Check file size (max 10MB)
 - Verify file type (JPG, PNG, or PDF only)
+- For PDFs, ensure the file is valid and not corrupted
+
+**Issue**: PDF.js worker fails to load
+- Check Content Security Policy allows unpkg.com
+- Verify network connection
+- Check browser console for CSP violations
 
 ## Styling
 
