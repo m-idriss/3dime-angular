@@ -156,7 +156,7 @@ PDF files are processed client-side before being sent to the API:
 2. **Process**: Each PDF page is rendered to a canvas element at 2x scale for high quality
 3. **Output**: Canvas is converted to PNG data URL (base64 encoded)
 4. **Multi-page**: Each page becomes a separate image, processed individually by the AI
-5. **Worker**: PDF.js worker is loaded from CDN (cdnjs.cloudflare.com) for optimal performance
+5. **Worker**: PDF.js worker is loaded from CDN (unpkg.com) for optimal performance
 
 **Benefits of client-side conversion**:
 - No server-side PDF libraries needed
