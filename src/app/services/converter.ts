@@ -82,12 +82,15 @@ export class ConverterService {
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       const images: string[] = [];
 
+      console.log(`Processing PDF with ${pdf.numPages} page(s)`);
+
       // Convert each page to an image
       for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
         const page = await pdf.getPage(pageNum);
         
         // Set up canvas with appropriate scale for good quality
-        const viewport = page.getViewport({ scale: 2.0 });
+        // Using 1.5 scale for balance between quality and size
+        const viewport = page.getViewport({ scale: 1.5 });
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         
@@ -98,18 +101,28 @@ export class ConverterService {
         canvas.width = viewport.width;
         canvas.height = viewport.height;
 
-        // Render PDF page to canvas
+        // Render PDF page to canvas with white background
+        context.fillStyle = 'white';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
         await page.render({
           canvasContext: context,
           viewport: viewport,
           canvas: canvas
         }).promise;
 
-        // Convert canvas to data URL (PNG format for best quality)
-        const imageDataUrl = canvas.toDataURL('image/png');
+        // Convert canvas to JPEG with quality setting for smaller file size
+        // JPEG is better than PNG for scanned documents and photos
+        const imageDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+        
+        // Log the approximate size
+        const sizeInKB = Math.round((imageDataUrl.length * 3) / 4 / 1024);
+        console.log(`Page ${pageNum}: ~${sizeInKB}KB`);
+        
         images.push(imageDataUrl);
       }
 
+      console.log(`Successfully converted ${images.length} page(s) to images`);
       return images;
     } catch (error) {
       console.error('Error converting PDF to images:', error);

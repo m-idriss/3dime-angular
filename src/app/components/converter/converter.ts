@@ -99,17 +99,22 @@ export class Converter {
     this.icsContent.set(null);
 
     try {
+      console.log(`Processing ${this.files().length} file(s)...`);
+      
       const fileDataPromises = this.files().map(async file => {
         // Check if file is a PDF
         if (file.type === 'application/pdf') {
           // Convert PDF to images (one per page)
           try {
+            console.log(`Converting PDF: ${file.name}`);
             const imageDataUrls = await this.converterService.pdfToImages(file);
+            console.log(`PDF converted to ${imageDataUrls.length} image(s)`);
+            
             // Return multiple FileData objects, one for each page
             return imageDataUrls.map((dataUrl, index) => ({
               dataUrl,
               name: `${file.name} (Page ${index + 1})`,
-              type: 'image/png'
+              type: 'image/jpeg'
             } as FileData));
           } catch (err) {
             console.error('PDF conversion error:', err);
@@ -117,6 +122,7 @@ export class Converter {
           }
         } else {
           // For images, use the existing method
+          console.log(`Processing image: ${file.name}`);
           const dataUrl = await this.converterService.fileToDataUrl(file);
           return [{
             dataUrl,
@@ -130,11 +136,15 @@ export class Converter {
       const fileDataArrays = await Promise.all(fileDataPromises);
       const fileData = fileDataArrays.flat();
 
+      console.log(`Sending ${fileData.length} image(s) to converter API...`);
+
       this.converterService.convertToIcs(fileData).subscribe({
         next: (response) => {
+          console.log('Conversion API response:', response);
           if (response.success && response.icsContent) {
             this.icsContent.set(response.icsContent);
             this.parseIcsContent(response.icsContent);
+            console.log(`Successfully extracted ${this.extractedEvents().length} event(s)`);
           } else {
             this.errorMessage.set(response.error || 'Failed to convert files.');
           }
@@ -142,7 +152,7 @@ export class Converter {
         },
         error: (err) => {
           console.error('Conversion error:', err);
-          this.errorMessage.set(err.error?.message || 'An error occurred during conversion.');
+          this.errorMessage.set(err.error?.message || err.message || 'An error occurred during conversion.');
           this.isProcessing.set(false);
         }
       });
