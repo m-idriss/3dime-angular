@@ -99,7 +99,6 @@ export class Converter {
     this.icsContent.set(null);
 
     try {
-
       const fileDataPromises = this.files().map(async file => {
         // Check if file is a PDF
         if (file.type === 'application/pdf') {
