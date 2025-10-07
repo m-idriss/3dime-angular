@@ -29,8 +29,9 @@ export class ConverterService {
   private readonly baseUrl = environment.apiUrl;
 
   constructor(private readonly http: HttpClient) {
-    // Configure PDF.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+    // Configure PDF.js worker - using unpkg.com which has better version availability
+    // unpkg.com automatically resolves to the closest matching version
+    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
   }
 
   /**
