@@ -153,7 +153,7 @@ POST /converterFunction
 PDF files are processed client-side before being sent to the API:
 
 1. **Library**: Uses [PDF.js](https://mozilla.github.io/pdf.js/) (Mozilla's open-source PDF renderer)
-2. **Process**: Each PDF page is rendered to a canvas element at 2x scale for high quality
+2. **Process**: Each PDF page is rendered to a canvas element at 1.5x scale for high quality
 3. **Output**: Canvas is converted to PNG data URL (base64 encoded)
 4. **Multi-page**: Each page becomes a separate image, processed individually by the AI
 5. **Worker**: PDF.js worker is loaded from CDN (unpkg.com) for optimal performance
