@@ -239,7 +239,7 @@ The converter requires manual testing with real calendar images/PDFs since it de
 - For PDFs, ensure the file is valid and not corrupted
 
 **Issue**: PDF.js worker fails to load
-- Check Content Security Policy allows cdnjs.cloudflare.com
+- Check Content Security Policy allows unpkg.com
 - Verify network connection
 - Check browser console for CSP violations
 
