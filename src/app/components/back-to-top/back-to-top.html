@@ -1,0 +1,10 @@
+<button
+  class="back-to-top-btn"
+  [class.visible]="isVisible()"
+  (click)="scrollToTop()"
+  (keydown)="handleKeyPress($event)"
+  aria-label="Scroll back to top"
+  title="Back to top"
+  type="button">
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</button>
