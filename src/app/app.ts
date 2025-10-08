@@ -10,6 +10,7 @@ import { Stuff } from './components/stuff/stuff';
 import { Hobbies } from './components/hobbies/hobbies';
 import { Contact } from './components/contact/contact';
 import { GithubActivity } from './components/github-activity/github-activity';
+import { BackToTop } from './components/back-to-top/back-to-top';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ import { GithubActivity } from './components/github-activity/github-activity';
     Stuff,
     Hobbies,
     Contact,
-    GithubActivity
+    GithubActivity,
+    BackToTop
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
