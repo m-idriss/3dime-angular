@@ -507,6 +507,24 @@ body.bg-video .bg {
   .theme-options {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  /* Improve container visibility on mobile */
+  body:not(.bg-white) {
+    --primary-bg: rgba(255, 255, 255, 0.12);
+    --primary-bg-hover: rgba(255, 255, 255, 0.18);
+    --glass-bg: rgba(255, 255, 255, 0.12);
+    --glass-bg-hover: rgba(255, 255, 255, 0.18);
+    --glass-border: rgba(255, 255, 255, 0.25);
+  }
+
+  /* Light background on mobile keeps original values */
+  body.bg-white {
+    --primary-bg: rgba(255, 255, 255, 0.95);
+    --primary-bg-hover: rgba(255, 255, 255, 1);
+    --glass-bg: rgba(0, 0, 0, 0.1);
+    --glass-bg-hover: rgba(0, 0, 0, 0.2);
+    --glass-border: rgba(0, 0, 0, 0.15);
+  }
 }
 
 /* Progressive disclosure for better mobile UX */
