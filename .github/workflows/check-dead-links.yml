@@ -45,9 +45,16 @@ jobs:
             --cache
             --max-cache-age 86400sec
             README.md
-            DEPLOYMENT.md
-            DEVELOPMENT.md
-            FIREBASE_DEPLOYMENT_FIX.md
+            CONTRIBUTING.md
+            ROADMAP.md
+            SECURITY.md
+            docs/DEVELOPMENT.md
+            docs/API.md
+            docs/COMPONENTS.md
+            docs/SERVICES.md
+            docs/DESIGN_SYSTEM.md
+            docs/CONVERTER.md
+            docs/README.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -66,10 +73,17 @@ jobs:
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Checked files:**" >> $GITHUB_STEP_SUMMARY
-          echo "- README.md (documentation links)" >> $GITHUB_STEP_SUMMARY
-          echo "- DEPLOYMENT.md (deployment documentation)" >> $GITHUB_STEP_SUMMARY
-          echo "- DEVELOPMENT.md (development documentation)" >> $GITHUB_STEP_SUMMARY
-          echo "- FIREBASE_DEPLOYMENT_FIX.md (Firebase deployment docs)" >> $GITHUB_STEP_SUMMARY
+          echo "- README.md (main documentation)" >> $GITHUB_STEP_SUMMARY
+          echo "- CONTRIBUTING.md (contribution guidelines)" >> $GITHUB_STEP_SUMMARY
+          echo "- ROADMAP.md (project roadmap)" >> $GITHUB_STEP_SUMMARY
+          echo "- SECURITY.md (security policies)" >> $GITHUB_STEP_SUMMARY
+          echo "- docs/DEVELOPMENT.md (development documentation)" >> $GITHUB_STEP_SUMMARY
+          echo "- docs/API.md (API documentation)" >> $GITHUB_STEP_SUMMARY
+          echo "- docs/COMPONENTS.md (component documentation)" >> $GITHUB_STEP_SUMMARY
+          echo "- docs/SERVICES.md (services documentation)" >> $GITHUB_STEP_SUMMARY
+          echo "- docs/DESIGN_SYSTEM.md (design system documentation)" >> $GITHUB_STEP_SUMMARY
+          echo "- docs/CONVERTER.md (converter documentation)" >> $GITHUB_STEP_SUMMARY
+          echo "- docs/README.md (documentation index)" >> $GITHUB_STEP_SUMMARY
 
       - name: 🐛 Create issue for dead links
         if: >-
@@ -106,10 +120,17 @@ jobs:
 
             ### Files to Check
 
-            - \`README.md\` - Main documentation links
-            - \`DEPLOYMENT.md\` - Deployment-related links
-            - \`DEVELOPMENT.md\` - Development setup links
-            - \`FIREBASE_DEPLOYMENT_FIX.md\` - Firebase documentation links
+            - \`README.md\` - Main documentation
+            - \`CONTRIBUTING.md\` - Contribution guidelines
+            - \`ROADMAP.md\` - Project roadmap
+            - \`SECURITY.md\` - Security policies
+            - \`docs/DEVELOPMENT.md\` - Development documentation
+            - \`docs/API.md\` - API documentation
+            - \`docs/COMPONENTS.md\` - Component documentation
+            - \`docs/SERVICES.md\` - Services documentation
+            - \`docs/DESIGN_SYSTEM.md\` - Design system documentation
+            - \`docs/CONVERTER.md\` - Converter documentation
+            - \`docs/README.md\` - Documentation index
 
             **Note:** This issue was automatically created by the dead link
             checker workflow.
