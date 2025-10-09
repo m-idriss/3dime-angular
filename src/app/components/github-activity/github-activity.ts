@@ -60,7 +60,7 @@ export class GithubActivity implements AfterViewInit {
           source: this.data,
           x: (d: { date: number; value: number }) => d.date,
           y: (d: { date: number; value: number }) => d.value,
-          defaultValue: 0,
+          defaultValue: -1,
         },
         theme: 'dark',
         date: {
@@ -71,10 +71,10 @@ export class GithubActivity implements AfterViewInit {
         range: this.months,
         scale: {
           color: {
-            range: ['rgba(0, 100, 0, 0.0)', 'rgba(0, 100, 0, 0.25)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 100, 0, 0.75)', 'rgba(0, 100, 0, 1)'],
+            range: ['rgba(0, 50, 0, 0)', 'rgba(0, 20, 0, 0.05)', 'rgba(0, 100, 0, 0.25)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 100, 0, 0.75)', 'rgba(0, 100, 0, 1)'],
             interpolate: 'hsl',
             type: 'linear',
-            domain: [0, 3, 5, 10, 20],
+            domain: [-1, 0, 3, 5, 10, 20],
           },
         },
       },
