@@ -29,7 +29,7 @@ export class GithubActivity implements AfterViewInit {
       this.data = commits;
       this.isLoading = false;
       this.cdr.markForCheck();
-      
+
       // Wait for next tick to ensure the view has been updated
       setTimeout(() => {
         if (this.container) {
@@ -71,10 +71,10 @@ export class GithubActivity implements AfterViewInit {
         range: this.months,
         scale: {
           color: {
-            range: ['rgba(0, 100, 0, 0.1)', 'green'],
+            range: ['rgba(0, 100, 0, 0.0)', 'rgba(0, 100, 0, 0.25)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 100, 0, 0.75)', 'rgba(0, 100, 0, 1)'],
             interpolate: 'hsl',
             type: 'linear',
-            domain: [0, 15],
+            domain: [0, 3, 5, 10, 20],
           },
         },
       },
