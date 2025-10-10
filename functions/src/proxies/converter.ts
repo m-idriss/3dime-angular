@@ -16,7 +16,7 @@ const corsHandler = cors({
       callback(null, true);
       return;
     }
-    
+
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -31,7 +31,7 @@ const corsHandler = cors({
  * Uses AI to extract calendar events from uploaded files
  */
 export const converterFunction = onRequest(
-  { 
+  {
     secrets: ["OPENAI_API_KEY"],
     maxInstances: 10,
     timeoutSeconds: 60,
@@ -60,7 +60,7 @@ export const converterFunction = onRequest(
         const today = currentDate || new Date().toISOString().split('T')[0];
 
         // Build prompt from environment or use default
-        const baseMessage = process.env.BASE_TEXT_MESSAGE || 
+        const baseMessage = process.env.BASE_TEXT_MESSAGE ||
           `Extract all calendar events from the following images and generate a valid ICS file. Use the time zone: ${tz}. Today is ${today}, calendar events may be around this. Include all required ICS fields like UID, DTSTAMP, DTSTART, DTEND, SUMMARY, DESCRIPTION, LOCATION, and TZID. Each image may contain multiple events for multiple dates (like column with row calendar), so capture all of them. Only output the ICS content. Do not add any extra text or formatting.`;
 
         const systemPrompt = process.env.PROMPT ||
@@ -105,7 +105,7 @@ export const converterFunction = onRequest(
         if (!response.ok) {
           const errorData = await response.json();
           console.error("OpenAI API error:", errorData);
-          return res.status(response.status).json({ 
+          return res.status(response.status).json({
             error: "Failed to process images with AI",
             details: errorData
           });
@@ -123,6 +123,15 @@ export const converterFunction = onRequest(
         cleanedIcs = cleanedIcs.replace(/```(?:ics)?\s*[\r\n]|```/gi, '');
         cleanedIcs = cleanedIcs.trim();
 
+
+        if (!isValidIcs(cleanedIcs)) {
+          return res.status(200).json({
+            error: cleanedIcs,
+            message: "Generated ICS content is invalid",
+            success: false
+          });
+        }
+
         return res.status(200).json({
           icsContent: cleanedIcs,
           success: true
@@ -130,11 +139,15 @@ export const converterFunction = onRequest(
 
       } catch (err: any) {
         console.error("Converter error:", err);
-        return res.status(500).json({ 
+        return res.status(500).json({
           error: "Internal server error",
-          message: err.message 
+          message: err.message
         });
       }
     });
   }
 );
+
+function isValidIcs(ics: string): boolean {
+  return ics.startsWith("BEGIN:VCALENDAR") && ics.endsWith("END:VCALENDAR");
+}
