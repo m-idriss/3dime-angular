@@ -165,7 +165,9 @@
 
 /* Events List */
 .events-list {
-
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
 
   .event-item {
     display: flex;
