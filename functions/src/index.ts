@@ -36,7 +36,6 @@ const corsHandler = cors({
 });
 
 export const proxyApi = onRequest((req, res) => {
-  // return target
   return corsHandler(req, res, async () => {
     try {
       if (req.method === "OPTIONS") {
