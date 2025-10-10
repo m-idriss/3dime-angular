@@ -59,7 +59,7 @@
   @if (extractedEvents().length > 0) {
     <div class="events-list">
       @for (event of extractedEvents(); track $index) {
-        <div class="event-item">
+        <div class="event-item link">
           <div class="event-date">
             <div class="date-block">
               <span [innerHTML]="getMonthDay(event.start)"></span>
