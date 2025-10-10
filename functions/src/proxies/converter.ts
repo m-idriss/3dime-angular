@@ -111,23 +111,26 @@ export const converterFunction = onRequest(
           });
         }
 
-       return res.status(500).json({
-                         error: "test",
-                       });
-
         const data = await response.json();
         const icsContent = data.choices?.[0]?.message?.content;
-
 
         if (!icsContent) {
           return res.status(500).json({ error: "No ICS content generated" });
         }
 
-
         // Clean up the ICS content (remove markdown code blocks if present)
         let cleanedIcs = icsContent.trim();
         cleanedIcs = cleanedIcs.replace(/```(?:ics)?\s*[\r\n]|```/gi, '');
         cleanedIcs = cleanedIcs.trim();
+
+
+        if (!isValidIcs(cleanedIcs)) {
+          return res.status(200).json({
+            error: cleanedIcs,
+            message: "Generated ICS content is invalid",
+            success: false
+          });
+        }
 
         return res.status(200).json({
           icsContent: cleanedIcs,
@@ -143,9 +146,8 @@ export const converterFunction = onRequest(
       }
     });
   }
-
-  // Validate basic structure of ICS content
-  isValidIcs(ics: string): boolean {
-    return ics.includes("BEGIN:VCALENDAR") && ics.includes("END:VCALENDAR") &&
-           ics.includes("BEGIN:VEVENT") && ics.includes("END:VEVENT");
 );
+
+function isValidIcs(ics: string): boolean {
+  return ics.startsWith("BEGIN:VCALENDAR") && ics.endsWith("END:VCALENDAR");
+}

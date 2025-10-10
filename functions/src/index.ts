@@ -2,7 +2,7 @@ import { setGlobalOptions } from "firebase-functions";
 import { onRequest } from "firebase-functions/https";
 import cors from "cors";
 import fetch from "node-fetch";
-
+import { log } from "firebase-functions/logger";
 export { githubCommits } from "./proxies/githubCommits";
 export { githubSocial } from "./proxies/githubSocial";
 export { notionFunction } from "./proxies/notion";
@@ -48,9 +48,62 @@ export const proxyApi = onRequest((req, res) => {
         return res.status(400).json({ error: "Missing target" });
       }
 
-     // return json with target url
-      return res.status(200).json({ "target": target });
+      const isEmulator = process.env.FUNCTIONS_EMULATOR === "true";
 
+      const localBaseUrl = req.protocol + "://" + req.get("host") + "/image-to-ics/us-central1"
+
+      log("Proxying request", {
+        target: target,
+        URL: localBaseUrl,
+        method: req.method,
+        headers: req.headers,
+        emulator: isEmulator,
+        GCP_PROJECT: process.env.GCP_PROJECT,
+        GCLOUD_PROJECT: process.env.GCLOUD_PROJECT,
+      });
+
+      const targets: Record<string, string> = isEmulator
+        ? {
+            profile: `${localBaseUrl}/githubSocial`,
+            social: `${localBaseUrl}/githubSocial?target=social`,
+            commit: `${localBaseUrl}/githubCommits`,
+            notion: `${localBaseUrl}/notionFunction`,
+            converter: `${localBaseUrl}/converterFunction`,
+          }
+        : {
+            profile: "https://githubsocial-fuajdt22nq-uc.a.run.app",
+            social: "https://githubsocial-fuajdt22nq-uc.a.run.app?target=social",
+            commit: "https://githubcommits-fuajdt22nq-uc.a.run.app",
+            notion: "https://notionfunction-fuajdt22nq-uc.a.run.app",
+            converter: "https://converterfunction-fuajdt22nq-uc.a.run.app",
+        };
+
+      if (!targets[target]) {
+        return res.status(400).json({ error: "Invalid target" });
+      }
+
+      let url = targets[target];
+
+      if (target === "commit" && req.query.months) {
+        url += `?months=${req.query.months}`;
+      }
+
+      const response = await fetch(url, {
+        method: req.method,
+        headers: { "Content-Type": "application/json" },
+        body: ["POST", "PUT", "PATCH"].includes(req.method)
+          ? JSON.stringify(req.body)
+          : undefined,
+      });
+
+      let data: any;
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
+
+      return res.status(response.status).json(data);
     } catch (err: any) {
       console.error("Proxy error:", err);
       return res.status(500).json({ error: err.message });
