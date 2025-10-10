@@ -50,7 +50,7 @@ export const proxyApi = onRequest((req, res) => {
 
       const isEmulator = process.env.FUNCTIONS_EMULATOR === "true";
 
-      const localBaseUrl = req.protocol + "://" + req.get("host") + "/image-to-ics/us-central1"
+      const localBaseUrl = req.protocol + "://" + req.get("host") + "/image-to-ics/us-central1";
 
       log("Proxying request", {
         target: target,
