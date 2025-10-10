@@ -166,6 +166,7 @@
 /* Events List */
 .events-list {
 
+
   .event-item {
     display: flex;
     align-items: flex-start;
@@ -293,12 +294,12 @@
 
   .events-list {
     .event-item {
-      padding: var(--space-sm);
+      padding: var(--space-xs);
 
       .event-date {
         .date-block {
-          width: 45px;
-          height: 45px;
+          width: 40px;
+          height: 40px;
           font-size: 0.6rem;
         }
       }
