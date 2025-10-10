@@ -47,6 +47,7 @@ tests {
 
   test("icsContent start with BEGIN:VCALENDAR end with END:VCALENDAR", function() {
     expect(res.getBody().icsContent).to.match(/^BEGIN:VCALENDAR[\s\S]*END:VCALENDAR$/);
+    expect(res.getBody().success).to.equal(true);
   });
 
 }
