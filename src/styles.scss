@@ -265,8 +265,8 @@ body.bg-video .bg {
    ======================== */
 .link {
   display: block;
-  margin: var(--space-xs) 0;
-  padding: var(--space-sm) var(--space-md);
+  margin: var(--space-md) 0;
+  padding: var(--space-xs) var(--space-md);
   border-radius: var(--radius-md);
   backdrop-filter: blur(12px);
   background: var(--glass-bg);
