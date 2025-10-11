@@ -1,6 +1,7 @@
-import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, signal, OnInit, Inject, PLATFORM_ID, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ConverterService, FileData } from '../../services/converter';
+import { AuthService } from '../../services/auth.service';
 import { Card } from '../card/card';
 
 interface CalendarEvent {
@@ -24,12 +25,15 @@ export class Converter implements OnInit {
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
+  protected menuOpen = false;
 
   private readonly acceptedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
   private readonly maxFileSize = 10 * 1024 * 1024; // 10MB
 
   constructor(
     private readonly converterService: ConverterService,
+    private readonly authService: AuthService,
+    private readonly cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -272,6 +276,63 @@ export class Converter implements OnInit {
     this.errorMessage.set(null);
     this.extractedEvents.set([]);
     this.icsContent.set(null);
+  }
+
+  // Auth-related methods
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  get currentUser() {
+    return this.authService.currentUser();
+  }
+
+  get isAuthLoading(): boolean {
+    return this.authService.isLoading();
+  }
+
+  async signIn(): Promise<void> {
+    try {
+      await this.authService.signInWithGoogle();
+    } catch (error) {
+      this.errorMessage.set('Failed to sign in. Please try again.');
+      console.error('Sign in error:', error);
+    }
+  }
+
+  async signOut(): Promise<void> {
+    try {
+      await this.authService.signOutUser();
+      this.menuOpen = false;
+      this.resetState();
+    } catch (error) {
+      this.errorMessage.set('Failed to sign out. Please try again.');
+      console.error('Sign out error:', error);
+    }
+  }
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu(): void {
+    this.menuOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    const userMenu = target.closest('.user-menu');
+    if (!userMenu && this.menuOpen) {
+      this.closeMenu();
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && this.menuOpen) {
+      this.closeMenu();
+    }
   }
 }
 
