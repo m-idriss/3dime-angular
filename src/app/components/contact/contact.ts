@@ -8,14 +8,14 @@ import { Card } from '../card/card';
   imports: [Card],
   templateUrl: './contact.html',
   styleUrl: './contact.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Contact implements OnInit {
   email: string | null = null;
 
   constructor(
     private readonly profileService: ProfileService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {

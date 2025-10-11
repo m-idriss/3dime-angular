@@ -10,7 +10,7 @@ export interface ThemeConfig {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   private readonly config: ThemeConfig = {
@@ -19,7 +19,7 @@ export class ThemeService {
     BACKGROUND_MODES: ['black', 'white', 'video'],
     DEFAULT_BACKGROUND: 'video',
     FONT_SIZES: ['normal', 'large', 'small'],
-    DEFAULT_FONT_SIZE: 'small'
+    DEFAULT_FONT_SIZE: 'small',
   };
 
   private currentTheme: string;
@@ -105,13 +105,12 @@ export class ThemeService {
     const body = document.body;
 
     // Remove existing theme classes
-    this.config.THEME_MODES.forEach(mode => {
+    this.config.THEME_MODES.forEach((mode) => {
       body.classList.remove(`${mode}-theme`);
     });
 
     // Add new theme class
     body.classList.add(`${theme}-theme`);
-
   }
 
   private applyBackground(background: string): void {
@@ -119,7 +118,7 @@ export class ThemeService {
     const bgElement = document.querySelector('.bg') as HTMLElement;
 
     // Remove existing background classes
-    this.config.BACKGROUND_MODES.forEach(mode => {
+    this.config.BACKGROUND_MODES.forEach((mode) => {
       body.classList.remove(`bg-${mode}`);
     });
 
@@ -127,7 +126,7 @@ export class ThemeService {
     if (!bgElement) {
       body.classList.add(`bg-${background}`);
       // Still update theme color based on background mode
-      switch(background) {
+      switch (background) {
         case 'black':
           this.updateThemeColor('#000000');
           break;
@@ -144,8 +143,7 @@ export class ThemeService {
     }
 
     // Apply background-specific DOM changes
-    switch(background) {
-
+    switch (background) {
       case 'white':
         bgElement.innerHTML = '';
         bgElement.style.background = '#ffffff';
@@ -180,7 +178,7 @@ export class ThemeService {
     const body = document.body;
 
     // Remove existing font size classes
-    this.config.FONT_SIZES.forEach(size => {
+    this.config.FONT_SIZES.forEach((size) => {
       body.classList.remove(`font-${size}`);
     });
 
@@ -221,27 +219,27 @@ export class ThemeService {
 
   getThemeDisplayName(theme: string): string {
     const displayNames: { [key: string]: string } = {
-      'dark': 'Dark Theme',
-      'white': 'Light Theme',
-      'glass': 'Glass Theme'
+      dark: 'Dark Theme',
+      white: 'Light Theme',
+      glass: 'Glass Theme',
     };
     return displayNames[theme] || theme;
   }
 
   getBackgroundDisplayName(background: string): string {
     const displayNames: { [key: string]: string } = {
-      'black': 'Black Background',
-      'white': 'White Background',
-      'video': 'Video Background'
+      black: 'Black Background',
+      white: 'White Background',
+      video: 'Video Background',
     };
     return displayNames[background] || background;
   }
 
   getFontSizeDisplayName(fontSize: string): string {
     const displayNames: { [key: string]: string } = {
-      'normal': 'Normal',
-      'large': 'Large',
-      'small': 'Small'
+      normal: 'Normal',
+      large: 'Large',
+      small: 'Small',
     };
     return displayNames[fontSize] || fontSize;
   }

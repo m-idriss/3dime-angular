@@ -53,11 +53,13 @@ functions/
 #### Prerequisites
 
 1. Install Firebase CLI:
+
    ```bash
    npm install -g firebase-tools
    ```
 
 2. Login to Firebase:
+
    ```bash
    firebase login
    ```
@@ -96,9 +98,9 @@ Unified proxy endpoint for all API requests.
 
 #### Query Parameters
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `target` | string | Yes | Target service name |
+| Parameter | Type   | Required | Description         |
+| --------- | ------ | -------- | ------------------- |
+| `target`  | string | Yes      | Target service name |
 
 #### Available Targets
 
@@ -165,7 +167,7 @@ Fetch GitHub user profile information.
 #### Example
 
 ```typescript
-this.http.get<GithubUser>(`${apiUrl}?target=profile`).subscribe(user => {
+this.http.get<GithubUser>(`${apiUrl}?target=profile`).subscribe((user) => {
   console.log(user.name);
 });
 ```
@@ -197,8 +199,8 @@ Fetch social media links for the user.
 #### Example
 
 ```typescript
-this.http.get<SocialLink[]>(`${apiUrl}?target=social`).subscribe(links => {
-  links.forEach(link => console.log(link.provider, link.url));
+this.http.get<SocialLink[]>(`${apiUrl}?target=social`).subscribe((links) => {
+  links.forEach((link) => console.log(link.provider, link.url));
 });
 ```
 
@@ -227,14 +229,15 @@ Fetch GitHub commit activity for the last year.
 ```
 
 **Fields:**
+
 - `date`: Unix timestamp (milliseconds)
 - `value`: Number of commits on that date
 
 #### Example
 
 ```typescript
-this.http.get<CommitData[]>(`${apiUrl}?target=commit`).subscribe(commits => {
-  commits.forEach(commit => {
+this.http.get<CommitData[]>(`${apiUrl}?target=commit`).subscribe((commits) => {
+  commits.forEach((commit) => {
     const date = new Date(commit.date);
     console.log(`${date.toDateString()}: ${commit.value} commits`);
   });
@@ -274,6 +277,7 @@ Fetch recommended products and tools from Notion database.
 ```
 
 **Structure:**
+
 - Top-level keys are category names
 - Each category contains an array of items
 - Items are sorted by `rank` within each category
@@ -281,8 +285,8 @@ Fetch recommended products and tools from Notion database.
 #### Example
 
 ```typescript
-this.http.get<Record<string, any[]>>(`${apiUrl}?target=notion`).subscribe(data => {
-  Object.keys(data).forEach(category => {
+this.http.get<Record<string, any[]>>(`${apiUrl}?target=notion`).subscribe((data) => {
+  Object.keys(data).forEach((category) => {
     console.log(`${category}:`, data[category]);
   });
 });
@@ -304,24 +308,27 @@ All endpoints return errors in a consistent format:
 
 ### Common HTTP Status Codes
 
-| Code | Description | Cause |
-|------|-------------|-------|
-| 200 | OK | Request successful |
-| 400 | Bad Request | Invalid target parameter |
-| 500 | Internal Server Error | Function error or external API failure |
+| Code | Description           | Cause                                  |
+| ---- | --------------------- | -------------------------------------- |
+| 200  | OK                    | Request successful                     |
+| 400  | Bad Request           | Invalid target parameter               |
+| 500  | Internal Server Error | Function error or external API failure |
 
 ### Example Error Handling
 
 ```typescript
-this.http.get(`${apiUrl}?target=profile`).pipe(
-  catchError(error => {
-    console.error('API Error:', error.error);
-    // Return fallback data or empty observable
-    return of(null);
-  })
-).subscribe(data => {
-  // Handle response
-});
+this.http
+  .get(`${apiUrl}?target=profile`)
+  .pipe(
+    catchError((error) => {
+      console.error('API Error:', error.error);
+      // Return fallback data or empty observable
+      return of(null);
+    }),
+  )
+  .subscribe((data) => {
+    // Handle response
+  });
 ```
 
 ---
@@ -335,7 +342,7 @@ const allowedOrigins = [
   'https://3dime.com',
   'https://www.3dime.com',
   'http://localhost:4200',
-  'http://localhost:5000'
+  'http://localhost:5000',
 ];
 
 const corsHandler = cors({
@@ -345,14 +352,14 @@ const corsHandler = cors({
       callback(null, true);
       return;
     }
-    
+
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
 });
 ```
 
@@ -374,6 +381,7 @@ OPTIONS requests are handled automatically by the CORS middleware.
 ### GitHub API
 
 GitHub API has rate limits:
+
 - **Unauthenticated**: 60 requests/hour
 - **Authenticated**: 5,000 requests/hour
 
@@ -382,6 +390,7 @@ The functions use authenticated requests when API tokens are configured.
 ### Notion API
 
 Notion API rate limits:
+
 - **Standard**: 3 requests/second per integration
 
 ---
@@ -392,11 +401,11 @@ Notion API rate limits:
 
 Functions require the following secrets (set in Firebase):
 
-| Secret | Description | Used By |
-|--------|-------------|---------|
-| `GITHUB_TOKEN` | GitHub personal access token | GitHub functions |
-| `NOTION_TOKEN` | Notion integration token | Notion function |
-| `NOTION_DATASOURCE_ID` | Notion database ID | Notion function |
+| Secret                 | Description                  | Used By          |
+| ---------------------- | ---------------------------- | ---------------- |
+| `GITHUB_TOKEN`         | GitHub personal access token | GitHub functions |
+| `NOTION_TOKEN`         | Notion integration token     | Notion function  |
+| `NOTION_DATASOURCE_ID` | Notion database ID           | Notion function  |
 
 ### Setting Secrets
 
@@ -451,6 +460,7 @@ firebase functions:log --follow
 ### Cold Starts
 
 Functions may experience cold starts (1-3 seconds) when:
+
 - Not called recently
 - Deployed or updated
 - Scaled down due to inactivity
