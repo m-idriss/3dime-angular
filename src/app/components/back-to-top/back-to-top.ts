@@ -1,10 +1,9 @@
 import { Component, HostListener, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-back-to-top',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './back-to-top.html',
   styleUrl: './back-to-top.scss',
 })

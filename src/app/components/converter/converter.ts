@@ -1,5 +1,5 @@
 import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { ConverterService, FileData } from '../../services/converter';
 import { AuthService } from '../../services/auth.service';
 import { Card } from '../card/card';
@@ -14,7 +14,7 @@ interface CalendarEvent {
 
 @Component({
   selector: 'app-converter',
-  imports: [CommonModule, Card],
+  imports: [Card],
   templateUrl: './converter.html',
   styleUrl: './converter.scss',
 })
