@@ -12,7 +12,7 @@ This guide explains how to set up Firebase Authentication with Google provider f
 ### 1. Create/Select Firebase Project
 
 1. Go to [Firebase Console](https://console.firebase.google.com)
-2. Click "Add project" or select existing project `image-to-ics`
+2. Click "Add project" or select your existing project (e.g., `your-project-name`)
 3. Follow the setup wizard
 
 ### 2. Enable Authentication
@@ -44,10 +44,10 @@ This guide explains how to set up Firebase Authentication with Google provider f
 Example config:
 ```javascript
 const firebaseConfig = {
-  apiKey: "AIzaSyC...",
-  authDomain: "image-to-ics.firebaseapp.com",
-  projectId: "image-to-ics",
-  storageBucket: "image-to-ics.firebasestorage.app",
+  apiKey: "AIzaSyC...",  // Your API key
+  authDomain: "your-project-id.firebaseapp.com",
+  projectId: "your-project-id",
+  storageBucket: "your-project-id.firebasestorage.app",
   messagingSenderId: "123456789",
   appId: "1:123456789:web:abc123def456"
 };
@@ -66,9 +66,9 @@ export const environment = {
   apiUrl: 'https://api.3dime.com',
   firebase: {
     apiKey: 'YOUR_API_KEY',
-    authDomain: 'image-to-ics.firebaseapp.com',
-    projectId: 'image-to-ics',
-    storageBucket: 'image-to-ics.firebasestorage.app',
+    authDomain: 'your-project-id.firebaseapp.com',
+    projectId: 'your-project-id',
+    storageBucket: 'your-project-id.firebasestorage.app',
     messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
     appId: 'YOUR_APP_ID'
   }
@@ -82,9 +82,9 @@ export const environment = {
   apiUrl: 'https://api.3dime.com',
   firebase: {
     apiKey: 'YOUR_PRODUCTION_API_KEY',
-    authDomain: 'image-to-ics.firebaseapp.com',
-    projectId: 'image-to-ics',
-    storageBucket: 'image-to-ics.firebasestorage.app',
+    authDomain: 'your-project-id.firebaseapp.com',
+    projectId: 'your-project-id',
+    storageBucket: 'your-project-id.firebasestorage.app',
     messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
     appId: 'YOUR_PRODUCTION_APP_ID'
   }
