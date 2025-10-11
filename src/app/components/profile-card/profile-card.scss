@@ -25,6 +25,11 @@
   transition: all var(--ease-bounce);
 }
 
+/* Prevent transform when menu is open to avoid stacking context issues */
+.container:has(.burger-menu.active):hover {
+  transform: none;
+}
+
 .container h2 {
   margin-bottom: var(--space-md);
   font-size: var(--font-size-xl);
