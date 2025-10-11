@@ -6,10 +6,9 @@ import { LinkItem } from '../models/link-item.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotionService {
-
   private readonly baseUrl = environment.apiUrl;
   private fetchAll$?: Observable<void>;
 
@@ -24,18 +23,18 @@ export class NotionService {
   fetchAll(): Observable<void> {
     if (!this.fetchAll$) {
       this.fetchAll$ = this.http.get<any>(`${this.baseUrl}?target=notion`).pipe(
-        map(res => {
+        map((res) => {
           this.stuffs = res.stuff ?? [];
           this.experiences = res.experience ?? [];
           this.educations = res.education ?? [];
           this.hobbies = res.hobbies ?? [];
           this.techStacks = res.tech_stack ?? [];
         }),
-        catchError(err => {
+        catchError((err) => {
           console.error('Error fetching data from Notion API', err);
           return of();
         }),
-        shareReplay(1)
+        shareReplay(1),
       );
     }
     return this.fetchAll$;

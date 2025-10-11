@@ -9,7 +9,7 @@ import { Card } from '../card/card';
   imports: [Card],
   templateUrl: './experience.html',
   styleUrl: './experience.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Experience implements OnInit {
   experiences: LinkItem[] = [];
@@ -17,7 +17,7 @@ export class Experience implements OnInit {
 
   constructor(
     private readonly notionService: NotionService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
