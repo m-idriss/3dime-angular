@@ -21,7 +21,7 @@ This document provides comprehensive information about the PWA implementation in
 
 ### ✅ Install Button
 
-**New Feature**: Users can now install the app using a visible button in the profile card menu.
+Users can now install the app using a visible button in the profile card menu.
 
 - **Location**: Profile card → Menu (⋮) → "Install App"
 - **Visibility**: Button only appears when the browser supports PWA installation and the app is not already installed
@@ -155,7 +155,7 @@ PWA Components:
 │   └── ngsw-config.json (source config)
 ├── Web App Manifest
 │   └── public/assets/manifest.json
-├── PWA Service (NEW)
+├── PWA Service
 │   └── src/app/services/pwa.service.ts
 ├── App Configuration
 │   ├── src/app/app.config.ts (service worker provider)
