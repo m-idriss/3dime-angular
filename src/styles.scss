@@ -337,6 +337,7 @@ body.bg-video .bg {
   z-index: 1;
   padding-top: 50px;
   padding-bottom: calc(50px + env(safe-area-inset-bottom));
+  overflow: visible;
 }
 
 .group-column {
@@ -347,6 +348,7 @@ body.bg-video .bg {
   color: var(--text-primary);
   width: 100%;
   align-items: stretch;
+  overflow: visible;
 }
 
 /* ========================
