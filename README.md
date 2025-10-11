@@ -586,7 +586,7 @@ For detailed component documentation, see [docs/COMPONENTS.md](./docs/COMPONENTS
 
 The application is optimized for performance:
 
-- **Bundle Size**: Production build ~669KB (initial) with tree-shaking
+- **Bundle Size**: Production build ~1.23MB raw (316KB transferred) with tree-shaking
 - **Code Splitting**: Lazy loading for optimal initial load time
 - **Asset Optimization**: Compressed images and efficient resource loading
 - **Build Configuration**: Production builds include minification and optimization
@@ -654,7 +654,7 @@ See [docs/API.md](./docs/API.md) for detailed API documentation.
 ## 📊 Performance Metrics
 
 - ⚡ **Build Time**: ~8-10 seconds for production build
-- 📦 **Bundle Size**: 669KB initial (optimized and minified)
+- 📦 **Bundle Size**: 1.23MB raw / 316KB transferred (optimized and minified)
 - 🚀 **Load Time**: < 3 seconds on 3G networks
 - 📱 **Mobile Optimized**: Responsive design with mobile-first approach
 - ♿ **Accessible**: Semantic HTML with ARIA labels

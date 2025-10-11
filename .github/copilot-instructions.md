@@ -50,7 +50,7 @@ cd functions && npm run build
 ```
 
 **Expected Build Warnings (NORMAL):**
-- Bundle size exceeds budget (669.64 kB > 500KB limit) - WARNING only, build succeeds
+- No warnings expected - budgets have been adjusted to match optimized production build
 - CommonJS dependencies may cause optimization warnings - non-breaking
 
 ### Development Server
@@ -221,7 +221,6 @@ The application displays:
 9. **Contact** information and links
 
 ### Known Limitations
-- Bundle size exceeds Angular budget (669.64 kB > 500KB) - performance warning only
 - Content is currently hardcoded in component templates
 - Some external CDN resources may be blocked in restricted environments
 - Tests require HttpClient provider setup (currently all tests fail with NG0201 errors)
