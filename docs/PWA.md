@@ -299,6 +299,7 @@ All icons located in `public/assets/icons/`
 
 2. **Serve the build** with a simple HTTP server:
    ```bash
+   # Note: Your build output directory may vary. Check the build output for the actual path.
    npx http-server dist/3dime-angular/browser -p 8080
    ```
 
@@ -350,7 +351,7 @@ All icons located in `public/assets/icons/`
 4. Select an image → Share → Select 3dime
 5. App should open with the file ready for conversion
 
-**Note**: Share target requires HTTPS and a real domain. It won't work with localhost or HTTP.
+**Note**: Share target requires **HTTPS protocol** (either a real domain with SSL or localhost with proper certificates). Standard HTTP or localhost without SSL won't work.
 
 ## Troubleshooting
 
