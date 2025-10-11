@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ConverterService, FileData } from '../../services/converter';
 import { Card } from '../card/card';
 
@@ -17,7 +17,7 @@ interface CalendarEvent {
   templateUrl: './converter.html',
   styleUrl: './converter.scss'
 })
-export class Converter {
+export class Converter implements OnInit {
   protected readonly files = signal<File[]>([]);
   protected readonly isDragging = signal(false);
   protected readonly isProcessing = signal(false);
@@ -28,7 +28,29 @@ export class Converter {
   private readonly acceptedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
   private readonly maxFileSize = 10 * 1024 * 1024; // 10MB
 
-  constructor(private readonly converterService: ConverterService) {}
+  constructor(
+    private readonly converterService: ConverterService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+
+  ngOnInit(): void {
+    // Handle shared files from PWA share target
+    if (isPlatformBrowser(this.platformId)) {
+      this.handleSharedFiles();
+    }
+  }
+
+  private async handleSharedFiles(): Promise<void> {
+    // Check if the page was loaded with shared files (PWA share target)
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // For POST share target, files will be in FormData
+    if (window.location.pathname === '/' && urlParams.toString() === '') {
+      // Check for shared files in the request body (if any)
+      // This will be handled by the service worker
+      console.log('Checking for shared files via PWA share target');
+    }
+  }
 
   protected onDragOver(event: DragEvent): void {
     event.preventDefault();
