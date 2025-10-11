@@ -14,6 +14,7 @@
   box-shadow: var(--shadow-card);
   border-radius: var(--radius-lg);
   transition: all var(--t-medium);
+  overflow: visible;
 }
 
 .container:hover {
@@ -22,6 +23,11 @@
   backdrop-filter: blur(20px);
   background: var(--primary-bg-hover);
   transition: all var(--ease-bounce);
+}
+
+/* Prevent transform when menu is open to avoid stacking context issues */
+.container:has(.burger-menu.active):hover {
+  transform: none;
 }
 
 .container h2 {
@@ -56,6 +62,7 @@
   align-items: center;
   justify-items: center;
   margin-bottom: var(--space-md);
+  z-index: 1;
 }
 
 /* Logo/Avatar Styling */
@@ -96,6 +103,7 @@
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 10000;
 }
 
 .burger-button {
@@ -109,8 +117,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.25rem;
   box-shadow: var(--shadow-card);
   transition: all var(--t-medium);
+  
+  /* Increase width when avatar is present */
+  &:has(.user-avatar) {
+    width: auto;
+    padding: 0.25rem 0.35rem 0.25rem 0.25rem;
+    min-width: 70px;
+  }
+}
+
+.burger-button .user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .burger-button:hover {
@@ -148,13 +173,13 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  min-width: 200px;
+  min-width: 280px;
   background: var(--primary-bg);
   backdrop-filter: blur(16px);
   border-radius: var(--radius-md);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-card);
-  z-index: 1000;
+  z-index: 9999;
   
   /* Animation */
   animation: dropdownSlideIn 0.2s ease-out;
@@ -306,5 +331,50 @@ body.notifications-off .badge {
   .socials a:hover,
   .socials i:hover {
     transform: none !important;
+  }
+}
+
+/* User Info in Dropdown */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  
+  .user-avatar-large {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  
+  .user-details {
+    flex: 1;
+    min-width: 0;
+    
+    .user-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-bottom: 0.25rem;
+    }
+    
+    .user-email {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+.dropdown-item.sign-out {
+  &:hover {
+    color: var(--badge-color);
   }
 }

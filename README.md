@@ -49,7 +49,7 @@ Perfect for developers, designers, and professionals who want a fast, beautiful,
 - **GitHub Activity** - Live GitHub contribution visualization
 - **Experience** - Work history and project highlights
 - **Education** - Academic background and certifications
-- **Calendar Converter** - AI-powered image/PDF to ICS calendar conversion
+- **Calendar Converter** - AI-powered image/PDF to ICS calendar conversion with Firebase Authentication
 - **Stuff** - Recommended tools and products (Notion integration)
 - **Hobbies** - Personal interests and activities
 - **Contact** - Professional contact information
@@ -272,6 +272,18 @@ For Notion integration (Stuff section):
 1. Set up Notion API credentials
 2. Configure Firebase Functions in `functions/src/`
 3. Deploy Firebase Functions for API endpoints
+
+### Firebase Authentication Setup
+
+The Calendar Converter feature requires Firebase Authentication with Google provider. See [Firebase Authentication Setup Guide](docs/FIREBASE_AUTH_SETUP.md) for detailed instructions.
+
+**Quick Setup:**
+1. Create/configure Firebase project in [Firebase Console](https://console.firebase.google.com)
+2. Enable Google authentication provider
+3. Add your Firebase config to `src/environments/environment.ts` and `environment.prod.ts`
+4. Configure authorized domains (localhost, your production domain)
+
+See the [complete setup guide](docs/FIREBASE_AUTH_SETUP.md) for step-by-step instructions.
 
 ## 🔒 Security
 

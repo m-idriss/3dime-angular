@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, ChangeDetectionStrategy, ChangeDetecto
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile-card',
@@ -21,6 +22,7 @@ export class ProfileCard implements OnInit {
   constructor(
     private readonly themeService: ThemeService,
     private readonly profileService: ProfileService,
+    private readonly authService: AuthService,
     private readonly cdr: ChangeDetectorRef
   ) {}
 
@@ -119,5 +121,24 @@ export class ProfileCard implements OnInit {
 
   get fontSizeDisplayName(): string {
     return this.themeService.getFontSizeDisplayName(this.currentFontSize);
+  }
+
+  // Auth-related methods
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  get currentUser() {
+    return this.authService.currentUser();
+  }
+
+  async signOut(): Promise<void> {
+    try {
+      await this.authService.signOutUser();
+      this.menuOpen = false;
+      this.cdr.markForCheck();
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
   }
 }
