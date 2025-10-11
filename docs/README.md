@@ -33,31 +33,31 @@
 
 ### Setup & Configuration
 
-| Document | Topics Covered |
-|----------|---------------|
-| [README.md](../README.md) | Quick start, basic commands, project overview |
+| Document                                   | Topics Covered                                                 |
+| ------------------------------------------ | -------------------------------------------------------------- |
+| [README.md](../README.md)                  | Quick start, basic commands, project overview                  |
 | [Development Guidelines](./DEVELOPMENT.md) | Prerequisites, installation, development server, build process |
 
 ### Code & Architecture
 
-| Document | Topics Covered |
-|----------|---------------|
+| Document                                   | Topics Covered                                                      |
+| ------------------------------------------ | ------------------------------------------------------------------- |
 | [Component Documentation](./COMPONENTS.md) | All components, component guidelines, best practices, accessibility |
-| [Services Documentation](./SERVICES.md) | ThemeService, ProfileService, NotionService, service patterns |
-| [API Documentation](./API.md) | Firebase Functions, API endpoints, error handling, deployment |
+| [Services Documentation](./SERVICES.md)    | ThemeService, ProfileService, NotionService, service patterns       |
+| [API Documentation](./API.md)              | Firebase Functions, API endpoints, error handling, deployment       |
 
 ### Design & Styling
 
-| Document | Topics Covered |
-|----------|---------------|
+| Document                            | Topics Covered                                                        |
+| ----------------------------------- | --------------------------------------------------------------------- |
 | [Design System](./DESIGN_SYSTEM.md) | Colors, typography, spacing, glassmorphism, animations, accessibility |
 
 ### Contributing
 
-| Document | Topics Covered |
-|----------|---------------|
+| Document                                      | Topics Covered                                            |
+| --------------------------------------------- | --------------------------------------------------------- |
 | [Contributing Guidelines](../CONTRIBUTING.md) | Code of conduct, bug reports, pull requests, style guides |
-| [Project Roadmap](../ROADMAP.md) | Planned features, development phases, success metrics |
+| [Project Roadmap](../ROADMAP.md)              | Planned features, development phases, success metrics     |
 
 ---
 
@@ -66,6 +66,7 @@
 ### Frontend Developer
 
 Essential reading for frontend development:
+
 - [Component Documentation](./COMPONENTS.md) - Learn component structure
 - [Design System](./DESIGN_SYSTEM.md) - Understand styling patterns
 - [Development Guidelines](./DEVELOPMENT.md) - Follow best practices
@@ -73,6 +74,7 @@ Essential reading for frontend development:
 ### Backend Developer
 
 Essential reading for backend/API work:
+
 - [API Documentation](./API.md) - Firebase Functions and endpoints
 - [Services Documentation](./SERVICES.md) - Data layer integration
 - [Development Guidelines](./DEVELOPMENT.md) - Testing and deployment
@@ -80,6 +82,7 @@ Essential reading for backend/API work:
 ### Designer
 
 Essential reading for design work:
+
 - [Design System](./DESIGN_SYSTEM.md) - Complete design reference
 - [Component Documentation](./COMPONENTS.md) - Component structure and usage
 - [README.md](../README.md) - Project overview and goals
@@ -87,6 +90,7 @@ Essential reading for design work:
 ### Contributor
 
 Essential reading for first-time contributors:
+
 1. [Contributing Guidelines](../CONTRIBUTING.md) - Start here
 2. [Development Guidelines](./DEVELOPMENT.md) - Setup and workflow
 3. [Component Documentation](./COMPONENTS.md) or [API Documentation](./API.md) - Depending on contribution area
@@ -96,6 +100,7 @@ Essential reading for first-time contributors:
 ## 📝 What Each Document Contains
 
 ### README.md
+
 ```
 ✓ Project description and features
 ✓ Quick start guide
@@ -105,6 +110,7 @@ Essential reading for first-time contributors:
 ```
 
 ### Development Guidelines
+
 ```
 ✓ Prerequisites and initial setup
 ✓ Daily development workflow
@@ -115,6 +121,7 @@ Essential reading for first-time contributors:
 ```
 
 ### Component Documentation
+
 ```
 ✓ Component architecture overview
 ✓ All 9 core components documented:
@@ -134,6 +141,7 @@ Essential reading for first-time contributors:
 ```
 
 ### Services Documentation
+
 ```
 ✓ Service architecture overview
 ✓ ThemeService - Theme management
@@ -145,6 +153,7 @@ Essential reading for first-time contributors:
 ```
 
 ### Design System
+
 ```
 ✓ Design principles
 ✓ Color system (3 theme modes)
@@ -158,6 +167,7 @@ Essential reading for first-time contributors:
 ```
 
 ### API Documentation
+
 ```
 ✓ Firebase Functions overview
 ✓ All API endpoints:
@@ -174,6 +184,7 @@ Essential reading for first-time contributors:
 ```
 
 ### Contributing Guidelines
+
 ```
 ✓ Code of conduct
 ✓ Bug reporting template
@@ -186,6 +197,7 @@ Essential reading for first-time contributors:
 ```
 
 ### Project Roadmap
+
 ```
 ✓ Current state analysis
 ✓ 4 development phases:
@@ -204,28 +216,28 @@ Essential reading for first-time contributors:
 
 ### "How do I...?"
 
-| Question | Document | Section |
-|----------|----------|---------|
-| ...set up the project? | [Development Guidelines](./DEVELOPMENT.md) | Getting Started |
-| ...create a new component? | [Component Documentation](./COMPONENTS.md) | Component Guidelines |
-| ...use the theme service? | [Services Documentation](./SERVICES.md) | ThemeService |
-| ...understand the design system? | [Design System](./DESIGN_SYSTEM.md) | Overview |
-| ...call the API? | [API Documentation](./API.md) | API Endpoints |
-| ...contribute code? | [Contributing Guidelines](../CONTRIBUTING.md) | Making Changes |
-| ...run tests? | [Development Guidelines](./DEVELOPMENT.md) | Testing |
-| ...deploy the app? | [API Documentation](./API.md) | Deployment |
+| Question                         | Document                                      | Section              |
+| -------------------------------- | --------------------------------------------- | -------------------- |
+| ...set up the project?           | [Development Guidelines](./DEVELOPMENT.md)    | Getting Started      |
+| ...create a new component?       | [Component Documentation](./COMPONENTS.md)    | Component Guidelines |
+| ...use the theme service?        | [Services Documentation](./SERVICES.md)       | ThemeService         |
+| ...understand the design system? | [Design System](./DESIGN_SYSTEM.md)           | Overview             |
+| ...call the API?                 | [API Documentation](./API.md)                 | API Endpoints        |
+| ...contribute code?              | [Contributing Guidelines](../CONTRIBUTING.md) | Making Changes       |
+| ...run tests?                    | [Development Guidelines](./DEVELOPMENT.md)    | Testing              |
+| ...deploy the app?               | [API Documentation](./API.md)                 | Deployment           |
 
 ### "I want to learn about...?"
 
-| Topic | Document | Section |
-|-------|----------|---------|
-| Project structure | [README.md](../README.md) | Architecture |
-| Components | [Component Documentation](./COMPONENTS.md) | Core Components |
-| Services | [Services Documentation](./SERVICES.md) | Core Services |
-| Styling | [Design System](./DESIGN_SYSTEM.md) | All sections |
-| API endpoints | [API Documentation](./API.md) | API Endpoints |
-| Git workflow | [Contributing Guidelines](../CONTRIBUTING.md) | Submitting Changes |
-| Future plans | [Project Roadmap](../ROADMAP.md) | All phases |
+| Topic             | Document                                      | Section            |
+| ----------------- | --------------------------------------------- | ------------------ |
+| Project structure | [README.md](../README.md)                     | Architecture       |
+| Components        | [Component Documentation](./COMPONENTS.md)    | Core Components    |
+| Services          | [Services Documentation](./SERVICES.md)       | Core Services      |
+| Styling           | [Design System](./DESIGN_SYSTEM.md)           | All sections       |
+| API endpoints     | [API Documentation](./API.md)                 | API Endpoints      |
+| Git workflow      | [Contributing Guidelines](../CONTRIBUTING.md) | Submitting Changes |
+| Future plans      | [Project Roadmap](../ROADMAP.md)              | All phases         |
 
 ---
 
@@ -282,6 +294,7 @@ Going deeper into the architecture:
 ### Documentation Review
 
 Documentation should be reviewed:
+
 - **Quarterly**: Full documentation audit
 - **Major Releases**: Before each major version
 - **After Refactors**: When code structure changes significantly
@@ -311,5 +324,5 @@ When updating documentation:
 
 ---
 
-*Last Updated: October 2025*  
-*Documentation Version: 1.0.0*
+_Last Updated: October 2025_  
+_Documentation Version: 1.0.0_

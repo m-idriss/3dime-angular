@@ -336,24 +336,24 @@
 .auth-required {
   text-align: center;
   padding: var(--space-xl) var(--space-lg);
-  
+
   .auth-message {
     margin-bottom: var(--space-xl);
-    
+
     p {
       color: var(--text-primary);
       font-size: 0.95rem;
       line-height: 1.6;
       margin-bottom: var(--space-md);
     }
-    
+
     .supported-formats {
       color: var(--text-secondary);
       font-size: 0.85rem;
       margin-top: var(--space-md);
     }
   }
-  
+
   .sign-in-button {
     width: 100%;
     max-width: 400px;
@@ -367,13 +367,15 @@
     cursor: pointer;
     transition: all var(--t-medium);
     box-shadow: var(--shadow-card);
-    
+
     &:hover {
       transform: translateY(-2px);
-      box-shadow: var(--shadow-card-hover), 0 0 15px rgba(66, 133, 244, 0.4);
+      box-shadow:
+        var(--shadow-card-hover),
+        0 0 15px rgba(66, 133, 244, 0.4);
       background: linear-gradient(135deg, #3367d6, #2451b3);
     }
-    
+
     &:active {
       transform: translateY(0);
     }
@@ -384,7 +386,7 @@
 .auth-loading {
   text-align: center;
   padding: var(--space-xl);
-  
+
   .spinner {
     width: 2rem;
     height: 2rem;
@@ -394,7 +396,7 @@
     animation: spin 0.8s linear infinite;
     margin: 0 auto var(--space-md);
   }
-  
+
   p {
     color: var(--text-secondary);
     font-size: 0.875rem;

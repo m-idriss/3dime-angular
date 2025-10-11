@@ -8,9 +8,8 @@ describe('GithubActivity', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GithubActivity]
-    })
-    .compileComponents();
+      imports: [GithubActivity],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GithubActivity);
     component = fixture.componentInstance;

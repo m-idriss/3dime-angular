@@ -3,12 +3,17 @@
   @if (!isAuthLoading && !isAuthenticated) {
     <div class="auth-required">
       <div class="auth-message">
-        <p>Upload images or PDF files containing event information, and our intelligent system will automatically detect dates, times, locations, and event details to create downloadable calendar files compatible with Google Calendar, Outlook, and Apple Calendar.</p>
-        <p class="supported-formats"><strong>Supported formats:</strong> JPG, PNG, PDF · <strong>Output:</strong> ICS Calendar Files</p>
+        <p>
+          Upload images or PDF files containing event information, and our intelligent system will
+          automatically detect dates, times, locations, and event details to create downloadable
+          calendar files compatible with Google Calendar, Outlook, and Apple Calendar.
+        </p>
+        <p class="supported-formats">
+          <strong>Supported formats:</strong> JPG, PNG, PDF · <strong>Output:</strong> ICS Calendar
+          Files
+        </p>
       </div>
-      <button class="sign-in-button" (click)="signIn()">
-        🔐 Sign in with Google
-      </button>
+      <button class="sign-in-button" (click)="signIn()">🔐 Sign in with Google</button>
     </div>
   }
 
@@ -24,20 +29,24 @@
   @if (!isAuthLoading && isAuthenticated) {
     <!-- Upload Area - Only show if no events extracted -->
     @if (extractedEvents().length === 0) {
-      <div class="upload-zone"
-           [class.dragging]="isDragging()"
-           (dragover)="onDragOver($event)"
-           (dragleave)="onDragLeave($event)"
-           (drop)="onDrop($event)">
+      <div
+        class="upload-zone"
+        [class.dragging]="isDragging()"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+      >
         <div class="upload-icon">📤</div>
         <p>Drop files here or</p>
         <label class="upload-button">
-          <input type="file"
-                 class="file-input"
-                 multiple
-                 accept="image/jpeg,image/jpg,image/png,application/pdf"
-                 (change)="onFileSelect($event)"
-                 [disabled]="isProcessing()">
+          <input
+            type="file"
+            class="file-input"
+            multiple
+            accept="image/jpeg,image/jpg,image/png,application/pdf"
+            (change)="onFileSelect($event)"
+            [disabled]="isProcessing()"
+          />
           <span>Browse</span>
         </label>
       </div>
@@ -48,9 +57,9 @@
           @for (file of files(); track $index) {
             <div class="file-chip">
               <span>{{ file.name }}</span>
-              <button class="chip-remove"
-                      (click)="removeFile($index)"
-                      [disabled]="isProcessing()">✕</button>
+              <button class="chip-remove" (click)="removeFile($index)" [disabled]="isProcessing()">
+                ✕
+              </button>
             </div>
           }
         </div>
@@ -58,9 +67,7 @@
 
       <!-- Convert Button -->
       @if (files().length > 0 && !isProcessing()) {
-        <button class="action-button" (click)="convertToIcs()">
-          Convert
-        </button>
+        <button class="action-button" (click)="convertToIcs()">Convert</button>
       }
 
       @if (isProcessing()) {
@@ -110,12 +117,8 @@
 
       <!-- Download Button -->
       <div class="actions">
-        <button class="action-button download" (click)="downloadIcs()">
-          Download Calendar
-        </button>
-        <button class="action-button secondary" (click)="resetState()">
-          Convert Another
-        </button>
+        <button class="action-button download" (click)="downloadIcs()">Download Calendar</button>
+        <button class="action-button secondary" (click)="resetState()">Convert Another</button>
       </div>
     }
   }

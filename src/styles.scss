@@ -120,7 +120,8 @@ body.font-large {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   scroll-behavior: smooth;
   font-family: var(--font-family);
@@ -137,7 +138,10 @@ body {
   color: var(--text-primary);
   background: var(--body-bg);
   opacity: 0;
-  transition: opacity var(--t-slow), background var(--t-medium), color var(--t-medium);
+  transition:
+    opacity var(--t-slow),
+    background var(--t-medium),
+    color var(--t-medium);
 }
 
 body.loaded {
@@ -211,8 +215,12 @@ textarea:focus,
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-container p {
@@ -289,17 +297,16 @@ body.bg-video .bg {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(59, 130, 246, 0.1),
-    transparent);
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
   transition: left 0.6s var(--ease);
 }
 
 .link:hover {
   transform: translateY(-3px) scale(1.05);
   background: var(--glass-bg-hover);
-  box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.2);
+  box-shadow:
+    var(--shadow-card-hover),
+    0 0 15px rgba(59, 130, 246, 0.2);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(59, 130, 246, 0.3);
 }
@@ -356,7 +363,8 @@ body.bg-video .bg {
     justify-content: center;
   }
 
-  .main-card, .group-column {
+  .main-card,
+  .group-column {
     flex: 1;
   }
 }
@@ -462,20 +470,31 @@ body.bg-video .bg {
 
 /* Scrolling state optimizations */
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 
 @keyframes shimmer {
-  0% { background-position: -200px 0; }
-  100% { background-position: calc(200px + 100%) 0; }
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
 }
 
 .loading-skeleton {
-  background: linear-gradient(90deg,
+  background: linear-gradient(
+    90deg,
     rgba(255, 255, 255, 0.1) 25%,
     rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.1) 75%);
+    rgba(255, 255, 255, 0.1) 75%
+  );
   background-size: 200px 100%;
   animation: shimmer 1.5s infinite;
 }
@@ -672,24 +691,29 @@ body.bg-video .bg {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(59, 130, 246, 0.1) 50%,
-    transparent 70%
-  );
+  background: linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.1) 50%, transparent 70%);
   animation: sweep 3s infinite;
 }
 
 @keyframes shimmer-enhanced {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes sweep {
-  0% { transform: translateX(-100%) translateY(-100%); }
-  50% { transform: translateX(100%) translateY(100%); }
-  100% { transform: translateX(100%) translateY(100%); }
+  0% {
+    transform: translateX(-100%) translateY(-100%);
+  }
+  50% {
+    transform: translateX(100%) translateY(100%);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%);
+  }
 }
 
 /* ========================
@@ -785,7 +809,9 @@ body.bg-video .bg {
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .back-to-top-btn {
-    transition: opacity var(--t-fast), visibility var(--t-fast);
+    transition:
+      opacity var(--t-fast),
+      visibility var(--t-fast);
     transform: none !important;
   }
 
@@ -815,10 +841,22 @@ body.font-large {
 }
 
 /* Font size adjustments for headings */
-body.font-small h1 { font-size: 1.75rem; }
-body.font-small h2 { font-size: 1.5rem; }
-body.font-small h3 { font-size: 1.25rem; }
+body.font-small h1 {
+  font-size: 1.75rem;
+}
+body.font-small h2 {
+  font-size: 1.5rem;
+}
+body.font-small h3 {
+  font-size: 1.25rem;
+}
 
-body.font-large h1 { font-size: 2.5rem; }
-body.font-large h2 { font-size: 2rem; }
-body.font-large h3 { font-size: 1.75rem; }
+body.font-large h1 {
+  font-size: 2.5rem;
+}
+body.font-large h2 {
+  font-size: 2rem;
+}
+body.font-large h3 {
+  font-size: 1.75rem;
+}

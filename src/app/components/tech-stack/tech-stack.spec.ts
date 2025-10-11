@@ -8,9 +8,8 @@ describe('TechStack', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TechStack]
-    })
-    .compileComponents();
+      imports: [TechStack],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TechStack);
     component = fixture.componentInstance;

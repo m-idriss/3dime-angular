@@ -1,4 +1,11 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  ElementRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
 import Tooltip from 'cal-heatmap/plugins/Tooltip';
@@ -7,11 +14,11 @@ import { Card } from '../card/card';
 
 @Component({
   selector: 'app-github-activity',
-    standalone: true,
-      imports: [Card],
+  standalone: true,
+  imports: [Card],
   templateUrl: './github-activity.html',
-  styleUrls: ['./github-activity.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './github-activity.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GithubActivity implements AfterViewInit {
   @ViewChild('heatmapContainer', { static: false }) container!: ElementRef;
@@ -21,7 +28,7 @@ export class GithubActivity implements AfterViewInit {
 
   constructor(
     private readonly profileService: ProfileService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngAfterViewInit(): void {
@@ -47,7 +54,7 @@ export class GithubActivity implements AfterViewInit {
         itemSelector: this.container.nativeElement,
         domain: {
           type: 'month',
-          label: { text: 'MMM', textAlign: 'start', position: 'top'}
+          label: { text: 'MMM', textAlign: 'start', position: 'top' },
         },
         subDomain: {
           type: 'ghDay',
@@ -71,7 +78,14 @@ export class GithubActivity implements AfterViewInit {
         range: this.months,
         scale: {
           color: {
-            range: ['rgba(0, 50, 0, 0)', 'rgba(0, 50, 0, 0.05)', 'rgba(0, 100, 0, 0.25)', 'rgba(0, 100, 0, 0.5)', 'rgba(0, 100, 0, 0.75)', 'rgba(0, 100, 0, 1)'],
+            range: [
+              'rgba(0, 50, 0, 0)',
+              'rgba(0, 50, 0, 0.05)',
+              'rgba(0, 100, 0, 0.25)',
+              'rgba(0, 100, 0, 0.5)',
+              'rgba(0, 100, 0, 0.75)',
+              'rgba(0, 100, 0, 1)',
+            ],
             interpolate: 'hsl',
             type: 'linear',
             domain: [-1, 0, 3, 5, 10, 20],
@@ -97,7 +111,7 @@ export class GithubActivity implements AfterViewInit {
               `${value ?? 0} commits on ${dayjsDate.format('LL')}`,
           },
         ],
-      ]
+      ],
     );
   }
 }

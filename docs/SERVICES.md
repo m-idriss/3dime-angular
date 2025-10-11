@@ -37,18 +37,19 @@ src/app/services/
 
 ```typescript
 interface ThemeConfig {
-  THEME_MODES: string[];          // ['dark', 'white', 'glass']
-  DEFAULT_THEME: string;          // 'glass'
-  BACKGROUND_MODES: string[];     // ['black', 'white', 'video']
-  DEFAULT_BACKGROUND: string;     // 'video'
-  FONT_SIZES: string[];          // ['normal', 'large', 'small']
-  DEFAULT_FONT_SIZE: string;     // 'normal'
+  THEME_MODES: string[]; // ['dark', 'white', 'glass']
+  DEFAULT_THEME: string; // 'glass'
+  BACKGROUND_MODES: string[]; // ['black', 'white', 'video']
+  DEFAULT_BACKGROUND: string; // 'video'
+  FONT_SIZES: string[]; // ['normal', 'large', 'small']
+  DEFAULT_FONT_SIZE: string; // 'normal'
 }
 ```
 
 #### Public Methods
 
 ##### getCurrentTheme()
+
 Returns the current theme mode.
 
 ```typescript
@@ -58,12 +59,14 @@ getCurrentTheme(): string
 **Returns**: `'dark' | 'white' | 'glass'`
 
 **Example**:
+
 ```typescript
 const currentTheme = this.themeService.getCurrentTheme();
 console.log(currentTheme); // 'glass'
 ```
 
 ##### cycleTheme()
+
 Cycles to the next theme in the sequence (dark → white → glass → dark).
 
 ```typescript
@@ -73,12 +76,14 @@ cycleTheme(): string
 **Returns**: The new theme name
 
 **Example**:
+
 ```typescript
 const newTheme = this.themeService.cycleTheme();
 console.log(newTheme); // 'dark'
 ```
 
 ##### getCurrentBackground()
+
 Returns the current background mode.
 
 ```typescript
@@ -88,6 +93,7 @@ getCurrentBackground(): string
 **Returns**: `'black' | 'white' | 'video'`
 
 ##### toggleBackground()
+
 Cycles to the next background mode.
 
 ```typescript
@@ -97,6 +103,7 @@ toggleBackground(): string
 **Returns**: The new background mode
 
 ##### getCurrentFontSize()
+
 Returns the current font size mode.
 
 ```typescript
@@ -106,6 +113,7 @@ getCurrentFontSize(): string
 **Returns**: `'normal' | 'large' | 'small'`
 
 ##### cycleFontSize()
+
 Cycles to the next font size.
 
 ```typescript
@@ -115,6 +123,7 @@ cycleFontSize(): string
 **Returns**: The new font size mode
 
 ##### getThemeDisplayName()
+
 Returns a user-friendly display name for a theme.
 
 ```typescript
@@ -122,11 +131,13 @@ getThemeDisplayName(theme: string): string
 ```
 
 **Parameters**:
+
 - `theme`: Theme name ('dark', 'white', 'glass')
 
 **Returns**: Display name ('Dark Theme', 'Light Theme', 'Glass Theme')
 
 ##### getBackgroundDisplayName()
+
 Returns a user-friendly display name for a background.
 
 ```typescript
@@ -134,6 +145,7 @@ getBackgroundDisplayName(background: string): string
 ```
 
 ##### getFontSizeDisplayName()
+
 Returns a user-friendly display name for a font size.
 
 ```typescript
@@ -148,21 +160,15 @@ import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-settings',
-  template: `
-    <button (click)="changeTheme()">
-      Current: {{ currentTheme }}
-    </button>
-  `
+  template: ` <button (click)="changeTheme()">Current: {{ currentTheme }}</button> `,
 })
 export class SettingsComponent {
   constructor(private readonly themeService: ThemeService) {}
-  
+
   get currentTheme(): string {
-    return this.themeService.getThemeDisplayName(
-      this.themeService.getCurrentTheme()
-    );
+    return this.themeService.getThemeDisplayName(this.themeService.getCurrentTheme());
   }
-  
+
   changeTheme(): void {
     this.themeService.cycleTheme();
   }
@@ -172,6 +178,7 @@ export class SettingsComponent {
 #### Persistence
 
 All theme settings are persisted to `localStorage`:
+
 - `theme` - Current theme mode
 - `background` - Current background mode
 - `fontSize` - Current font size
@@ -190,8 +197,8 @@ Settings are automatically restored on page load.
 
 ```typescript
 interface SocialLink {
-  provider: string;  // 'GitHub', 'LinkedIn', 'Twitter', etc.
-  url: string;       // Full URL to profile
+  provider: string; // 'GitHub', 'LinkedIn', 'Twitter', etc.
+  url: string; // Full URL to profile
 }
 
 interface GithubUser {
@@ -207,14 +214,15 @@ interface GithubUser {
 }
 
 interface CommitData {
-  date: number;      // Unix timestamp
-  value: number;     // Number of commits
+  date: number; // Unix timestamp
+  value: number; // Number of commits
 }
 ```
 
 #### Public Methods
 
 ##### getProfile()
+
 Fetches GitHub user profile information.
 
 ```typescript
@@ -226,14 +234,16 @@ getProfile(): Observable<GithubUser>
 **Caching**: Results are cached with `shareReplay(1)`
 
 **Example**:
+
 ```typescript
-this.profileService.getProfile().subscribe(user => {
+this.profileService.getProfile().subscribe((user) => {
   console.log(user.name);
   console.log(user.avatar_url);
 });
 ```
 
 ##### getSocialLinks()
+
 Fetches social media links from API.
 
 ```typescript
@@ -245,15 +255,17 @@ getSocialLinks(): Observable<SocialLink[]>
 **Caching**: Results are cached with `shareReplay(1)`
 
 **Example**:
+
 ```typescript
-this.profileService.getSocialLinks().subscribe(links => {
-  links.forEach(link => {
+this.profileService.getSocialLinks().subscribe((links) => {
+  links.forEach((link) => {
     console.log(`${link.provider}: ${link.url}`);
   });
 });
 ```
 
 ##### getCommitsV2()
+
 Fetches GitHub commit activity data for the last year.
 
 ```typescript
@@ -265,9 +277,10 @@ getCommitsV2(): Observable<CommitData[]>
 **Caching**: Results are cached with `shareReplay(1)`
 
 **Example**:
+
 ```typescript
-this.profileService.getCommitsV2().subscribe(commits => {
-  commits.forEach(commit => {
+this.profileService.getCommitsV2().subscribe((commits) => {
+  commits.forEach((commit) => {
     const date = new Date(commit.date);
     console.log(`${date.toDateString()}: ${commit.value} commits`);
   });
@@ -292,10 +305,10 @@ import { ProfileService, GithubUser, SocialLink } from './services/profile.servi
   selector: 'app-profile',
   template: `
     <div class="profile">
-      <img [src]="avatar" [alt]="name">
+      <img [src]="avatar" [alt]="name" />
       <h2>{{ name }}</h2>
       <p>{{ bio }}</p>
-      
+
       <ul>
         @for (link of socialLinks; track link.provider) {
           <li>
@@ -304,24 +317,24 @@ import { ProfileService, GithubUser, SocialLink } from './services/profile.servi
         }
       </ul>
     </div>
-  `
+  `,
 })
 export class ProfileComponent implements OnInit {
   name = '';
   avatar = '';
   bio = '';
   socialLinks: SocialLink[] = [];
-  
+
   constructor(private readonly profileService: ProfileService) {}
-  
+
   ngOnInit(): void {
-    this.profileService.getProfile().subscribe(user => {
+    this.profileService.getProfile().subscribe((user) => {
       this.name = user.name || user.login;
       this.avatar = user.avatar_url;
       this.bio = user.bio || '';
     });
-    
-    this.profileService.getSocialLinks().subscribe(links => {
+
+    this.profileService.getSocialLinks().subscribe((links) => {
       this.socialLinks = links;
     });
   }
@@ -339,6 +352,7 @@ export class ProfileComponent implements OnInit {
 #### Public Methods
 
 ##### getStuff()
+
 Fetches recommended items categorized by type.
 
 ```typescript
@@ -348,15 +362,16 @@ getStuff(): Observable<Record<string, any[]>>
 **Returns**: Observable of items grouped by category
 
 **Example**:
+
 ```typescript
-this.notionService.getStuff().subscribe(data => {
+this.notionService.getStuff().subscribe((data) => {
   // data = {
   //   "Software": [...],
   //   "Hardware": [...],
   //   "Books": [...]
   // }
-  
-  Object.keys(data).forEach(category => {
+
+  Object.keys(data).forEach((category) => {
     console.log(`${category}:`, data[category]);
   });
 });
@@ -365,6 +380,7 @@ this.notionService.getStuff().subscribe(data => {
 #### Item Structure
 
 Each item contains:
+
 - `name`: Item name
 - `url`: Link to product
 - `description`: Short description
@@ -395,19 +411,19 @@ import { NotionService } from './services/notion.service';
         </div>
       </section>
     }
-  `
+  `,
 })
 export class StuffComponent implements OnInit {
   stuffByCategory: Record<string, any[]> = {};
-  
+
   constructor(private readonly notionService: NotionService) {}
-  
+
   ngOnInit(): void {
-    this.notionService.getStuff().subscribe(data => {
+    this.notionService.getStuff().subscribe((data) => {
       this.stuffByCategory = data;
     });
   }
-  
+
   get categories(): string[] {
     return Object.keys(this.stuffByCategory);
   }
@@ -435,21 +451,19 @@ import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MyService {
   private readonly http: HttpClient;
   private cache$?: Observable<any>;
-  
+
   constructor(http: HttpClient) {
     this.http = http;
   }
-  
+
   getData(): Observable<any> {
     if (!this.cache$) {
-      this.cache$ = this.http.get('/api/data').pipe(
-        shareReplay(1)
-      );
+      this.cache$ = this.http.get('/api/data').pipe(shareReplay(1));
     }
     return this.cache$;
   }
@@ -526,11 +540,11 @@ Use environment variables for configuration:
 import { environment } from '../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
   private readonly baseUrl = environment.apiUrl;
-  
+
   // Use baseUrl in methods
 }
 ```
@@ -543,45 +557,45 @@ export class ApiService {
 describe('MyService', () => {
   let service: MyService;
   let httpMock: HttpTestingController;
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [MyService]
+      providers: [MyService],
     });
-    
+
     service = TestBed.inject(MyService);
     httpMock = TestBed.inject(HttpTestingController);
   });
-  
+
   afterEach(() => {
     httpMock.verify();
   });
-  
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  
+
   it('should fetch data', () => {
     const mockData = [{ id: 1, name: 'Test' }];
-    
-    service.getData().subscribe(data => {
+
+    service.getData().subscribe((data) => {
       expect(data).toEqual(mockData);
     });
-    
+
     const req = httpMock.expectOne('/api/data');
     expect(req.request.method).toBe('GET');
     req.flush(mockData);
   });
-  
+
   it('should handle errors', () => {
     service.getData().subscribe({
       next: () => fail('Should have failed'),
       error: (error) => {
         expect(error.status).toBe(500);
-      }
+      },
     });
-    
+
     const req = httpMock.expectOne('/api/data');
     req.flush('Error', { status: 500, statusText: 'Server Error' });
   });

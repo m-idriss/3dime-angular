@@ -29,27 +29,25 @@ import { BackToTop } from './components/back-to-top/back-to-top';
     Hobbies,
     Contact,
     GithubActivity,
-    BackToTop
+    BackToTop,
   ],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App implements OnInit {
   protected readonly title = signal('3dime-angular');
-  private deferredPrompt: any;
+  private deferredPrompt: BeforeInstallPromptEvent | null = null;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private swUpdate: SwUpdate
+    private swUpdate: SwUpdate,
   ) {}
 
   ngOnInit(): void {
     // Check for service worker updates
     if (isPlatformBrowser(this.platformId) && this.swUpdate.isEnabled) {
       this.swUpdate.versionUpdates
-        .pipe(
-          filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY')
-        )
+        .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
         .subscribe(() => {
           if (confirm('New version available. Load new version?')) {
             window.location.reload();

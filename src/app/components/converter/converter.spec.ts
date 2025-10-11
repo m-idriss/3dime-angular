@@ -11,12 +11,8 @@ describe('Converter', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Converter],
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting()
-      ]
-    })
-    .compileComponents();
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Converter);
     component = fixture.componentInstance;

@@ -25,19 +25,22 @@
 ### Initial Setup
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/m-idriss/3dime-angular.git
    cd 3dime-angular
    ```
 
 2. **Install dependencies**:
+
    ```bash
    npm install
    ```
-   
-   *Note: Takes ~30 seconds, never cancel the installation*
+
+   _Note: Takes ~30 seconds, never cancel the installation_
 
 3. **Install Firebase Functions dependencies** (if using Firebase features):
+
    ```bash
    cd functions
    npm install
@@ -45,15 +48,17 @@
    ```
 
 4. **Verify installation**:
+
    ```bash
    npm run build
    ```
-   
-   *Note: Takes ~8 seconds, never cancel builds*
+
+   _Note: Takes ~8 seconds, never cancel builds_
 
 ### Development Server
 
 Start the development server:
+
 ```bash
 npm start
 # OR
@@ -69,27 +74,32 @@ The application runs at `http://localhost:4200/` with hot reload enabled.
 ### Daily Development
 
 1. **Pull latest changes**:
+
    ```bash
    git pull origin main
    ```
 
 2. **Create feature branch**:
+
    ```bash
    git checkout -b feature/my-feature
    ```
 
 3. **Start development server**:
+
    ```bash
    npm start
    ```
 
 4. **Make changes and test frequently**:
+
    ```bash
    npm run build        # Validate build (8+ seconds)
    npm test             # Run tests (12+ seconds)
    ```
 
 5. **Commit changes**:
+
    ```bash
    git add .
    git commit -m "feat: add my feature"
@@ -103,54 +113,66 @@ The application runs at `http://localhost:4200/` with hot reload enabled.
 ### Build Process
 
 #### Development Build
+
 ```bash
 npm run build
 ```
+
 - Takes ~8 seconds, set timeout to 30+ seconds
 - Outputs to `dist/3dime-angular/`
 - Includes source maps for debugging
 
 #### Production Build
+
 ```bash
 npm run build -- --configuration=production
 ```
+
 - Takes ~8.5 seconds, set timeout to 30+ seconds
 - Optimized bundles with minification
 - Tree-shaking and dead code elimination
 
 #### Expected Build Warnings (NORMAL)
+
 - Bundle size exceeds budget (839KB > 500KB) - WARNING only
 - CommonJS dependencies warnings - non-breaking
 
 ### Testing
 
 #### Unit Tests
+
 ```bash
 # Run all tests once (headless)
 CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false
 ```
+
 - Takes ~12 seconds, set timeout to 30+ seconds
 - Expected: Some tests may fail due to HttpClient setup (normal)
 
 #### Watch Mode (Interactive)
+
 ```bash
 npm test
 ```
+
 - Watches for file changes
 - Re-runs affected tests automatically
 
 #### Expected Test Behavior
+
 - 7 total tests with 2 expected failures related to dependency injection
 - Tests build successfully in headless Chrome
 
 ### Code Formatting
 
 Format code using Prettier:
+
 ```bash
 npx prettier --write src/
 ```
 
 Configuration is in `package.json`:
+
 ```json
 {
   "prettier": {
@@ -186,20 +208,20 @@ export interface UserProfile {
 
 export class MyComponent implements OnInit {
   private readonly userService: UserService;
-  
+
   users: UserProfile[] = [];
   selectedUser: UserProfile | null = null;
-  
+
   constructor(userService: UserService) {
     this.userService = userService;
   }
-  
+
   ngOnInit(): void {
     this.loadUsers();
   }
-  
+
   private loadUsers(): void {
-    this.userService.getUsers().subscribe(users => {
+    this.userService.getUsers().subscribe((users) => {
       this.users = users;
     });
   }
@@ -216,12 +238,17 @@ All components must be standalone (no NgModules):
 @Component({
   selector: 'app-my-component',
   standalone: true,
-  imports: [CommonModule, /* other imports */],
+  imports: [
+    /* only import what you actually use */
+  ],
   templateUrl: './my-component.html',
-  styleUrls: ['./my-component.scss']
+  styleUrl: './my-component.scss',
 })
 export class MyComponent {}
 ```
+
+> **Note**: In Angular 20+, use `styleUrl` (singular) for single stylesheets.
+> Only import `CommonModule` if you need legacy directives like `*ngIf` or `*ngFor` (prefer `@if` and `@for` instead).
 
 #### Naming Conventions
 
@@ -239,29 +266,27 @@ export class MyComponent {}
 export class MyComponent implements OnInit, OnDestroy {
   // 1. Public properties
   items: Item[] = [];
-  
+
   // 2. Private properties
   private subscription?: Subscription;
-  
+
   // 3. Constructor
-  constructor(
-    private readonly myService: MyService
-  ) {}
-  
+  constructor(private readonly myService: MyService) {}
+
   // 4. Lifecycle hooks
   ngOnInit(): void {
     this.loadData();
   }
-  
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
-  
+
   // 5. Public methods
   handleClick(): void {
     // Implementation
   }
-  
+
   // 6. Private methods
   private loadData(): void {
     // Implementation
@@ -280,11 +305,11 @@ Use proper HTML5 semantic elements:
   <header>
     <h2 id="section-title">Title</h2>
   </header>
-  
+
   <section aria-labelledby="section-title">
     <!-- Content -->
   </section>
-  
+
   <footer>
     <!-- Footer content -->
   </footer>
@@ -298,30 +323,26 @@ Use new control flow syntax:
 ```html
 <!-- Conditionals -->
 @if (user) {
-  <p>Welcome, {{ user.name }}!</p>
+<p>Welcome, {{ user.name }}!</p>
 } @else {
-  <p>Please log in</p>
+<p>Please log in</p>
 }
 
 <!-- Loops -->
 @for (item of items; track item.id) {
-  <div>{{ item.name }}</div>
+<div>{{ item.name }}</div>
 } @empty {
-  <p>No items found</p>
+<p>No items found</p>
 }
 
 <!-- Switch -->
-@switch (status) {
-  @case ('loading') {
-    <p>Loading...</p>
-  }
-  @case ('success') {
-    <p>Success!</p>
-  }
-  @default {
-    <p>Unknown status</p>
-  }
-}
+@switch (status) { @case ('loading') {
+<p>Loading...</p>
+} @case ('success') {
+<p>Success!</p>
+} @default {
+<p>Unknown status</p>
+} }
 ```
 
 ### SCSS Styles
@@ -335,22 +356,22 @@ Use new control flow syntax:
 // 2. Component root
 .component {
   padding: var(--space-md);
-  
+
   // 3. Element modifiers
   &--variant {
     background: var(--accent-color);
   }
-  
+
   // 4. Child elements
   &__header {
     font-size: var(--font-size-lg);
   }
-  
+
   // 5. States
   &:hover {
     transform: translateY(-2px);
   }
-  
+
   // 6. Media queries
   @media (max-width: 768px) {
     padding: var(--space-sm);
@@ -418,24 +439,19 @@ Use theme variables from `src/styles.scss`:
 
 ```typescript
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MyService {
   private readonly http: HttpClient;
   private cache$ = new Map<string, Observable<any>>();
-  
+
   constructor(http: HttpClient) {
     this.http = http;
   }
-  
+
   getData(id: string): Observable<Data> {
     if (!this.cache$.has(id)) {
-      this.cache$.set(
-        id,
-        this.http.get<Data>(`/api/data/${id}`).pipe(
-          shareReplay(1)
-        )
-      );
+      this.cache$.set(id, this.http.get<Data>(`/api/data/${id}`).pipe(shareReplay(1)));
     }
     return this.cache$.get(id)!;
   }
@@ -454,29 +470,27 @@ export class MyService {
 describe('MyComponent', () => {
   let component: MyComponent;
   let fixture: ComponentFixture<MyComponent>;
-  
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MyComponent],
-      providers: [
-        { provide: MyService, useValue: mockService }
-      ]
+      providers: [{ provide: MyService, useValue: mockService }],
     }).compileComponents();
-    
+
     fixture = TestBed.createComponent(MyComponent);
     component = fixture.componentInstance;
   });
-  
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
+
   it('should render title', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Expected Title');
   });
-  
+
   it('should handle user interaction', () => {
     spyOn(component, 'handleClick');
     const button = fixture.nativeElement.querySelector('button');
@@ -492,28 +506,28 @@ describe('MyComponent', () => {
 describe('MyService', () => {
   let service: MyService;
   let httpMock: HttpTestingController;
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [MyService]
+      providers: [MyService],
     });
-    
+
     service = TestBed.inject(MyService);
     httpMock = TestBed.inject(HttpTestingController);
   });
-  
+
   afterEach(() => {
     httpMock.verify();
   });
-  
+
   it('should fetch data', () => {
     const mockData = { id: 1, name: 'Test' };
-    
-    service.getData('1').subscribe(data => {
+
+    service.getData('1').subscribe((data) => {
       expect(data).toEqual(mockData);
     });
-    
+
     const req = httpMock.expectOne('/api/data/1');
     expect(req.request.method).toBe('GET');
     req.flush(mockData);
@@ -604,16 +618,18 @@ test(components): add unit tests for ProfileCard
 ### Optimization Techniques
 
 1. **Lazy Loading**:
+
    ```typescript
    const routes = [
      {
        path: 'admin',
-       loadComponent: () => import('./admin/admin').then(m => m.AdminComponent)
-     }
+       loadComponent: () => import('./admin/admin').then((m) => m.AdminComponent),
+     },
    ];
    ```
 
 2. **OnPush Change Detection**:
+
    ```typescript
    @Component({
      changeDetection: ChangeDetectionStrategy.OnPush
@@ -621,12 +637,13 @@ test(components): add unit tests for ProfileCard
    ```
 
 3. **trackBy Functions**:
+
    ```html
    @for (item of items; track trackById(item)) {
-     <div>{{ item.name }}</div>
+   <div>{{ item.name }}</div>
    }
    ```
-   
+
    ```typescript
    trackById(item: Item): number {
      return item.id;
@@ -646,6 +663,7 @@ test(components): add unit tests for ProfileCard
 ### Performance Metrics
 
 Monitor with Lighthouse:
+
 - **First Contentful Paint**: <1.5s
 - **Largest Contentful Paint**: <2.5s
 - **Time to Interactive**: <3.5s

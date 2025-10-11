@@ -81,19 +81,19 @@ All colors are defined as CSS custom properties in `src/styles.scss`:
   // Primary Text Colors
   --text-primary: rgba(255, 255, 255, 0.95);
   --text-secondary: rgba(255, 255, 255, 0.7);
-  
+
   // Accent Colors
-  --accent-color: #3b82f6;           // Primary blue
-  --accent-color-hover: #2563eb;     // Darker blue for hover
-  
+  --accent-color: #3b82f6; // Primary blue
+  --accent-color-hover: #2563eb; // Darker blue for hover
+
   // Background Colors
   --body-bg: #000000;
-  
+
   // Glassmorphism
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-blur: blur(16px);
   --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-  
+
   // Borders
   --border-color: rgba(255, 255, 255, 0.1);
 }
@@ -102,16 +102,19 @@ All colors are defined as CSS custom properties in `src/styles.scss`:
 ### Theme-Specific Colors
 
 #### Glass Theme
+
 - Background: Dark with video overlay
 - Text: White with high opacity
 - Glass effect: Low opacity white with blur
 
 #### Dark Theme
+
 - Background: Pure black (#000000)
 - Text: White (rgba(255, 255, 255, 0.95))
 - Accents: Blue (#3b82f6)
 
 #### White Theme
+
 - Background: Pure white (#ffffff)
 - Text: Dark gray (rgba(0, 0, 0, 0.87))
 - Accents: Blue (#3b82f6)
@@ -125,6 +128,7 @@ All colors are defined as CSS custom properties in `src/styles.scss`:
 ### Color Contrast
 
 All color combinations meet WCAG 2.1 AA standards:
+
 - **Normal text**: 4.5:1 contrast ratio minimum
 - **Large text**: 3:1 contrast ratio minimum
 - **UI components**: 3:1 contrast ratio minimum
@@ -136,36 +140,38 @@ All color combinations meet WCAG 2.1 AA standards:
 ### Font Family
 
 Primary font stack:
+
 ```scss
---font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
-               'Helvetica Neue', Arial, sans-serif;
+--font-family:
+  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 ```
 
 ### Font Sizes
 
 ```scss
---font-size-base: 1.125rem;   // 18px (body text)
---font-size-lg: 1.375rem;     // 22px (headings)
---font-size-xl: 1.625rem;     // 26px (large headings)
+--font-size-base: 1.125rem; // 18px (body text)
+--font-size-lg: 1.375rem; // 22px (headings)
+--font-size-xl: 1.625rem; // 26px (large headings)
 ```
 
 ### Font Size Modes
 
 Users can adjust font sizes:
+
 - **Normal**: Default sizes
 - **Large**: 1.2x multiplier
 - **Small**: 0.9x multiplier
 
 ### Typography Scale
 
-| Element | Size | Weight | Usage |
-|---------|------|--------|-------|
-| H1 | 2.5rem | 700 | Page title |
-| H2 | 2rem | 700 | Section headings |
-| H3 | 1.625rem | 600 | Subsection headings |
-| H4 | 1.375rem | 600 | Card titles |
-| Body | 1.125rem | 400 | Paragraph text |
-| Small | 0.875rem | 400 | Captions, labels |
+| Element | Size     | Weight | Usage               |
+| ------- | -------- | ------ | ------------------- |
+| H1      | 2.5rem   | 700    | Page title          |
+| H2      | 2rem     | 700    | Section headings    |
+| H3      | 1.625rem | 600    | Subsection headings |
+| H4      | 1.375rem | 600    | Card titles         |
+| Body    | 1.125rem | 400    | Paragraph text      |
+| Small   | 0.875rem | 400    | Captions, labels    |
 
 ### Line Height
 
@@ -189,11 +195,11 @@ Users can adjust font sizes:
 Consistent spacing using CSS custom properties:
 
 ```scss
---space-xs: 0.5rem;   // 8px
---space-sm: 0.75rem;  // 12px
---space-md: 1rem;     // 16px
---space-lg: 1.5rem;   // 24px
---space-xl: 2rem;     // 32px
+--space-xs: 0.5rem; // 8px
+--space-sm: 0.75rem; // 12px
+--space-md: 1rem; // 16px
+--space-lg: 1.5rem; // 24px
+--space-xl: 2rem; // 32px
 ```
 
 ### Usage Guidelines
@@ -210,7 +216,7 @@ Spacing adjusts on mobile devices:
 ```scss
 @media (max-width: 768px) {
   .container {
-    padding: var(--space-sm);  // Reduced from var(--space-md)
+    padding: var(--space-sm); // Reduced from var(--space-md)
   }
 }
 ```
@@ -268,13 +274,13 @@ box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   border: none;
   cursor: pointer;
   transition: all var(--t-fast) var(--ease);
-  
+
   &:hover {
     background: var(--accent-color-hover);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
@@ -287,20 +293,16 @@ box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 .section-header {
   text-align: center;
   margin-bottom: var(--space-xl);
-  
+
   h2 {
     font-size: 2rem;
     font-weight: 700;
-    background: linear-gradient(
-      135deg, 
-      var(--text-primary), 
-      rgba(59, 130, 246, 0.8)
-    );
+    background: linear-gradient(135deg, var(--text-primary), rgba(59, 130, 246, 0.8));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     position: relative;
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -309,12 +311,7 @@ box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
       transform: translateX(-50%);
       width: 60px;
       height: 2px;
-      background: linear-gradient(
-        90deg, 
-        transparent, 
-        var(--accent-color), 
-        transparent
-      );
+      background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
     }
   }
 }
@@ -337,18 +334,18 @@ Collapsible section controls:
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s var(--ease);
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.2);
     color: var(--text-primary);
   }
-  
+
   &::after {
     content: '▼';
     transition: transform 0.2s var(--ease);
   }
-  
+
   &.collapsed::after {
     transform: rotate(-90deg);
   }
@@ -371,6 +368,7 @@ Collapsible section controls:
 ### Common Transitions
 
 #### Fade In
+
 ```scss
 .fade-in {
   animation: fadeIn var(--t-medium) var(--ease);
@@ -387,6 +385,7 @@ Collapsible section controls:
 ```
 
 #### Slide Up
+
 ```scss
 .slide-up {
   animation: slideUp var(--t-medium) var(--ease);
@@ -405,10 +404,11 @@ Collapsible section controls:
 ```
 
 #### Hover Lift
+
 ```scss
 .lift-on-hover {
   transition: transform var(--t-fast) var(--ease);
-  
+
   &:hover {
     transform: translateY(-4px);
   }
@@ -439,16 +439,20 @@ Respect user preferences:
 
 ```scss
 // Mobile
-@media (max-width: 480px) { }
+@media (max-width: 480px) {
+}
 
 // Tablet
-@media (max-width: 768px) { }
+@media (max-width: 768px) {
+}
 
 // Desktop
-@media (min-width: 769px) { }
+@media (min-width: 769px) {
+}
 
 // Large Desktop
-@media (min-width: 1200px) { }
+@media (min-width: 1200px) {
+}
 ```
 
 ### Mobile-First Approach
@@ -458,15 +462,15 @@ Write base styles for mobile, enhance for larger screens:
 ```scss
 .grid {
   display: grid;
-  grid-template-columns: 1fr;  // Single column on mobile
+  grid-template-columns: 1fr; // Single column on mobile
   gap: var(--space-md);
-  
+
   @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);  // Two columns on tablet
+    grid-template-columns: repeat(2, 1fr); // Two columns on tablet
   }
-  
+
   @media (min-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);  // Three columns on desktop
+    grid-template-columns: repeat(3, 1fr); // Three columns on desktop
   }
 }
 ```
@@ -478,7 +482,7 @@ Write base styles for mobile, enhance for larger screens:
   max-width: 1200px;
   margin: 0 auto;
   padding: var(--space-lg);
-  
+
   @media (max-width: 768px) {
     padding: var(--space-md);
   }
@@ -509,6 +513,7 @@ a:focus-visible {
 ### Color Contrast
 
 All text meets WCAG 2.1 AA standards:
+
 - White text on dark backgrounds: >12:1 ratio
 - Blue accent on dark backgrounds: >7:1 ratio
 - Links have sufficient contrast and additional indicators
@@ -522,7 +527,7 @@ Use proper HTML5 elements:
   <header>
     <h2>Section Title</h2>
   </header>
-  
+
   <section aria-labelledby="section-title">
     <!-- Content -->
   </section>
@@ -572,31 +577,31 @@ Add labels for screen readers:
   --accent-color: #3b82f6;
   --accent-color-hover: #2563eb;
   --body-bg: #000000;
-  
+
   // Glassmorphism
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-blur: blur(16px);
   --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-  
+
   // Spacing
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 2rem;
-  
+
   // Typography
-  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
-                 'Helvetica Neue', Arial, sans-serif;
+  --font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-size-base: 1.125rem;
   --font-size-lg: 1.375rem;
   --font-size-xl: 1.625rem;
-  
+
   // Border Radius
   --border-radius: 16px;
   --border-radius-sm: 8px;
   --border-radius-lg: 24px;
-  
+
   // Transitions
   --t-fast: 0.15s;
   --t-medium: 0.3s;
@@ -617,7 +622,7 @@ Add labels for screen readers:
     <header class="section-header">
       <h2 id="section-title">Section Title</h2>
     </header>
-    
+
     <div class="grid">
       <article class="card">
         <h3>Card Title</h3>
@@ -646,16 +651,16 @@ Add labels for screen readers:
   border-radius: var(--border-radius);
   padding: var(--space-lg);
   transition: transform var(--t-fast) var(--ease);
-  
+
   &:hover {
     transform: translateY(-4px);
   }
-  
+
   h3 {
     color: var(--text-primary);
     margin-bottom: var(--space-sm);
   }
-  
+
   p {
     color: var(--text-secondary);
     line-height: 1.6;

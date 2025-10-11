@@ -8,8 +8,8 @@ import { Card } from '../card/card';
   standalone: true,
   imports: [Card],
   templateUrl: './stuff.html',
-  styleUrls: ['./stuff.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './stuff.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Stuff implements OnInit {
   stuffs: LinkItem[] = [];
@@ -17,7 +17,7 @@ export class Stuff implements OnInit {
 
   constructor(
     private readonly notionService: NotionService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {

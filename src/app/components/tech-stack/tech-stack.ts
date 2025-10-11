@@ -9,7 +9,7 @@ import { Card } from '../card/card';
   imports: [Card],
   templateUrl: './tech-stack.html',
   styleUrl: './tech-stack.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TechStack implements OnInit {
   techStack: LinkItem[] = [];
@@ -17,7 +17,7 @@ export class TechStack implements OnInit {
 
   constructor(
     private readonly notionService: NotionService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {

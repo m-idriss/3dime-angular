@@ -8,7 +8,7 @@
     </div>
   } @else {
     <header class="profile-header">
-      <img [src]="avatar" alt="Logo" class="logo">
+      <img [src]="avatar" alt="Logo" class="logo" />
 
       <div class="burger-menu" [class.active]="menuOpen">
         <button
@@ -20,78 +20,91 @@
           aria-haspopup="true"
         >
           @if (isAuthenticated && currentUser) {
-            <img [src]="currentUser.photoURL" [alt]="currentUser.displayName || 'User'" class="user-avatar">
+            <img
+              [src]="currentUser.photoURL"
+              [alt]="currentUser.displayName || 'User'"
+              class="user-avatar"
+            />
           }
           <i class="fas fa-ellipsis-v"></i>
         </button>
 
         <!-- Dropdown menu -->
-        <div
-          class="profile-dropdown"
-          *ngIf="menuOpen"
-          role="menu"
-          aria-labelledby="burger-btn"
-        >
-          @if (isAuthenticated && currentUser) {
-            <div class="user-info">
-              <img [src]="currentUser.photoURL" [alt]="currentUser.displayName || 'User'" class="user-avatar-large">
-              <div class="user-details">
-                <div class="user-name">{{ currentUser.displayName }}</div>
-                <div class="user-email">{{ currentUser.email }}</div>
+        @if (menuOpen) {
+          <div class="profile-dropdown" role="menu" aria-labelledby="burger-btn">
+            @if (isAuthenticated && currentUser) {
+              <div class="user-info">
+                <img
+                  [src]="currentUser.photoURL"
+                  [alt]="currentUser.displayName || 'User'"
+                  class="user-avatar-large"
+                />
+                <div class="user-details">
+                  <div class="user-name">{{ currentUser.displayName }}</div>
+                  <div class="user-email">{{ currentUser.email }}</div>
+                </div>
               </div>
-            </div>
 
-            <div class="dropdown-separator" role="separator"></div>
-          }
+              <div class="dropdown-separator" role="separator"></div>
+            }
 
-          <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
-            <i class="fas"
-               [class.fa-moon]="currentTheme === 'dark'"
-               [class.fa-sun]="currentTheme === 'white'"
-               [class.fa-gem]="currentTheme === 'glass'"
-               aria-hidden="true"></i>
-            <span>{{ themeDisplayName }}</span>
-          </button>
-
-          <div class="dropdown-separator" role="separator"></div>
-
-          <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
-            <i class="fas"
-               [class.fa-circle]="currentBackground === 'black'"
-               [class.fa-circle-notch]="currentBackground === 'white'"
-               [class.fa-play]="currentBackground === 'video'"
-               aria-hidden="true"></i>
-            <span>{{ backgroundDisplayName }}</span>
-          </button>
-
-          <div class="dropdown-separator" role="separator"></div>
-
-          <button class="dropdown-item font-size-toggle" role="menuitem" (click)="changeFontSize()">
-            <i class="fas fa-text-height" aria-hidden="true"></i>
-            <span>Font Size: {{ fontSizeDisplayName }}</span>
-          </button>
-
-          @if (isAuthenticated) {
-            <div class="dropdown-separator" role="separator"></div>
-
-            <button class="dropdown-item sign-out" role="menuitem" (click)="signOut()">
-              <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-              <span>Sign Out</span>
+            <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
+              <i
+                class="fas"
+                [class.fa-moon]="currentTheme === 'dark'"
+                [class.fa-sun]="currentTheme === 'white'"
+                [class.fa-gem]="currentTheme === 'glass'"
+                aria-hidden="true"
+              ></i>
+              <span>{{ themeDisplayName }}</span>
             </button>
-          }
-        </div>
+
+            <div class="dropdown-separator" role="separator"></div>
+
+            <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
+              <i
+                class="fas"
+                [class.fa-circle]="currentBackground === 'black'"
+                [class.fa-circle-notch]="currentBackground === 'white'"
+                [class.fa-play]="currentBackground === 'video'"
+                aria-hidden="true"
+              ></i>
+              <span>{{ backgroundDisplayName }}</span>
+            </button>
+
+            <div class="dropdown-separator" role="separator"></div>
+
+            <button
+              class="dropdown-item font-size-toggle"
+              role="menuitem"
+              (click)="changeFontSize()"
+            >
+              <i class="fas fa-text-height" aria-hidden="true"></i>
+              <span>Font Size: {{ fontSizeDisplayName }}</span>
+            </button>
+
+            @if (isAuthenticated) {
+              <div class="dropdown-separator" role="separator"></div>
+
+              <button class="dropdown-item sign-out" role="menuitem" (click)="signOut()">
+                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                <span>Sign Out</span>
+              </button>
+            }
+          </div>
+        }
       </div>
     </header>
 
     <h2>✨ {{ name }} ✨</h2>
     <div class="socials">
       @for (link of socialLinks; track link.provider) {
-      <a [href]="link.url" target="_blank" rel="noopener noreferrer">
-        <i [ngClass]="getFontAwesomeLinks(link.provider)" aria-hidden="true"></i></a>
+        <a [href]="link.url" target="_blank" rel="noopener noreferrer">
+          <i [class]="getFontAwesomeLinks(link.provider)" aria-hidden="true"></i
+        ></a>
       } @empty {
-      No socialLinks available.
+        No socialLinks available.
       }
     </div>
   }
 </section>
-

@@ -18,6 +18,7 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 ### Frontend (Angular)
 
 **Component**: `src/app/components/converter/`
+
 - Drag-and-drop file upload
 - File validation (type, size)
 - Progress indicators
@@ -25,6 +26,7 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 - ICS file download
 
 **Service**: `src/app/services/converter.ts`
+
 - HTTP communication with Firebase function
 - File-to-base64 conversion
 - PDF-to-image conversion using PDF.js
@@ -33,6 +35,7 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 ### Backend (Firebase Function)
 
 **Function**: `functions/src/proxies/converter.ts`
+
 - Accepts POST requests with image/PDF data
 - Calls OpenAI GPT-4 Vision API for event extraction
 - Returns ICS content
@@ -64,6 +67,7 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 ### Calendar Applications
 
 The generated ICS files are compatible with:
+
 - Google Calendar
 - Apple Calendar
 - Microsoft Outlook
@@ -80,6 +84,7 @@ The generated ICS files are compatible with:
 ### Dependencies
 
 The converter uses the following key dependencies:
+
 - `pdfjs-dist`: Mozilla's PDF.js library for client-side PDF rendering
 - `@angular/common/http`: For HTTP requests to Firebase Functions
 - PDF.js worker loaded from CDN
@@ -87,6 +92,7 @@ The converter uses the following key dependencies:
 ### Configuration
 
 1. Set up Firebase secrets:
+
    ```bash
    firebase functions:secrets:set OPENAI_API_KEY
    ```
@@ -102,11 +108,11 @@ The converter uses the following key dependencies:
 
 ### Environment Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `OPENAI_API_KEY` | Yes | OpenAI API key with GPT-4 Vision access |
-| `BASE_TEXT_MESSAGE` | No | Custom extraction prompt |
-| `PROMPT` | No | Custom system prompt |
+| Variable            | Required | Description                             |
+| ------------------- | -------- | --------------------------------------- |
+| `OPENAI_API_KEY`    | Yes      | OpenAI API key with GPT-4 Vision access |
+| `BASE_TEXT_MESSAGE` | No       | Custom extraction prompt                |
+| `PROMPT`            | No       | Custom system prompt                    |
 
 ## API Reference
 
@@ -159,6 +165,7 @@ PDF files are processed client-side before being sent to the API:
 5. **Worker**: PDF.js worker is loaded from CDN (unpkg.com) for optimal performance
 
 **Benefits of client-side conversion**:
+
 - No server-side PDF libraries needed
 - Reduces Firebase Function memory requirements
 - Works with OpenAI Vision API (which only accepts images)
@@ -167,6 +174,7 @@ PDF files are processed client-side before being sent to the API:
 ### AI Processing
 
 The converter uses OpenAI's GPT-4 Vision model (`gpt-4o`) with:
+
 - **Temperature**: 0.1 (low randomness for consistent output)
 - **Max tokens**: 4096
 - **Detail level**: High (for accurate OCR)
@@ -181,6 +189,7 @@ The system uses two prompts:
 ### ICS Format
 
 Generated ICS files include:
+
 - `BEGIN:VCALENDAR` / `END:VCALENDAR` wrapper
 - `VERSION:2.0` specification
 - `PRODID` identifier
@@ -199,6 +208,7 @@ Generated ICS files include:
 ### Running Locally
 
 1. Start the Angular development server:
+
    ```bash
    npm start
    ```
@@ -210,6 +220,7 @@ Generated ICS files include:
 The converter requires manual testing with real calendar images/PDFs since it depends on external AI services.
 
 **Test files to try**:
+
 - Calendar screenshots from phone/computer
 - PDF event flyers
 - Email screenshots with event details
@@ -218,27 +229,32 @@ The converter requires manual testing with real calendar images/PDFs since it de
 ### Troubleshooting
 
 **Issue**: "Failed to convert PDF to images"
+
 - PDF may be corrupted or password-protected
 - PDF may use unsupported features
 - Try converting the PDF to images manually first
 - Check browser console for detailed error messages
 
 **Issue**: "Failed to process images with AI"
+
 - Check OpenAI API key is set correctly
 - Verify API key has GPT-4 Vision access
 - Check OpenAI account has sufficient credits
 
 **Issue**: "No ICS content generated"
+
 - Image quality may be too low
 - Calendar information may not be clearly visible
 - Try with a clearer image or higher resolution PDF
 
 **Issue**: Files not uploading
+
 - Check file size (max 10MB)
 - Verify file type (JPG, PNG, or PDF only)
 - For PDFs, ensure the file is valid and not corrupted
 
 **Issue**: PDF.js worker fails to load
+
 - Check Content Security Policy allows unpkg.com
 - Verify network connection
 - Check browser console for CSP violations
@@ -246,12 +262,14 @@ The converter requires manual testing with real calendar images/PDFs since it de
 ## Styling
 
 The converter uses the app's global design system:
+
 - Glassmorphism effects
 - Space-themed colors
 - Responsive layout
 - Accessible controls
 
 SCSS variables used:
+
 - `--glass-bg`: Background with transparency
 - `--glass-border`: Border color
 - `--accent-color`: Primary action color

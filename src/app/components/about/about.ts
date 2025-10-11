@@ -7,15 +7,15 @@ import { Card } from '../card/card';
   standalone: true,
   imports: [Card],
   templateUrl: './about.html',
-  styleUrls: ['./about.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './about.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class About implements OnInit {
   bio: string | null = null;
 
   constructor(
     private readonly profileService: ProfileService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {

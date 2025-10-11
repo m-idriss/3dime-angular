@@ -5,7 +5,7 @@ import {
   signOut,
   GoogleAuthProvider,
   onAuthStateChanged,
-  User
+  User,
 } from '@angular/fire/auth';
 
 export interface AuthUser {
@@ -16,7 +16,7 @@ export interface AuthUser {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly auth: Auth = inject(Auth);
@@ -35,7 +35,7 @@ export class AuthService {
           uid: user.uid,
           email: user.email,
           displayName: user.displayName,
-          photoURL: user.photoURL
+          photoURL: user.photoURL,
         });
         this.isAuthenticated.set(true);
       } else {
