@@ -49,6 +49,20 @@ describe('AuthService', () => {
     expect(service.isAuthenticated()).toBe(false);
   });
 
+  it('should not authenticate with whitespace-only credentials', () => {
+    const result = service.login('   ', '    ');
+    
+    expect(result).toBe(false);
+    expect(service.isAuthenticated()).toBe(false);
+  });
+
+  it('should authenticate with valid credentials that have leading/trailing spaces', () => {
+    const result = service.login('  testuser  ', '  password  ');
+    
+    expect(result).toBe(true);
+    expect(service.isAuthenticated()).toBe(true);
+  });
+
   it('should logout successfully', () => {
     service.login('testuser', 'password');
     expect(service.isAuthenticated()).toBe(true);

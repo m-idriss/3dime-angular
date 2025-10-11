@@ -21,12 +21,16 @@ export class Login {
   protected onLogin(): void {
     this.errorMessage.set(null);
 
-    if (!this.username || !this.password) {
+    // Trim inputs to prevent whitespace-only values
+    const trimmedUsername = this.username.trim();
+    const trimmedPassword = this.password.trim();
+
+    if (!trimmedUsername || !trimmedPassword) {
       this.errorMessage.set('Please enter both username and password');
       return;
     }
 
-    const success = this.authService.login(this.username, this.password);
+    const success = this.authService.login(trimmedUsername, trimmedPassword);
     
     if (!success) {
       this.errorMessage.set('Invalid credentials. Password must be at least 4 characters.');

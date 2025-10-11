@@ -28,8 +28,12 @@ export class AuthService {
    * In production, this should validate against a real backend
    */
   login(username: string, password: string): boolean {
+    // Trim inputs to prevent whitespace-only values
+    const trimmedUsername = username?.trim();
+    const trimmedPassword = password?.trim();
+    
     // Simple validation - in production this should call a backend API
-    if (username && password && password.length >= 4) {
+    if (trimmedUsername && trimmedPassword && trimmedPassword.length >= 4) {
       this.isAuthenticatedSignal.set(true);
       
       // Persist authentication state
