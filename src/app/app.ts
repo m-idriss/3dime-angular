@@ -9,6 +9,7 @@ import { TechStack } from './components/tech-stack/tech-stack';
 import { Experience } from './components/experience/experience';
 import { Education } from './components/education/education';
 import { Converter } from './components/converter/converter';
+import { Login } from './components/login/login';
 import { Stuff } from './components/stuff/stuff';
 import { Hobbies } from './components/hobbies/hobbies';
 import { Contact } from './components/contact/contact';
@@ -25,6 +26,7 @@ import { BackToTop } from './components/back-to-top/back-to-top';
     Experience,
     Education,
     Converter,
+    Login,
     Stuff,
     Hobbies,
     Contact,
