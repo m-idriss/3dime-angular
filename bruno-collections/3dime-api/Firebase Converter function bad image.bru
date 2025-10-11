@@ -38,8 +38,8 @@ tests {
   });
   
   test("Response has section field", function() {
-    expect(res.getBody()).to.have.property("message");
     expect(res.getBody()).to.have.property("error");
+    expect(res.getBody()).to.have.property("message");
     expect(res.getBody()).to.have.property("success");
   });
   
