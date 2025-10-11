@@ -37,18 +37,59 @@ export class Converter implements OnInit {
     // Handle shared files from PWA share target
     if (isPlatformBrowser(this.platformId)) {
       this.handleSharedFiles();
+      this.checkForSharedContent();
     }
   }
 
   private async handleSharedFiles(): Promise<void> {
-    // Check if the page was loaded with shared files (PWA share target)
+    // Check if there are shared files in the cache (set by service worker)
+    if ('caches' in window) {
+      try {
+        const cache = await caches.open('share-target');
+        const response = await cache.match('/shared-files');
+        
+        if (response) {
+          const formData = await response.formData();
+          const files: File[] = [];
+          
+          // Extract files from FormData
+          for (const [key, value] of formData.entries()) {
+            if (value instanceof File) {
+              files.push(value);
+            }
+          }
+          
+          if (files.length > 0) {
+            console.log(`Received ${files.length} shared files`);
+            this.addFiles(files);
+            
+            // Scroll to converter section
+            const converterElement = document.getElementById('converter');
+            if (converterElement) {
+              converterElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            
+            // Clear the cache after processing
+            await cache.delete('/shared-files');
+          }
+        }
+      } catch (error) {
+        console.error('Error handling shared files:', error);
+      }
+    }
+  }
+
+  private checkForSharedContent(): void {
+    // Check URL for share target parameter
     const urlParams = new URLSearchParams(window.location.search);
-    
-    // For POST share target, files will be in FormData
-    if (window.location.pathname === '/' && urlParams.toString() === '') {
-      // Check for shared files in the request body (if any)
-      // This will be handled by the service worker
-      console.log('Checking for shared files via PWA share target');
+    if (urlParams.get('share-target') === 'true') {
+      // Scroll to converter section when arriving via share target
+      setTimeout(() => {
+        const converterElement = document.getElementById('converter');
+        if (converterElement) {
+          converterElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 500);
     }
   }
 

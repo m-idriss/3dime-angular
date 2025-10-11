@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, ChangeDetectionStrategy, ChangeDetecto
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
+import { PwaService } from '../../services/pwa.service';
 
 @Component({
   selector: 'app-profile-card',
@@ -21,7 +22,8 @@ export class ProfileCard implements OnInit {
   constructor(
     private readonly themeService: ThemeService,
     private readonly profileService: ProfileService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    public readonly pwaService: PwaService
   ) {}
 
   ngOnInit() {
@@ -119,5 +121,11 @@ export class ProfileCard implements OnInit {
 
   get fontSizeDisplayName(): string {
     return this.themeService.getFontSizeDisplayName(this.currentFontSize);
+  }
+
+  async installApp(): Promise<void> {
+    await this.pwaService.installApp();
+    this.closeMenu();
+    this.cdr.markForCheck();
   }
 }

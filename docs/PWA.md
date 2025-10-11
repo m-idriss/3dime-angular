@@ -7,6 +7,7 @@ This document provides comprehensive information about the PWA implementation in
 - [Overview](#overview)
 - [Features](#features)
 - [Installation](#installation)
+- [Install Button](#install-button)
 - [Technical Implementation](#technical-implementation)
 - [Configuration](#configuration)
 - [Testing](#testing)
@@ -17,6 +18,21 @@ This document provides comprehensive information about the PWA implementation in
 3dime-angular is a fully functional Progressive Web App that provides an app-like experience on mobile and desktop devices. Users can install it on their home screen and use it like a native application, with offline support and the ability to share files directly from other apps.
 
 ## Features
+
+### ✅ Install Button
+
+Users can now install the app using a visible button in the profile card menu.
+
+- **Location**: Profile card → Menu (⋮) → "Install App"
+- **Visibility**: Button only appears when the browser supports PWA installation and the app is not already installed
+- **Action**: Triggers the native browser install prompt
+- **Design**: Highlighted with gradient background for better visibility
+
+**How it works:**
+1. Click the menu button (⋮) in the profile card
+2. Select "Install App" from the dropdown menu
+3. Confirm installation in the browser's native prompt
+4. App installs to your device's home screen/app drawer
 
 ### ✅ Service Worker
 
@@ -139,11 +155,58 @@ PWA Components:
 │   └── ngsw-config.json (source config)
 ├── Web App Manifest
 │   └── public/assets/manifest.json
+├── PWA Service
+│   └── src/app/services/pwa.service.ts
 ├── App Configuration
 │   ├── src/app/app.config.ts (service worker provider)
-│   └── src/app/app.ts (update checker & install handler)
+│   └── src/app/app.ts (update checker)
 └── Build Configuration
     └── angular.json (production service worker enable)
+```
+
+### PwaService
+
+**Location**: `src/app/services/pwa.service.ts`
+
+A centralized service that manages PWA installation functionality:
+
+```typescript
+@Injectable({ providedIn: 'root' })
+export class PwaService {
+  public readonly showInstallButton = signal(false);
+  
+  // Triggers the browser's install prompt
+  public async installApp(): Promise<void>
+  
+  // Checks if installation is available
+  public canInstall(): boolean
+}
+```
+
+**Features:**
+- Listens for `beforeinstallprompt` event automatically
+- Manages install prompt state with signals
+- Provides a simple API for components to trigger installation
+- Handles installation completion events
+
+**Usage in Components:**
+
+```typescript
+export class ProfileCard {
+  constructor(public readonly pwaService: PwaService) {}
+  
+  async installApp(): Promise<void> {
+    await this.pwaService.installApp();
+  }
+}
+```
+
+**Template:**
+
+```html
+@if (pwaService.showInstallButton()) {
+  <button (click)="installApp()">Install App</button>
+}
 ```
 
 ### Service Worker Registration
