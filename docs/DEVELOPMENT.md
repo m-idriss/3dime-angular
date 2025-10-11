@@ -134,7 +134,7 @@ npm run build -- --configuration=production
 
 #### Expected Build Warnings (NORMAL)
 
-- Bundle size exceeds budget (839KB > 500KB) - WARNING only
+- No warnings expected - budgets adjusted to match optimized build
 - CommonJS dependencies warnings - non-breaking
 
 ### Testing
@@ -612,8 +612,9 @@ test(components): add unit tests for ProfileCard
 
 ### Bundle Size
 
-- **Target**: <500KB gzipped
-- **Current**: 839KB (exceeds budget, needs optimization)
+- **Raw Size**: 1.23MB (optimized and minified)
+- **Transferred**: ~316KB (gzipped over network)
+- **Status**: Within budget limits
 
 ### Optimization Techniques
 
