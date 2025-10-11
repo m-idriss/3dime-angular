@@ -293,7 +293,11 @@ export class Converter implements OnInit {
     try {
       await this.authService.signInWithGoogle();
     } catch (error) {
-      this.errorMessage.set('Failed to sign in. Please try again.');
+      let message = 'Failed to sign in. Please try again.';
+      if (error && typeof error === 'object' && 'message' in error && typeof (error as any).message === 'string') {
+        message += ` (${(error as any).message})`;
+      }
+      this.errorMessage.set(message);
       console.error('Sign in error:', error);
     }
   }
