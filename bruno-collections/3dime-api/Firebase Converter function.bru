@@ -26,30 +26,30 @@ body:json {
     "timeZone": "Europe/Paris",
     "currentDate": "2025-10-06"
   }
-
-
-
+  
+  
+  
 }
 
 tests {
   test("Status code is 200", function() {
     expect(res.getStatus()).to.equal(200);
   });
-
+  
   test("Response is valid JSON", function() {
     expect(res.getBody()).to.be.an("object");
   });
-
+  
   test("Response has section field", function() {
     expect(res.getBody()).to.have.property("icsContent");
     expect(res.getBody()).to.have.property("success");
   });
-
+  
   test("icsContent start with BEGIN:VCALENDAR end with END:VCALENDAR", function() {
     expect(res.getBody().icsContent).to.match(/^BEGIN:VCALENDAR[\s\S]*END:VCALENDAR$/);
     expect(res.getBody().success).to.equal(true);
   });
-
+  
 }
 
 settings {
@@ -58,18 +58,18 @@ settings {
 
 docs {
   # Firebase Converter Function Test
-
+  
   This request tests a Firebase function endpoint that converts data and returns it in iCalendar format.
-
+  
   ## Expected Response
-
+  
   The API should return a JSON object containing the following fields:
   - `icsContent`: A string containing the iCalendar data, starting with `BEGIN:VCALENDAR` and ending with `END:VCALENDAR`.
   - `success`: A boolean indicating whether the conversion was successful.
   - `error`: (optional) A string containing an error message if the conversion failed.
-
+  
   ## Tests Performed
-
+  
   1. Verify HTTP status code is 200
   2. Verify response is valid JSON
   3. Verify response contains the fields: `icsContent` and `success`
