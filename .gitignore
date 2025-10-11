@@ -46,6 +46,7 @@ Thumbs.db
 # Actual environment files should be configured per deployment
 src/environments/environment.ts
 src/environments/environment.prod.ts
+src/environments/environment.local.ts
 
 # Firebase logs
 firebase-debug.log
