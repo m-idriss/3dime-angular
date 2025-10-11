@@ -1,6 +1,7 @@
 import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ConverterService, FileData } from '../../services/converter';
+import { AuthService } from '../../services/auth.service';
 import { Card } from '../card/card';
 
 interface CalendarEvent {
@@ -30,6 +31,7 @@ export class Converter implements OnInit {
 
   constructor(
     private readonly converterService: ConverterService,
+    private readonly authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -272,6 +274,32 @@ export class Converter implements OnInit {
     this.errorMessage.set(null);
     this.extractedEvents.set([]);
     this.icsContent.set(null);
+  }
+
+  // Auth-related methods
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  get currentUser() {
+    return this.authService.currentUser();
+  }
+
+  get isAuthLoading(): boolean {
+    return this.authService.isLoading();
+  }
+
+  async signIn(): Promise<void> {
+    try {
+      await this.authService.signInWithGoogle();
+    } catch (error) {
+      let message = 'Failed to sign in. Please try again.';
+      if (error && typeof error === 'object' && 'message' in error && typeof (error as any).message === 'string') {
+        message += ` (${(error as any).message})`;
+      }
+      this.errorMessage.set(message);
+      console.error('Sign in error:', error);
+    }
   }
 }
 
