@@ -1,46 +1,4 @@
 <app-card id="converter" title="📅 Calendar Converter">
-  <!-- User Menu (when authenticated) -->
-  @if (isAuthenticated && currentUser) {
-    <div class="user-menu-container">
-      <div class="user-menu" [class.active]="menuOpen">
-        <button
-          class="user-avatar-button"
-          [class.active]="menuOpen"
-          (click)="toggleMenu()"
-          aria-label="User menu"
-          [attr.aria-expanded]="menuOpen"
-          aria-haspopup="true"
-        >
-          <img [src]="currentUser.photoURL" [alt]="currentUser.displayName || 'User'" class="user-avatar">
-          <i class="fas fa-ellipsis-v"></i>
-        </button>
-
-        <!-- Dropdown menu -->
-        <div
-          class="user-dropdown"
-          *ngIf="menuOpen"
-          role="menu"
-          aria-labelledby="user-menu-btn"
-        >
-          <div class="user-info">
-            <img [src]="currentUser.photoURL" [alt]="currentUser.displayName || 'User'" class="user-avatar-large">
-            <div class="user-details">
-              <div class="user-name">{{ currentUser.displayName }}</div>
-              <div class="user-email">{{ currentUser.email }}</div>
-            </div>
-          </div>
-
-          <div class="dropdown-separator" role="separator"></div>
-
-          <button class="dropdown-item sign-out" role="menuitem" (click)="signOut()">
-            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-            <span>Sign Out</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  }
-
   <!-- Auth Required Message (when not authenticated) -->
   @if (!isAuthLoading && !isAuthenticated) {
     <div class="auth-required">
