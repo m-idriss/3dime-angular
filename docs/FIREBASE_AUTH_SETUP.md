@@ -42,14 +42,15 @@ This guide explains how to set up Firebase Authentication with Google provider f
 5. Copy the `firebaseConfig` object
 
 Example config:
+
 ```javascript
 const firebaseConfig = {
-  apiKey: "AIzaSyC...",  // Your API key
-  authDomain: "your-project-id.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project-id.firebasestorage.app",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc123def456"
+  apiKey: 'AIzaSyC...', // Your API key
+  authDomain: 'your-project-id.firebaseapp.com',
+  projectId: 'your-project-id',
+  storageBucket: 'your-project-id.firebasestorage.app',
+  messagingSenderId: '123456789',
+  appId: '1:123456789:web:abc123def456',
 };
 ```
 
@@ -60,6 +61,7 @@ const firebaseConfig = {
 Update your environment configuration files with the Firebase config:
 
 **`src/environments/environment.ts`** (Development)
+
 ```typescript
 export const environment = {
   production: false,
@@ -70,12 +72,13 @@ export const environment = {
     projectId: 'your-project-id',
     storageBucket: 'your-project-id.firebasestorage.app',
     messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    appId: 'YOUR_APP_ID'
-  }
+    appId: 'YOUR_APP_ID',
+  },
 };
 ```
 
 **`src/environments/environment.prod.ts`** (Production)
+
 ```typescript
 export const environment = {
   production: true,
@@ -86,8 +89,8 @@ export const environment = {
     projectId: 'your-project-id',
     storageBucket: 'your-project-id.firebasestorage.app',
     messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    appId: 'YOUR_PRODUCTION_APP_ID'
-  }
+    appId: 'YOUR_PRODUCTION_APP_ID',
+  },
 };
 ```
 
@@ -124,6 +127,7 @@ export const environment = {
 ### Development
 
 1. Start the development server:
+
    ```bash
    npm start
    ```
@@ -173,6 +177,7 @@ Converter shows upload interface
 **Problem:** Domain not authorized in Firebase Console
 
 **Solution:**
+
 1. Go to Firebase Console → Authentication → Settings
 2. Add your domain to "Authorized domains"
 3. Wait a few minutes for changes to propagate
@@ -182,6 +187,7 @@ Converter shows upload interface
 **Problem:** Browser blocked the authentication popup
 
 **Solution:**
+
 1. Allow popups for your domain
 2. Try again
 3. Consider implementing redirect-based auth as fallback
@@ -191,6 +197,7 @@ Converter shows upload interface
 **Problem:** User closed popup or multiple sign-in attempts
 
 **Solution:**
+
 1. Wait for previous popup to close
 2. Try signing in again
 3. Clear browser cache if persistent
@@ -200,6 +207,7 @@ Converter shows upload interface
 **Problem:** Invalid API key or project configuration
 
 **Solution:**
+
 1. Verify Firebase config matches Firebase Console
 2. Check API key restrictions in Google Cloud Console
 3. Ensure required APIs are enabled:

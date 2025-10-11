@@ -158,13 +158,14 @@ export const appConfig: ApplicationConfig = {
     // ... other providers
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000'
-    })
-  ]
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
+  ],
 };
 ```
 
 **Key Points:**
+
 - Only enabled in production builds (`!isDevMode()`)
 - Registers after the app is stable (30 seconds)
 - Uses Angular's optimized registration strategy
@@ -173,14 +174,12 @@ export const appConfig: ApplicationConfig = {
 
 Defined in `ngsw-config.json`:
 
-1. **App Shell (Prefetch)**: 
+1. **App Shell (Prefetch)**:
    - All critical files cached immediately on install
    - Includes HTML, CSS, JS, manifest
-   
 2. **Assets (Lazy)**:
    - Images, videos, fonts cached on first access
    - Reduces initial install size
-   
 3. **API (Performance)**:
    - API responses cached for 1 hour
    - Network-first with fallback to cache
@@ -223,6 +222,7 @@ Key properties:
 ```
 
 **Customization:**
+
 - `name`: Full app name (max 45 characters)
 - `short_name`: Home screen name (max 12 characters)
 - `theme_color`: Status bar color on mobile
@@ -268,6 +268,7 @@ File: `ngsw-config.json`
 ```
 
 **Customization:**
+
 - Add more asset patterns to cache
 - Adjust API cache duration (`maxAge`)
 - Change cache strategy (`performance` or `freshness`)
@@ -283,6 +284,7 @@ Required icon sizes:
 All icons located in `public/assets/icons/`
 
 **Icon Requirements:**
+
 - PNG format
 - Square aspect ratio
 - Transparent or white background
@@ -293,11 +295,13 @@ All icons located in `public/assets/icons/`
 ### Local Testing
 
 1. **Build for production** (service worker only works in production):
+
    ```bash
    npm run build -- --configuration=production
    ```
 
 2. **Serve the build** with a simple HTTP server:
+
    ```bash
    # Note: Your build output directory may vary. Check the build output for the actual path.
    npx http-server dist/3dime-angular/browser -p 8080
@@ -314,6 +318,7 @@ All icons located in `public/assets/icons/`
 ### Testing Installation
 
 **Chrome DevTools:**
+
 1. Open DevTools (F12)
 2. Go to **Application** tab
 3. Click **Manifest** in the sidebar
@@ -322,6 +327,7 @@ All icons located in `public/assets/icons/`
 6. Use **Update on reload** for development testing
 
 **Lighthouse Audit:**
+
 1. Open DevTools
 2. Go to **Lighthouse** tab
 3. Select **Progressive Web App** category
@@ -340,11 +346,13 @@ All icons located in `public/assets/icons/`
 ### Testing Share Target
 
 **Desktop Chrome:**
+
 1. Install the app locally
 2. Find an image file
 3. Right-click → Share → Select 3dime
 
 **Android:**
+
 1. Deploy to a real domain with HTTPS
 2. Install the app from Chrome
 3. Open Gallery/Photos app
@@ -360,6 +368,7 @@ All icons located in `public/assets/icons/`
 **Symptoms**: No service worker in DevTools → Application → Service Workers
 
 **Solutions**:
+
 1. Verify you're running a **production build**:
    ```bash
    npm run build -- --configuration=production
@@ -373,6 +382,7 @@ All icons located in `public/assets/icons/`
 **Symptoms**: No install banner or button appears
 
 **Solutions**:
+
 1. **iOS**: Must use Safari, not Chrome
 2. **Android**: Already installed apps won't show prompt
 3. **Desktop**: Install icon appears in address bar
@@ -385,6 +395,7 @@ All icons located in `public/assets/icons/`
 **Symptoms**: White screen or errors when offline
 
 **Solutions**:
+
 1. Visit all pages while online to cache them
 2. Check DevTools → Application → Cache Storage
 3. Verify files are being cached by service worker
@@ -396,6 +407,7 @@ All icons located in `public/assets/icons/`
 **Symptoms**: App doesn't appear in share menu
 
 **Solutions**:
+
 1. Verify app is **installed** (not just bookmarked)
 2. Must use **HTTPS** (share target doesn't work on localhost)
 3. Check manifest `share_target` configuration
@@ -407,6 +419,7 @@ All icons located in `public/assets/icons/`
 **Symptoms**: New version deployed but app doesn't prompt for update
 
 **Solutions**:
+
 1. Service worker updates check periodically (every 24 hours)
 2. Force update: DevTools → Application → Service Workers → Update
 3. Close all tabs and reopen to trigger update check
@@ -418,6 +431,7 @@ All icons located in `public/assets/icons/`
 **Symptoms**: Old content still showing after updates
 
 **Solutions**:
+
 1. Unregister service worker: DevTools → Application → Service Workers → Unregister
 2. Clear cache: DevTools → Application → Clear Storage → Clear site data
 3. Rebuild with new version number
