@@ -37,7 +37,7 @@ Perfect for developers, designers, and professionals who want a fast, beautiful,
 ### ⚡ **Performance & Technology**
 - **Angular 20+** - Latest Angular with standalone components and modern features
 - **TypeScript 5.9+** - Type-safe development with strict mode
-- **Progressive Web App (PWA)** - Installable, works offline, app-like experience
+- **Progressive Web App (PWA)** - Installable with in-app install button, works offline, app-like experience
 - **Optimized Build** - Production-ready with tree-shaking and lazy loading
 - **Fast Loading** - Optimized assets and efficient resource loading
 - **RxJS** - Reactive programming for smooth data streams
@@ -606,6 +606,7 @@ Customize the space theme by modifying CSS custom properties in `src/styles.scss
 The application includes **full PWA support** with Angular Service Worker:
 
 **Core Features:**
+- ✅ **Install Button** - NEW: In-app button in profile menu for easy installation
 - ✅ **Service Worker** - Automatic caching with `ngsw-config.json` configuration
 - ✅ **Offline Support** - App works offline for cached content
 - ✅ **Installable** - Add to home screen on iOS, Android, and desktop
@@ -614,10 +615,17 @@ The application includes **full PWA support** with Angular Service Worker:
 - ✅ **Update Notifications** - Automatic prompts when new versions are available
 - ✅ **Optimized Icons** - 192x192 and 512x512 maskable icons for all platforms
 
+**How to Install:**
+1. Click the menu button (⋮) in the profile card
+2. Select "Install App" from the dropdown
+3. Confirm in the browser's native install prompt
+4. App appears on your home screen/app drawer
+
 **Configuration:**
 - `ngsw-config.json` - Service worker caching strategy and asset groups
 - `public/assets/manifest.json` - PWA manifest with shortcuts and share target
-- `src/app/app.ts` - PWA install prompt handler and update checker
+- `src/app/services/pwa.service.ts` - NEW: Centralized PWA install management
+- `src/app/app.ts` - Update checker for new versions
 - `angular.json` - Production build configuration with service worker enabled
 
 **Installation:**
@@ -628,6 +636,7 @@ See the [PWA Configuration](#pwa-configuration) section for detailed installatio
 - Service worker only active in production builds (`isDevMode()` check)
 - Registers with `registerWhenStable:30000` strategy for optimal performance
 - Includes update checker that prompts users for new versions
+- PwaService manages install state with Angular signals
 
 ### API Integration
 
