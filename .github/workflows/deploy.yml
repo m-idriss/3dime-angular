@@ -8,29 +8,26 @@ on:
     branches:
       - main
     paths:
-      # Source code that affects the build
       - 'src/**'
       - 'public/**'
-      
-      # Build and dependency configuration
       - 'package.json'
       - 'package-lock.json'
       - 'angular.json'
       - 'tsconfig*.json'
-      
-      # Firebase Functions (if used)
       - 'functions/**'
-      
-      # Deployment configuration
       - '.github/workflows/deploy.yml'
-      
-      # Environment files
       - 'firebase.json'
       - '.firebaserc'
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
 
     steps:
       - name: Checkout code
@@ -44,6 +41,21 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Generate environment.prod.ts
+        run: |
+          echo "export const environment = {
+            production: true,
+            firebase: {
+              apiKey: '${FIREBASE_API_KEY}',
+              authDomain: '${FIREBASE_PROJECT_ID}.firebaseapp.com',
+              projectId: '${FIREBASE_PROJECT_ID}',
+              storageBucket: '${FIREBASE_PROJECT_ID}.firebasestorage.app',
+              messagingSenderId: '${FIREBASE_MESSAGING_SENDER_ID}',
+              appId: '${FIREBASE_APP_ID}',
+              measurementId: 'G-${FIREBASE_MEASUREMENT_ID}'
+            }
+          };" > src/environments/environment.prod.ts
 
       - name: Build Angular app
         run: npm run build -- --configuration=production --base-href=/
