@@ -46,6 +46,7 @@ jobs:
         run: |
           echo "export const environment = {
             production: true,
+            apiUrl: 'https://api.3dime.com',
             firebase: {
               apiKey: '${FIREBASE_API_KEY}',
               authDomain: '${FIREBASE_PROJECT_ID}.firebaseapp.com',
