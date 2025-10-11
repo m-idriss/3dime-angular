@@ -113,6 +113,13 @@
   padding: 0.25rem;
   box-shadow: var(--shadow-card);
   transition: all var(--t-medium);
+  
+  /* Increase width when avatar is present */
+  &:has(.user-avatar) {
+    width: auto;
+    padding: 0.25rem 0.35rem 0.25rem 0.25rem;
+    min-width: 70px;
+  }
 }
 
 .burger-button .user-avatar {
@@ -158,13 +165,13 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  min-width: 200px;
+  min-width: 280px;
   background: var(--primary-bg);
   backdrop-filter: blur(16px);
   border-radius: var(--radius-md);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-card);
-  z-index: 1000;
+  z-index: 9999;
   
   /* Animation */
   animation: dropdownSlideIn 0.2s ease-out;
