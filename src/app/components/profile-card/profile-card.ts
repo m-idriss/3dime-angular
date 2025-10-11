@@ -1,5 +1,10 @@
-import { Component, HostListener, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
 import { AuthService } from '../../services/auth.service';
@@ -7,10 +12,10 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-profile-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './profile-card.html',
-  styleUrls: ['./profile-card.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './profile-card.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileCard implements OnInit {
   menuOpen = false;
@@ -23,22 +28,22 @@ export class ProfileCard implements OnInit {
     private readonly themeService: ThemeService,
     private readonly profileService: ProfileService,
     private readonly authService: AuthService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
     this.loadingCount = 2; // We're loading 2 resources
 
-    this.profileService.getSocialLinks().subscribe(links => {
+    this.profileService.getSocialLinks().subscribe((links) => {
       this.socialLinks = [...this.socialLinks, ...links];
       this.loadingCount--;
       if (this.loadingCount === 0) this.isLoading = false;
       this.cdr.markForCheck();
     });
 
-    this.profileService.getProfile().subscribe(user => {
+    this.profileService.getProfile().subscribe((user) => {
       this.profileData = user;
-      this.socialLinks = [{ provider: 'GitHub', url: user.html_url}, ...this.socialLinks];
+      this.socialLinks = [{ provider: 'GitHub', url: user.html_url }, ...this.socialLinks];
       this.loadingCount--;
       if (this.loadingCount === 0) this.isLoading = false;
       this.cdr.markForCheck();
@@ -123,7 +128,7 @@ export class ProfileCard implements OnInit {
     return this.themeService.getFontSizeDisplayName(this.currentFontSize);
   }
 
-  // Auth-related methods
+  // Auth-related getters (delegating to service signals)
   get isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }

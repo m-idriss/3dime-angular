@@ -121,7 +121,7 @@
   padding: 0.25rem;
   box-shadow: var(--shadow-card);
   transition: all var(--t-medium);
-  
+
   /* Increase width when avatar is present */
   &:has(.user-avatar) {
     width: auto;
@@ -142,7 +142,9 @@
   background: var(--glass-bg-hover);
   backdrop-filter: blur(20px);
   transform: scale(1.1) rotate(5deg);
-  box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
+  box-shadow:
+    var(--shadow-card-hover),
+    0 0 15px rgba(59, 130, 246, 0.3);
   transition: all var(--ease-bounce);
 }
 
@@ -160,7 +162,9 @@
   background: var(--glass-bg-hover);
   backdrop-filter: blur(20px);
   transform: scale(1.05);
-  box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
+  box-shadow:
+    var(--shadow-card-hover),
+    0 0 15px rgba(59, 130, 246, 0.3);
 }
 
 .burger-button.active i {
@@ -180,7 +184,7 @@
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-card);
   z-index: 9999;
-  
+
   /* Animation */
   animation: dropdownSlideIn 0.2s ease-out;
   transform-origin: top right;
@@ -340,7 +344,7 @@ body.notifications-off .badge {
   align-items: center;
   gap: var(--space-md);
   padding: var(--space-md);
-  
+
   .user-avatar-large {
     width: 48px;
     height: 48px;
@@ -348,11 +352,11 @@ body.notifications-off .badge {
     object-fit: cover;
     flex-shrink: 0;
   }
-  
+
   .user-details {
     flex: 1;
     min-width: 0;
-    
+
     .user-name {
       font-weight: 600;
       font-size: 0.95rem;
@@ -362,7 +366,7 @@ body.notifications-off .badge {
       white-space: nowrap;
       margin-bottom: 0.25rem;
     }
-    
+
     .user-email {
       font-size: 0.8rem;
       color: var(--text-secondary);

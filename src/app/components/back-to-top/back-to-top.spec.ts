@@ -8,9 +8,8 @@ describe('BackToTop', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BackToTop]
-    })
-    .compileComponents();
+      imports: [BackToTop],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BackToTop);
     component = fixture.componentInstance;
@@ -36,7 +35,7 @@ describe('BackToTop', () => {
     // First scroll down
     Object.defineProperty(window, 'scrollY', { value: 400, writable: true });
     component.onWindowScroll();
-    
+
     // Then scroll back to top
     Object.defineProperty(window, 'scrollY', { value: 0, writable: true });
     component.onWindowScroll();

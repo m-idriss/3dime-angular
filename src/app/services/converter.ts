@@ -23,7 +23,7 @@ export interface ConversionResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConverterService {
   private readonly baseUrl = environment.apiUrl;
@@ -43,7 +43,7 @@ export class ConverterService {
   convertToIcs(
     files: FileData[],
     timeZone?: string,
-    currentDate?: string
+    currentDate?: string,
   ): Observable<ConversionResponse> {
     const tz = timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
     const today = currentDate || new Date().toISOString().split('T')[0];
@@ -51,7 +51,7 @@ export class ConverterService {
     const request: ConversionRequest = {
       files,
       timeZone: tz,
-      currentDate: today
+      currentDate: today,
     };
 
     return this.http.post<ConversionResponse>(`${this.baseUrl}?target=converter`, request);
@@ -107,7 +107,7 @@ export class ConverterService {
         await page.render({
           canvasContext: context,
           viewport: viewport,
-          canvas: canvas
+          canvas: canvas,
         }).promise;
 
         // Convert canvas to JPEG with quality setting for smaller file size
@@ -142,4 +142,3 @@ export class ConverterService {
     window.URL.revokeObjectURL(url);
   }
 }
-

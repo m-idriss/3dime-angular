@@ -1,5 +1,5 @@
 import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { ConverterService, FileData } from '../../services/converter';
 import { AuthService } from '../../services/auth.service';
 import { Card } from '../card/card';
@@ -14,9 +14,9 @@ interface CalendarEvent {
 
 @Component({
   selector: 'app-converter',
-  imports: [CommonModule, Card],
+  imports: [Card],
   templateUrl: './converter.html',
-  styleUrl: './converter.scss'
+  styleUrl: './converter.scss',
 })
 export class Converter implements OnInit {
   protected readonly files = signal<File[]>([]);
@@ -32,7 +32,7 @@ export class Converter implements OnInit {
   constructor(
     private readonly converterService: ConverterService,
     private readonly authService: AuthService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class Converter implements OnInit {
   private async handleSharedFiles(): Promise<void> {
     // Check if the page was loaded with shared files (PWA share target)
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     // For POST share target, files will be in FormData
     if (window.location.pathname === '/' && urlParams.toString() === '') {
       // Check for shared files in the request body (if any)
@@ -87,7 +87,7 @@ export class Converter implements OnInit {
     this.extractedEvents.set([]);
     this.icsContent.set(null);
 
-    const validFiles = newFiles.filter(file => {
+    const validFiles = newFiles.filter((file) => {
       if (!this.acceptedTypes.includes(file.type)) {
         this.errorMessage.set(`Invalid file type: ${file.name}`);
         return false;
@@ -100,12 +100,12 @@ export class Converter implements OnInit {
     });
 
     if (validFiles.length > 0) {
-      this.files.update(current => [...current, ...validFiles]);
+      this.files.update((current) => [...current, ...validFiles]);
     }
   }
 
   protected removeFile(index: number): void {
-    this.files.update(current => current.filter((_, i) => i !== index));
+    this.files.update((current) => current.filter((_, i) => i !== index));
     this.errorMessage.set(null);
     this.extractedEvents.set([]);
     this.icsContent.set(null);
@@ -123,7 +123,7 @@ export class Converter implements OnInit {
     this.icsContent.set(null);
 
     try {
-      const fileDataPromises = this.files().map(async file => {
+      const fileDataPromises = this.files().map(async (file) => {
         // Check if file is a PDF
         if (file.type === 'application/pdf') {
           // Convert PDF to images (one per page)
@@ -131,22 +131,27 @@ export class Converter implements OnInit {
             const imageDataUrls = await this.converterService.pdfToImages(file);
 
             // Return multiple FileData objects, one for each page
-            return imageDataUrls.map((dataUrl, index) => ({
-              dataUrl,
-              name: `${file.name} (Page ${index + 1})`,
-              type: 'image/jpeg'
-            } as FileData));
+            return imageDataUrls.map(
+              (dataUrl, index) =>
+                ({
+                  dataUrl,
+                  name: `${file.name} (Page ${index + 1})`,
+                  type: 'image/jpeg',
+                }) as FileData,
+            );
           } catch (err) {
             throw new Error(`Failed to process PDF: ${file.name}`);
           }
         } else {
           // For images, use the existing method
           const dataUrl = await this.converterService.fileToDataUrl(file);
-          return [{
-            dataUrl,
-            name: file.name,
-            type: file.type
-          } as FileData];
+          return [
+            {
+              dataUrl,
+              name: file.name,
+              type: file.type,
+            } as FileData,
+          ];
         }
       });
 
@@ -165,9 +170,11 @@ export class Converter implements OnInit {
           this.isProcessing.set(false);
         },
         error: (err) => {
-          this.errorMessage.set(err.error?.message || err.message || 'An error occurred during conversion.');
+          this.errorMessage.set(
+            err.error?.message || err.message || 'An error occurred during conversion.',
+          );
           this.isProcessing.set(false);
-        }
+        },
       });
     } catch (err) {
       this.errorMessage.set((err as Error).message || 'Failed to process files. Please try again.');
@@ -253,7 +260,20 @@ export class Converter implements OnInit {
     // Extract day and month from formatted date (DD/MM/YYYY HH:MM)
     const parts = dateStr.split(' ')[0].split('/');
     if (parts.length >= 3) {
-      const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+      const months = [
+        'JAN',
+        'FEB',
+        'MAR',
+        'APR',
+        'MAY',
+        'JUN',
+        'JUL',
+        'AUG',
+        'SEP',
+        'OCT',
+        'NOV',
+        'DEC',
+      ];
       const day = parts[0];
       const monthIndex = parseInt(parts[1]) - 1;
       return `${months[monthIndex]}\n${day}`;
@@ -276,7 +296,7 @@ export class Converter implements OnInit {
     this.icsContent.set(null);
   }
 
-  // Auth-related methods
+  // Auth-related getters (delegating to service signals)
   get isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }
@@ -294,7 +314,12 @@ export class Converter implements OnInit {
       await this.authService.signInWithGoogle();
     } catch (error) {
       let message = 'Failed to sign in. Please try again.';
-      if (error && typeof error === 'object' && 'message' in error && typeof (error as any).message === 'string') {
+      if (
+        error &&
+        typeof error === 'object' &&
+        'message' in error &&
+        typeof (error as any).message === 'string'
+      ) {
         message += ` (${(error as any).message})`;
       }
       this.errorMessage.set(message);
@@ -302,4 +327,3 @@ export class Converter implements OnInit {
     }
   }
 }
-

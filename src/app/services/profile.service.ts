@@ -27,13 +27,13 @@ export interface CommitData {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProfileService {
   private readonly endpoints = {
     profile: `${environment.apiUrl}?target=profile`,
     social: `${environment.apiUrl}?target=social`,
-    commits: `${environment.apiUrl}?target=commit`
+    commits: `${environment.apiUrl}?target=commit`,
   };
 
   private profile$?: Observable<GithubUser>;
@@ -45,7 +45,7 @@ export class ProfileService {
   getProfile(): Observable<GithubUser> {
     this.profile$ ??= this.http.get<GithubUser>(this.endpoints.profile).pipe(
       shareReplay(1),
-      catchError(() => of({} as GithubUser))
+      catchError(() => of({} as GithubUser)),
     );
     return this.profile$;
   }
@@ -53,7 +53,7 @@ export class ProfileService {
   getSocialLinks(): Observable<SocialLink[]> {
     this.socialLinks$ ??= this.http.get<SocialLink[]>(this.endpoints.social).pipe(
       shareReplay(1),
-      catchError(() => of([]))
+      catchError(() => of([])),
     );
     return this.socialLinks$;
   }
@@ -62,7 +62,7 @@ export class ProfileService {
     const url = `${this.endpoints.commits}&months=${months}`;
     return this.http.get<CommitData[]>(url).pipe(
       shareReplay(1),
-      catchError(() => of([]))
+      catchError(() => of([])),
     );
   }
 

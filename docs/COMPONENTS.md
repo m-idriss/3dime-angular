@@ -65,6 +65,7 @@ component-name/
 **Purpose**: Displays user profile information, social links, and theme controls.
 
 **Features**:
+
 - GitHub profile integration via `ProfileService`
 - Social media links fetched from API
 - Theme switching controls (dark/light/glass)
@@ -74,6 +75,7 @@ component-name/
 - Keyboard navigation support (Escape to close menu)
 
 **Key Properties**:
+
 ```typescript
 menuOpen: boolean              // Menu state
 socialLinks: SocialLink[]      // Social media links
@@ -81,18 +83,21 @@ profileData: GithubUser | null // User profile data
 ```
 
 **Key Methods**:
+
 ```typescript
-toggleMenu()          // Toggle mobile menu
-cycleTheme()          // Switch between themes
-toggleVideoBg()       // Toggle background modes
-changeFontSize()      // Cycle through font sizes
+toggleMenu(); // Toggle mobile menu
+cycleTheme(); // Switch between themes
+toggleVideoBg(); // Toggle background modes
+changeFontSize(); // Cycle through font sizes
 ```
 
 **Dependencies**:
+
 - `ThemeService` - Theme management
 - `ProfileService` - Profile and social data
 
 **Usage**:
+
 ```html
 <app-profile-card></app-profile-card>
 ```
@@ -106,12 +111,14 @@ changeFontSize()      // Cycle through font sizes
 **Purpose**: Display personal introduction and professional summary.
 
 **Features**:
+
 - Rich text content area
 - Glassmorphism card styling
 - Responsive typography
 - Accessible semantic HTML
 
 **Usage**:
+
 ```html
 <app-about></app-about>
 ```
@@ -125,12 +132,14 @@ changeFontSize()      // Cycle through font sizes
 **Purpose**: Showcase technical skills and technologies.
 
 **Features**:
+
 - Categorized technology display
 - Icon integration for visual appeal
 - Skill grouping by category
 - Hover effects for interactivity
 
 **Usage**:
+
 ```html
 <app-tech-stack></app-tech-stack>
 ```
@@ -144,6 +153,7 @@ changeFontSize()      // Cycle through font sizes
 **Purpose**: Display GitHub contribution activity using a calendar heatmap.
 
 **Features**:
+
 - Integration with GitHub API via `ProfileService`
 - Cal-heatmap visualization library
 - Interactive contribution calendar
@@ -151,20 +161,24 @@ changeFontSize()      // Cycle through font sizes
 - Responsive design
 
 **Key Properties**:
+
 ```typescript
 commits: CommitData[]  // Contribution data
 ```
 
 **Key Methods**:
+
 ```typescript
-ngOnInit()  // Initialize and fetch commit data
+ngOnInit(); // Initialize and fetch commit data
 ```
 
 **Dependencies**:
+
 - `ProfileService` - GitHub commit data
 - `cal-heatmap` - Heatmap visualization
 
 **Usage**:
+
 ```html
 <app-github-activity></app-github-activity>
 ```
@@ -178,6 +192,7 @@ ngOnInit()  // Initialize and fetch commit data
 **Purpose**: Display professional work experience and projects.
 
 **Features**:
+
 - Timeline layout
 - Project descriptions
 - Technology tags
@@ -185,6 +200,7 @@ ngOnInit()  // Initialize and fetch commit data
 - Responsive grid layout
 
 **Usage**:
+
 ```html
 <app-experience></app-experience>
 ```
@@ -198,12 +214,14 @@ ngOnInit()  // Initialize and fetch commit data
 **Purpose**: Show academic background and training.
 
 **Features**:
+
 - Educational institution details
 - Degree/certification information
 - Timeline presentation
 - Responsive cards
 
 **Usage**:
+
 ```html
 <app-education></app-education>
 ```
@@ -217,6 +235,7 @@ ngOnInit()  // Initialize and fetch commit data
 **Purpose**: Display recommended products, tools, and resources.
 
 **Features**:
+
 - Notion API integration via `NotionService`
 - Categorized recommendations
 - Product cards with descriptions
@@ -224,14 +243,17 @@ ngOnInit()  // Initialize and fetch commit data
 - Ranking/sorting capability
 
 **Key Properties**:
+
 ```typescript
-stuffByCategory: Record<string, any[]>  // Categorized items
+stuffByCategory: Record<string, any[]>; // Categorized items
 ```
 
 **Dependencies**:
+
 - `NotionService` - Fetch recommendations from Notion database
 
 **Usage**:
+
 ```html
 <app-stuff></app-stuff>
 ```
@@ -245,12 +267,14 @@ stuffByCategory: Record<string, any[]>  // Categorized items
 **Purpose**: Showcase personal interests and hobbies.
 
 **Features**:
+
 - Visual hobby cards
 - Icon/image support
 - Descriptive content
 - Responsive grid layout
 
 **Usage**:
+
 ```html
 <app-hobbies></app-hobbies>
 ```
@@ -264,12 +288,14 @@ stuffByCategory: Record<string, any[]>  // Categorized items
 **Purpose**: Display contact information and social links.
 
 **Features**:
+
 - Email display
 - Social media links
 - Call-to-action buttons
 - Accessible links
 
 **Usage**:
+
 ```html
 <app-contact></app-contact>
 ```
@@ -281,20 +307,25 @@ stuffByCategory: Record<string, any[]>  // Categorized items
 ### Creating New Components
 
 1. **Generate component using Angular CLI**:
+
    ```bash
    ng generate component components/my-component --style=scss
    ```
 
 2. **Convert to standalone** (if not using `--standalone` flag):
+
    ```typescript
    @Component({
      selector: 'app-my-component',
      standalone: true,
-     imports: [CommonModule, /* other imports */],
+     imports: [/* other imports as needed */],
      templateUrl: './my-component.html',
-     styleUrls: ['./my-component.scss']
+     styleUrl: './my-component.scss'
    })
    ```
+
+   > **Note**: Use `styleUrl` (singular) for single stylesheets in Angular 20+.
+   > Only import modules you actually use. Control flow (`@if`, `@for`) and property binding don't require `CommonModule`.
 
 3. **Follow naming conventions**:
    - Component class: PascalCase (e.g., `MyComponent`)
@@ -302,10 +333,11 @@ stuffByCategory: Record<string, any[]>  // Categorized items
    - Files: kebab-case (e.g., `my-component.ts`)
 
 4. **Add to main app**:
+
    ```typescript
    // In src/app/app.ts
    import { MyComponent } from './components/my-component/my-component';
-   
+
    @Component({
      imports: [/* ... */, MyComponent]
    })
@@ -321,12 +353,13 @@ stuffByCategory: Record<string, any[]>  // Categorized items
 - **Signals**: Consider using Angular signals for reactive state
 
 Example:
+
 ```typescript
 export class MyComponent implements OnInit {
   private readonly myService: MyService;
-  
+
   items: Item[] = [];
-  
+
   constructor(myService: MyService) {
     this.myService = myService;
   }
@@ -341,11 +374,12 @@ export class MyComponent implements OnInit {
 - **Safe navigation**: Use optional chaining for nullable properties
 
 Example:
+
 ```html
 <section aria-labelledby="section-title">
   <h2 id="section-title">My Section</h2>
   @for (item of items; track item.id) {
-    <div>{{ item.name }}</div>
+  <div>{{ item.name }}</div>
   }
 </section>
 ```
@@ -358,17 +392,18 @@ Example:
 - **Responsive design**: Mobile-first with media queries
 
 Example:
+
 ```scss
 .component {
   padding: var(--space-md);
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  
+
   &__title {
     color: var(--text-primary);
     font-size: var(--font-size-xl);
   }
-  
+
   @media (max-width: 768px) {
     padding: var(--space-sm);
   }
@@ -383,17 +418,16 @@ Example:
 - **Accessibility tests**: Verify ARIA attributes and semantic HTML
 
 Example:
+
 ```typescript
 describe('MyComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MyComponent],
-      providers: [
-        { provide: MyService, useValue: mockService }
-      ]
+      providers: [{ provide: MyService, useValue: mockService }],
     }).compileComponents();
   });
-  
+
   it('should create', () => {
     const fixture = TestBed.createComponent(MyComponent);
     const component = fixture.componentInstance;

@@ -9,7 +9,7 @@ import { Card } from '../card/card';
   imports: [Card],
   templateUrl: './education.html',
   styleUrl: './education.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Education implements OnInit {
   education: LinkItem[] = [];
@@ -17,7 +17,7 @@ export class Education implements OnInit {
 
   constructor(
     private readonly notionService: NotionService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -25,6 +25,6 @@ export class Education implements OnInit {
       this.education = this.notionService.getEducations();
       this.isLoading = false;
       this.cdr.markForCheck();
-   });
+    });
   }
 }
