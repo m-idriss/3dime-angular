@@ -29,8 +29,7 @@
                 "input": "public",
                 "output": "/"
               },
-              "src/favicon.ico",
-              "src/manifest.json"
+              "src/favicon.ico"
             ],
             "styles": [
               "src/styles.scss"
@@ -59,7 +58,8 @@
               "outputHashing": "all",
               "optimization": true,
               "sourceMap": false,
-              "extractLicenses": true
+              "extractLicenses": true,
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,
