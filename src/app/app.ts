@@ -14,6 +14,7 @@ import { Hobbies } from './components/hobbies/hobbies';
 import { Contact } from './components/contact/contact';
 import { GithubActivity } from './components/github-activity/github-activity';
 import { BackToTop } from './components/back-to-top/back-to-top';
+import { PwaService } from './services/pwa.service';
 
 @Component({
   selector: 'app-root',
@@ -36,11 +37,11 @@ import { BackToTop } from './components/back-to-top/back-to-top';
 })
 export class App implements OnInit {
   protected readonly title = signal('3dime-angular');
-  private deferredPrompt: any;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private swUpdate: SwUpdate
+    private swUpdate: SwUpdate,
+    private pwaService: PwaService
   ) {}
 
   ngOnInit(): void {
@@ -55,22 +56,6 @@ export class App implements OnInit {
             window.location.reload();
           }
         });
-    }
-
-    // Handle PWA install prompt
-    if (isPlatformBrowser(this.platformId)) {
-      window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent the mini-infobar from appearing on mobile
-        e.preventDefault();
-        // Store the event so it can be triggered later
-        this.deferredPrompt = e;
-        console.log('PWA install prompt available');
-      });
-
-      window.addEventListener('appinstalled', () => {
-        console.log('PWA was installed');
-        this.deferredPrompt = null;
-      });
     }
   }
 }

@@ -213,6 +213,22 @@
   margin: var(--space-xs) var(--space-sm);
 }
 
+/* Install App Button - Special styling */
+.install-app {
+  color: var(--accent-color);
+  font-weight: var(--fw-semibold);
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+}
+
+.install-app:hover {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2));
+  color: var(--accent-color);
+}
+
+.install-app i {
+  color: var(--accent-color);
+}
+
 /* Social Icons */
 .socials {
   display: flex;
