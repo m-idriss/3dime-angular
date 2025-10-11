@@ -15,7 +15,12 @@ describe('PwaService', () => {
 
   it('should have showInstallButton signal', () => {
     expect(service.showInstallButton).toBeDefined();
-    expect(service.showInstallButton()).toBe(false);
+    expect(typeof service.showInstallButton()).toBe('boolean');
+  });
+
+  it('should have isSafari signal', () => {
+    expect(service.isSafari).toBeDefined();
+    expect(typeof service.isSafari()).toBe('boolean');
   });
 
   it('should have canInstall method', () => {

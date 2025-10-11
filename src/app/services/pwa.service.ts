@@ -7,6 +7,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class PwaService {
   private deferredPrompt: any = null;
   public readonly showInstallButton = signal(false);
+  public readonly isSafari = signal(false);
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.initializeInstallPrompt();
@@ -14,6 +15,22 @@ export class PwaService {
 
   private initializeInstallPrompt(): void {
     if (isPlatformBrowser(this.platformId)) {
+      // Detect Safari browser
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      const isSafariBrowser = /safari/.test(userAgent) && !/chrome/.test(userAgent) && !/crios/.test(userAgent) && !/fxios/.test(userAgent);
+      this.isSafari.set(isSafariBrowser);
+
+      // Check if app is already installed (running in standalone mode)
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                          (window.navigator as any).standalone === true;
+
+      // For Safari, show install button if not already installed
+      if (isSafariBrowser && !isStandalone) {
+        this.showInstallButton.set(true);
+        console.log('Safari detected - showing install instructions');
+      }
+
+      // For Chromium-based browsers (Chrome, Edge, etc.)
       window.addEventListener('beforeinstallprompt', (e) => {
         // Prevent the mini-infobar from appearing on mobile
         e.preventDefault();
@@ -32,6 +49,13 @@ export class PwaService {
   }
 
   public async installApp(): Promise<void> {
+    // For Safari, show instructions instead
+    if (this.isSafari()) {
+      this.showSafariInstructions();
+      return;
+    }
+
+    // For Chromium-based browsers
     if (!this.deferredPrompt) {
       console.log('Install prompt not available');
       return;
@@ -53,7 +77,16 @@ export class PwaService {
     }
   }
 
+  private showSafariInstructions(): void {
+    // Show instructions for Safari users
+    const message = 'To install this app on Safari:\n\n' +
+                   '1. Tap the Share button (square with arrow)\n' +
+                   '2. Scroll down and tap "Add to Home Screen"\n' +
+                   '3. Tap "Add" to confirm';
+    alert(message);
+  }
+
   public canInstall(): boolean {
-    return this.deferredPrompt !== null;
+    return this.deferredPrompt !== null || this.isSafari();
   }
 }
