@@ -1,5 +1,6 @@
 import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+
 import { ConverterService, FileData } from '../../services/converter';
 import { Card } from '../card/card';
 import { AuthAwareComponent } from '../base/auth-aware.component';

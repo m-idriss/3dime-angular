@@ -5,6 +5,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
+
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
 import { AuthAwareComponent } from '../base/auth-aware.component';

@@ -9,8 +9,10 @@ import {
 import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
 import Tooltip from 'cal-heatmap/plugins/Tooltip';
+
 import { ProfileService, CommitData } from '../../services/profile.service';
 import { Card } from '../card/card';
+import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
 
 @Component({
   selector: 'app-github-activity',
@@ -23,7 +25,7 @@ import { Card } from '../card/card';
 export class GithubActivity implements AfterViewInit {
   @ViewChild('heatmapContainer', { static: false }) container!: ElementRef;
   data: CommitData[] = [];
-  months = 6;
+  months = GITHUB_ACTIVITY_CONFIG.DEFAULT_MONTHS;
   isLoading = true;
 
   constructor(
