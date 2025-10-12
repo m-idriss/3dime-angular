@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { LinkItem } from '../../models/link-item.model';
-import { NotionService } from '../../services/notion.service';
 import { Card } from '../card/card';
+import { NotionAwareComponent } from '../base/notion-aware.component';
+import { LinkItem } from '../../models';
 
 @Component({
   selector: 'app-stuff',
@@ -12,20 +12,14 @@ import { Card } from '../card/card';
   styleUrl: './stuff.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Stuff implements OnInit {
+export class Stuff extends NotionAwareComponent {
   stuffs: LinkItem[] = [];
-  isLoading = true;
 
-  constructor(
-    private readonly notionService: NotionService,
-    private readonly cdr: ChangeDetectorRef,
-  ) {}
+  protected override onDataLoaded(): void {
+    this.stuffs = this.getItems();
+  }
 
-  ngOnInit() {
-    this.notionService.fetchAll().subscribe(() => {
-      this.stuffs = this.notionService.getStuffs();
-      this.isLoading = false;
-      this.cdr.markForCheck();
-    });
+  protected getItems(): LinkItem[] {
+    return this.notionService.getStuffs();
   }
 }

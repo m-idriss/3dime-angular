@@ -4,26 +4,50 @@ import { Observable } from 'rxjs';
 import * as pdfjsLib from 'pdfjs-dist';
 
 import { environment } from '../../environments/environment';
-import { PDF_CONVERSION_CONFIG, CALENDAR_CONFIG } from '../constants/app.constants';
+import { PDF_CONVERSION_CONFIG, CALENDAR_CONFIG } from '../constants';
 
+/**
+ * Request payload for ICS conversion
+ */
 export interface ConversionRequest {
   files: FileData[];
   timeZone?: string;
   currentDate?: string;
 }
 
+/**
+ * File data with base64 encoded content
+ */
 export interface FileData {
   dataUrl: string;
   name: string;
   type: string;
 }
 
+/**
+ * Response from ICS conversion API
+ */
 export interface ConversionResponse {
   icsContent: string;
   success: boolean;
   error?: string;
 }
 
+/**
+ * Service for converting images and PDFs to ICS calendar format.
+ * Handles file processing, PDF to image conversion, and ICS file downloads.
+ *
+ * @example
+ * ```typescript
+ * constructor(private converterService: ConverterService) {}
+ *
+ * async convert() {
+ *   const dataUrl = await this.converterService.fileToDataUrl(file);
+ *   this.converterService.convertToIcs([{ dataUrl, name: file.name, type: file.type }])
+ *     .subscribe(response => console.log(response.icsContent));
+ * }
+ * ```
+ */
 @Injectable({
   providedIn: 'root',
 })

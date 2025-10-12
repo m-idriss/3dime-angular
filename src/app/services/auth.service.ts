@@ -8,6 +8,9 @@ import {
   User,
 } from '@angular/fire/auth';
 
+/**
+ * Authenticated user information
+ */
 export interface AuthUser {
   uid: string;
   email: string | null;
@@ -15,6 +18,23 @@ export interface AuthUser {
   photoURL: string | null;
 }
 
+/**
+ * Service for managing Firebase authentication.
+ * Provides Google sign-in/sign-out and reactive auth state via signals.
+ *
+ * @example
+ * ```typescript
+ * constructor(private authService: AuthService) {}
+ *
+ * async signIn() {
+ *   await this.authService.signInWithGoogle();
+ * }
+ *
+ * isUserLoggedIn() {
+ *   return this.authService.isAuthenticated();
+ * }
+ * ```
+ */
 @Injectable({
   providedIn: 'root',
 })

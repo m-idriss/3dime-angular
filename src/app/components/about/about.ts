@@ -3,6 +3,10 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { ProfileService, GithubUser } from '../../services/profile.service';
 import { Card } from '../card/card';
 
+/**
+ * Component displaying the user's bio from GitHub profile.
+ * Uses OnPush change detection for optimal performance.
+ */
 @Component({
   selector: 'app-about',
   standalone: true,
@@ -19,7 +23,7 @@ export class About implements OnInit {
     private readonly cdr: ChangeDetectorRef,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.profileService.getProfile().subscribe((user: GithubUser) => {
       this.bio = user.bio || 'No bio available.';
       this.cdr.markForCheck();

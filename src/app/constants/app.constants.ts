@@ -21,6 +21,28 @@ export const MONTH_ABBREVIATIONS = [
 ] as const;
 
 /**
+ * Social media provider icon mappings for Font Awesome
+ */
+export const SOCIAL_ICON_MAP: Record<string, string> = {
+  twitter: 'x-twitter',
+  facebook: 'facebook-square',
+  github: 'github',
+  linkedin: 'linkedin',
+  instagram: 'instagram',
+  youtube: 'youtube',
+} as const;
+
+/**
+ * Default Font Awesome icon class for unknown providers
+ */
+export const DEFAULT_SOCIAL_ICON = 'fa fa-brands fa-link';
+
+/**
+ * Number of data sources to load in profile card
+ */
+export const PROFILE_LOADING_COUNT = 2;
+
+/**
  * File upload constraints for converter
  */
 export const FILE_UPLOAD_CONSTRAINTS = {
