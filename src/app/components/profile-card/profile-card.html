@@ -1,4 +1,4 @@
-<section class="container" aria-label="profile" id="profile-section">
+<article class="container" aria-labelledby="profile-heading" id="profile-section">
   @if (isLoading) {
     <div class="loading-container">
       <div class="spinner">
@@ -8,35 +8,35 @@
     </div>
   } @else {
     <header class="profile-header">
-      <img [src]="avatar" alt="Logo" class="logo" />
+      <img [src]="avatar" alt="Profile avatar" class="logo" />
 
-      <div class="burger-menu" [class.active]="menuOpen">
+      <nav class="burger-menu" [class.active]="menuOpen" aria-label="Profile options">
         <button
           class="burger-button"
           [class.active]="menuOpen"
           (click)="toggleMenu()"
-          aria-label="Profile options"
+          aria-label="Open profile menu"
           [attr.aria-expanded]="menuOpen"
           aria-haspopup="true"
         >
           @if (isAuthenticated && currentUser) {
             <img
               [src]="currentUser.photoURL"
-              [alt]="currentUser.displayName || 'User'"
+              [alt]="currentUser.displayName || 'User avatar'"
               class="user-avatar"
             />
           }
-          <i class="fas fa-ellipsis-v"></i>
+          <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
         </button>
 
         <!-- Dropdown menu -->
         @if (menuOpen) {
-          <div class="profile-dropdown" role="menu" aria-labelledby="burger-btn">
+          <div class="profile-dropdown" role="menu" aria-label="Profile settings">
             @if (isAuthenticated && currentUser) {
               <div class="user-info">
                 <img
                   [src]="currentUser.photoURL"
-                  [alt]="currentUser.displayName || 'User'"
+                  [alt]="currentUser.displayName || 'User avatar'"
                   class="user-avatar-large"
                 />
                 <div class="user-details">
@@ -93,18 +93,23 @@
             }
           </div>
         }
-      </div>
+      </nav>
     </header>
 
-    <h2>✨ {{ name }} ✨</h2>
-    <div class="socials">
+    <h2 id="profile-heading">✨ {{ name }} ✨</h2>
+    <nav class="socials" aria-label="Social media links">
       @for (link of socialLinks; track link.provider) {
-        <a [href]="link.url" target="_blank" rel="noopener noreferrer">
-          <i [class]="getFontAwesomeLinks(link.provider)" aria-hidden="true"></i
-        ></a>
+        <a 
+          [href]="link.url" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          [attr.aria-label]="link.provider + ' profile'"
+        >
+          <i [class]="getFontAwesomeLinks(link.provider)" aria-hidden="true"></i>
+        </a>
       } @empty {
-        No socialLinks available.
+        <p>No social links available.</p>
       }
-    </div>
+    </nav>
   }
-</section>
+</article>

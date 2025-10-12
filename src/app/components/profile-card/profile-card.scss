@@ -1,57 +1,77 @@
 /* ========================
-   Profile Card Styles
+   Profile Card Component Styles
    ======================== */
 
-/* Container (profile card wrapper) */
+/* Container - Main profile card wrapper */
 .container {
-  text-align: center;
-  padding: var(--space-lg);
+  /* Positioning */
+  position: relative;
+  overflow: visible;
+
+  /* Box Model */
   width: 100%;
   max-width: 400px;
+  padding: var(--space-lg);
+
+  /* Typography */
+  text-align: center;
+
+  /* Visual */
   background: var(--primary-bg);
   backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-card);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+
+  /* Misc */
   transition: all var(--t-medium);
-  overflow: visible;
+
+  /* Hover state */
+  &:hover {
+    background: var(--primary-bg-hover);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
+    transform: translateY(-6px) scale(1.03);
+    transition: all var(--ease-bounce);
+  }
+
+  /* Prevent transform when menu is open to avoid stacking context issues */
+  &:has(.burger-menu.active):hover {
+    transform: none;
+  }
 }
 
-.container:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: var(--shadow-card-hover), var(--shadow-glow);
-  backdrop-filter: blur(20px);
-  background: var(--primary-bg-hover);
-  transition: all var(--ease-bounce);
-}
-
-/* Prevent transform when menu is open to avoid stacking context issues */
-.container:has(.burger-menu.active):hover {
-  transform: none;
-}
-
+/* Title heading with gradient text effect */
 .container h2 {
+  /* Positioning */
+  position: relative;
+
+  /* Box Model */
   margin-bottom: var(--space-md);
+
+  /* Typography */
   font-size: var(--font-size-xl);
   font-weight: var(--fw-semibold);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  /* Visual - Gradient text effect */
   background: linear-gradient(135deg, var(--text-primary), rgba(59, 130, 246, 0.8));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  position: relative;
-}
 
-.container h2::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-  border-radius: 1px;
+  /* Decorative underline */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    border-radius: 1px;
+  }
 }
 
 /* Profile Header Layout */
@@ -65,129 +85,153 @@
   z-index: 1;
 }
 
-/* Logo/Avatar Styling */
+/* Logo/Avatar - Profile image */
 .logo {
-  width: 120px;
-  height: 120px;
-  border-radius: var(--radius-full);
-  object-fit: contain;
-  padding: var(--space-sm);
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-card);
-  cursor: pointer;
+  /* Positioning */
   display: block;
   grid-column: 2;
-  transition: all var(--t-medium);
+
+  /* Box Model */
+  width: 120px;
+  height: 120px;
+  padding: var(--space-sm);
+
+  /* Typography */
   font-size: 0; /* Remove inline gap */
+
+  /* Visual */
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-card);
+  object-fit: contain;
+
+  /* Misc */
+  cursor: pointer;
+  transition: all var(--t-medium);
+
+  /* Hover state */
+  &:hover {
+    background: var(--glass-bg-hover);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
+    transform: scale(1.12) rotate(5deg);
+    transition: all var(--ease-bounce);
+  }
 }
 
-.logo:hover {
-  transform: scale(1.12) rotate(5deg);
-  backdrop-filter: blur(20px);
-  background: var(--glass-bg-hover);
-  box-shadow: var(--shadow-card-hover), var(--shadow-glow);
-  transition: all var(--ease-bounce);
-}
-
+/* Logo text (if applicable) */
 .logo-text {
+  /* Box Model */
   margin-top: var(--space-xs);
+
+  /* Typography */
   font-size: var(--font-size-lg);
   font-weight: var(--fw-semibold);
   color: var(--text-primary);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* Burger Menu Positioning */
+/* Burger Menu - Settings dropdown trigger */
 .burger-menu {
+  /* Positioning */
   position: absolute;
   top: 0;
   right: 0;
   z-index: 10000;
 }
 
+/* Burger Button - Menu toggle button */
 .burger-button {
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  border-radius: var(--radius-md);
-  cursor: pointer;
+  /* Positioning */
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xs);
+
+  /* Box Model */
+  width: 40px;
+  height: 40px;
   padding: 0.25rem;
+  gap: var(--space-xs);
+
+  /* Visual */
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
+
+  /* Misc */
+  cursor: pointer;
   transition: all var(--t-medium);
 
   /* Increase width when avatar is present */
   &:has(.user-avatar) {
     width: auto;
-    padding: 0.25rem 0.35rem 0.25rem 0.25rem;
     min-width: 70px;
+    padding: 0.25rem 0.35rem 0.25rem 0.25rem;
+  }
+
+  /* Hover state */
+  &:hover {
+    background: var(--glass-bg-hover);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
+    transform: scale(1.1) rotate(5deg);
+    transition: all var(--ease-bounce);
+  }
+
+  /* Active state */
+  &.active {
+    background: var(--glass-bg-hover);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
+    transform: scale(1.05);
+
+    i {
+      color: var(--accent-color);
+      transform: rotate(180deg);
+    }
+  }
+
+  /* Icon styling */
+  i {
+    color: var(--text-primary);
+    font-size: 18px;
+    transition: transform var(--t-medium);
+  }
+
+  /* User avatar in button */
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
   }
 }
 
-.burger-button .user-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-full);
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.burger-button:hover {
-  background: var(--glass-bg-hover);
-  backdrop-filter: blur(20px);
-  transform: scale(1.1) rotate(5deg);
-  box-shadow:
-    var(--shadow-card-hover),
-    0 0 15px rgba(59, 130, 246, 0.3);
-  transition: all var(--ease-bounce);
-}
-
-.burger-button i {
-  color: var(--text-primary);
-  font-size: 18px;
-  transition: transform var(--t-medium);
-}
-
-.burger-button.active i {
-  transform: rotate(180deg);
-}
-
-.burger-menu.active .burger-button {
-  background: var(--glass-bg-hover);
-  backdrop-filter: blur(20px);
-  transform: scale(1.05);
-  box-shadow:
-    var(--shadow-card-hover),
-    0 0 15px rgba(59, 130, 246, 0.3);
-}
-
-.burger-button.active i {
-  transform: rotate(180deg);
-  color: var(--accent-color);
-}
-
-/* Dropdown Menu */
+/* Dropdown Menu - Settings menu popup */
 .profile-dropdown {
+  /* Positioning */
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
+  z-index: 9999;
+  transform-origin: top right;
+
+  /* Box Model */
   min-width: 280px;
+
+  /* Visual */
   background: var(--primary-bg);
   backdrop-filter: blur(16px);
-  border-radius: var(--radius-md);
   border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
-  z-index: 9999;
 
   /* Animation */
   animation: dropdownSlideIn 0.2s ease-out;
-  transform-origin: top right;
 }
 
 @keyframes dropdownSlideIn {
@@ -201,92 +245,136 @@
   }
 }
 
+/* Dropdown Item - Individual menu items */
 .dropdown-item {
+  /* Positioning */
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+
+  /* Box Model */
   width: 100%;
   padding: var(--space-sm) var(--space-md);
+  gap: var(--space-sm);
+
+  /* Typography */
+  font-size: var(--font-size-sm);
+  text-align: left;
+  color: var(--text-primary);
+
+  /* Visual */
   background: transparent;
   border: none;
-  color: var(--text-primary);
-  font-size: var(--font-size-sm);
+
+  /* Misc */
   cursor: pointer;
   transition: all var(--t-medium);
-  text-align: left;
+
+  /* Hover state */
+  &:hover {
+    background: var(--glass-bg);
+    color: var(--accent-color);
+
+    i {
+      transform: scale(1.1);
+    }
+  }
+
+  /* Focus state */
+  &:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: -2px;
+  }
+
+  /* Icon styling */
+  i {
+    width: 16px;
+    text-align: center;
+    transition: all var(--t-medium);
+  }
+
+  /* Sign out button variant */
+  &.sign-out:hover {
+    color: var(--badge-color);
+  }
 }
 
-.dropdown-item:hover {
-  background: var(--glass-bg);
-  color: var(--accent-color);
-}
-
-.dropdown-item:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: -2px;
-}
-
-.dropdown-item i {
-  width: 16px;
-  text-align: center;
-  transition: all var(--t-medium);
-}
-
-.dropdown-item:hover i {
-  transform: scale(1.1);
-}
-
+/* Dropdown Separator - Divider line */
 .dropdown-separator {
   height: 1px;
-  background: var(--glass-border);
   margin: var(--space-xs) var(--space-sm);
+  background: var(--glass-border);
 }
 
-/* Social Icons */
+/* Social Links - Social media icon links */
 .socials {
+  /* Positioning */
   display: flex;
   justify-content: center;
-  gap: var(--space-md);
-  margin-top: var(--space-lg);
   flex-wrap: wrap;
+
+  /* Box Model */
+  margin-top: var(--space-lg);
+  gap: var(--space-md);
+
+  /* Icon styling */
+  i {
+    /* Box Model */
+    padding: var(--space-xs);
+
+    /* Typography */
+    font-size: 32px;
+    color: var(--text-primary);
+
+    /* Visual */
+    opacity: 0.65;
+    border-radius: var(--radius-md);
+
+    /* Misc */
+    cursor: pointer;
+    transition: all var(--t-medium);
+
+    /* Hover state */
+    &:hover {
+      opacity: 1;
+      background: var(--glass-bg);
+      transform: scale(1.25);
+    }
+  }
+
+  /* Focus state for links and icons */
+  a:focus-visible,
+  i:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 3px;
+    background: var(--glass-bg-hover);
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2), var(--shadow-card-hover);
+    transform: scale(1.2);
+  }
 }
 
-.socials i {
-  font-size: 32px;
-  color: var(--text-primary);
-  opacity: 0.65;
-  cursor: pointer;
-  padding: var(--space-xs);
-  border-radius: var(--radius-md);
-  transition: all var(--t-medium);
-}
-
-.socials i:hover {
-  transform: scale(1.25);
-  opacity: 1;
-  background: var(--glass-bg);
-}
-
-.icon-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
+/* Badge - Notification indicator */
 .badge {
+  /* Positioning */
   position: absolute;
   top: -6px;
   right: -6px;
-  background: var(--badge-color);
-  color: var(--text-primary);
-  font-size: 12px;
-  font-weight: bold;
-  padding: 2px 5px;
-  border-radius: var(--radius-full);
-  min-width: 18px;
-  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* Box Model */
+  min-width: 18px;
+  height: 18px;
+  padding: 2px 5px;
+
+  /* Typography */
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--text-primary);
+
+  /* Visual */
+  background: var(--badge-color);
+  border-radius: var(--radius-full);
 }
 
 /* Hide badges when notifications are disabled */
@@ -294,7 +382,7 @@ body.notifications-off .badge {
   display: none !important;
 }
 
-/* Enhanced focus indicators for profile-card elements */
+/* Enhanced focus indicators */
 .logo:focus,
 .logo:focus-visible,
 .burger-button:focus,
@@ -311,23 +399,10 @@ body.notifications-off .badge {
 .burger-button:focus-visible {
   outline: 3px solid var(--accent-color);
   outline-offset: 3px;
-  box-shadow:
-    0 0 0 6px rgba(59, 130, 246, 0.2),
-    var(--shadow-card-hover);
+  box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2), var(--shadow-card-hover);
 }
 
-.socials a:focus-visible,
-.socials i:focus-visible {
-  outline: 3px solid var(--accent-color);
-  outline-offset: 3px;
-  transform: scale(1.2);
-  background: var(--glass-bg-hover);
-  box-shadow:
-    0 0 0 6px rgba(59, 130, 246, 0.2),
-    var(--shadow-card-hover);
-}
-
-/* Reduced motion for profile-card */
+/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .container:hover,
   .logo:hover,
@@ -338,13 +413,17 @@ body.notifications-off .badge {
   }
 }
 
-/* User Info in Dropdown */
+/* User Info in Dropdown - Authenticated user details */
 .user-info {
+  /* Positioning */
   display: flex;
   align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-md);
 
+  /* Box Model */
+  padding: var(--space-md);
+  gap: var(--space-md);
+
+  /* User avatar */
   .user-avatar-large {
     width: 48px;
     height: 48px;
@@ -353,20 +432,23 @@ body.notifications-off .badge {
     flex-shrink: 0;
   }
 
+  /* User details container */
   .user-details {
     flex: 1;
-    min-width: 0;
+    min-width: 0; /* Allow text truncation */
 
+    /* User name */
     .user-name {
-      font-weight: 600;
+      margin-bottom: 0.25rem;
       font-size: 0.95rem;
+      font-weight: 600;
       color: var(--text-primary);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      margin-bottom: 0.25rem;
     }
 
+    /* User email */
     .user-email {
       font-size: 0.8rem;
       color: var(--text-secondary);
@@ -374,11 +456,5 @@ body.notifications-off .badge {
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-  }
-}
-
-.dropdown-item.sign-out {
-  &:hover {
-    color: var(--badge-color);
   }
 }
