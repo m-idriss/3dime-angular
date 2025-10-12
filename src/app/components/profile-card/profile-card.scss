@@ -26,16 +26,10 @@
   /* Misc */
   transition: all var(--t-medium);
 
-  /* Hover state - Disabled per issue requirement */
-  &:hover {
-    box-shadow: none !important;
-    transform: none !important;
-  }
+  /* Hover state - Disabled per issue requirement to keep UI cleaner */
+  /* No hover effects applied */
 
-  /* Prevent transform when menu is open to avoid stacking context issues */
-  &:has(.burger-menu.active):hover {
-    transform: none;
-  }
+  /* Note: The :has(.burger-menu.active):hover rule is no longer needed since hover effects are disabled */
 }
 
 /* Title heading with gradient text effect */

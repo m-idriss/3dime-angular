@@ -25,11 +25,8 @@
   /* Misc */
   transition: all var(--t-medium);
 
-  /* Hover state - Disabled per issue requirement */
-  &:hover {
-    box-shadow: none !important;
-    transform: none !important;
-  }
+  /* Hover state - Disabled per issue requirement to keep UI cleaner */
+  /* No hover effects applied */
 }
 
 /* Card title with gradient effect */
