@@ -4,9 +4,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { ConverterService, FileData } from '../../services/converter';
 import { Card } from '../card/card';
 import { AuthAwareComponent } from '../base/auth-aware.component';
-import { CalendarEvent } from '../../models/calendar-event.model';
-import { FILE_UPLOAD_CONSTRAINTS } from '../../constants/app.constants';
-import { formatIcsDate, getMonthDay, getTime } from '../../utils/date.utils';
+import { CalendarEvent } from '../../models';
+import { FILE_UPLOAD_CONSTRAINTS } from '../../constants';
+import { formatIcsDate, getMonthDay, getTime } from '../../utils';
 
 @Component({
   selector: 'app-converter',

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, shareReplay } from 'rxjs/operators';
 
-import { LinkItem } from '../models/link-item.model';
+import { LinkItem } from '../models';
 import { environment } from '../../environments/environment';
 
 /**

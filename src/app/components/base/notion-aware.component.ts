@@ -2,7 +2,7 @@ import { Directive, inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { NotionService } from '../../services/notion.service';
-import { LinkItem } from '../../models/link-item.model';
+import { LinkItem } from '../../models';
 
 /**
  * Base class for components that fetch data from NotionService.

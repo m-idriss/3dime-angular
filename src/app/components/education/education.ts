@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { LinkItem } from '../../models/link-item.model';
-import { Card } from '../card/card';
 import { NotionAwareComponent } from '../base/notion-aware.component';
+import { Card } from '../card/card';
+import { LinkItem } from '../../models';
 
 @Component({
   selector: 'app-education',
