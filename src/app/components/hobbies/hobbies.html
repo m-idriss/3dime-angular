@@ -1,19 +1,27 @@
 <app-card title="Hobbies & Interests">
   <p>Things I enjoy watching/doing.</p>
   @if (isLoading) {
-    <div class="loading-container">
+    <div class="loading-container" role="status" aria-live="polite">
       <div class="spinner">
         <div class="spinner-circle"></div>
       </div>
       <p>Loading hobbies...</p>
     </div>
   } @else {
-    @for (hobby of hobbies; track hobby.name) {
-      <a [href]="hobby.url" target="_blank" rel="noopener noreferrer" class="chip-little link">
-        {{ hobby.name }}
-      </a>
-    } @empty {
-      No hobbies available.
-    }
+    <nav aria-label="Hobbies and interests">
+      @for (hobby of hobbies; track hobby.name) {
+        <a 
+          [href]="hobby.url" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="chip-little link"
+          [attr.aria-label]="'Learn more about ' + hobby.name"
+        >
+          {{ hobby.name }}
+        </a>
+      } @empty {
+        <p>No hobbies available.</p>
+      }
+    </nav>
   }
 </app-card>

@@ -1,5 +1,13 @@
-<app-card>
-  <a [href]="'mailto:' + email" target="_blank" rel="noopener noreferrer" class="link">
-    {{ email }}
-  </a>
+<app-card title="Contact">
+  <address>
+    <a 
+      [href]="'mailto:' + email" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="link"
+      aria-label="Send email"
+    >
+      {{ email }}
+    </a>
+  </address>
 </app-card>

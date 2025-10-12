@@ -1,45 +1,73 @@
-/* Upload Zone */
+/* ========================
+   Calendar Converter Component Styles
+   ======================== */
+
+/* ========================
+   Upload Zone
+   ======================== */
 .upload-zone {
+  /* Positioning */
   text-align: center;
+
+  /* Box Model */
   padding: 2rem 1.5rem;
-  border: 2px dashed var(--glass-border);
-  border-radius: var(--radius-md);
-  transition: all var(--t-fast);
-  cursor: pointer;
   margin-bottom: var(--space-md);
 
+  /* Visual */
+  border: 2px dashed var(--glass-border);
+  border-radius: var(--radius-md);
+
+  /* Misc */
+  cursor: pointer;
+  transition: all var(--t-fast);
+
+  /* Hover state */
   &:hover {
-    border-color: var(--accent-color);
     background: var(--glass-bg-hover);
+    border-color: var(--accent-color);
   }
 
+  /* Dragging state */
   &.dragging {
     background: var(--accent-color);
     border-color: var(--accent-color);
   }
 
+  /* Upload icon */
   .upload-icon {
-    font-size: 2rem;
     margin-bottom: var(--space-sm);
+    font-size: 2rem;
   }
 
+  /* Upload text */
   p {
-    color: var(--text-secondary);
     margin: var(--space-xs) 0;
     font-size: 0.875rem;
+    color: var(--text-secondary);
   }
 
+  /* Upload button */
   .upload-button {
+    /* Positioning */
     display: inline-block;
+
+    /* Box Model */
     padding: 0.5rem 1.25rem;
-    background: var(--accent-color);
-    color: white;
-    border-radius: var(--radius-md);
-    font-weight: 500;
+
+    /* Typography */
     font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+
+    /* Visual */
+    background: var(--accent-color);
+    border-radius: var(--radius-md);
+
+    /* Misc */
     cursor: pointer;
     transition: all var(--t-fast);
 
+    /* Hover state */
     &:hover {
       background: #2563eb;
       transform: translateY(-2px);
@@ -50,43 +78,67 @@
     }
   }
 
+  /* Hide file input */
   .file-input {
     display: none;
   }
 }
 
-/* Selected Files */
+/* ========================
+   Selected Files
+   ======================== */
 .selected-files {
+  /* Positioning */
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin: var(--space-md) 0;
 
+  /* Box Model */
+  margin: var(--space-md) 0;
+  gap: var(--space-sm);
+
+  /* File chip */
   .file-chip {
+    /* Positioning */
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
+
+    /* Box Model */
     padding: 0.35rem 0.7rem;
-    background: var(--primary-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-full);
+    gap: var(--space-sm);
+
+    /* Typography */
     font-size: 0.8rem;
     color: var(--text-primary);
 
+    /* Visual */
+    background: var(--primary-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+
+    /* Remove button */
     .chip-remove {
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      cursor: pointer;
+      /* Box Model */
       padding: 0;
+
+      /* Typography */
       font-size: 0.9rem;
       line-height: 1;
+      color: var(--text-secondary);
+
+      /* Visual */
+      background: transparent;
+      border: none;
+
+      /* Misc */
+      cursor: pointer;
       transition: color var(--t-fast);
 
+      /* Hover state */
       &:hover {
         color: var(--badge-color);
       }
 
+      /* Disabled state */
       &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
@@ -95,29 +147,41 @@
   }
 }
 
-/* Action Buttons */
+/* ========================
+   Action Buttons
+   ======================== */
 .action-button {
+  /* Box Model */
   width: 100%;
   padding: 0.65rem 1.25rem;
-  background: var(--accent-color);
-  color: white;
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--t-fast);
   margin-top: var(--space-sm);
 
+  /* Typography */
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+
+  /* Visual */
+  background: var(--accent-color);
+  border: none;
+  border-radius: var(--radius-md);
+
+  /* Misc */
+  cursor: pointer;
+  transition: all var(--t-fast);
+
+  /* Hover state */
   &:hover {
     background: #2563eb;
     transform: translateY(-2px);
   }
 
+  /* Download button variant */
   &.download {
     background: var(--accent-color);
   }
 
+  /* Secondary button variant */
   &.secondary {
     background: transparent;
     border: 1px solid var(--glass-border);
@@ -129,16 +193,31 @@
   }
 }
 
-/* Processing State */
+/* Actions Container */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* ========================
+   Processing State
+   ======================== */
 .processing {
+  /* Positioning */
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
-  padding: var(--space-md);
-  color: var(--text-secondary);
-  font-size: 0.875rem;
 
+  /* Box Model */
+  padding: var(--space-md);
+  gap: var(--space-sm);
+
+  /* Typography */
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+
+  /* Spinner animation */
   .spinner {
     width: 1rem;
     height: 1rem;
@@ -149,13 +228,21 @@
   }
 }
 
-/* Alert Messages */
+/* ========================
+   Alert Messages
+   ======================== */
 .alert {
+  /* Box Model */
   padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
   margin: var(--space-sm) 0;
+
+  /* Typography */
   font-size: 0.8rem;
 
+  /* Visual */
+  border-radius: var(--radius-md);
+
+  /* Error alert variant */
   &.error {
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.3);
@@ -163,82 +250,124 @@
   }
 }
 
-/* Events List */
+/* ========================
+   Events List - Calendar events display
+   ======================== */
 .events-list {
-  flex-direction: column;
-  gap: var(--space-xs);
+  /* Box Model */
   margin-bottom: var(--space-md);
+  gap: var(--space-xs);
 
+  /* Positioning */
+  flex-direction: column;
+
+  /* Event item */
   .event-item {
+    /* Positioning */
     display: flex;
     align-items: flex-start;
-    gap: var(--space-md);
+
+    /* Box Model */
     padding: var(--space-sm) var(--space-md);
+    gap: var(--space-md);
+
+    /* Visual */
     background: var(--glass-bg);
     border: 0.2px solid var(--glass-border);
     border-radius: var(--radius-md);
+
+    /* Misc */
     transition: all var(--t-fast);
 
+    /* Hover state */
     &:hover {
       background: var(--glass-bg);
       transform: translateX(2px);
     }
 
+    /* Date block */
     .event-date {
       flex-shrink: 0;
 
       .date-block {
-        width: 36px;
-        height: 36px;
+        /* Positioning */
         display: flex;
         align-items: center;
         justify-content: center;
+
+        /* Box Model */
+        width: 36px;
+        height: 36px;
+
+        /* Typography */
+        font-size: 0.65rem;
+        font-weight: 700;
+        line-height: 1.1;
+        text-align: center;
+        color: white;
+        white-space: pre-line;
+
+        /* Visual */
         background: linear-gradient(135deg, var(--accent-color), #6366f1);
         border-radius: var(--radius-md);
-        color: white;
-        font-weight: 700;
-        font-size: 0.65rem;
-        text-align: center;
-        line-height: 1.1;
-        white-space: pre-line;
       }
     }
 
+    /* Event details */
     .event-details {
-      flex: 1;
-      min-width: 0;
+      /* Positioning */
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-start;
+
+      /* Box Model */
+      flex: 1;
+      min-width: 0;
       gap: var(--space-md);
 
+      /* Event content */
       .event-content {
-        flex: 1;
-        min-width: 0;
+        /* Positioning */
         display: flex;
         flex-direction: column;
+
+        /* Box Model */
+        flex: 1;
+        min-width: 0;
         gap: 0.25rem;
       }
 
+      /* Event title */
       .event-title {
+        /* Box Model */
+        margin: 0;
+
+        /* Typography */
         font-size: 0.775rem;
         font-weight: 600;
         color: var(--text-primary);
-        margin: 0;
         overflow-wrap: break-word;
         word-wrap: break-word;
+
+        /* Positioning */
         align-self: flex-start;
       }
 
+      /* Event location */
       .event-location {
+        /* Box Model */
         flex: 1;
         min-width: 0;
+
+        /* Typography */
         font-size: 0.75rem;
         color: var(--text-secondary);
         overflow-wrap: break-word;
         word-wrap: break-word;
         word-break: break-word;
+
+        /* Positioning */
         align-self: flex-start;
 
         span {
@@ -246,13 +375,19 @@
         }
       }
 
+      /* Event times */
       .event-times {
+        /* Positioning */
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        gap: 0.15rem;
-        font-size: 0.75rem;
+
+        /* Box Model */
         flex-shrink: 0;
+        gap: 0.15rem;
+
+        /* Typography */
+        font-size: 0.75rem;
 
         .event-time {
           font-weight: 600;
@@ -267,14 +402,18 @@
   }
 }
 
-/* Actions Container */
+/* ========================
+   Actions Container
+   ======================== */
 .actions {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
 
-/* Animations */
+/* ========================
+   Animations
+   ======================== */
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -284,7 +423,9 @@
   }
 }
 
-/* Responsive styles */
+/* ========================
+   Responsive Styles
+   ======================== */
 @media (max-width: 768px) {
   .upload-zone {
     padding: 1.5rem 1rem;
@@ -334,48 +475,60 @@
 
 /* Auth Required Section */
 .auth-required {
+  /* Positioning */
   text-align: center;
+
+  /* Box Model */
   padding: var(--space-xl) var(--space-lg);
 
+  /* Auth message */
   .auth-message {
     margin-bottom: var(--space-xl);
 
     p {
-      color: var(--text-primary);
+      margin-bottom: var(--space-md);
       font-size: 0.95rem;
       line-height: 1.6;
-      margin-bottom: var(--space-md);
+      color: var(--text-primary);
     }
 
     .supported-formats {
-      color: var(--text-secondary);
-      font-size: 0.85rem;
       margin-top: var(--space-md);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
     }
   }
 
+  /* Sign in button */
   .sign-in-button {
+    /* Box Model */
     width: 100%;
     max-width: 400px;
     padding: var(--space-md) var(--space-lg);
-    background: linear-gradient(135deg, #4285f4, #3367d6);
-    color: white;
-    border: none;
-    border-radius: var(--radius-md);
+
+    /* Typography */
     font-size: 1rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: all var(--t-medium);
+    color: white;
+
+    /* Visual */
+    background: linear-gradient(135deg, #4285f4, #3367d6);
+    border: none;
+    border-radius: var(--radius-md);
     box-shadow: var(--shadow-card);
 
+    /* Misc */
+    cursor: pointer;
+    transition: all var(--t-medium);
+
+    /* Hover state */
     &:hover {
-      transform: translateY(-2px);
-      box-shadow:
-        var(--shadow-card-hover),
-        0 0 15px rgba(66, 133, 244, 0.4);
       background: linear-gradient(135deg, #3367d6, #2451b3);
+      box-shadow: var(--shadow-card-hover), 0 0 15px rgba(66, 133, 244, 0.4);
+      transform: translateY(-2px);
     }
 
+    /* Active state */
     &:active {
       transform: translateY(0);
     }
@@ -384,26 +537,33 @@
 
 /* Auth Loading State */
 .auth-loading {
+  /* Positioning */
   text-align: center;
+
+  /* Box Model */
   padding: var(--space-xl);
 
+  /* Spinner */
   .spinner {
     width: 2rem;
     height: 2rem;
+    margin: 0 auto var(--space-md);
     border: 3px solid var(--glass-border);
     border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
-    margin: 0 auto var(--space-md);
   }
 
+  /* Loading text */
   p {
-    color: var(--text-secondary);
     font-size: 0.875rem;
+    color: var(--text-secondary);
   }
 }
 
-/* Focus indicators */
+/* ========================
+   Focus Indicators & Accessibility
+   ======================== */
 .sign-in-button:focus,
 .sign-in-button:focus-visible {
   outline: 2px solid var(--accent-color);
@@ -412,7 +572,9 @@
   transition: all var(--t-fast);
 }
 
-/* Reduced motion */
+/* ========================
+   Reduced Motion Support
+   ======================== */
 @media (prefers-reduced-motion: reduce) {
   .sign-in-button:hover {
     transform: none !important;
