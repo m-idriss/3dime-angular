@@ -43,7 +43,12 @@ export const PDF_CONVERSION_CONFIG = {
    * Higher values produce better quality but larger files
    */
   JPEG_QUALITY: 0.92,
+} as const;
 
+/**
+ * Calendar and ICS file configuration
+ */
+export const CALENDAR_CONFIG = {
   /**
    * Default filename for downloaded ICS files
    */

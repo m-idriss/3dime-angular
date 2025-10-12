@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import * as pdfjsLib from 'pdfjs-dist';
 
 import { environment } from '../../environments/environment';
-import { PDF_CONVERSION_CONFIG } from '../constants/app.constants';
+import { PDF_CONVERSION_CONFIG, CALENDAR_CONFIG } from '../constants/app.constants';
 
 export interface ConversionRequest {
   files: FileData[];
@@ -129,7 +129,7 @@ export class ConverterService {
    */
   downloadIcsFile(
     icsContent: string,
-    filename: string = PDF_CONVERSION_CONFIG.DEFAULT_ICS_FILENAME,
+    filename: string = CALENDAR_CONFIG.DEFAULT_ICS_FILENAME,
   ): void {
     const blob = new Blob([icsContent], { type: 'text/calendar' });
     const url = window.URL.createObjectURL(blob);
