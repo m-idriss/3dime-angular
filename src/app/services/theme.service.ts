@@ -7,6 +7,9 @@ export interface ThemeConfig {
   DEFAULT_BACKGROUND: string;
   FONT_SIZES: string[];
   DEFAULT_FONT_SIZE: string;
+  THEME_DISPLAY_NAMES: Record<string, string>;
+  BACKGROUND_DISPLAY_NAMES: Record<string, string>;
+  FONT_SIZE_DISPLAY_NAMES: Record<string, string>;
 }
 
 @Injectable({
@@ -20,6 +23,21 @@ export class ThemeService {
     DEFAULT_BACKGROUND: 'video',
     FONT_SIZES: ['normal', 'large', 'small'],
     DEFAULT_FONT_SIZE: 'small',
+    THEME_DISPLAY_NAMES: {
+      dark: 'Dark Theme',
+      white: 'Light Theme',
+      glass: 'Glass Theme',
+    },
+    BACKGROUND_DISPLAY_NAMES: {
+      black: 'Black Background',
+      white: 'White Background',
+      video: 'Video Background',
+    },
+    FONT_SIZE_DISPLAY_NAMES: {
+      normal: 'Normal',
+      large: 'Large',
+      small: 'Small',
+    },
   };
 
   private currentTheme: string;
@@ -218,29 +236,14 @@ export class ThemeService {
   }
 
   getThemeDisplayName(theme: string): string {
-    const displayNames: { [key: string]: string } = {
-      dark: 'Dark Theme',
-      white: 'Light Theme',
-      glass: 'Glass Theme',
-    };
-    return displayNames[theme] || theme;
+    return this.config.THEME_DISPLAY_NAMES[theme] || theme;
   }
 
   getBackgroundDisplayName(background: string): string {
-    const displayNames: { [key: string]: string } = {
-      black: 'Black Background',
-      white: 'White Background',
-      video: 'Video Background',
-    };
-    return displayNames[background] || background;
+    return this.config.BACKGROUND_DISPLAY_NAMES[background] || background;
   }
 
   getFontSizeDisplayName(fontSize: string): string {
-    const displayNames: { [key: string]: string } = {
-      normal: 'Normal',
-      large: 'Large',
-      small: 'Small',
-    };
-    return displayNames[fontSize] || fontSize;
+    return this.config.FONT_SIZE_DISPLAY_NAMES[fontSize] || fontSize;
   }
 }

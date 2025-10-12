@@ -1,5 +1,7 @@
 import { Component, HostListener, signal } from '@angular/core';
 
+import { SCROLL_CONFIG } from '../../constants/app.constants';
+
 @Component({
   selector: 'app-back-to-top',
   standalone: true,
@@ -9,7 +11,7 @@ import { Component, HostListener, signal } from '@angular/core';
 })
 export class BackToTop {
   protected readonly isVisible = signal(false);
-  private readonly scrollThreshold = 300; // Show button after scrolling 300px
+  private readonly scrollThreshold = SCROLL_CONFIG.BACK_TO_TOP_THRESHOLD;
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {

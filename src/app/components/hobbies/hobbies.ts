@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+
 import { LinkItem } from '../../models/link-item.model';
 import { NotionService } from '../../services/notion.service';
 import { Card } from '../card/card';
