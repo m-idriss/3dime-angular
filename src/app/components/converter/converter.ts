@@ -27,7 +27,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
 
   constructor(
     private readonly converterService: ConverterService,
-    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(PLATFORM_ID) private readonly platformId: Object,
   ) {
     super();
   }
