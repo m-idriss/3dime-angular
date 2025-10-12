@@ -479,11 +479,11 @@
   text-align: center;
 
   /* Box Model */
-  padding: var(--space-xl) var(--space-lg);
+  padding: var(--space-sm) var(--space-lg);
 
   /* Auth message */
   .auth-message {
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-sm);
 
     p {
       margin-bottom: var(--space-md);
