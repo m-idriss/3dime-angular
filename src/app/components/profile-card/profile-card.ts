@@ -9,6 +9,11 @@ import {
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
 import { AuthAwareComponent } from '../base/auth-aware.component';
+import {
+  SOCIAL_ICON_MAP,
+  DEFAULT_SOCIAL_ICON,
+  PROFILE_LOADING_COUNT,
+} from '../../constants/app.constants';
 
 @Component({
   selector: 'app-profile-card',
@@ -33,23 +38,30 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
     super();
   }
 
-  ngOnInit() {
-    this.loadingCount = 2; // We're loading 2 resources
+  ngOnInit(): void {
+    this.loadingCount = PROFILE_LOADING_COUNT;
 
     this.profileService.getSocialLinks().subscribe((links) => {
       this.socialLinks = [...this.socialLinks, ...links];
-      this.loadingCount--;
-      if (this.loadingCount === 0) this.isLoading = false;
-      this.cdr.markForCheck();
+      this.decrementLoadingCount();
     });
 
     this.profileService.getProfile().subscribe((user) => {
       this.profileData = user;
       this.socialLinks = [{ provider: 'GitHub', url: user.html_url }, ...this.socialLinks];
-      this.loadingCount--;
-      if (this.loadingCount === 0) this.isLoading = false;
-      this.cdr.markForCheck();
+      this.decrementLoadingCount();
     });
+  }
+
+  /**
+   * Decrement loading counter and update loading state
+   */
+  private decrementLoadingCount(): void {
+    this.loadingCount--;
+    if (this.loadingCount === 0) {
+      this.isLoading = false;
+    }
+    this.cdr.markForCheck();
   }
 
   get name(): string {
@@ -60,21 +72,26 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
     return this.profileData?.avatar_url || '';
   }
 
+  /**
+   * Get Font Awesome icon class for social media provider.
+   *
+   * @param provider - Social media provider name (e.g., 'Twitter', 'GitHub')
+   * @returns Font Awesome icon class string
+   */
   getFontAwesomeLinks(provider: string): string {
-    if (!provider) return 'fa fa-brands fa-link';
+    if (!provider) return DEFAULT_SOCIAL_ICON;
 
-    let icon = provider.toLowerCase();
-    if (icon === 'twitter') icon = 'x-twitter';
-    if (icon === 'facebook') icon = 'facebook-square';
+    const iconKey = provider.toLowerCase();
+    const iconName = SOCIAL_ICON_MAP[iconKey] || iconKey;
 
-    return 'fa fa-brands fa-' + icon;
+    return `fa fa-brands fa-${iconName}`;
   }
 
-  toggleMenu() {
+  toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
   }
 
-  closeMenu() {
+  closeMenu(): void {
     this.menuOpen = false;
   }
 
