@@ -218,7 +218,7 @@
   min-width: 240px;
 
   /* Visual */
-  background: var(--primary-bg);
+  background: var(--menu-bg);
   backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
@@ -253,7 +253,7 @@
   /* Typography */
   font-size: var(--font-size-sm);
   text-align: left;
-  color: var(--text-primary);
+  color: var(--text-menu);
 
   /* Visual */
   background: transparent;
@@ -436,7 +436,7 @@ body.notifications-off .badge {
       margin-bottom: 0.25rem;
       font-size: 0.95rem;
       font-weight: 600;
-      color: var(--text-primary);
+      color: var(--text-menu);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -445,7 +445,7 @@ body.notifications-off .badge {
     /* User email */
     .user-email {
       font-size: 0.8rem;
-      color: var(--text-secondary);
+      color: var(--text-menu);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
