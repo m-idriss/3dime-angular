@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { LinkItem } from '../../models/link-item.model';
-import { NotionService } from '../../services/notion.service';
 import { Card } from '../card/card';
+import { NotionAwareComponent } from '../base/notion-aware.component';
+import { LinkItem } from '../../models';
 
 @Component({
   selector: 'app-education',
@@ -12,20 +12,14 @@ import { Card } from '../card/card';
   styleUrl: './education.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Education implements OnInit {
+export class Education extends NotionAwareComponent {
   education: LinkItem[] = [];
-  isLoading = true;
 
-  constructor(
-    private readonly notionService: NotionService,
-    private readonly cdr: ChangeDetectorRef,
-  ) {}
+  protected override onDataLoaded(): void {
+    this.education = this.getItems();
+  }
 
-  ngOnInit() {
-    this.notionService.fetchAll().subscribe(() => {
-      this.education = this.notionService.getEducations();
-      this.isLoading = false;
-      this.cdr.markForCheck();
-    });
+  protected getItems(): LinkItem[] {
+    return this.notionService.getEducations();
   }
 }

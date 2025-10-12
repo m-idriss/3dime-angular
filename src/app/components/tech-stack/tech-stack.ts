@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { LinkItem } from '../../models/link-item.model';
-import { NotionService } from '../../services/notion.service';
 import { Card } from '../card/card';
+import { NotionAwareComponent } from '../base/notion-aware.component';
+import { LinkItem } from '../../models';
 
 @Component({
   selector: 'app-tech-stack',
@@ -12,20 +12,14 @@ import { Card } from '../card/card';
   styleUrl: './tech-stack.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TechStack implements OnInit {
+export class TechStack extends NotionAwareComponent {
   techStack: LinkItem[] = [];
-  isLoading = true;
 
-  constructor(
-    private readonly notionService: NotionService,
-    private readonly cdr: ChangeDetectorRef,
-  ) {}
+  protected override onDataLoaded(): void {
+    this.techStack = this.getItems();
+  }
 
-  ngOnInit() {
-    this.notionService.fetchAll().subscribe(() => {
-      this.techStack = this.notionService.getTechStacks();
-      this.isLoading = false;
-      this.cdr.markForCheck();
-    });
+  protected getItems(): LinkItem[] {
+    return this.notionService.getTechStacks();
   }
 }

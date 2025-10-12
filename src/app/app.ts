@@ -40,8 +40,8 @@ export class App implements OnInit {
   private deferredPrompt: BeforeInstallPromptEvent | null = null;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private swUpdate: SwUpdate,
+    @Inject(PLATFORM_ID) private readonly platformId: Object,
+    private readonly swUpdate: SwUpdate,
   ) {}
 
   ngOnInit(): void {

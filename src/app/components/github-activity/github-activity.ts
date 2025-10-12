@@ -14,6 +14,11 @@ import { ProfileService, CommitData } from '../../services/profile.service';
 import { Card } from '../card/card';
 import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
 
+/**
+ * Component displaying GitHub commit activity as a heatmap calendar.
+ * Uses CalHeatmap library to visualize commit frequency over time.
+ * Implements OnPush change detection for optimal performance.
+ */
 @Component({
   selector: 'app-github-activity',
   standalone: true,
@@ -48,7 +53,11 @@ export class GithubActivity implements AfterViewInit {
     });
   }
 
-  renderHeatmap() {
+  /**
+   * Render the commit activity heatmap using CalHeatmap library.
+   * Configures color scale, date range, and interactive tooltips.
+   */
+  renderHeatmap(): void {
     const cal: any = new CalHeatmap();
 
     cal.paint(

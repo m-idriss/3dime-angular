@@ -3,6 +3,10 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { ProfileService, GithubUser } from '../../services/profile.service';
 import { Card } from '../card/card';
 
+/**
+ * Component displaying contact information (email) from GitHub profile.
+ * Uses OnPush change detection for optimal performance.
+ */
 @Component({
   selector: 'app-contact',
   standalone: true,
@@ -19,7 +23,7 @@ export class Contact implements OnInit {
     private readonly cdr: ChangeDetectorRef,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.profileService.getProfile().subscribe((user: GithubUser) => {
       this.email = user.email || 'nothing@nothing.com';
       this.cdr.markForCheck();

@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 
+/**
+ * Theme configuration interface defining all theme-related options
+ */
 export interface ThemeConfig {
   THEME_MODES: string[];
   DEFAULT_THEME: string;
@@ -12,6 +15,21 @@ export interface ThemeConfig {
   FONT_SIZE_DISPLAY_NAMES: Record<string, string>;
 }
 
+/**
+ * Service for managing application theme, background, and font size preferences.
+ * Persists settings to localStorage and applies them to the DOM.
+ *
+ * @example
+ * ```typescript
+ * constructor(private themeService: ThemeService) {}
+ *
+ * // Cycle through themes
+ * this.themeService.cycleTheme();
+ *
+ * // Get current theme
+ * const theme = this.themeService.getCurrentTheme();
+ * ```
+ */
 @Injectable({
   providedIn: 'root',
 })
