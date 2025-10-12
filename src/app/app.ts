@@ -3,33 +3,34 @@ import { isPlatformBrowser } from '@angular/common';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs/operators';
 
-import { ProfileCard } from './components/profile-card/profile-card';
 import { About } from './components/about/about';
-import { TechStack } from './components/tech-stack/tech-stack';
-import { Experience } from './components/experience/experience';
-import { Education } from './components/education/education';
-import { Converter } from './components/converter/converter';
-import { Stuff } from './components/stuff/stuff';
-import { Hobbies } from './components/hobbies/hobbies';
-import { Contact } from './components/contact/contact';
-import { GithubActivity } from './components/github-activity/github-activity';
 import { BackToTop } from './components/back-to-top/back-to-top';
+import { Contact } from './components/contact/contact';
+import { Converter } from './components/converter/converter';
+import { Education } from './components/education/education';
+import { Experience } from './components/experience/experience';
+import { GithubActivity } from './components/github-activity/github-activity';
+import { Hobbies } from './components/hobbies/hobbies';
+import { ProfileCard } from './components/profile-card/profile-card';
+import { Stuff } from './components/stuff/stuff';
+import { TechStack } from './components/tech-stack/tech-stack';
+import { PWA_CONFIG } from './constants/pwa.constants';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    ProfileCard,
     About,
-    TechStack,
-    Experience,
-    Education,
-    Converter,
-    Stuff,
-    Hobbies,
-    Contact,
-    GithubActivity,
     BackToTop,
+    Contact,
+    Converter,
+    Education,
+    Experience,
+    GithubActivity,
+    Hobbies,
+    ProfileCard,
+    Stuff,
+    TechStack,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -49,7 +50,7 @@ export class App implements OnInit {
       this.swUpdate.versionUpdates
         .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
         .subscribe(() => {
-          if (confirm('New version available. Load new version?')) {
+          if (confirm(PWA_CONFIG.UPDATE_MESSAGE)) {
             window.location.reload();
           }
         });
