@@ -8,6 +8,9 @@
   "theme_color": "#000000",
   "orientation": "portrait-primary",
   "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "icons/icon-16.png",
@@ -16,14 +19,14 @@
       "purpose": "any"
     },
     {
-      "src": "icons/icon-192.png", 
+      "src": "icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
       "src": "icons/icon-512.png",
-      "sizes": "512x512", 
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
@@ -43,15 +46,12 @@
     }
   ],
   "categories": ["social", "utilities", "productivity"],
-  "lang": "en",
-  "dir": "ltr",
-  "prefer_related_applications": false,
   "shortcuts": [
     {
       "name": "Calendar Converter",
       "short_name": "Convert",
       "description": "Convert images or PDFs to calendar events",
-      "url": "/#converter",
+      "url": "/converter",
       "icons": [
         {
           "src": "icons/icon-192.png",
@@ -62,7 +62,7 @@
     }
   ],
   "share_target": {
-    "action": "/",
+    "action": "/converter",
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {
