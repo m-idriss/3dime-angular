@@ -26,7 +26,6 @@
   /* Misc */
   transition: all var(--t-medium);
 
-  /* Hover state - Disabled per issue requirement to keep UI cleaner */
   /* Hover state */
   &:hover {
     background: var(--primary-bg-hover);
