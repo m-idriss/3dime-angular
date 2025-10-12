@@ -63,6 +63,8 @@ body.dark-theme {
   --glass-border: rgba(255, 255, 255, 0.1);
   --text-primary: #fff;
   --text-secondary: rgba(255, 255, 255, 0.9);
+  --menu-bg: rgba(0, 0, 0, 0.95);
+  --text-menu: #fff;
 }
 
 /* Light theme */
@@ -74,6 +76,8 @@ body.white-theme {
   --glass-border: rgba(0, 0, 0, 0.15);
   --text-primary: #1a1a1a;
   --text-secondary: rgba(26, 26, 26, 0.8);
+  --menu-bg: rgba(255, 255, 255, 0.95);
+  --text-menu: #1a1a1a;
 }
 
 /* Glass theme */
@@ -85,6 +89,8 @@ body.glass-theme {
   --glass-border: rgba(155, 155, 155, 0.2);
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.9);
+  --menu-bg: rgba(255, 255, 255, 1);
+  --text-menu: #1a1a1a;
 }
 
 /* Glass theme with white background - adjust text for readability */
@@ -93,7 +99,14 @@ body.glass-theme.bg-white {
   --text-secondary: rgba(26, 26, 26, 0.8);
   --glass-bg: rgba(0, 0, 0, 0.1);
   --glass-bg-hover: rgba(0, 0, 0, 0.2);
-  --glass-border: rgba(0, 0, 0, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.95);
+  --menu-bg: rgba(255, 255, 255, 0.8);
+  --text-menu: #1a1a1a;
+}
+
+body.glass-theme.bg-black {
+  --menu-bg: rgba(0, 0, 0, 0.95);
+  --text-menu: #fff;
 }
 
 /* Font size options */
