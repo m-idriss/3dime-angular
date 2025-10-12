@@ -26,13 +26,10 @@
   /* Misc */
   transition: all var(--t-medium);
 
-  /* Hover state */
+  /* Hover state - Disabled per issue requirement */
   &:hover {
-    background: var(--primary-bg-hover);
-    backdrop-filter: blur(20px);
-    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
-    transform: translateY(-6px) scale(1.03);
-    transition: all var(--ease-bounce);
+    box-shadow: none !important;
+    transform: none !important;
   }
 
   /* Prevent transform when menu is open to avoid stacking context issues */
