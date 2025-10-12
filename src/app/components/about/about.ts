@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+
 import { ProfileService, GithubUser } from '../../services/profile.service';
 import { Card } from '../card/card';
 

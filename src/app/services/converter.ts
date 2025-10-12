@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
 import * as pdfjsLib from 'pdfjs-dist';
+
+import { environment } from '../../environments/environment';
+import { PDF_CONVERSION_CONFIG, CALENDAR_CONFIG } from '../constants/app.constants';
 
 export interface ConversionRequest {
   files: FileData[];
@@ -88,8 +90,7 @@ export class ConverterService {
         const page = await pdf.getPage(pageNum);
 
         // Set up canvas with appropriate scale for good quality
-        // Using 1.5 scale for balance between quality and size
-        const viewport = page.getViewport({ scale: 1.5 });
+        const viewport = page.getViewport({ scale: PDF_CONVERSION_CONFIG.VIEWPORT_SCALE });
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
 
@@ -111,11 +112,7 @@ export class ConverterService {
         }).promise;
 
         // Convert canvas to JPEG with quality setting for smaller file size
-        // JPEG is better than PNG for scanned documents and photos
-        const imageDataUrl = canvas.toDataURL('image/jpeg', 0.92);
-
-        // Log the approximate size
-        const sizeInKB = Math.round((imageDataUrl.length * 3) / 4 / 1024);
+        const imageDataUrl = canvas.toDataURL('image/jpeg', PDF_CONVERSION_CONFIG.JPEG_QUALITY);
 
         images.push(imageDataUrl);
       }
@@ -130,7 +127,10 @@ export class ConverterService {
   /**
    * Download ICS content as a file
    */
-  downloadIcsFile(icsContent: string, filename: string = 'calendar.ics'): void {
+  downloadIcsFile(
+    icsContent: string,
+    filename: string = CALENDAR_CONFIG.DEFAULT_ICS_FILENAME,
+  ): void {
     const blob = new Blob([icsContent], { type: 'text/calendar' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');

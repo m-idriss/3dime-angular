@@ -5,9 +5,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
+
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
-import { AuthService } from '../../services/auth.service';
+import { AuthAwareComponent } from '../base/auth-aware.component';
 
 @Component({
   selector: 'app-profile-card',
@@ -17,7 +18,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './profile-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileCard implements OnInit {
+export class ProfileCard extends AuthAwareComponent implements OnInit {
   menuOpen = false;
   socialLinks: SocialLink[] = [];
   profileData: GithubUser | null = null;
@@ -27,9 +28,10 @@ export class ProfileCard implements OnInit {
   constructor(
     private readonly themeService: ThemeService,
     private readonly profileService: ProfileService,
-    private readonly authService: AuthService,
     private readonly cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.loadingCount = 2; // We're loading 2 resources
@@ -126,15 +128,6 @@ export class ProfileCard implements OnInit {
 
   get fontSizeDisplayName(): string {
     return this.themeService.getFontSizeDisplayName(this.currentFontSize);
-  }
-
-  // Auth-related getters (delegating to service signals)
-  get isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
-  }
-
-  get currentUser() {
-    return this.authService.currentUser();
   }
 
   async signOut(): Promise<void> {

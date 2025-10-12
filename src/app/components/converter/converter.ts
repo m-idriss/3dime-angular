@@ -1,16 +1,12 @@
 import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { ConverterService, FileData } from '../../services/converter';
-import { AuthService } from '../../services/auth.service';
-import { Card } from '../card/card';
 
-interface CalendarEvent {
-  summary: string;
-  start: string;
-  end: string;
-  location?: string;
-  description?: string;
-}
+import { ConverterService, FileData } from '../../services/converter';
+import { Card } from '../card/card';
+import { AuthAwareComponent } from '../base/auth-aware.component';
+import { CalendarEvent } from '../../models/calendar-event.model';
+import { FILE_UPLOAD_CONSTRAINTS } from '../../constants/app.constants';
+import { formatIcsDate, getMonthDay, getTime } from '../../utils/date.utils';
 
 @Component({
   selector: 'app-converter',
@@ -18,7 +14,7 @@ interface CalendarEvent {
   templateUrl: './converter.html',
   styleUrl: './converter.scss',
 })
-export class Converter implements OnInit {
+export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly files = signal<File[]>([]);
   protected readonly isDragging = signal(false);
   protected readonly isProcessing = signal(false);
@@ -26,14 +22,15 @@ export class Converter implements OnInit {
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
 
-  private readonly acceptedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
-  private readonly maxFileSize = 10 * 1024 * 1024; // 10MB
+  private readonly acceptedTypes = FILE_UPLOAD_CONSTRAINTS.ACCEPTED_TYPES;
+  private readonly maxFileSize = FILE_UPLOAD_CONSTRAINTS.MAX_FILE_SIZE;
 
   constructor(
     private readonly converterService: ConverterService,
-    private readonly authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     // Handle shared files from PWA share target
@@ -88,7 +85,7 @@ export class Converter implements OnInit {
     this.icsContent.set(null);
 
     const validFiles = newFiles.filter((file) => {
-      if (!this.acceptedTypes.includes(file.type)) {
+      if (!(this.acceptedTypes as readonly string[]).includes(file.type)) {
         this.errorMessage.set(`Invalid file type: ${file.name}`);
         return false;
       }
@@ -200,10 +197,10 @@ export class Converter implements OnInit {
         currentEvent.summary = line.substring(8);
       } else if (line.startsWith('DTSTART')) {
         const dateStr = line.split(':')[1];
-        currentEvent.start = this.formatDate(dateStr);
+        currentEvent.start = formatIcsDate(dateStr);
       } else if (line.startsWith('DTEND')) {
         const dateStr = line.split(':')[1];
-        currentEvent.end = this.formatDate(dateStr);
+        currentEvent.end = formatIcsDate(dateStr);
       } else if (line.startsWith('LOCATION:')) {
         currentEvent.location = line.substring(9);
       } else if (line.startsWith('DESCRIPTION:')) {
@@ -214,42 +211,6 @@ export class Converter implements OnInit {
     this.extractedEvents.set(events);
   }
 
-  private formatDate(icsDate: string): string {
-    // Handles formats: YYYYMMDD, YYYYMMDDTHHMMSS, YYYYMMDDTHHMM, with optional trailing 'Z' or timezone offsets
-    if (!icsDate) return '';
-
-    // Remove any trailing Z or timezone offset
-    const cleaned = icsDate.replace(/Z$|[+-]\d{4}$/, '');
-
-    // All-day event: YYYYMMDD
-    const allDayMatch = /^(\d{4})(\d{2})(\d{2})$/.exec(cleaned);
-    if (allDayMatch) {
-      const [, year, month, day] = allDayMatch;
-      return `${day}/${month}/${year}`;
-    }
-
-    // Timed event: YYYYMMDDTHHMMSS or YYYYMMDDTHHMM
-    const timeMatch = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})?$/.exec(cleaned);
-    if (timeMatch) {
-      const [, year, month, day, hour, minute] = timeMatch;
-      return `${day}/${month}/${year} ${hour}:${minute}`;
-    }
-
-    // Fallback: try to parse with Date constructor
-    const dateObj = new Date(icsDate);
-    if (!isNaN(dateObj.getTime())) {
-      const day = String(dateObj.getDate()).padStart(2, '0');
-      const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-      const year = dateObj.getFullYear();
-      const hour = String(dateObj.getHours()).padStart(2, '0');
-      const minute = String(dateObj.getMinutes()).padStart(2, '0');
-      return `${day}/${month}/${year}` + (icsDate.includes('T') ? ` ${hour}:${minute}` : '');
-    }
-
-    // If all else fails, return the original string
-    return icsDate;
-  }
-
   protected downloadIcs(): void {
     if (this.icsContent()) {
       this.converterService.downloadIcsFile(this.icsContent()!);
@@ -257,34 +218,11 @@ export class Converter implements OnInit {
   }
 
   protected getMonthDay(dateStr: string): string {
-    // Extract day and month from formatted date (DD/MM/YYYY HH:MM)
-    const parts = dateStr.split(' ')[0].split('/');
-    if (parts.length >= 3) {
-      const months = [
-        'JAN',
-        'FEB',
-        'MAR',
-        'APR',
-        'MAY',
-        'JUN',
-        'JUL',
-        'AUG',
-        'SEP',
-        'OCT',
-        'NOV',
-        'DEC',
-      ];
-      const day = parts[0];
-      const monthIndex = parseInt(parts[1]) - 1;
-      return `${months[monthIndex]}\n${day}`;
-    }
-    return dateStr;
+    return getMonthDay(dateStr);
   }
 
   protected getTime(dateStr: string): string {
-    // Extract time from formatted date (DD/MM/YYYY HH:MM)
-    const parts = dateStr.split(' ');
-    return parts.length > 1 ? parts[1] : '';
+    return getTime(dateStr);
   }
 
   protected resetState(): void {
@@ -294,19 +232,6 @@ export class Converter implements OnInit {
     this.errorMessage.set(null);
     this.extractedEvents.set([]);
     this.icsContent.set(null);
-  }
-
-  // Auth-related getters (delegating to service signals)
-  get isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
-  }
-
-  get currentUser() {
-    return this.authService.currentUser();
-  }
-
-  get isAuthLoading(): boolean {
-    return this.authService.isLoading();
   }
 
   async signIn(): Promise<void> {
