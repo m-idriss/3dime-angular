@@ -25,8 +25,9 @@
               [alt]="currentUser.displayName || 'User avatar'"
               class="user-avatar"
             />
+          } @else {
+            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
           }
-          <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
         </button>
 
         <!-- Dropdown menu -->
@@ -34,11 +35,6 @@
           <div class="profile-dropdown" role="menu" aria-label="Profile settings">
             @if (isAuthenticated && currentUser) {
               <div class="user-info">
-                <img
-                  [src]="currentUser.photoURL"
-                  [alt]="currentUser.displayName || 'User avatar'"
-                  class="user-avatar-large"
-                />
                 <div class="user-details">
                   <div class="user-name">{{ currentUser.displayName }}</div>
                   <div class="user-email">{{ currentUser.email }}</div>
@@ -99,9 +95,9 @@
     <h2 id="profile-heading">✨ {{ name }} ✨</h2>
     <nav class="socials" aria-label="Social media links">
       @for (link of socialLinks; track link.provider) {
-        <a 
-          [href]="link.url" 
-          target="_blank" 
+        <a
+          [href]="link.url"
+          target="_blank"
           rel="noopener noreferrer"
           [attr.aria-label]="link.provider + ' profile'"
         >
