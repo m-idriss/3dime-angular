@@ -1,19 +1,27 @@
 <app-card title="Experience & Projects">
   <p>Companies and projects I've contributed to.</p>
   @if (isLoading) {
-    <div class="loading-container">
+    <div class="loading-container" role="status" aria-live="polite">
       <div class="spinner">
         <div class="spinner-circle"></div>
       </div>
       <p>Loading experience...</p>
     </div>
   } @else {
-    @for (experience of experiences; track experience.name) {
-      <a [href]="experience.url" target="_blank" rel="noopener noreferrer" class="link">
-        {{ experience.name }}
-      </a>
-    } @empty {
-      No experiences available.
-    }
+    <nav aria-label="Work experience and projects">
+      @for (experience of experiences; track experience.name) {
+        <a 
+          [href]="experience.url" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="link"
+          [attr.aria-label]="'View ' + experience.name"
+        >
+          {{ experience.name }}
+        </a>
+      } @empty {
+        <p>No experiences available.</p>
+      }
+    </nav>
   }
 </app-card>

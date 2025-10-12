@@ -1,6 +1,6 @@
 <app-card title="Github Activity">
   @if (isLoading) {
-    <div class="loading-container">
+    <div class="loading-container" role="status" aria-live="polite">
       <div class="spinner">
         <div class="spinner-circle"></div>
       </div>
@@ -11,6 +11,8 @@
       #heatmapContainer
       id="heatmap-container"
       class="heatmap-container"
+      role="img"
+      aria-label="GitHub contribution activity heatmap"
       style="opacity: 1"
     ></div>
   }

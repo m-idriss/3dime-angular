@@ -1,8 +1,9 @@
 <app-card id="converter" title="📅 Calendar Converter">
   <!-- Auth Required Message (when not authenticated) -->
   @if (!isAuthLoading && !isAuthenticated) {
-    <div class="auth-required">
+    <section class="auth-required" aria-labelledby="auth-heading">
       <div class="auth-message">
+        <h3 id="auth-heading" class="sr-only">Authentication Required</h3>
         <p>
           Upload images or PDF files containing event information, and our intelligent system will
           automatically detect dates, times, locations, and event details to create downloadable
@@ -13,14 +14,16 @@
           Files
         </p>
       </div>
-      <button class="sign-in-button" (click)="signIn()">🔐 Sign in with Google</button>
-    </div>
+      <button class="sign-in-button" (click)="signIn()" aria-label="Sign in with Google to use converter">
+        🔐 Sign in with Google
+      </button>
+    </section>
   }
 
   <!-- Loading State -->
   @if (isAuthLoading) {
-    <div class="auth-loading">
-      <div class="spinner"></div>
+    <div class="auth-loading" role="status" aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
       <p>Loading...</p>
     </div>
   }
@@ -29,14 +32,16 @@
   @if (!isAuthLoading && isAuthenticated) {
     <!-- Upload Area - Only show if no events extracted -->
     @if (extractedEvents().length === 0) {
-      <div
-        class="upload-zone"
+      <section class="upload-zone"
         [class.dragging]="isDragging()"
         (dragover)="onDragOver($event)"
         (dragleave)="onDragLeave($event)"
         (drop)="onDrop($event)"
+        role="region"
+        aria-labelledby="upload-heading"
       >
-        <div class="upload-icon">📤</div>
+        <div class="upload-icon" aria-hidden="true">📤</div>
+        <h3 id="upload-heading" class="sr-only">Upload Files</h3>
         <p>Drop files here or</p>
         <label class="upload-button">
           <input
@@ -46,18 +51,24 @@
             accept="image/jpeg,image/jpg,image/png,application/pdf"
             (change)="onFileSelect($event)"
             [disabled]="isProcessing()"
+            aria-label="Select files to upload"
           />
           <span>Browse</span>
         </label>
-      </div>
+      </section>
 
       <!-- Selected Files - Minimalist -->
       @if (files().length > 0) {
-        <div class="selected-files">
+        <div class="selected-files" role="list" aria-label="Selected files">
           @for (file of files(); track $index) {
-            <div class="file-chip">
+            <div class="file-chip" role="listitem">
               <span>{{ file.name }}</span>
-              <button class="chip-remove" (click)="removeFile($index)" [disabled]="isProcessing()">
+              <button 
+                class="chip-remove" 
+                (click)="removeFile($index)" 
+                [disabled]="isProcessing()"
+                [attr.aria-label]="'Remove ' + file.name"
+              >
                 ✕
               </button>
             </div>
@@ -67,12 +78,14 @@
 
       <!-- Convert Button -->
       @if (files().length > 0 && !isProcessing()) {
-        <button class="action-button" (click)="convertToIcs()">Convert</button>
+        <button class="action-button" (click)="convertToIcs()" aria-label="Convert files to calendar events">
+          Convert
+        </button>
       }
 
       @if (isProcessing()) {
-        <div class="processing">
-          <span class="spinner"></span>
+        <div class="processing" role="status" aria-live="polite">
+          <span class="spinner" aria-hidden="true"></span>
           <span>Processing...</span>
         </div>
       }
@@ -80,46 +93,51 @@
 
     <!-- Error Message -->
     @if (errorMessage()) {
-      <div class="alert error">
+      <div class="alert error" role="alert" aria-live="assertive">
         {{ errorMessage() }}
       </div>
     }
 
     <!-- Extracted Events - Apple Calendar Style -->
     @if (extractedEvents().length > 0) {
-      <div class="events-list">
+      <section class="events-list" aria-labelledby="events-heading">
+        <h3 id="events-heading" class="sr-only">Extracted Calendar Events</h3>
         @for (event of extractedEvents(); track $index) {
-          <div class="event-item link">
-            <div class="event-date">
+          <article class="event-item link" [attr.aria-label]="'Event: ' + event.summary">
+            <div class="event-date" aria-hidden="true">
               <div class="date-block">
                 <span [innerHTML]="getMonthDay(event.start)"></span>
               </div>
             </div>
             <div class="event-details">
               <div class="event-content">
-                <h3 class="event-title">{{ event.summary }}</h3>
+                <h4 class="event-title">{{ event.summary }}</h4>
                 <div class="event-location">
                   @if (event.location) {
-                    <span>📍 {{ event.location }}</span>
+                    <span aria-label="Location">📍 {{ event.location }}</span>
                   }
                 </div>
               </div>
               <div class="event-times">
-                <span class="event-time">{{ getTime(event.start) }}</span>
+                <time class="event-time" [attr.datetime]="event.start">{{ getTime(event.start) }}</time>
                 @if (event.end && getTime(event.end)) {
-                  <span class="event-time-end">{{ getTime(event.end) }}</span>
+                  <time class="event-time-end" [attr.datetime]="event.end">{{ getTime(event.end) }}</time>
                 }
               </div>
             </div>
-          </div>
+          </article>
         }
-      </div>
+      </section>
 
       <!-- Download Button -->
-      <div class="actions">
-        <button class="action-button download" (click)="downloadIcs()">Download Calendar</button>
-        <button class="action-button secondary" (click)="resetState()">Convert Another</button>
-      </div>
+      <nav class="actions" aria-label="Calendar actions">
+        <button class="action-button download" (click)="downloadIcs()" aria-label="Download calendar file">
+          Download Calendar
+        </button>
+        <button class="action-button secondary" (click)="resetState()" aria-label="Convert another file">
+          Convert Another
+        </button>
+      </nav>
     }
   }
 </app-card>

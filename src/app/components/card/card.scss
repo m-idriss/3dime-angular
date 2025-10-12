@@ -2,62 +2,84 @@
    Card Component Styles
    ======================== */
 
+/* Container - Reusable card wrapper */
 .container {
+  /* Positioning */
   position: relative;
-  text-align: center;
-  padding: var(--space-lg);
+
+  /* Box Model */
   width: 100%;
   max-width: 400px;
+  padding: var(--space-lg);
+
+  /* Typography */
+  text-align: center;
+
+  /* Visual */
   background: var(--primary-bg);
   backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-card);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+
+  /* Misc */
   transition: all var(--t-medium);
+
+  /* Hover state */
+  &:hover {
+    background: var(--primary-bg-hover);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
+    transform: translateY(-6px) scale(1.03);
+    transition: all var(--ease-bounce);
+  }
 }
 
-.container:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: var(--shadow-card-hover), var(--shadow-glow);
-  backdrop-filter: blur(20px);
-  background: var(--primary-bg-hover);
-  transition: all var(--ease-bounce);
-}
-
-/* Enhanced container headers */
+/* Card title with gradient effect */
 .container h2 {
+  /* Positioning */
+  position: relative;
+
+  /* Box Model */
   margin-bottom: var(--space-md);
+
+  /* Typography */
   font-size: var(--font-size-xl);
   font-weight: var(--fw-semibold);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  /* Visual - Gradient text effect */
   background: linear-gradient(135deg, var(--text-primary), rgba(59, 130, 246, 0.8));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  position: relative;
+
+  /* Decorative underline */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    border-radius: 1px;
+  }
 }
 
-.container h2::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-  border-radius: 1px;
-}
-
-/* Enhanced spacing for better readability */
+/* Card paragraph text */
 .container p {
+  /* Box Model */
+  margin-bottom: var(--space-md);
+
+  /* Typography */
   font-size: var(--font-size-base);
   line-height: 1.6;
   color: var(--text-secondary);
-  margin-bottom: var(--space-md);
 }
 
-/* Reduced motion for card component */
+/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .container:hover {
     transform: none !important;
