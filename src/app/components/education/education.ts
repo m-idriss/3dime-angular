@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { NotionAwareComponent } from '../base/notion-aware.component';
 import { Card } from '../card/card';
+import { NotionAwareComponent } from '../base/notion-aware.component';
 import { LinkItem } from '../../models';
 
 @Component({
