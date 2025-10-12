@@ -27,7 +27,18 @@
   transition: all var(--t-medium);
 
   /* Hover state - Disabled per issue requirement to keep UI cleaner */
-  /* No hover effects applied */
+  /* Hover state */
+  &:hover {
+    background: var(--primary-bg-hover);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
+    transform: none;
+  }
+
+  /* Prevent transform when menu is open to avoid stacking context issues */
+  &:has(.burger-menu.active):hover {
+    transform: none;
+  }
 }
 
 /* Title heading with gradient text effect */
