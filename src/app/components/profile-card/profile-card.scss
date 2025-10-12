@@ -7,6 +7,7 @@
   /* Positioning */
   position: relative;
   overflow: visible;
+  z-index: 10;
 
   /* Box Model */
   width: 100%;
@@ -26,7 +27,6 @@
   /* Misc */
   transition: all var(--t-medium);
 
-  /* Hover state - Disabled per issue requirement to keep UI cleaner */
   /* Hover state */
   &:hover {
     background: var(--primary-bg-hover);
