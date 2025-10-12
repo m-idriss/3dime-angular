@@ -683,7 +683,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 👨‍💻 Author
 
-**Idriss Mohamed** - Portfolio Developer
+**Idriss Mohamady** - Portfolio Developer
 
 - 🌐 Website: [3dime.com](https://3dime.com)
 - 💼 LinkedIn: [linkedin.com/in/i-mohamady](https://www.linkedin.com/in/i-mohamady/)
