@@ -12,7 +12,7 @@
 [![Angular](https://img.shields.io/badge/Angular-20.2-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
-[![PWA Ready](https://img.shields.io/badge/PWA-Ready-9C27B0?style=for-the-badge)](public/manifest.json)
+[![PWA Ready](https://img.shields.io/badge/PWA-Ready-9C27B0?style=for-the-badge)](public/assets/manifest.json)
 
 ---
 
