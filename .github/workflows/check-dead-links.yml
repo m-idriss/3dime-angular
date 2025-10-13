@@ -38,7 +38,6 @@ jobs:
             --accept 200,201,202,203,204,300,301,302,303,304,307,308,429
             --timeout 10
             --retry-wait-time 2
-            --exclude-mail
             --exclude-private
             --exclude-link-local
             --user-agent "Mozilla/5.0 (compatible; converter-link-checker/1.0)"
