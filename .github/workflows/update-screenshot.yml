@@ -37,7 +37,9 @@ jobs:
           cd dist/3dime-angular/browser
           serve -s . -l 4200 &
           echo "Waiting for server to start..."
-          sleep 5
+          sleep 10
+          echo "Server should be ready now"
+          curl -s -o /dev/null -w "%{http_code}" http://localhost:4200 || echo "Server not responding yet"
 
       - name: Install puppeteer-headful
         uses: mujo-code/puppeteer-headful@master
@@ -50,15 +52,45 @@ jobs:
           url: http://localhost:4200
           devices: iPhone 13 Pro Max
           noCommitHashFileName: true
-          waitUntil: networkidle2
-          waitForSelector: 'section[aria-label="contact"]'
-          waitForSelectorTimeout: 60000
+          # networkidle0: Wait for all network connections to finish (stricter than networkidle2)
+          # This ensures all external resources (Font Awesome, d3.js, etc.) are loaded
+          waitUntil: networkidle0
+          # app-contact is the last component in the layout, ensuring full page render
+          waitForSelector: 'app-contact'
+          # Extended timeout to allow for Angular bootstrap and API calls
+          waitForSelectorTimeout: 90000
 
       - name: Crop mobile screenshot
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick
           convert screenshots/iPhone_13_Pro_Max.jpeg -crop 1284x2200+0+0 screenshots/iPhone_13_Pro_Max.jpeg
+
+      - name: Verify screenshots have content
+        run: |
+          echo "Checking desktop screenshot..."
+          identify -verbose screenshots/desktopPage1920x1080.jpeg | grep -E "Geometry|Format"
+          
+          echo "Checking mobile screenshot..."
+          identify -verbose screenshots/iPhone_13_Pro_Max.jpeg | grep -E "Geometry|Format"
+          
+          # Check file sizes to ensure they're not just empty/background images
+          DESKTOP_SIZE=$(stat -f%z screenshots/desktopPage1920x1080.jpeg 2>/dev/null || stat -c%s screenshots/desktopPage1920x1080.jpeg)
+          MOBILE_SIZE=$(stat -f%z screenshots/iPhone_13_Pro_Max.jpeg 2>/dev/null || stat -c%s screenshots/iPhone_13_Pro_Max.jpeg)
+          
+          echo "Desktop screenshot size: $DESKTOP_SIZE bytes"
+          echo "Mobile screenshot size: $MOBILE_SIZE bytes"
+          
+          # Minimum expected size (screenshots with content should be > 50KB)
+          if [ $DESKTOP_SIZE -lt 51200 ]; then
+            echo "WARNING: Desktop screenshot seems too small (< 50KB), might be empty"
+          fi
+          
+          if [ $MOBILE_SIZE -lt 51200 ]; then
+            echo "WARNING: Mobile screenshot seems too small (< 50KB), might be empty"
+          fi
+          
+          echo "Screenshots verified successfully"
 
       - name: Move screenshots into public/assets/screenshots
         run: |
