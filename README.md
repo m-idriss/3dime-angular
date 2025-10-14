@@ -185,6 +185,30 @@ The build process takes ~8-10 seconds and generates optimized, production-ready 
 
 ## ⚙️ Configuration
 
+### Environment Configuration
+
+The application uses `.env` files for environment configuration. See the [complete environment configuration guide](docs/ENV_CONFIGURATION.md) for detailed instructions.
+
+**Quick Start:**
+```bash
+# Copy example file
+cp .env.example .env
+
+# Edit with your configuration
+nano .env
+
+# Start development (auto-generates environment files)
+npm start
+```
+
+For detailed information on:
+- Available environment variables
+- CI/CD integration
+- Security best practices
+- Troubleshooting
+
+See [docs/ENV_CONFIGURATION.md](docs/ENV_CONFIGURATION.md)
+
 ### Content Customization
 
 Update your personal information in the component files:
