@@ -70,7 +70,8 @@ sleep 5  # Server startup
 waitForSelectorTimeout: 60000  # 60 seconds
 
 # After
-sleep 10  # Server startup
+sleep 10  # Server startup with health check
+curl -s -o /dev/null -w "%{http_code}" http://localhost:4200 || echo "Server not responding yet"
 waitForSelectorTimeout: 90000  # 90 seconds
 ```
 
@@ -83,8 +84,8 @@ waitForSelectorTimeout: 90000  # 90 seconds
 ### 4. Added Health Checks
 
 ```bash
-# Server health check after startup
-curl -s -o /dev/null -w "%{http_code}" http://localhost:4200
+# Server health check after startup (in workflow)
+curl -s -o /dev/null -w "%{http_code}" http://localhost:4200 || echo "Server not responding yet"
 
 # Screenshot size validation
 if [ $DESKTOP_SIZE -lt 51200 ]; then
