@@ -130,16 +130,16 @@ NG_FIREBASE_API_KEY=prod_key npm run build:prod
 
 **GitHub Actions:**
 ```yaml
-- name: Build for production
-  env:
-    NG_API_URL: https://api.3dime.com
-    NG_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-    NG_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
-    NG_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
-    NG_FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
-    NG_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
-    NG_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-  run: npm run build:prod
+  - name: Build for production
+    env:
+      NG_API_URL: https://api.3dime.com
+      NG_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      NG_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      NG_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+      NG_FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+      NG_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+      NG_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+    run: npm run build:prod
 ```
 
 **Netlify / Vercel:**
@@ -281,7 +281,7 @@ node scripts/generate-env.js --production
 
 ## Additional Resources
 
-- [.env.example](.env.example) - Template with all available variables
-- [scripts/README.md](scripts/README.md) - Technical documentation for generate-env.js
-- [SECURITY.md](SECURITY.md) - Security best practices
-- [docs/FIREBASE_AUTH_SETUP.md](docs/FIREBASE_AUTH_SETUP.md) - Firebase setup guide
+- [../.env.example](../.env.example) - Template with all available variables
+- [../scripts/README.md](../scripts/README.md) - Technical documentation for generate-env.js
+- [../SECURITY.md](../SECURITY.md) - Security best practices
+- [FIREBASE_AUTH_SETUP.md](FIREBASE_AUTH_SETUP.md) - Firebase setup guide
