@@ -273,9 +273,11 @@ If screenshots still show only background:
 
 ## Conclusion
 
-The fix addresses **two root causes**:
-1. **Critical**: Firebase initialization crash when credentials invalid/missing (app wouldn't render at all)
-2. **Important**: API call timeouts causing components to hang in loading state
+The fix addresses **three distinct problem areas**:
+
+1. **Critical - Firebase Initialization Crash**: Invalid/missing credentials caused app to crash during bootstrap (prevented any rendering)
+2. **Critical - API Timeout Loops**: Blocked API calls caused components to hang in loading state forever (prevented `app-contact` from appearing)
+3. **Important - Workflow Timing**: Insufficient waits and no retry logic (caused premature screenshot capture)
 
 Changes span multiple files:
 - **app.config.ts**: Optional Firebase initialization with validation
