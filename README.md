@@ -289,30 +289,78 @@ See the [complete setup guide](docs/FIREBASE_AUTH_SETUP.md) for step-by-step ins
 
 ### Environment Configuration
 
-The application uses environment files for configuration:
-- `src/environments/environment.ts` - Development environment
-- `src/environments/environment.prod.ts` - Production environment
+The application uses `.env` files for environment configuration, which are auto-generated into TypeScript files at build time.
+
+**Configuration Files:**
+- `.env.example` - Template with all available environment variables
+- `.env` - Your local configuration (not committed to git)
+- `.env.local` - Optional local overrides (not committed to git)
+- `src/environments/environment.ts` - Auto-generated development config
+- `src/environments/environment.prod.ts` - Auto-generated production config
 
 **Important Security Notes:**
 
 ⚠️ **Never commit secrets, API keys, or credentials to the repository!**
 
+#### Quick Start
+
+1. **Copy the example file:**
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Edit `.env` with your configuration:**
+   ```bash
+   # Angular Application Configuration
+   NG_API_URL=https://api.3dime.com
+   
+   # Firebase Configuration (get from Firebase Console)
+   NG_FIREBASE_API_KEY=your_firebase_api_key_here
+   NG_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+   NG_FIREBASE_PROJECT_ID=your-project-id
+   NG_FIREBASE_STORAGE_BUCKET=your-project.firebasestorage.app
+   NG_FIREBASE_MESSAGING_SENDER_ID=123456789
+   NG_FIREBASE_APP_ID=1:123456789:web:abc123def456
+   ```
+
+3. **Build or start the app:**
+   ```bash
+   npm start              # Auto-generates environment.ts from .env
+   npm run build          # Auto-generates and builds
+   npm run build:prod     # Auto-generates environment.prod.ts
+   ```
+
+The environment files are automatically generated before each build. **Do not edit** `environment.ts` or `environment.prod.ts` manually - your changes will be overwritten!
+
 #### Best Practices
 
 1. **For Development:**
-   - Use example files as templates (`environment.example.ts`)
-   - Configure actual environment files locally
-   - Keep sensitive data in environment variables or secure storage
+   - Copy `.env.example` to `.env` and configure locally
+   - Use `.env.local` for personal overrides (gitignored)
+   - Environment files are auto-generated - never edit them manually
 
 2. **For Production:**
-   - Use platform-specific environment configuration (Netlify, Vercel, etc.)
-   - Use Firebase Hosting environment configuration for Firebase deployments
-   - Restrict API keys to specific domains in service provider consoles
+   - Use platform-specific environment variables (Netlify, Vercel, GitHub Actions)
+   - Set `NG_*` environment variables in your deployment platform
+   - Run `npm run build:prod` which reads from environment variables
 
 3. **API Key Security:**
    - Firebase API keys can be restricted in Google Cloud Console
    - Enable only the APIs you need
    - Set domain restrictions to prevent unauthorized use
+
+#### CI/CD Integration
+
+For GitHub Actions and CI/CD pipelines, set environment variables:
+
+```yaml
+# Example: GitHub Actions workflow
+env:
+  NG_API_URL: https://api.3dime.com
+  NG_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+  NG_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+  # ... other environment variables
+```
 
 #### Secret Management
 

@@ -56,54 +56,71 @@ const firebaseConfig = {
 
 ## Application Configuration
 
-### Update Environment Files
+### Configure Environment Variables
 
-Update your environment configuration files with the Firebase config:
+The application uses `.env` files for configuration. Follow these steps:
 
-**`src/environments/environment.ts`** (Development)
+1. **Copy the example file:**
+   ```bash
+   cp .env.example .env
+   ```
 
-```typescript
-export const environment = {
-  production: false,
-  apiUrl: 'https://api.3dime.com',
-  firebase: {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'your-project-id.firebaseapp.com',
-    projectId: 'your-project-id',
-    storageBucket: 'your-project-id.firebasestorage.app',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    appId: 'YOUR_APP_ID',
-  },
-};
+2. **Edit `.env` with your Firebase configuration:**
+
+   ```bash
+   # Firebase Configuration (from Firebase Console)
+   NG_FIREBASE_API_KEY=AIzaSyC...
+   NG_FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com
+   NG_FIREBASE_PROJECT_ID=your-project-id
+   NG_FIREBASE_STORAGE_BUCKET=your-project-id.firebasestorage.app
+   NG_FIREBASE_MESSAGING_SENDER_ID=123456789
+   NG_FIREBASE_APP_ID=1:123456789:web:abc123def456
+   ```
+
+3. **Build or start the application:**
+   ```bash
+   npm start              # Auto-generates environment files from .env
+   npm run build          # Builds with development config
+   npm run build:prod     # Builds with production config
+   ```
+
+The environment TypeScript files (`src/environments/environment.ts` and `environment.prod.ts`) are automatically generated from your `.env` file. **Do not edit them manually** - your changes will be overwritten.
+
+### Production Deployment
+
+For production environments, set environment variables in your hosting platform:
+
+**Netlify / Vercel:**
+- Go to Site Settings → Build & Deploy → Environment Variables
+- Add `NG_FIREBASE_*` variables with your production values
+
+**GitHub Actions:**
+```yaml
+env:
+  NG_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+  NG_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+  # ... other variables
 ```
 
-**`src/environments/environment.prod.ts`** (Production)
-
-```typescript
-export const environment = {
-  production: true,
-  apiUrl: 'https://api.3dime.com',
-  firebase: {
-    apiKey: 'YOUR_PRODUCTION_API_KEY',
-    authDomain: 'your-project-id.firebaseapp.com',
-    projectId: 'your-project-id',
-    storageBucket: 'your-project-id.firebasestorage.app',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    appId: 'YOUR_PRODUCTION_APP_ID',
-  },
-};
-```
+**Firebase Hosting:**
+- Environment variables are automatically available in the build process
+- Configure them in your Firebase project settings
 
 ### Security Notes
 
 ⚠️ **Important Security Considerations:**
 
-1. **Firebase API Keys are Safe for Client-Side Use**
+1. **Never Commit `.env` Files**
+   - The `.env` file is gitignored and should never be committed
+   - Use `.env.example` as a template (committed to git)
+   - Share secrets securely outside of version control
+
+2. **Firebase API Keys are Safe for Client-Side Use**
    - Firebase API keys for web apps are not secret
    - They identify your Firebase project to Google servers
    - Security is enforced by Firebase Security Rules and authorized domains
 
-2. **Restrict API Keys (Recommended)**
+3. **Restrict API Keys (Recommended)**
    - Go to Google Cloud Console → APIs & Services → Credentials
    - Find your API key
    - Click "Edit API key"
@@ -113,14 +130,9 @@ export const environment = {
      - Identity Toolkit API
      - Token Service API
 
-3. **Configure Authorized Domains**
+4. **Configure Authorized Domains**
    - Only whitelisted domains in Firebase Console can use authentication
    - This prevents unauthorized domains from using your Firebase project
-
-4. **Never Commit Secrets**
-   - While Firebase web config can be public, avoid committing it to Git if you prefer
-   - Use environment variables or secret management for production
-   - The example files have placeholder values
 
 ## Testing Authentication
 

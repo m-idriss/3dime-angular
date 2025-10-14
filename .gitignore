@@ -46,5 +46,10 @@ Thumbs.db
 # Actual environment files should be configured per deployment
 src/environments/environment.local.ts
 
+# .env files (use .env.example as template)
+.env
+.env.local
+.env.*.local
+
 # Firebase logs
 firebase-debug.log

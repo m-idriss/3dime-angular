@@ -32,21 +32,41 @@ We will acknowledge your report within 2 business days and provide updates at le
 
 #### Environment Configuration
 
-This project uses environment files for configuration:
-- `src/environments/environment.ts` - Development configuration
-- `src/environments/environment.prod.ts` - Production configuration
+This project uses `.env` files for environment configuration, which are auto-generated into TypeScript files:
+
+**Configuration Files:**
+- `.env.example` - Template with all available environment variables (committed to git)
+- `.env` and `.env.local` - Your local configuration (gitignored, never committed)
+- `src/environments/environment.ts` - Auto-generated from `.env` (tracked in git with defaults)
+- `src/environments/environment.prod.ts` - Auto-generated from `.env` (tracked in git with defaults)
 
 **Important:**
-- These files are tracked in git and should NOT contain sensitive information
-- Use environment variables or secure secret management for production deployments
-- Example files are provided: `environment.example.ts` and `environment.prod.example.ts`
+- `.env` and `.env.local` files are gitignored and will NOT be committed
+- Environment TypeScript files are auto-generated - do not edit them manually
+- Use `.env.example` as a template for your local `.env` file
+- For production, set environment variables in your deployment platform
+
+**Setup:**
+1. Copy `.env.example` to `.env`
+2. Configure your secrets in `.env`
+3. Run `npm start` or `npm run build` - environment files are auto-generated
 
 #### Firebase Configuration
 
-If you need to add Firebase configuration in the future:
+Configure Firebase in your `.env` file:
 
-1. **For local development**: Use environment variables
-2. **For production**: Use Firebase Hosting environment configuration or secure secret management
+```bash
+NG_FIREBASE_API_KEY=your_api_key_here
+NG_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+NG_FIREBASE_PROJECT_ID=your-project-id
+NG_FIREBASE_STORAGE_BUCKET=your-project.firebasestorage.app
+NG_FIREBASE_MESSAGING_SENDER_ID=123456789
+NG_FIREBASE_APP_ID=1:123456789:web:abc123def456
+```
+
+**Security Best Practices:**
+1. **For local development**: Configure `.env` file locally (gitignored)
+2. **For production**: Set `NG_*` environment variables in your hosting platform
 3. **Firebase API keys** can be restricted in the Firebase Console:
    - Go to Google Cloud Console → Credentials
    - Restrict the API key to specific domains
