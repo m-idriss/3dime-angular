@@ -110,9 +110,18 @@ export class GithubActivity implements AfterViewInit {
         [
           Tooltip,
           {
-            text: (timestamp: number, value: number, dayjsDate: any) =>
-              `${value ?? 0} commits on ${dayjsDate.format('LL')}`,
-          },
+           text: (_timestamp: number, value: number, dayjsDate: any) => {
+             if (value === 0) {
+               return `No contributions on ${dayjsDate.format('LL')}`;
+             } else if (value === 1) {
+               return `1 contribution on ${dayjsDate.format('LL')}`;
+             } else if (value > 1) {
+               return `${value} contributions on ${dayjsDate.format('LL')}`;
+             } else {
+               return '';
+             }
+           },
+         },
         ],
       ],
     );
