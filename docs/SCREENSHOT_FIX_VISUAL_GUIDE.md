@@ -85,8 +85,8 @@ Workflow Steps (AFTER):
 + sleep 10                     ✅ More reliable
 + curl http://localhost:4200   ✅ Health check
 
-- waitForSelectorTimeout: 60000  ⏱️  60 seconds
-+ waitForSelectorTimeout: 90000  ✅ 90 seconds
+- waitForSelectorTimeout: 60000  ⏱️  60 seconds (60000ms)
++ waitForSelectorTimeout: 90000  ✅ 90 seconds (90000ms)
 ```
 
 ### Validation Added
@@ -166,7 +166,7 @@ if size < 50KB:
 ## Testing Checklist
 
 Manual Test via GitHub Actions:
-- [ ] Go to: Actions → 📸 Update Screenshots
+- [ ] Go to: Actions → Update Screenshots (📸 emoji icon)
 - [ ] Click: Run workflow
 - [ ] Wait: ~2-3 minutes for completion
 - [ ] Check: PR created with new screenshots
