@@ -88,18 +88,10 @@ export class GithubActivity implements AfterViewInit {
         },
         range: this.months,
         scale: {
-          color: {
-            range: [
-              'rgba(0, 50, 0, 0)',
-              'rgba(0, 50, 0, 0.05)',
-              'rgba(0, 100, 0, 0.25)',
-              'rgba(0, 100, 0, 0.5)',
-              'rgba(0, 100, 0, 0.75)',
-              'rgba(0, 100, 0, 1)',
-            ],
-            interpolate: 'hsl',
+          opacity: {
+            baseColor: '#276302',
             type: 'linear',
-            domain: [-1, 0, 3, 5, 10, 20],
+            domain: [-1, 30],
           },
         },
       },
