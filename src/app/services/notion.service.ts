@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map, catchError, shareReplay } from 'rxjs/operators';
+import { map, catchError, shareReplay, timeout } from 'rxjs/operators';
 
 import { LinkItem } from '../models';
 import { environment } from '../../environments/environment';
+
+/**
+ * Timeout for API calls in milliseconds.
+ * Ensures components don't hang indefinitely waiting for API responses.
+ * This is critical for screenshot workflows and CI environments where APIs might be blocked.
+ */
+const API_TIMEOUT_MS = 10000; // 10 seconds
 
 /**
  * Service for fetching data from Notion API.
@@ -41,12 +48,14 @@ export class NotionService {
    * Fetch all data from Notion API.
    * Makes a single API call and caches the result.
    * Populates all category arrays (stuffs, experiences, educations, hobbies, techStacks).
+   * Includes timeout to prevent hanging in restrictive network environments.
    *
-   * @returns Observable that completes when data is loaded
+   * @returns Observable that completes when data is loaded (empty arrays on timeout/error)
    */
   fetchAll(): Observable<void> {
     if (!this.fetchAll$) {
       this.fetchAll$ = this.http.get<any>(`${this.baseUrl}?target=notion`).pipe(
+        timeout(API_TIMEOUT_MS),
         map((res) => {
           this.stuffs = res.stuff ?? [];
           this.experiences = res.experience ?? [];
@@ -55,7 +64,13 @@ export class NotionService {
           this.techStacks = res.tech_stack ?? [];
         }),
         catchError((err) => {
-          console.error('Error fetching data from Notion API', err);
+          console.warn('Notion API call failed or timed out:', err.message || err);
+          // Initialize with empty arrays on error to allow components to render
+          this.stuffs = [];
+          this.experiences = [];
+          this.educations = [];
+          this.hobbies = [];
+          this.techStacks = [];
           return of();
         }),
         shareReplay(1),
