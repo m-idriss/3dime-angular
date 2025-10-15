@@ -535,6 +535,12 @@
   }
 }
 
+.auth-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px; /* tu peux ajuster la valeur */
+}
+
 /* Auth Loading State */
 .auth-loading {
   /* Positioning */
