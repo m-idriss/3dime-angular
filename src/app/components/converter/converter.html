@@ -1,18 +1,13 @@
-<app-card id="converter" title="📅 Calendar Converter">
+<app-card id="converter" title="📅 Calendar Converter App">
   <!-- Auth Required Message (when not authenticated) -->
   @if (!isAuthLoading && !isAuthenticated) {
     <section class="auth-required" aria-labelledby="auth-heading">
       <div class="auth-message">
         <h3 id="auth-heading" class="sr-only">Authentication Required</h3>
         <p>
-          Upload images or PDF files containing event information, and our intelligent system will
-          automatically detect dates, times, locations, and event details to create downloadable
-          calendar files compatible with Google Calendar, Outlook, and Apple Calendar.
+          Upload or snap your appointments, and AI turns them into calendar-ready events.
         </p>
-        <p class="supported-formats">
-          <strong>Supported formats:</strong> JPG, PNG, PDF · <strong>Output:</strong> ICS Calendar
-          Files
-        </p>
+        <img src="/assets/images/converter.png" class="auth-image" />
       </div>
       <button class="sign-in-button" (click)="signIn()" aria-label="Sign in with Google to use converter">
         🔐 Sign in with Google
@@ -63,9 +58,9 @@
           @for (file of files(); track $index) {
             <div class="file-chip" role="listitem">
               <span>{{ file.name }}</span>
-              <button 
-                class="chip-remove" 
-                (click)="removeFile($index)" 
+              <button
+                class="chip-remove"
+                (click)="removeFile($index)"
                 [disabled]="isProcessing()"
                 [attr.aria-label]="'Remove ' + file.name"
               >
