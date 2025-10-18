@@ -40,15 +40,47 @@ export class Converter extends AuthAwareComponent implements OnInit {
   }
 
   private async handleSharedFiles(): Promise<void> {
-    // Check if the page was loaded with shared files (PWA share target)
-    const urlParams = new URLSearchParams(window.location.search);
+    // Handle files shared via PWA share target using launchQueue API
+    if ('launchQueue' in window) {
+      (window as any).launchQueue.setConsumer(async (launchParams: any) => {
+        if (!launchParams.files || launchParams.files.length === 0) {
+          return;
+        }
 
-    // For POST share target, files will be in FormData
-    if (window.location.pathname === '/' && urlParams.toString() === '') {
-      // Check for shared files in the request body (if any)
-      // This will be handled by the service worker
-      console.log('Checking for shared files via PWA share target');
+        try {
+          const sharedFiles: File[] = [];
+          
+          // Process each shared file
+          for (const fileHandle of launchParams.files) {
+            const file = await fileHandle.getFile();
+            sharedFiles.push(file);
+          }
+
+          if (sharedFiles.length > 0) {
+            // Add the shared files to the converter
+            this.addFiles(sharedFiles);
+            
+            // Scroll to converter section
+            this.scrollToConverter();
+            
+            console.log(`Received ${sharedFiles.length} file(s) via PWA share target`);
+          }
+        } catch (error) {
+          console.error('Error handling shared files:', error);
+          this.errorMessage.set('Failed to load shared files. Please try again.');
+        }
+      });
     }
+  }
+
+  private scrollToConverter(): void {
+    // Scroll to the converter component after a short delay to ensure rendering
+    setTimeout(() => {
+      const converterElement = document.getElementById('converter');
+      if (converterElement) {
+        converterElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 
   protected onDragOver(event: DragEvent): void {

@@ -51,7 +51,7 @@
       "name": "Calendar Converter",
       "short_name": "Convert",
       "description": "Convert images or PDFs to calendar events",
-      "url": "/converter",
+      "url": "/#converter",
       "icons": [
         {
           "src": "icons/icon-192.png",
@@ -62,7 +62,7 @@
     }
   ],
   "share_target": {
-    "action": "/converter",
+    "action": "/",
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {
