@@ -99,6 +99,8 @@ Long-press the app icon to access quick shortcuts:
 
 **Configuration**: `public/assets/manifest.json` - `shortcuts` array
 
+**⚠️ Browser Support**: App shortcuts are supported on Chrome (Android & Desktop) and Edge, but **not supported on iOS Safari**. On iPhone, long-pressing the app icon will only show system options (Edit Home Screen, Share, Remove).
+
 ### ✅ Update Notifications
 
 The app automatically detects new versions and prompts users to reload:
