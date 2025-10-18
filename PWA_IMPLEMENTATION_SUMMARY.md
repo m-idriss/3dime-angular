@@ -63,6 +63,8 @@ This PR successfully implements full Progressive Web App (PWA) functionality for
 }
 ```
 
+The shortcut uses a hash fragment to navigate directly to the converter section within the single-page application.
+
 **Share Target**
 ```json
 {
@@ -77,6 +79,8 @@ This PR successfully implements full Progressive Web App (PWA) functionality for
   }
 }
 ```
+
+When a file is shared from another app, the PWA receives it via the `launchQueue` API and automatically loads it into the Calendar Converter. The converter component handles the shared files and scrolls the view to the converter section for immediate user interaction.
 
 **Icons**
 - 16x16 (favicon)

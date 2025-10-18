@@ -60,13 +60,42 @@ Users can share images and PDFs from other apps directly to 3dime:
 }
 ```
 
-When a file is shared, it opens the app and navigates to the Calendar Converter section.
+When a file is shared, it opens the app and automatically loads the shared files into the Calendar Converter. The implementation uses the Web Share Target API with `launchQueue` to receive shared files:
+
+```typescript
+// In src/app/components/converter/converter.ts
+if ('launchQueue' in window) {
+  (window as any).launchQueue.setConsumer(async (launchParams: any) => {
+    if (launchParams.files && launchParams.files.length > 0) {
+      const sharedFiles: File[] = [];
+      for (const fileHandle of launchParams.files) {
+        const file = await fileHandle.getFile();
+        sharedFiles.push(file);
+      }
+      // Add files to converter and scroll to section
+      this.addFiles(sharedFiles);
+      this.scrollToConverter();
+    }
+  });
+}
+```
 
 ### ✅ App Shortcuts
 
 Long-press the app icon to access quick shortcuts:
 
-- **Calendar Converter**: Direct access to the file conversion tool
+- **Calendar Converter**: Direct access to the file conversion tool via `/#converter`
+
+```json
+"shortcuts": [
+  {
+    "name": "Calendar Converter",
+    "short_name": "Convert",
+    "description": "Convert images or PDFs to calendar events",
+    "url": "/#converter"
+  }
+]
+```
 
 **Configuration**: `public/assets/manifest.json` - `shortcuts` array
 
