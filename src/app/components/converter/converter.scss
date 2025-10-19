@@ -265,11 +265,11 @@
   .event-item {
     /* Positioning */
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    position: relative;
 
     /* Box Model */
-    padding: var(--space-sm) var(--space-md);
-    gap: var(--space-md);
+    gap: 0;
 
     /* Visual */
     background: var(--glass-bg);
@@ -278,19 +278,39 @@
 
     /* Misc */
     transition: all var(--t-fast);
-
-    /* Hover state */
-    &:hover {
-      background: var(--glass-bg);
-      transform: translateX(2px);
-    }
+    overflow: hidden;
 
     /* Editing state */
     &.editing {
-      flex-direction: column;
       padding: var(--space-md);
       background: var(--glass-bg-hover);
       border-color: var(--accent-color);
+    }
+
+    /* Show actions state */
+    &.show-actions {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Event card (clickable area) */
+    .event-card {
+      /* Positioning */
+      display: flex;
+      align-items: flex-start;
+
+      /* Box Model */
+      padding: var(--space-sm) var(--space-md);
+      gap: var(--space-md);
+
+      /* Misc */
+      cursor: pointer;
+      transition: all var(--t-fast);
+
+      /* Hover state */
+      &:hover {
+        background: var(--glass-bg-hover);
+      }
     }
 
     /* Date block */
@@ -408,28 +428,38 @@
       }
     }
 
-    /* Event actions (edit/delete buttons) */
-    .event-actions {
+    /* Event actions menu (shown on click) */
+    .event-actions-menu {
       /* Positioning */
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-xs);
 
       /* Box Model */
-      gap: 0.25rem;
-      flex-shrink: 0;
+      padding: var(--space-xs) var(--space-md);
+      border-top: 1px solid var(--glass-border);
 
-      .icon-button {
+      /* Visual */
+      background: var(--primary-bg);
+
+      .action-menu-button {
+        /* Positioning */
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+
         /* Box Model */
-        padding: 0.25rem 0.5rem;
+        padding: 0.4rem 0.8rem;
 
         /* Typography */
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+        font-weight: 500;
 
         /* Visual */
         background: transparent;
         border: 1px solid var(--glass-border);
         border-radius: var(--radius-sm);
+        color: var(--text-primary);
 
         /* Misc */
         cursor: pointer;
@@ -438,17 +468,18 @@
         /* Hover state */
         &:hover {
           background: var(--glass-bg-hover);
-          transform: scale(1.1);
         }
 
         /* Edit button variant */
         &.edit:hover {
           border-color: var(--accent-color);
+          color: var(--accent-color);
         }
 
         /* Delete button variant */
         &.delete:hover {
           border-color: var(--badge-color);
+          color: var(--badge-color);
         }
       }
     }
@@ -652,6 +683,8 @@
 
       /* Mobile edit form adjustments */
       &.editing {
+        padding: var(--space-sm);
+
         .event-edit-form {
           .form-row {
             grid-template-columns: 1fr;
@@ -663,9 +696,18 @@
         }
       }
 
-      .event-actions {
-        flex-direction: row;
-        gap: 0.5rem;
+      .event-card {
+        padding: var(--space-xs);
+      }
+
+      .event-actions-menu {
+        padding: var(--space-xs);
+        flex-direction: column;
+
+        .action-menu-button {
+          width: 100%;
+          justify-content: center;
+        }
       }
     }
   }
