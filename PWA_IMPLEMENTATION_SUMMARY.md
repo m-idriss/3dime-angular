@@ -63,6 +63,8 @@ This PR successfully implements full Progressive Web App (PWA) functionality for
 }
 ```
 
+The shortcut uses a hash fragment to navigate directly to the converter section within the single-page application.
+
 **Share Target**
 ```json
 {
@@ -77,6 +79,8 @@ This PR successfully implements full Progressive Web App (PWA) functionality for
   }
 }
 ```
+
+When a file is shared from another app, the PWA receives it via the `launchQueue` API and automatically loads it into the Calendar Converter. The converter component handles the shared files and scrolls the view to the converter section for immediate user interaction.
 
 **Icons**
 - 16x16 (favicon)
@@ -184,6 +188,8 @@ styles-MG5UJVOT.css   | styles        | 12.50 kB |                 2.71 kB
 2. Select "Calendar Converter"
 3. App opens directly to converter
 
+**Note**: This feature is only available on Chrome (Android/Desktop) and Edge. iOS Safari does not support PWA shortcuts.
+
 ### Share from Other Apps
 1. Open Photos/Gallery
 2. Select an image
@@ -208,8 +214,8 @@ styles-MG5UJVOT.css   | styles        | 12.50 kB |                 2.71 kB
 |---------|--------------|----------------|--------------|-----------|
 | Chrome (Android) | ✅ | ✅ | ✅ | ✅ |
 | Chrome (Desktop) | ✅ | ✅ | ✅ | ✅ |
-| Safari (iOS) | ✅ | ✅ | ❌ | ✅ |
-| Safari (macOS) | ✅ | ✅ | ❌ | ✅ |
+| Safari (iOS) | ✅ | ✅ | ❌ | ❌ |
+| Safari (macOS) | ✅ | ✅ | ❌ | ❌ |
 | Edge (Desktop) | ✅ | ✅ | ✅ | ✅ |
 | Firefox | ⚠️ Limited | ⚠️ Limited | ❌ | ❌ |
 
