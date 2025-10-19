@@ -93,33 +93,122 @@
       </div>
     }
 
-    <!-- Extracted Events - Apple Calendar Style -->
+    <!-- Extracted Events - Apple Calendar Style with Editing -->
     @if (extractedEvents().length > 0) {
       <section class="events-list" aria-labelledby="events-heading">
         <h3 id="events-heading" class="sr-only">Extracted Calendar Events</h3>
         @for (event of extractedEvents(); track $index) {
-          <article class="event-item link" [attr.aria-label]="'Event: ' + event.summary">
-            <div class="event-date" aria-hidden="true">
-              <div class="date-block">
-                <span [innerHTML]="getMonthDay(event.start)"></span>
-              </div>
-            </div>
-            <div class="event-details">
-              <div class="event-content">
-                <h4 class="event-title">{{ event.summary }}</h4>
-                <div class="event-location">
-                  @if (event.location) {
-                    <span aria-label="Location">📍 {{ event.location }}</span>
-                  }
+          <article class="event-item" [class.editing]="event.isEditing" [class.show-actions]="event.showActions" [attr.aria-label]="'Event: ' + event.summary">
+            <!-- View Mode -->
+            @if (!event.isEditing) {
+              <div class="event-card" (click)="toggleEventActions($index)">
+                <div class="event-date" aria-hidden="true">
+                  <div class="date-block">
+                    <span [innerHTML]="getMonthDay(event.start)"></span>
+                  </div>
+                </div>
+                <div class="event-details">
+                  <div class="event-content">
+                    <h4 class="event-title">{{ event.summary }}</h4>
+                    <div class="event-location">
+                      @if (event.location) {
+                        <span aria-label="Location">📍 {{ event.location }}</span>
+                      }
+                    </div>
+                  </div>
+                  <div class="event-times">
+                    <time class="event-time" [attr.datetime]="event.start">{{ getTime(event.start) }}</time>
+                    @if (event.end && getTime(event.end)) {
+                      <time class="event-time-end" [attr.datetime]="event.end">{{ getTime(event.end) }}</time>
+                    }
+                  </div>
                 </div>
               </div>
-              <div class="event-times">
-                <time class="event-time" [attr.datetime]="event.start">{{ getTime(event.start) }}</time>
-                @if (event.end && getTime(event.end)) {
-                  <time class="event-time-end" [attr.datetime]="event.end">{{ getTime(event.end) }}</time>
-                }
+              <!-- Action Menu (shown on click) -->
+              @if (event.showActions) {
+                <div class="event-actions-menu" (click)="$event.stopPropagation()">
+                  <button class="action-menu-button edit" (click)="editEvent($index)" aria-label="Edit event">
+                    ✏️ Edit
+                  </button>
+                  <button class="action-menu-button delete" (click)="deleteEvent($index)" aria-label="Delete event">
+                    🗑️ Delete
+                  </button>
+                </div>
+              }
+            }
+
+            <!-- Edit Mode -->
+            @if (event.isEditing) {
+              <div class="event-edit-form">
+                <div class="form-group">
+                  <label for="summary-{{$index}}">Event Title</label>
+                  <input
+                    id="summary-{{$index}}"
+                    type="text"
+                    class="form-input"
+                    [value]="event.summary"
+                    (input)="updateEventField($index, 'summary', $any($event.target).value)"
+                    placeholder="Event title"
+                  />
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="start-{{$index}}">Start</label>
+                    <input
+                      id="start-{{$index}}"
+                      type="datetime-local"
+                      class="form-input"
+                      [value]="formatDateForInput(event.start)"
+                      (input)="updateEventField($index, 'start', parseDateFromInput($any($event.target).value))"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="end-{{$index}}">End</label>
+                    <input
+                      id="end-{{$index}}"
+                      type="datetime-local"
+                      class="form-input"
+                      [value]="formatDateForInput(event.end)"
+                      (input)="updateEventField($index, 'end', parseDateFromInput($any($event.target).value))"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="location-{{$index}}">Location</label>
+                  <input
+                    id="location-{{$index}}"
+                    type="text"
+                    class="form-input"
+                    [value]="event.location || ''"
+                    (input)="updateEventField($index, 'location', $any($event.target).value)"
+                    placeholder="Event location (optional)"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="description-{{$index}}">Description</label>
+                  <textarea
+                    id="description-{{$index}}"
+                    class="form-input"
+                    rows="3"
+                    [value]="event.description || ''"
+                    (input)="updateEventField($index, 'description', $any($event.target).value)"
+                    placeholder="Event description (optional)"
+                  ></textarea>
+                </div>
+
+                <div class="form-actions">
+                  <button class="form-button save" (click)="saveEvent($index)" aria-label="Save changes">
+                    💾 Save
+                  </button>
+                  <button class="form-button cancel" (click)="cancelEdit($index)" aria-label="Cancel editing">
+                    ✕ Cancel
+                  </button>
+                </div>
               </div>
-            </div>
+            }
           </article>
         }
       </section>

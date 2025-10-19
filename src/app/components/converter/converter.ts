@@ -1,5 +1,6 @@
 import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import ICAL from '../../libs/ical-wrapper'; // ⚡ Wrapper to ensure parse() exists
 
 import { ConverterService, FileData } from '../../services/converter';
@@ -11,7 +12,7 @@ import { formatIcsDate, getMonthDay, getTime } from '../../utils';
 
 @Component({
   selector: 'app-converter',
-  imports: [Card],
+  imports: [Card, FormsModule],
   templateUrl: './converter.html',
   styleUrl: './converter.scss',
 })
@@ -253,5 +254,126 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected getTime(dateStr: string | Date): string {
     const date = typeof dateStr === 'string' ? new Date(dateStr) : dateStr;
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+  }
+
+  // ⚡ Event editing methods
+  protected toggleEventActions(index: number): void {
+    this.extractedEvents.update((events) =>
+      events.map((event, i) => ({
+        ...event,
+        showActions: i === index ? !event.showActions : false,
+      }))
+    );
+  }
+
+  protected editEvent(index: number): void {
+    this.extractedEvents.update((events) =>
+      events.map((event, i) => ({
+        ...event,
+        isEditing: i === index,
+        showActions: false, // Hide actions menu when editing
+      }))
+    );
+  }
+
+  protected saveEvent(index: number): void {
+    this.extractedEvents.update((events) =>
+      events.map((event, i) => ({
+        ...event,
+        isEditing: i === index ? false : event.isEditing,
+        showActions: false,
+      }))
+    );
+    // Regenerate ICS content with edited events
+    this.regenerateIcsContent();
+  }
+
+  protected cancelEdit(index: number): void {
+    this.extractedEvents.update((events) =>
+      events.map((event, i) => ({
+        ...event,
+        isEditing: i === index ? false : event.isEditing,
+        showActions: false,
+      }))
+    );
+  }
+
+  protected deleteEvent(index: number): void {
+    this.extractedEvents.update((events) => events.filter((_, i) => i !== index));
+    // Regenerate ICS content with remaining events
+    this.regenerateIcsContent();
+  }
+
+  protected updateEventField(index: number, field: keyof CalendarEvent, value: any): void {
+    this.extractedEvents.update((events) =>
+      events.map((event, i) =>
+        i === index
+          ? {
+              ...event,
+              [field]: value,
+            }
+          : event
+      )
+    );
+  }
+
+  // ⚡ Regenerate ICS content from edited events
+  private regenerateIcsContent(): void {
+    const events = this.extractedEvents();
+    if (events.length === 0) {
+      this.icsContent.set(null);
+      return;
+    }
+
+    // Generate ICS content manually
+    let icsContent = 'BEGIN:VCALENDAR\r\n';
+    icsContent += 'VERSION:2.0\r\n';
+    icsContent += 'PRODID:-//3dime Calendar Converter//EN\r\n';
+    icsContent += 'CALSCALE:GREGORIAN\r\n';
+
+    events.forEach((event) => {
+      icsContent += 'BEGIN:VEVENT\r\n';
+      icsContent += `UID:${Date.now()}-${Math.random().toString(36).substr(2, 9)}@3dime.com\r\n`;
+      icsContent += `DTSTAMP:${this.dateToIcsFormat(new Date())}\r\n`;
+      icsContent += `DTSTART:${this.dateToIcsFormat(event.start)}\r\n`;
+      icsContent += `DTEND:${this.dateToIcsFormat(event.end)}\r\n`;
+      icsContent += `SUMMARY:${event.summary}\r\n`;
+      if (event.description) {
+        icsContent += `DESCRIPTION:${event.description}\r\n`;
+      }
+      if (event.location) {
+        icsContent += `LOCATION:${event.location}\r\n`;
+      }
+      icsContent += 'END:VEVENT\r\n';
+    });
+
+    icsContent += 'END:VCALENDAR\r\n';
+    this.icsContent.set(icsContent);
+  }
+
+  // ⚡ Convert Date object or string to ICS format (YYYYMMDDTHHMMSSZ)
+  private dateToIcsFormat(date: string | Date): string {
+    const d = typeof date === 'string' ? new Date(date) : date;
+    const year = d.getUTCFullYear();
+    const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(d.getUTCDate()).padStart(2, '0');
+    const hour = String(d.getUTCHours()).padStart(2, '0');
+    const minute = String(d.getUTCMinutes()).padStart(2, '0');
+    const second = String(d.getUTCSeconds()).padStart(2, '0');
+    return `${year}${month}${day}T${hour}${minute}${second}Z`;
+  }
+
+  protected formatDateForInput(dateStr: string | Date): string {
+    const date = typeof dateStr === 'string' ? new Date(dateStr) : dateStr;
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
+  protected parseDateFromInput(dateStr: string): Date {
+    return new Date(dateStr);
   }
 }
