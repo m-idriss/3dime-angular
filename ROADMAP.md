@@ -103,7 +103,7 @@
 #### Technical Improvements
 - [ ] **Calendar Converter enhancements**
   - [ ] Batch processing of multiple files
-  - [ ] Event editing before download
+  - [x] Event editing before download
   - [ ] Multiple calendar format support (Google, Outlook)
   - [ ] OCR for handwritten calendar entries
 - [ ] **Image optimization**

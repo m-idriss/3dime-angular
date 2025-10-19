@@ -9,8 +9,12 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 - **📤 File Upload**: Drag-and-drop interface for images and PDF files
 - **📄 PDF Support**: Automatic conversion of PDF pages to images using PDF.js before processing
 - **🧠 Smart Parsing**: Automatic detection of dates, times, and event information using OpenAI GPT-4 Vision
+- **✏️ Event Editing**: Edit, modify, or delete extracted events before downloading
+  - Inline editing of event titles, times, locations, and descriptions
+  - Delete unwanted events
+  - Real-time ICS file regeneration
 - **📅 ICS Generation**: Creates downloadable calendar files with proper RFC 5545 formatting
-- **🔐 Firebase Integration**: Secure cloud function processing
+- **🔐 Firebase Integration**: Secure cloud function processing with Google authentication
 - **📱 Responsive Design**: Mobile-optimized interface with modern glassmorphism UI
 
 ## Architecture
@@ -46,14 +50,42 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 ### User Workflow
 
 1. Navigate to the converter section on the homepage
-2. Upload one or more images or PDF files:
+2. Sign in with Google (required for AI processing)
+3. Upload one or more images or PDF files:
    - Drag and drop files into the upload area, OR
-   - Click "Browse Files" to select files
-3. Review the uploaded files
-4. Click "Convert to ICS"
-5. Wait for processing (AI extraction takes 10-30 seconds)
-6. Download the generated ICS file
-7. Import the ICS file into your calendar application
+   - Click "Browse" to select files
+4. Review the uploaded files
+5. Click "Convert"
+6. Wait for processing (AI extraction takes 10-30 seconds)
+7. **Review and edit extracted events:**
+   - Click the edit button (✏️) on any event to modify its details
+   - Edit event title, start/end times, location, and description
+   - Click "Save" to apply changes or "Cancel" to discard
+   - Click the delete button (🗑️) to remove unwanted events
+8. Download the generated ICS file
+9. Import the ICS file into your calendar application
+
+### Event Editing Features
+
+After AI extraction, you can edit any event before downloading:
+
+#### Edit an Event
+1. Click the **edit button (✏️)** on the event card
+2. The event card expands into an edit form with the following fields:
+   - **Event Title**: Edit the summary/name of the event
+   - **Start Time**: Modify the start date and time (datetime-local picker)
+   - **End Time**: Modify the end date and time (datetime-local picker)
+   - **Location**: Add or change the event location (optional)
+   - **Description**: Add or modify event notes (optional)
+3. Click **Save (💾)** to apply your changes
+4. Click **Cancel (✕)** to discard changes and return to view mode
+
+#### Delete an Event
+1. Click the **delete button (🗑️)** on any event card
+2. The event is immediately removed from the list
+3. The ICS file is automatically regenerated without the deleted event
+
+**Note**: All changes are reflected in the generated ICS file when you click "Download Calendar". The ICS content is automatically regenerated whenever you save edits or delete events.
 
 ### Supported File Types
 
@@ -153,6 +185,41 @@ POST /converterFunction
 - `500`: Internal server error or OpenAI API failure
 
 ## Technical Details
+
+### Event Editing Implementation
+
+The event editing feature is implemented with inline editing:
+
+**State Management**:
+- Each `CalendarEvent` has an optional `isEditing` flag
+- Signals are used for reactive state updates (`extractedEvents` signal)
+- Only one event can be in edit mode at a time
+
+**Edit Operations**:
+- **Edit**: Sets the event's `isEditing` flag to `true`, expanding the card into a form
+- **Save**: Updates the event data and sets `isEditing` to `false`, triggers ICS regeneration
+- **Cancel**: Reverts to view mode without saving changes
+- **Delete**: Removes the event from the array, triggers ICS regeneration
+
+**ICS Regeneration**:
+- When events are modified or deleted, the ICS content is automatically regenerated
+- Uses the `dateToIcsFormat()` method to convert Date objects to ICS format (YYYYMMDDTHHMMSSZ)
+- Generates RFC 5545 compliant ICS content with updated VEVENT entries
+- Preserves all event properties (summary, start, end, location, description)
+
+**Form Inputs**:
+- Text inputs for title and location
+- `datetime-local` inputs for start/end times (native browser datetime picker)
+- Textarea for description
+- All inputs use two-way binding with the event data
+
+**UI/UX Features**:
+- Inline editing directly on the event card
+- Glassmorphism styling consistent with the app theme
+- Responsive design for mobile and desktop
+- Visual feedback when in edit mode (highlighted border, expanded card)
+- Icon buttons for edit/delete actions with hover effects
+- Accessibility support with ARIA labels
 
 ### PDF Processing
 
@@ -287,9 +354,7 @@ SCSS variables used:
 ## Future Enhancements
 
 - [ ] Support for more file formats (Word, Excel)
-- [ ] Preview extracted events before download
-- [ ] Edit events before generating ICS
-- [ ] Bulk processing with progress tracking
+- [ ] Batch processing with progress tracking
 - [ ] Support for recurring events
 - [ ] Multiple language support
 - [ ] OCR fallback if AI extraction fails
