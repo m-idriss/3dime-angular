@@ -12,3 +12,8 @@ interface BeforeInstallPromptEvent extends Event {
 interface WindowEventMap {
   beforeinstallprompt: BeforeInstallPromptEvent;
 }
+
+declare module 'ical.js' {
+  const ICAL: any;
+  export = ICAL;
+}

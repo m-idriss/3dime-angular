@@ -11,62 +11,55 @@ const allowedOrigins = [
 
 const corsHandler = cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl)
-    if (!origin) {
-      callback(null, true);
-      return;
-    }
-
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
+    if (!origin) return callback(null, true); // allow non-browser clients like curl
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error("Not allowed by CORS"));
   },
-  credentials: true
+  credentials: true,
 });
 
-/**
- * Firebase Function to convert images/PDF to ICS calendar files
- * Uses AI to extract calendar events from uploaded files
- */
 export const converterFunction = onRequest(
   {
     secrets: ["OPENAI_API_KEY"],
     maxInstances: 10,
     timeoutSeconds: 60,
-    memory: "256MiB"
+    memory: "256MiB",
   },
   (req, res) => {
     return corsHandler(req, res, async () => {
       try {
         if (req.method !== "POST") {
-          return res.status(405).json({ error: "Method not allowed. Use POST." });
+          return res.status(405).json({ error: "Use POST." });
         }
 
         const { files, timeZone, currentDate } = req.body;
-
-        if (!files || !Array.isArray(files) || files.length === 0) {
+        if (!files?.length) {
           return res.status(400).json({ error: "No files provided" });
         }
 
         const apiKey = process.env.OPENAI_API_KEY;
         if (!apiKey) {
-          return res.status(500).json({ error: "OpenAI API key not configured" });
+          return res.status(500).json({ error: "OpenAI API key not set" });
         }
 
-        // Get timezone and date
         const tz = timeZone || "UTC";
-        const today = currentDate || new Date().toISOString().split('T')[0];
+        const today = currentDate || new Date().toISOString().split("T")[0];
 
-        // Build prompt from environment or use default
-        const baseMessage = process.env.BASE_TEXT_MESSAGE ||
-          `Extract all calendar events from the following images and generate a valid ICS file. Use the time zone: ${tz}. Today is ${today}, calendar events may be around this. Include all required ICS fields like UID, DTSTAMP, DTSTART, DTEND, SUMMARY, DESCRIPTION, LOCATION, and TZID. Each image may contain multiple events for multiple dates (like column with row calendar), so capture all of them. Only output the ICS content. Do not add any extra text or formatting.`;
+        // Build base system and user messages
+        const baseMessage =
+          process.env.BASE_TEXT_MESSAGE ||
+          `Extract all calendar events from the following images and generate a valid ICS file.
+           Time zone: ${tz}. Today is ${today}.
+           Only output valid ICS (no markdown, comments, or extra text).`;
 
-        const systemPrompt = process.env.PROMPT ||
-          "You are a calendar extraction expert. Your task is to generate a complete ICS file from the provided images. Only output the raw ICS content. NEVER include explanations, comments, markdown, or any extra text. Ensure all ICS fields are correct and valid: UID, DTSTAMP, DTSTART, DTEND, SUMMARY, DESCRIPTION, LOCATION, and TZID when applicable. Always produce RFC-compliant ICS output.";
+        const systemPrompt =
+          process.env.PROMPT ||
+          "You are a calendar extraction expert. Generate RFC-compliant ICS only. \
+           Always include VERSION:2.0, UID, DTSTAMP, DTSTART, DTEND, SUMMARY, DESCRIPTION, LOCATION, TZID. \
+           Output ICS only, no extra text.";
 
-        // Call OpenAI Vision API
+        // ⚡ Use gpt-4o-mini for faster response and lower cost
+        // ⚡ Reduce max_tokens since ICS content is small
         const response = await fetch("https://api.openai.com/v1/chat/completions", {
           method: "POST",
           headers: {
@@ -106,48 +99,43 @@ export const converterFunction = onRequest(
           const errorData = await response.json();
           console.error("OpenAI API error:", errorData);
           return res.status(response.status).json({
-            error: "Failed to process images with AI",
-            details: errorData
+            error: "Failed to process images",
+            details: errorData,
           });
         }
 
-        const data = await response.json();
-        const icsContent = data.choices?.[0]?.message?.content;
+        let icsContent = (await response.json())?.choices?.[0]?.message?.content?.trim();
 
         if (!icsContent) {
-          return res.status(500).json({ error: "No ICS content generated" });
+          return res.status(500).json({ error: "No ICS generated" });
         }
 
-        // Clean up the ICS content (remove markdown code blocks if present)
-        let cleanedIcs = icsContent.trim();
-        cleanedIcs = cleanedIcs.replace(/```(?:ics)?\s*[\r\n]|```/gi, '');
-        cleanedIcs = cleanedIcs.trim();
+        // Remove potential markdown fences
+        icsContent = icsContent.replace(/```(?:ics)?\s*[\r\n]|```/gi, "").trim();
 
-
-        if (!isValidIcs(cleanedIcs)) {
+        if (!isValidIcs(icsContent)) {
           return res.status(200).json({
-            error: cleanedIcs,
-            message: "Generated ICS content is invalid",
-            success: false
+            success: false,
+            error: "Generated ICS is invalid",
+            icsContent,
           });
         }
 
-        return res.status(200).json({
-          icsContent: cleanedIcs,
-          success: true
-        });
-
+        return res.status(200).json({ success: true, icsContent });
       } catch (err: any) {
         console.error("Converter error:", err);
-        return res.status(500).json({
-          error: "Internal server error",
-          message: err.message
-        });
+        return res.status(500).json({ error: "Internal error", message: err.message });
       }
     });
   }
 );
 
+// ⚡ Improved ICS validation: check VERSION and at least one VEVENT
 function isValidIcs(ics: string): boolean {
-  return ics.startsWith("BEGIN:VCALENDAR") && ics.endsWith("END:VCALENDAR");
+  return (
+    ics.startsWith("BEGIN:VCALENDAR") &&
+    ics.includes("VERSION:2.0") &&
+    ics.includes("BEGIN:VEVENT") &&
+    ics.endsWith("END:VCALENDAR")
+  );
 }
