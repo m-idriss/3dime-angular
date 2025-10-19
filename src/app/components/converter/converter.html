@@ -115,11 +115,6 @@
                         <span aria-label="Location">📍 {{ event.location }}</span>
                       }
                     </div>
-                    @if (event.description) {
-                      <div class="event-description">
-                        <span>{{ event.description }}</span>
-                      </div>
-                    }
                   </div>
                   <div class="event-times">
                     <time class="event-time" [attr.datetime]="event.start">{{ getTime(event.start) }}</time>
