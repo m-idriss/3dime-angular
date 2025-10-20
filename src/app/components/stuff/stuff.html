@@ -1,19 +1,19 @@
 <app-card title="Stuff">
-  <p>Stuff I use and recommend.</p>
   @if (isLoading) {
-    <div class="loading-container" role="status" aria-live="polite">
-      <div class="spinner">
-        <div class="spinner-circle"></div>
-      </div>
-      <p>Loading stuff...</p>
+  <div class="loading-container" role="status" aria-live="polite">
+    <div class="spinner">
+      <div class="spinner-circle"></div>
     </div>
+    <p>Loading stuff...</p>
+  </div>
   } @else {
-    <nav aria-label="Recommended products and tools">
+  <p>Stuff I use and recommend.</p>
+  <nav aria-label="Recommended products and tools">
       @for (stuff of stuffs; track stuff.name) {
-        <a 
-          [href]="stuff.url" 
-          target="_blank" 
-          rel="noopener noreferrer" 
+        <a
+          [href]="stuff.url"
+          target="_blank"
+          rel="noopener noreferrer"
           class="link"
           [attr.aria-label]="'View ' + stuff.name"
         >
