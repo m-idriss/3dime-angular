@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { Card } from '../card/card';
 import { NotionAwareComponent } from '../base/notion-aware.component';
@@ -15,11 +16,11 @@ import { LinkItem } from '../../models';
 export class TechStack extends NotionAwareComponent {
   techStack: LinkItem[] = [];
 
-  protected override onDataLoaded(): void {
-    this.techStack = this.getItems();
+  protected getProgressiveItems(): Observable<LinkItem> {
+    return this.notionService.fetchTechStacksProgressively();
   }
 
-  protected getItems(): LinkItem[] {
-    return this.notionService.getTechStacks();
+  protected onItemLoaded(item: LinkItem): void {
+    this.techStack.push(item);
   }
 }

@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { Card } from '../card/card';
 import { NotionAwareComponent } from '../base/notion-aware.component';
@@ -15,11 +16,11 @@ import { LinkItem } from '../../models';
 export class Education extends NotionAwareComponent {
   education: LinkItem[] = [];
 
-  protected override onDataLoaded(): void {
-    this.education = this.getItems();
+  protected getProgressiveItems(): Observable<LinkItem> {
+    return this.notionService.fetchEducationsProgressively();
   }
 
-  protected getItems(): LinkItem[] {
-    return this.notionService.getEducations();
+  protected onItemLoaded(item: LinkItem): void {
+    this.education.push(item);
   }
 }
