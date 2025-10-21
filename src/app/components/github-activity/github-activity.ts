@@ -89,9 +89,9 @@ export class GithubActivity implements AfterViewInit {
         range: this.months,
         scale: {
           opacity: {
-            baseColor: '#276302',
+            baseColor: '#016b26',
             type: 'linear',
-            domain: [-1, 30],
+            domain: [-1, 20],
           },
         },
       },
