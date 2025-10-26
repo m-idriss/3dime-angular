@@ -17,7 +17,7 @@ const API_TIMEOUT_MS = 10000; // 10 seconds
  * Delay between progressive item emissions in milliseconds.
  * This creates a staggered effect where items appear one by one.
  */
-const PROGRESSIVE_DELAY_MS = 100; // 100ms between each item
+const PROGRESSIVE_DELAY_MS = 0; // 100ms between each item
 
 /**
  * Service for fetching data from Notion API.
