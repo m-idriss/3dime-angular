@@ -60,8 +60,7 @@ export class NotionService {
    * @returns Observable that completes when data is loaded (empty arrays on timeout/error)
    */
   fetchAll(): Observable<void> {
-    if (!this.fetchAll$) {
-      this.fetchAll$ = this.http.get<any>(`${this.baseUrl}?target=notion`).pipe(
+    this.fetchAll$ ??= this.http.get<any>(`${this.baseUrl}?target=notion`).pipe(
         timeout(API_TIMEOUT_MS),
         map((res) => {
           this.stuffs = res.stuff ?? [];
@@ -82,7 +81,6 @@ export class NotionService {
         }),
         shareReplay(1),
       );
-    }
     return this.fetchAll$;
   }
 
