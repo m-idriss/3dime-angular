@@ -1,28 +1,54 @@
-import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component, signal, OnInit, Inject, PLATFORM_ID, computed } from '@angular/core';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import ICAL from '../../libs/ical-wrapper'; // ⚡ Wrapper to ensure parse() exists
 
 import { ConverterService, FileData } from '../../services/converter';
 import { Card } from '../card/card';
 import { AuthAwareComponent } from '../base/auth-aware.component';
-import { CalendarEvent } from '../../models';
+import { CalendarEvent, BatchFile, BatchFileStatus } from '../../models';
 import { FILE_UPLOAD_CONSTRAINTS } from '../../constants';
 import { formatIcsDate, getMonthDay, getTime } from '../../utils';
 
 @Component({
   selector: 'app-converter',
-  imports: [Card, FormsModule],
+  imports: [Card, FormsModule, CommonModule],
   templateUrl: './converter.html',
   styleUrl: './converter.scss',
 })
 export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly files = signal<File[]>([]);
+  protected readonly batchFiles = signal<BatchFile[]>([]); // Batch processing state
   protected readonly isDragging = signal(false);
   protected readonly isProcessing = signal(false);
+  protected readonly isBatchMode = signal(false); // Toggle between batch and single processing
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
+
+  // Computed values for batch processing
+  protected readonly batchProgress = computed(() => {
+    const batch = this.batchFiles();
+    if (batch.length === 0) return 0;
+    const completed = batch.filter(
+      (f) => f.status === BatchFileStatus.SUCCESS || f.status === BatchFileStatus.ERROR
+    ).length;
+    return Math.round((completed / batch.length) * 100);
+  });
+
+  protected readonly batchStats = computed(() => {
+    const batch = this.batchFiles();
+    return {
+      total: batch.length,
+      success: batch.filter((f) => f.status === BatchFileStatus.SUCCESS).length,
+      error: batch.filter((f) => f.status === BatchFileStatus.ERROR).length,
+      processing: batch.filter((f) => f.status === BatchFileStatus.PROCESSING).length,
+      pending: batch.filter((f) => f.status === BatchFileStatus.PENDING).length,
+    };
+  });
+
+  // Expose BatchFileStatus enum to template
+  protected readonly BatchFileStatus = BatchFileStatus;
 
   private readonly acceptedTypes = FILE_UPLOAD_CONSTRAINTS.ACCEPTED_TYPES;
   private readonly maxFileSize = FILE_UPLOAD_CONSTRAINTS.MAX_FILE_SIZE;
@@ -130,6 +156,21 @@ export class Converter extends AuthAwareComponent implements OnInit {
       return;
     }
 
+    // Decide whether to use batch mode based on number of files
+    const shouldUseBatchMode = this.files().length > 1;
+    this.isBatchMode.set(shouldUseBatchMode);
+
+    if (shouldUseBatchMode) {
+      await this.convertBatch();
+    } else {
+      await this.convertSingle();
+    }
+  }
+
+  /**
+   * Convert all files in a single API call (original behavior for single file)
+   */
+  private async convertSingle(): Promise<void> {
     this.isProcessing.set(true);
     this.errorMessage.set(null);
     this.extractedEvents.set([]);
@@ -161,7 +202,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
         next: (response) => {
           if (response.success && response.icsContent) {
             this.icsContent.set(response.icsContent);
-            this.parseIcsContent(response.icsContent); // ⚡ Using ical.js wrapper
+            this.parseIcsContent(response.icsContent);
           } else {
             this.errorMessage.set(response.error || 'Failed to convert files.');
           }
@@ -175,6 +216,201 @@ export class Converter extends AuthAwareComponent implements OnInit {
     } catch (err) {
       this.errorMessage.set((err as Error).message || 'Failed to process files.');
       this.isProcessing.set(false);
+    }
+  }
+
+  /**
+   * Convert files one by one with progress tracking (batch mode)
+   */
+  private async convertBatch(): Promise<void> {
+    this.isProcessing.set(true);
+    this.errorMessage.set(null);
+    this.extractedEvents.set([]);
+    this.icsContent.set(null);
+
+    // Initialize batch state
+    const batchFiles: BatchFile[] = this.files().map((file) => ({
+      file,
+      status: BatchFileStatus.PENDING,
+      progress: 0,
+    }));
+    this.batchFiles.set(batchFiles);
+
+    // Process each file sequentially
+    for (let i = 0; i < batchFiles.length; i++) {
+      await this.processSingleBatchFile(i);
+    }
+
+    // Combine all successful results
+    this.combineResults();
+    this.isProcessing.set(false);
+  }
+
+  /**
+   * Process a single file in batch mode
+   */
+  private async processSingleBatchFile(index: number): Promise<void> {
+    const batchFile = this.batchFiles()[index];
+
+    // Update status to processing
+    this.batchFiles.update((files) =>
+      files.map((f, i) =>
+        i === index ? { ...f, status: BatchFileStatus.PROCESSING, progress: 10 } : f
+      )
+    );
+
+    try {
+      // Convert file to data URL or images (for PDF)
+      let fileDataArray: FileData[];
+
+      if (batchFile.file.type === 'application/pdf') {
+        this.batchFiles.update((files) =>
+          files.map((f, i) => (i === index ? { ...f, progress: 30 } : f))
+        );
+        const imageDataUrls = await this.converterService.pdfToImages(batchFile.file);
+        fileDataArray = imageDataUrls.map(
+          (dataUrl, pageIndex) =>
+            ({
+              dataUrl,
+              name: `${batchFile.file.name} (Page ${pageIndex + 1})`,
+              type: 'image/jpeg',
+            } as FileData)
+        );
+      } else {
+        const dataUrl = await this.converterService.fileToDataUrl(batchFile.file);
+        fileDataArray = [{ dataUrl, name: batchFile.file.name, type: batchFile.file.type } as FileData];
+      }
+
+      this.batchFiles.update((files) =>
+        files.map((f, i) => (i === index ? { ...f, progress: 50 } : f))
+      );
+
+      // Call API for this single file
+      await new Promise<void>((resolve, reject) => {
+        this.converterService.convertSingleFile(fileDataArray[0]).subscribe({
+          next: (response) => {
+            if (response.success && response.icsContent) {
+              // Parse events from ICS
+              const events = this.parseIcsContentToEvents(response.icsContent);
+
+              this.batchFiles.update((files) =>
+                files.map((f, i) =>
+                  i === index
+                    ? {
+                        ...f,
+                        status: BatchFileStatus.SUCCESS,
+                        progress: 100,
+                        icsContent: response.icsContent,
+                        events,
+                      }
+                    : f
+                )
+              );
+              resolve();
+            } else {
+              this.batchFiles.update((files) =>
+                files.map((f, i) =>
+                  i === index
+                    ? {
+                        ...f,
+                        status: BatchFileStatus.ERROR,
+                        progress: 100,
+                        error: response.error || 'Failed to convert file.',
+                      }
+                    : f
+                )
+              );
+              resolve();
+            }
+          },
+          error: (err) => {
+            this.batchFiles.update((files) =>
+              files.map((f, i) =>
+                i === index
+                  ? {
+                      ...f,
+                      status: BatchFileStatus.ERROR,
+                      progress: 100,
+                      error: err.error?.message || err.message || 'Conversion error.',
+                    }
+                  : f
+              )
+            );
+            resolve();
+          },
+        });
+      });
+    } catch (err) {
+      this.batchFiles.update((files) =>
+        files.map((f, i) =>
+          i === index
+            ? {
+                ...f,
+                status: BatchFileStatus.ERROR,
+                progress: 100,
+                error: (err as Error).message || 'Failed to process file.',
+              }
+            : f
+        )
+      );
+    }
+  }
+
+  /**
+   * Combine results from all batch files
+   */
+  private combineResults(): void {
+    const successfulFiles = this.batchFiles().filter((f) => f.status === BatchFileStatus.SUCCESS);
+
+    if (successfulFiles.length === 0) {
+      this.errorMessage.set('All files failed to process. Please try again.');
+      return;
+    }
+
+    // Combine all events
+    const allEvents: CalendarEvent[] = [];
+    successfulFiles.forEach((file) => {
+      if (file.events) {
+        allEvents.push(...file.events);
+      }
+    });
+
+    this.extractedEvents.set(allEvents);
+
+    // Generate combined ICS content
+    this.regenerateIcsContent();
+
+    // Show success message if some files failed
+    const failedCount = this.batchFiles().filter((f) => f.status === BatchFileStatus.ERROR).length;
+    if (failedCount > 0) {
+      this.errorMessage.set(
+        `${successfulFiles.length} file(s) processed successfully. ${failedCount} file(s) failed.`
+      );
+    }
+  }
+
+  /**
+   * Parse ICS content and return array of events (without updating state)
+   */
+  private parseIcsContentToEvents(icsContent: string): CalendarEvent[] {
+    try {
+      const jcalData = ICAL.parse(icsContent);
+      const calendar = new ICAL.Component(jcalData);
+      const vevents: any[] = calendar.getAllSubcomponents('vevent');
+
+      return vevents.map((vevent: any) => {
+        const eventComp = new ICAL.Event(vevent);
+        return {
+          summary: eventComp.summary,
+          description: eventComp.description,
+          location: eventComp.location,
+          start: eventComp.startDate.toJSDate(),
+          end: eventComp.endDate.toJSDate(),
+        };
+      });
+    } catch (error) {
+      console.error('Failed to parse ICS:', error);
+      return [];
     }
   }
 
@@ -210,11 +446,36 @@ export class Converter extends AuthAwareComponent implements OnInit {
 
   protected resetState(): void {
     this.files.set([]);
+    this.batchFiles.set([]);
     this.isDragging.set(false);
     this.isProcessing.set(false);
+    this.isBatchMode.set(false);
     this.errorMessage.set(null);
     this.extractedEvents.set([]);
     this.icsContent.set(null);
+  }
+
+  /**
+   * Retry a failed file in batch mode
+   */
+  protected async retryFile(index: number): Promise<void> {
+    const batchFile = this.batchFiles()[index];
+    if (batchFile.status !== BatchFileStatus.ERROR) return;
+
+    // Reset file status
+    this.batchFiles.update((files) =>
+      files.map((f, i) =>
+        i === index
+          ? { ...f, status: BatchFileStatus.PENDING, progress: 0, error: undefined }
+          : f
+      )
+    );
+
+    // Process the file
+    await this.processSingleBatchFile(index);
+
+    // Update combined results
+    this.combineResults();
   }
 
   // ⚡ Restore methods required by template

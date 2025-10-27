@@ -84,6 +84,20 @@ export class ConverterService {
   }
 
   /**
+   * Convert a single file to ICS calendar format (for batch processing)
+   * @param file Single file data (base64 encoded)
+   * @param timeZone Optional timezone (defaults to browser timezone)
+   * @param currentDate Optional current date (defaults to today)
+   */
+  convertSingleFile(
+    file: FileData,
+    timeZone?: string,
+    currentDate?: string,
+  ): Observable<ConversionResponse> {
+    return this.convertToIcs([file], timeZone, currentDate);
+  }
+
+  /**
    * Convert a File object to base64 data URL
    */
   fileToDataUrl(file: File): Promise<string> {
