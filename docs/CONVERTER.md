@@ -9,6 +9,13 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 - **📤 File Upload**: Drag-and-drop interface for images and PDF files
 - **📄 PDF Support**: Automatic conversion of PDF pages to images using PDF.js before processing
 - **🧠 Smart Parsing**: Automatic detection of dates, times, and event information using OpenAI GPT-4 Vision
+- **📦 Batch Processing**: Intelligent handling of multiple files with per-file progress tracking
+  - Automatic single vs. batch mode selection
+  - Sequential processing to avoid API rate limits
+  - Individual file status tracking (pending, processing, success, error)
+  - Progress indicators for each file
+  - Retry capability for failed files
+  - Robust error handling (failed files don't block others)
 - **✏️ Event Editing**: Edit, modify, or delete extracted events before downloading
   - Inline editing of event titles, times, locations, and descriptions
   - Delete unwanted events
@@ -56,13 +63,17 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
    - Click "Browse" to select files
 4. Review the uploaded files
 5. Click "Convert"
-6. Wait for processing (AI extraction takes 10-30 seconds)
+6. **Batch Processing (2+ files)**:
+   - Watch real-time progress for each file
+   - See status indicators: ⏳ Pending, 🔄 Processing, ✅ Success, ❌ Error
+   - View extraction results per file (event count)
+   - Retry failed files individually
 7. **Review and edit extracted events:**
    - Click the edit button (✏️) on any event to modify its details
    - Edit event title, start/end times, location, and description
    - Click "Save" to apply changes or "Cancel" to discard
    - Click the delete button (🗑️) to remove unwanted events
-8. Download the generated ICS file
+8. Download the generated ICS file (combines all successful files)
 9. Import the ICS file into your calendar application
 
 ### Event Editing Features
@@ -185,6 +196,40 @@ POST /converterFunction
 - `500`: Internal server error or OpenAI API failure
 
 ## Technical Details
+
+### Batch Processing Implementation
+
+The batch processing feature intelligently handles multiple file uploads:
+
+**Processing Modes**:
+- **Single File Mode**: Original behavior - all files processed in one API call (faster for single files)
+- **Batch Mode**: Sequential processing with progress tracking (activated for 2+ files)
+
+**State Management**:
+- `BatchFile` model tracks each file's status, progress, error messages, and results
+- `BatchFileStatus` enum: `PENDING`, `PROCESSING`, `SUCCESS`, `ERROR`
+- Signals are used for reactive state updates
+- Computed values for batch statistics (total, success, error counts)
+
+**Processing Flow**:
+1. Files are initialized with `PENDING` status
+2. Each file is processed sequentially (prevents API rate limits)
+3. PDF files are converted to images before processing
+4. Progress is updated at key stages (10%, 30%, 50%, 100%)
+5. Results are combined from all successful files
+
+**Error Handling**:
+- Failed files don't block other files from processing
+- Individual error messages stored per file
+- Retry button available for failed files
+- Summary message shows success/failure counts
+
+**UI Features**:
+- Batch progress bar showing overall completion
+- Per-file status indicators with icons
+- Events count display for successful files
+- Retry buttons for failed files
+- Glassmorphism styling consistent with app theme
 
 ### Event Editing Implementation
 
@@ -354,7 +399,7 @@ SCSS variables used:
 ## Future Enhancements
 
 - [ ] Support for more file formats (Word, Excel)
-- [ ] Batch processing with progress tracking
+- [x] **Batch processing with progress tracking** ✅ (Completed Oct 2025)
 - [ ] Support for recurring events
 - [ ] Multiple language support
 - [ ] OCR fallback if AI extraction fails
