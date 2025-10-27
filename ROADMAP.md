@@ -126,8 +126,8 @@
   - [ ] HTTPS enforcement in production
   - 
 #### Development Experience
-- [ ] **Testing infrastructure**
-  - [ ] Fix current test failures (HttpClient provider setup)
+- [x] **Testing infrastructure**
+  - [x] Fix current test failures (HttpClient provider setup)
   - [ ] Add component integration tests
   - [ ] Set up E2E testing framework
 - [ ] **Code quality**
