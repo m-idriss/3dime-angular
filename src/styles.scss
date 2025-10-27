@@ -796,9 +796,10 @@ body.bg-video .bg {
    Back to Top Button
    ======================== */
 .back-to-top-btn {
-  position: fixed;
+  position: fixed !important;
   bottom: 2rem;
   right: 2rem;
+  left: auto !important;
   width: 3.5rem;
   height: 3.5rem;
   background: var(--primary-bg);
