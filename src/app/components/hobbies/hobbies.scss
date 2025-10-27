@@ -1,16 +1,3 @@
-mat-chip-set {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+@use '../shared-chip-styles';
 
-.chip-link {
-  color: inherit;
-  text-decoration: none;
-  display: block;
-  
-  &:hover,
-  &:focus {
-    text-decoration: none;
-  }
-}
+@include shared-chip-styles.chip-link-styles;
