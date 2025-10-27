@@ -32,6 +32,7 @@
               "src/favicon.ico"
             ],
             "styles": [
+              "src/material-theme.scss",
               "src/styles.scss"
             ]
           },
@@ -46,7 +47,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1.4MB",
+                  "maximumWarning": "1.7MB",
                   "maximumError": "2MB"
                 },
                 {
@@ -114,6 +115,7 @@
               }
             ],
             "styles": [
+              "src/material-theme.scss",
               "src/styles.scss"
             ]
           }

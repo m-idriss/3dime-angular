@@ -1,0 +1,19 @@
+// Shared styles for Material chip components
+@mixin chip-link-styles {
+  mat-chip-set {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip-link {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}

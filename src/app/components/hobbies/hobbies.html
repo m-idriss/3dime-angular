@@ -9,19 +9,22 @@
   } @else {
   <p>Things I enjoy watching/doing.</p>
   <nav aria-label="Hobbies and interests">
+    <mat-chip-set aria-label="Hobbies">
       @for (hobby of hobbies; track hobby.name) {
-        <a
-          [href]="hobby.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="chip-little link"
-          [attr.aria-label]="'Learn more about ' + hobby.name"
-        >
-          {{ hobby.name }}
-        </a>
+        <mat-chip [attr.aria-label]="'Learn more about ' + hobby.name">
+          <a
+            [href]="hobby.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="chip-link"
+          >
+            {{ hobby.name }}
+          </a>
+        </mat-chip>
       } @empty {
         <p>No hobbies available.</p>
       }
+    </mat-chip-set>
     </nav>
   }
 </app-card>

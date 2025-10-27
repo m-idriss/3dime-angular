@@ -9,6 +9,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
@@ -55,6 +56,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withFetch()),
+    provideAnimations(),
     ...getFirebaseProviders(),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),

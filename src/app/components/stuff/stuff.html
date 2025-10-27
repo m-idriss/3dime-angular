@@ -9,19 +9,22 @@
   } @else {
   <p>Stuff I use and recommend.</p>
   <nav aria-label="Recommended products and tools">
+    <mat-chip-set aria-label="Stuff">
       @for (stuff of stuffs; track stuff.name) {
-        <a
-          [href]="stuff.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link"
-          [attr.aria-label]="'View ' + stuff.name"
-        >
-          {{ stuff.name }}
-        </a>
+        <mat-chip [attr.aria-label]="'View ' + stuff.name">
+          <a
+            [href]="stuff.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="chip-link"
+          >
+            {{ stuff.name }}
+          </a>
+        </mat-chip>
       } @empty {
         <p>No stuff available.</p>
       }
+    </mat-chip-set>
     </nav>
   }
 </app-card>
