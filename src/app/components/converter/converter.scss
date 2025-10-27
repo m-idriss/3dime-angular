@@ -826,6 +826,143 @@
 }
 
 /* ========================
+   Batch Processing Styles
+   ======================== */
+.batch-processing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: 100%;
+  max-width: 300px;
+}
+
+.batch-progress-bar,
+.batch-file-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--glass-bg);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.batch-file-progress-bar {
+  height: 4px;
+}
+
+.batch-progress-fill,
+.batch-file-progress-fill {
+  height: 100%;
+  background: var(--accent-color);
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.batch-details {
+  margin: var(--space-md) 0;
+}
+
+.batch-files-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.batch-file-item {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  transition: all var(--t-fast);
+
+  &.status-pending {
+    opacity: 0.7;
+  }
+
+  &.status-processing {
+    border-color: var(--accent-color);
+    background: rgba(59, 130, 246, 0.05);
+  }
+
+  &.status-success {
+    border-color: rgba(34, 197, 94, 0.3);
+    background: rgba(34, 197, 94, 0.05);
+  }
+
+  &.status-error {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.05);
+  }
+}
+
+.batch-file-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.batch-file-name {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.batch-file-status-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.batch-file-progress {
+  margin-top: var(--space-xs);
+}
+
+.batch-file-error {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-xs);
+
+  .error-text {
+    font-size: 0.75rem;
+    color: var(--badge-color);
+  }
+
+  .retry-button {
+    align-self: flex-start;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--t-fast);
+
+    &:hover:not(:disabled) {
+      background: var(--glass-bg-hover);
+      border-color: var(--accent-color);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.batch-file-events-count {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* ========================
    Reduced Motion Support
    ======================== */
 @media (prefers-reduced-motion: reduce) {

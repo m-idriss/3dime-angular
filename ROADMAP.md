@@ -102,7 +102,7 @@
 
 #### Technical Improvements
 - [ ] **Calendar Converter enhancements**
-  - [ ] Batch processing of multiple files
+  - [x] Batch processing of multiple files ✅ (Completed Oct 2025)
   - [x] Event editing before download
   - [ ] Multiple calendar format support (Google, Outlook)
   - [ ] OCR for handwritten calendar entries
@@ -340,8 +340,14 @@ This is a personal portfolio project, but the roadmap serves as a guide for:
 
 - **Last Updated**: October 2025 (Revised for Q4 2025)
 - **Next Review**: Quarterly (January 2026)
-- **Version**: 2.0.0
+- **Version**: 2.1.0
 - **Maintainer**: Idriss (@m-idriss)
+- **Major Updates in v2.1.0**:
+  - ✅ Batch processing for Calendar Converter with per-file progress tracking
+  - ✅ Individual file error handling and retry capability
+  - ✅ Sequential processing to avoid API rate limits
+  - ✅ Real-time progress indicators and status tracking
+  - ✅ Enhanced user experience with detailed batch statistics
 - **Major Updates in v2.0.0**:
   - ✅ PWA fully implemented with service worker, installability, and share target
   - ✅ Calendar Converter feature with Firebase Auth and AI processing

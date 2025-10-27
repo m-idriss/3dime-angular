@@ -81,8 +81,57 @@
       @if (isProcessing()) {
         <div class="processing" role="status" aria-live="polite">
           <span class="spinner" aria-hidden="true"></span>
-          <span>Processing...</span>
+          @if (isBatchMode()) {
+            <div class="batch-processing">
+              <span>Processing files: {{ batchStats().processing + batchStats().success }} / {{ batchStats().total }}</span>
+              <div class="batch-progress-bar">
+                <div class="batch-progress-fill" [style.width.%]="batchProgress()"></div>
+              </div>
+            </div>
+          } @else {
+            <span>Processing...</span>
+          }
         </div>
+      }
+
+      <!-- Batch Processing Details (show during and after batch processing) -->
+      @if (isBatchMode() && batchFiles().length > 0) {
+        <section class="batch-details" aria-labelledby="batch-heading">
+          <h3 id="batch-heading" class="sr-only">Batch Processing Status</h3>
+          <div class="batch-files-list">
+            @for (batchFile of batchFiles(); track $index) {
+              <div class="batch-file-item" [class]="'status-' + batchFile.status">
+                <div class="batch-file-info">
+                  <span class="batch-file-name">{{ batchFile.file.name }}</span>
+                  <span class="batch-file-status-icon" [attr.aria-label]="'Status: ' + batchFile.status">
+                    @if (batchFile.status === BatchFileStatus.PENDING) { ⏳ }
+                    @if (batchFile.status === BatchFileStatus.PROCESSING) { 🔄 }
+                    @if (batchFile.status === BatchFileStatus.SUCCESS) { ✅ }
+                    @if (batchFile.status === BatchFileStatus.ERROR) { ❌ }
+                  </span>
+                </div>
+                @if (batchFile.status === BatchFileStatus.PROCESSING) {
+                  <div class="batch-file-progress">
+                    <div class="batch-file-progress-bar">
+                      <div class="batch-file-progress-fill" [style.width.%]="batchFile.progress"></div>
+                    </div>
+                  </div>
+                }
+                @if (batchFile.status === BatchFileStatus.ERROR) {
+                  <div class="batch-file-error">
+                    <span class="error-text">{{ batchFile.error }}</span>
+                    <button class="retry-button" (click)="retryFile($index)" [disabled]="isProcessing()" aria-label="Retry processing this file">
+                      🔄 Retry
+                    </button>
+                  </div>
+                }
+                @if (batchFile.status === BatchFileStatus.SUCCESS && batchFile.events) {
+                  <span class="batch-file-events-count">{{ batchFile.events.length }} event(s) extracted</span>
+                }
+              </div>
+            }
+          </div>
+        </section>
       }
     }
 
