@@ -10,13 +10,12 @@
     <header class="profile-header">
       <img [src]="avatar" alt="Profile avatar" class="logo" />
 
-      <nav class="burger-menu" [class.active]="menuOpen" aria-label="Profile options">
+      <nav class="burger-menu" aria-label="Profile options">
         <button
+          mat-icon-button
           class="burger-button"
-          [class.active]="menuOpen"
-          (click)="toggleMenu()"
+          [matMenuTriggerFor]="profileMenu"
           aria-label="Open profile menu"
-          [attr.aria-expanded]="menuOpen"
           aria-haspopup="true"
         >
           @if (isAuthenticated && currentUser) {
@@ -26,69 +25,63 @@
               class="user-avatar"
             />
           } @else {
-            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+            <mat-icon>more_vert</mat-icon>
           }
         </button>
 
-        <!-- Dropdown menu -->
-        @if (menuOpen) {
-          <div class="profile-dropdown" role="menu" aria-label="Profile settings">
-            @if (isAuthenticated && currentUser) {
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">{{ currentUser.displayName }}</div>
-                  <div class="user-email">{{ currentUser.email }}</div>
-                </div>
+        <!-- Material Menu -->
+        <mat-menu #profileMenu="matMenu" class="profile-menu">
+          @if (isAuthenticated && currentUser) {
+            <div class="user-info" mat-menu-item disabled>
+              <div class="user-details">
+                <div class="user-name">{{ currentUser.displayName }}</div>
+                <div class="user-email">{{ currentUser.email }}</div>
               </div>
+            </div>
+            <mat-divider></mat-divider>
+          }
 
-              <div class="dropdown-separator" role="separator"></div>
-            }
+          <button mat-menu-item (click)="cycleTheme()">
+            <mat-icon>
+              @if (currentTheme === 'dark') {
+                dark_mode
+              } @else if (currentTheme === 'white') {
+                light_mode
+              } @else {
+                auto_awesome
+              }
+            </mat-icon>
+            <span>{{ themeDisplayName }}</span>
+          </button>
 
-            <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
-              <i
-                class="fas"
-                [class.fa-moon]="currentTheme === 'dark'"
-                [class.fa-sun]="currentTheme === 'white'"
-                [class.fa-gem]="currentTheme === 'glass'"
-                aria-hidden="true"
-              ></i>
-              <span>{{ themeDisplayName }}</span>
+          <mat-divider></mat-divider>
+
+          <button mat-menu-item (click)="toggleVideoBg()">
+            <mat-icon>
+              @if (currentBackground === 'video') {
+                play_circle
+              } @else {
+                stop_circle
+              }
+            </mat-icon>
+            <span>{{ backgroundDisplayName }}</span>
+          </button>
+
+          <mat-divider></mat-divider>
+
+          <button mat-menu-item (click)="changeFontSize()">
+            <mat-icon>text_fields</mat-icon>
+            <span>Font Size: {{ fontSizeDisplayName }}</span>
+          </button>
+
+          @if (isAuthenticated) {
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="signOut()">
+              <mat-icon>logout</mat-icon>
+              <span>Sign Out</span>
             </button>
-
-            <div class="dropdown-separator" role="separator"></div>
-
-            <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
-              <i
-                class="fas"
-                [class.fa-circle]="currentBackground === 'black'"
-                [class.fa-circle-notch]="currentBackground === 'white'"
-                [class.fa-play]="currentBackground === 'video'"
-                aria-hidden="true"
-              ></i>
-              <span>{{ backgroundDisplayName }}</span>
-            </button>
-
-            <div class="dropdown-separator" role="separator"></div>
-
-            <button
-              class="dropdown-item font-size-toggle"
-              role="menuitem"
-              (click)="changeFontSize()"
-            >
-              <i class="fas fa-text-height" aria-hidden="true"></i>
-              <span>Font Size: {{ fontSizeDisplayName }}</span>
-            </button>
-
-            @if (isAuthenticated) {
-              <div class="dropdown-separator" role="separator"></div>
-
-              <button class="dropdown-item sign-out" role="menuitem" (click)="signOut()">
-                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-                <span>Sign Out</span>
-              </button>
-            }
-          </div>
-        }
+          }
+        </mat-menu>
       </nav>
     </header>
 

@@ -1,4 +1,6 @@
 import { Component, HostListener, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { SCROLL_CONFIG } from '../../constants/app.constants';
 
@@ -9,7 +11,7 @@ import { SCROLL_CONFIG } from '../../constants/app.constants';
 @Component({
   selector: 'app-back-to-top',
   standalone: true,
-  imports: [],
+  imports: [MatButtonModule, MatIconModule],
   templateUrl: './back-to-top.html',
   styleUrl: './back-to-top.scss',
 })

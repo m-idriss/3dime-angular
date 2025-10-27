@@ -9,19 +9,24 @@
   } @else {
   <p>Some of the technologies I worked with.</p>
   <nav aria-label="Technology stack links">
+    <mat-chip-set aria-label="Technology stack">
       @for (tech of techStack; track tech.name) {
-        <a
-          [href]="tech.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="chip-little link"
+        <mat-chip
           [attr.aria-label]="'Learn more about ' + tech.name"
         >
-          {{ tech.name }}
-        </a>
+          <a
+            [href]="tech.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="chip-link"
+          >
+            {{ tech.name }}
+          </a>
+        </mat-chip>
       } @empty {
         <p>No technologies available.</p>
       }
+    </mat-chip-set>
     </nav>
   }
 </app-card>
