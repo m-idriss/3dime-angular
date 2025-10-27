@@ -72,9 +72,9 @@ npm test
 ```
 
 **Expected Test Behavior:**
-- All tests currently fail due to missing HttpClient providers (normal for current test setup)
-- Tests build successfully and execute in headless Chrome
-- 11 total tests with all failures related to dependency injection setup (HttpClient not provided)
+- All 31 tests pass successfully ✅
+- Tests build and execute in headless Chrome
+- Test providers properly configured (HttpClient, SwUpdate mocked)
 
 ### Validation Steps
 Always run these steps after making changes:
@@ -99,7 +99,7 @@ Always run these steps after making changes:
    ```bash
    CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false
    ```
-   - Currently shows "11 FAILED" due to missing HttpClient providers (expected pattern)
+   - Should show "31 SUCCESS" with all tests passing
 
 ### Code Formatting
 ```bash
