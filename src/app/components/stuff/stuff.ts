@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { Card } from '../card/card';
 import { NotionAwareComponent } from '../base/notion-aware.component';
@@ -9,7 +10,7 @@ import { LinkItem } from '../../models';
 @Component({
   selector: 'app-stuff',
   standalone: true,
-  imports: [Card, MatChipsModule],
+  imports: [Card, MatChipsModule, MatDividerModule],
   templateUrl: './stuff.html',
   styleUrl: './stuff.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

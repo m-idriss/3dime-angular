@@ -8,20 +8,26 @@
   </div>
   } @else {
   <p>Companies and projects I've contributed to.</p>
+  <mat-divider></mat-divider>
   <nav aria-label="Work experience and projects">
+    <mat-chip-set aria-label="Work experience and projects">
       @for (experience of experiences; track experience.name) {
-        <a
-          [href]="experience.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link"
+        <mat-chip
           [attr.aria-label]="'View ' + experience.name"
         >
-          {{ experience.name }}
-        </a>
+          <a
+            [href]="experience.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="chip-link"
+          >
+            {{ experience.name }}
+          </a>
+        </mat-chip>
       } @empty {
         <p>No experiences available.</p>
       }
+    </mat-chip-set>
     </nav>
   }
 </app-card>

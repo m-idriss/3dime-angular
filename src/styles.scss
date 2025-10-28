@@ -61,8 +61,8 @@ body.dark-theme {
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-bg-hover: rgba(255, 255, 255, 0.15);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --text-primary: #fff;
-  --text-secondary: rgba(255, 255, 255, 0.9);
+  --text-primary: #ffffff; /* Improved contrast */
+  --text-secondary: rgba(255, 255, 255, 0.85); /* Slightly improved contrast */
   --menu-bg: rgba(0, 0, 0, 0.95);
   --text-menu: #fff;
 }
@@ -75,20 +75,20 @@ body.white-theme {
   --glass-bg-hover: rgba(0, 0, 0, 0.2);
   --glass-border: rgba(0, 0, 0, 0.15);
   --text-primary: #1a1a1a;
-  --text-secondary: rgba(26, 26, 26, 0.8);
+  --text-secondary: rgba(26, 26, 26, 0.75); /* Improved contrast */
   --menu-bg: rgba(255, 255, 255, 0.95);
   --text-menu: #1a1a1a;
 }
 
 /* Glass theme */
 body.glass-theme {
-  --primary-bg: rgba(155, 155, 155, 0.1);
-  --primary-bg-hover: rgba(155, 155, 155, 0.25);
-  --glass-bg: rgba(155, 155, 155, 0.1);
-  --glass-bg-hover: rgba(155, 155, 155, 0.25);
-  --glass-border: rgba(155, 155, 155, 0.2);
+  --primary-bg: rgba(155, 155, 155, 0.15); /* Slightly more opaque for better readability */
+  --primary-bg-hover: rgba(155, 155, 155, 0.3);
+  --glass-bg: rgba(155, 155, 155, 0.15);
+  --glass-bg-hover: rgba(155, 155, 155, 0.3);
+  --glass-border: rgba(255, 255, 255, 0.25); /* Better visibility */
   --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.9);
+  --text-secondary: rgba(255, 255, 255, 0.95); /* Improved contrast */
   --menu-bg: rgba(255, 255, 255, 1);
   --text-menu: #1a1a1a;
 }
@@ -96,15 +96,20 @@ body.glass-theme {
 /* Glass theme with white background - adjust text for readability */
 body.glass-theme.bg-white {
   --text-primary: #1a1a1a;
-  --text-secondary: rgba(26, 26, 26, 0.8);
-  --glass-bg: rgba(0, 0, 0, 0.1);
-  --glass-bg-hover: rgba(0, 0, 0, 0.2);
-  --glass-border: rgba(255, 255, 255, 0.95);
-  --menu-bg: rgba(255, 255, 255, 0.8);
+  --text-secondary: rgba(26, 26, 26, 0.75); /* Improved contrast */
+  --glass-bg: rgba(0, 0, 0, 0.12); /* Slightly more visible */
+  --glass-bg-hover: rgba(0, 0, 0, 0.22);
+  --glass-border: rgba(0, 0, 0, 0.2); /* Better visibility on white */
+  --menu-bg: rgba(255, 255, 255, 0.95);
   --text-menu: #1a1a1a;
 }
 
 body.glass-theme.bg-black {
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.9);
+  --glass-bg: rgba(255, 255, 255, 0.12); /* Better visibility on black */
+  --glass-bg-hover: rgba(255, 255, 255, 0.22);
+  --glass-border: rgba(255, 255, 255, 0.25);
   --menu-bg: rgba(0, 0, 0, 0.95);
   --text-menu: #fff;
 }
@@ -857,6 +862,7 @@ body.bg-video .bg {
   .back-to-top-btn {
     bottom: 1.5rem;
     right: 1.5rem;
+    left: auto !important; /* Ensure button stays on the right */
     width: 3rem;
     height: 3rem;
     font-size: 1.125rem;

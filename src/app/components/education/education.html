@@ -8,20 +8,26 @@
   </div>
   } @else {
   <p>From Energy learning to IT retraining.</p>
+  <mat-divider></mat-divider>
   <nav aria-label="Education and training links">
+    <mat-chip-set aria-label="Education and training">
       @for (edu of education; track edu.name) {
-        <a
-          [href]="edu.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link"
+        <mat-chip
           [attr.aria-label]="'View ' + edu.name"
         >
-          {{ edu.name }}
-        </a>
+          <a
+            [href]="edu.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="chip-link"
+          >
+            {{ edu.name }}
+          </a>
+        </mat-chip>
       } @empty {
         <p>No education available.</p>
       }
+    </mat-chip-set>
     </nav>
   }
 </app-card>
