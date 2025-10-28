@@ -3,7 +3,7 @@
   mat-chip-set {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 6px;
     justify-content: center;
   }
 
@@ -21,8 +21,8 @@
   .chip-link {
     color: var(--text-primary);
     text-decoration: none;
-    margin: 1px;
-    padding: 1px;
+    margin: 0;
+    padding: 0;
     position: relative;
     display: block;
     overflow: hidden;
@@ -35,7 +35,7 @@
 
   .chip-link-small {
     display: block;
-    margin: calc(var(--space-xs) * 0.5);
+    margin: 0;
     font-size: calc(var(--font-size-base) * 0.875);
     font-weight: var(--fw-normal);
     color: var(--text-primary);
