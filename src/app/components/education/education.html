@@ -10,7 +10,7 @@
   <p>From Energy learning to IT retraining.</p>
   <mat-divider></mat-divider>
   <nav aria-label="Education and training links">
-    <mat-chip-set aria-label="Education and training">
+    <mat-chip-set aria-label="Education and training" class="mat-mdc-chip-set-stacked">
       @for (edu of education; track edu.name) {
         <mat-chip
           [attr.aria-label]="'View ' + edu.name"

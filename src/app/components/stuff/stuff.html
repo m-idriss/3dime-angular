@@ -10,7 +10,7 @@
   <p>Stuff I use and recommend.</p>
   <mat-divider></mat-divider>
   <nav aria-label="Recommended products and tools">
-    <mat-chip-set aria-label="Stuff">
+    <mat-chip-set aria-label="Stuff" class="mat-mdc-chip-set-stacked">
       @for (stuff of stuffs; track stuff.name) {
         <mat-chip [attr.aria-label]="'View ' + stuff.name">
           <a
