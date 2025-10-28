@@ -24,8 +24,12 @@
     margin: 1px;
     padding: 1px;
     position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
+    height: 100%;
+    width: 100%;
 
     &:hover,
     &:focus {
