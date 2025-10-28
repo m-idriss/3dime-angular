@@ -44,10 +44,23 @@ $my-theme: mat.define-theme(
 }
 
 .mat-mdc-chip {
-  background: rgba(255, 255, 255, 0.15) !important;
-  backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 20px !important;
+
+  background: var(--glass-bg) !important;
+  border: 1px solid transparent !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  margin: calc(var(--space-xs) * 0.5);
+  padding: 0;
+
+  /* Typography */
+  font-size: calc(var(--font-size-base) * 0.875);
+  font-weight: var(--fw-normal);
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
+  text-decoration: none;
+
+    justify-content: center !important;
+    text-align: center !important;
+
 }
 
 .mat-mdc-menu-panel {
@@ -72,3 +85,7 @@ $my-theme: mat.define-theme(
     border-radius: 8px !important;
   }
 }
+
+  @include mat.divider-overrides((
+    color: transparent,
+  ));

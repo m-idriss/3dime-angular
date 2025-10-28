@@ -1,14 +1,18 @@
 <app-card title="Contact">
-  <address>
-    <a 
-      mat-raised-button
-      color="primary"
-      [href]="'mailto:' + email" 
-      rel="noopener noreferrer" 
-      aria-label="Send email"
+  <nav aria-label="Contact information">
+  <mat-chip-set aria-label="Contact Information" class="mat-mdc-chip-set-stacked">
+  <mat-chip
+      [attr.aria-label]="'Send an email to ' + email"
     >
-      <mat-icon>email</mat-icon>
-      {{ email }}
-    </a>
-  </address>
+      <a
+        [href]="'mailto:' + email"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="chip-link"
+      >
+        {{ email }}
+      </a>
+    </mat-chip>
+  </mat-chip-set>
+  </nav>
 </app-card>

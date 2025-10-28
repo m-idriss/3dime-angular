@@ -8,21 +8,39 @@
   }
 
   mat-chip {
-    transition: all var(--t-medium);
-    
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 
+      box-shadow:
         0 4px 8px rgba(0, 0, 0, 0.12),
         0 2px 4px rgba(0, 0, 0, 0.08);
     }
   }
 
   .chip-link {
-    color: inherit;
+    color: var(--text-primary);
     text-decoration: none;
+    margin: 1px;
+    padding: 1px;
+    position: relative;
     display: block;
-    
+    overflow: hidden;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
+  .chip-link-small {
+    display: block;
+    margin: calc(var(--space-xs) * 0.5);
+    font-size: calc(var(--font-size-base) * 0.875);
+    font-weight: var(--fw-normal);
+    color: var(--text-primary);
+    text-decoration: none;
+
     &:hover,
     &:focus {
       text-decoration: none;

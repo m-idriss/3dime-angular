@@ -10,7 +10,7 @@
   <p>Companies and projects I've contributed to.</p>
   <mat-divider></mat-divider>
   <nav aria-label="Work experience and projects">
-    <mat-chip-set aria-label="Work experience and projects">
+    <mat-chip-set aria-label="Work experience and projects" class="mat-mdc-chip-set-stacked">
       @for (experience of experiences; track experience.name) {
         <mat-chip
           [attr.aria-label]="'View ' + experience.name"
