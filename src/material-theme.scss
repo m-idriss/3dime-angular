@@ -24,6 +24,12 @@ $my-theme: mat.define-theme(
 // Include theme styles for all components
 @include mat.all-component-themes($my-theme);
 
+// Override Material 3 chip outline CSS variables
+html {
+  --mat-chip-outline-width: 0 !important;
+  --mat-chip-flat-selected-outline-width: 0 !important;
+}
+
 // Custom Material overrides to match glassmorphism aesthetic
 .mat-mdc-button,
 .mat-mdc-raised-button,
@@ -45,8 +51,13 @@ $my-theme: mat.define-theme(
 
 .mat-mdc-chip {
 
+  /* Override Material 3 outline variables */
+  --mat-chip-outline-width: 0 !important;
+  --mat-chip-outline-color: transparent !important;
+  --mat-chip-flat-selected-outline-width: 0 !important;
+
   background: var(--glass-bg) !important;
-  border: 1px solid transparent !important;
+  border: none !important;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   margin: calc(var(--space-xs) * 0.5);
   padding: 0;
@@ -60,6 +71,13 @@ $my-theme: mat.define-theme(
 
     justify-content: center !important;
     text-align: center !important;
+
+  /* Remove borders from internal MDC elements */
+  .mdc-evolution-chip__action,
+  .mdc-evolution-chip__cell {
+    border: none !important;
+    outline: none !important;
+  }
 
 }
 
