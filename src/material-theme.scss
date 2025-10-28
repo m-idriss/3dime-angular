@@ -46,7 +46,7 @@ $my-theme: mat.define-theme(
 .mat-mdc-chip {
 
   background: var(--glass-bg) !important;
-  border: 1px solid transparent !important;
+  border: none !important;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   margin: calc(var(--space-xs) * 0.5);
   padding: 0;
