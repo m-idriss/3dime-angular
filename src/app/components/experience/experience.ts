@@ -16,7 +16,20 @@ import { LinkItem } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Experience extends NotionAwareComponent {
-  experiences: LinkItem[] = [];
+  experiences: LinkItem[] = [
+    { name: 'Amadeus Order Management System', url: '#' },
+    { name: 'Astek', url: '#' },
+    { name: 'Oodrive Sign', url: '#' },
+    { name: "Barber L'Architecte", url: '#' },
+    { name: 'Erese (Habitat & territoires conseil)', url: '#' },
+    { name: 'PFT Energies Propres', url: '#' },
+    { name: 'Eurotelis (Valiance, now Securitas)', url: '#' }
+  ];
+
+  override ngOnInit(): void {
+    // Skip loading for testing
+    this.isLoading = false;
+  }
 
   protected getProgressiveItems(): Observable<LinkItem> {
     return this.notionService.fetchExperiencesProgressively();
