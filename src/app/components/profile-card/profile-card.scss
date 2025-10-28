@@ -12,27 +12,34 @@
   /* Box Model */
   width: 100%;
   max-width: 400px;
-  padding: var(--space-lg);
+  padding: 1.5rem;
 
   /* Typography */
   text-align: center;
 
-  /* Visual */
+  /* Visual - Enhanced Material Design */
   background: var(--primary-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+  border-radius: 16px;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 8px 16px rgba(0, 0, 0, 0.15);
 
   /* Misc */
-  transition: all var(--t-medium);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Hover state */
+  /* Hover state - Material elevation */
   &:hover {
     background: var(--primary-bg-hover);
     backdrop-filter: blur(20px);
-    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
-    transform: none;
+    box-shadow: 
+      0 8px 12px rgba(0, 0, 0, 0.15),
+      0 4px 8px rgba(0, 0, 0, 0.1),
+      0 12px 24px rgba(0, 0, 0, 0.2),
+      0 0 20px rgba(59, 130, 246, 0.25);
+    transform: translateY(-2px);
   }
 
   /* Prevent transform when menu is open to avoid stacking context issues */
@@ -41,36 +48,32 @@
   }
 }
 
-/* Title heading with gradient text effect */
+/* Title heading with Material Design styling */
 .container h2 {
   /* Positioning */
   position: relative;
 
   /* Box Model */
-  margin-bottom: var(--space-md);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
 
   /* Typography */
-  font-size: var(--font-size-xl);
-  font-weight: var(--fw-semibold);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-primary);
 
-  /* Visual - Gradient text effect */
-  background: linear-gradient(135deg, var(--text-primary), rgba(59, 130, 246, 0.8));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-
-  /* Decorative underline */
+  /* Decorative underline - Material accent */
   &::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-    border-radius: 1px;
+    width: 48px;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: 2px;
   }
 }
 
@@ -85,7 +88,7 @@
   z-index: 1;
 }
 
-/* Logo/Avatar - Profile image */
+/* Logo/Avatar - Profile image with Material Design elevation */
 .logo {
   /* Positioning */
   display: block;
@@ -94,29 +97,34 @@
   /* Box Model */
   width: 120px;
   height: 120px;
-  padding: var(--space-sm);
+  padding: 0.5rem;
 
   /* Typography */
   font-size: 0; /* Remove inline gap */
 
-  /* Visual */
+  /* Visual - Material Design elevation */
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-card);
+  border-radius: 50%;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 6px 12px rgba(0, 0, 0, 0.12);
   object-fit: contain;
 
   /* Misc */
   cursor: pointer;
-  transition: all var(--t-medium);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-  /* Hover state */
+  /* Hover state - Material elevation increase */
   &:hover {
     background: var(--glass-bg-hover);
     backdrop-filter: blur(20px);
-    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
-    transform: scale(1.12) rotate(5deg);
-    transition: all var(--ease-bounce);
+    box-shadow: 
+      0 8px 12px rgba(0, 0, 0, 0.15),
+      0 4px 8px rgba(0, 0, 0, 0.1),
+      0 0 24px rgba(59, 130, 246, 0.3);
+    transform: scale(1.08) rotate(3deg);
   }
 }
 
@@ -141,7 +149,7 @@
   z-index: 10000;
 }
 
-/* Burger Button - Menu toggle button */
+/* Burger Button - Menu toggle button with Material Design */
 .burger-button {
   /* Positioning */
   display: flex;
@@ -152,35 +160,42 @@
   width: 40px;
   height: 40px;
   padding: 0.25rem;
-  gap: var(--space-xs);
+  gap: 0.5rem;
 
-  /* Visual */
+  /* Visual - Material Design button */
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
+  border-radius: 12px;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.06);
 
   /* Misc */
   cursor: pointer;
-  transition: all var(--t-medium);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 
-  /* Hover state */
+  /* Hover state - Material ripple effect simulation */
   &:hover {
     background: var(--glass-bg-hover);
     backdrop-filter: blur(20px);
-    box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
-    transform: scale(1.1) rotate(5deg);
-    transition: all var(--ease-bounce);
+    box-shadow: 
+      0 4px 8px rgba(0, 0, 0, 0.12),
+      0 2px 4px rgba(0, 0, 0, 0.08),
+      0 0 16px rgba(59, 130, 246, 0.25);
+    transform: scale(1.05);
   }
 
   /* Active state */
   &.active {
     background: var(--glass-bg-hover);
     backdrop-filter: blur(20px);
-    box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
-    transform: scale(1.05);
+    box-shadow: 
+      0 4px 8px rgba(0, 0, 0, 0.12),
+      0 2px 4px rgba(0, 0, 0, 0.08),
+      0 0 16px rgba(59, 130, 246, 0.3);
+    transform: scale(1.02);
 
     i {
       color: var(--accent-color);
@@ -192,14 +207,14 @@
   i {
     color: var(--text-primary);
     font-size: 18px;
-    transition: transform var(--t-medium);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* User avatar in button */
   .user-avatar {
     width: 28px;
     height: 28px;
-    border-radius: var(--radius-full);
+    border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
   }
@@ -299,7 +314,7 @@
   background: var(--glass-border);
 }
 
-/* Social Links - Social media icon links */
+/* Social Links - Social media icon links with Material Design */
 .socials {
   /* Positioning */
   display: flex;
@@ -307,31 +322,35 @@
   flex-wrap: wrap;
 
   /* Box Model */
-  margin-top: var(--space-lg);
-  gap: var(--space-md);
+  margin-top: 1.5rem;
+  gap: 0.75rem;
 
   /* Icon styling */
   i {
     /* Box Model */
-    padding: var(--space-xs);
+    padding: 0.5rem;
 
     /* Typography */
-    font-size: 32px;
+    font-size: 28px;
     color: var(--text-primary);
 
-    /* Visual */
-    opacity: 0.65;
-    border-radius: var(--radius-md);
+    /* Visual - Material Design hover */
+    opacity: 0.75;
+    border-radius: 12px;
+    background: transparent;
 
     /* Misc */
     cursor: pointer;
-    transition: all var(--t-medium);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* Hover state */
+    /* Hover state - Material Design ripple effect */
     &:hover {
       opacity: 1;
       background: var(--glass-bg);
-      transform: scale(1.25);
+      box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        0 1px 2px rgba(0, 0, 0, 0.06);
+      transform: scale(1.15);
     }
   }
 
@@ -341,8 +360,10 @@
     outline: 3px solid var(--accent-color);
     outline-offset: 3px;
     background: var(--glass-bg-hover);
-    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2), var(--shadow-card-hover);
-    transform: scale(1.2);
+    box-shadow: 
+      0 0 0 6px rgba(59, 130, 246, 0.2), 
+      0 4px 8px rgba(0, 0, 0, 0.12);
+    transform: scale(1.1);
   }
 }
 
