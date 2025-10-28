@@ -61,6 +61,13 @@ $my-theme: mat.define-theme(
     justify-content: center !important;
     text-align: center !important;
 
+  /* Remove borders from internal MDC elements */
+  .mdc-evolution-chip__action,
+  .mdc-evolution-chip__cell {
+    border: none !important;
+    outline: none !important;
+  }
+
 }
 
 .mat-mdc-menu-panel {
