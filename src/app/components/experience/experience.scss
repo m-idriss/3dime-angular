@@ -1,0 +1,3 @@
+@use '../_shared-chip-styles.scss' as shared-chip-styles;
+
+@include shared-chip-styles.chip-link-styles;
