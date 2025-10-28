@@ -24,6 +24,12 @@ $my-theme: mat.define-theme(
 // Include theme styles for all components
 @include mat.all-component-themes($my-theme);
 
+// Override Material 3 chip outline CSS variables
+html {
+  --mat-chip-outline-width: 0 !important;
+  --mat-chip-flat-selected-outline-width: 0 !important;
+}
+
 // Custom Material overrides to match glassmorphism aesthetic
 .mat-mdc-button,
 .mat-mdc-raised-button,
@@ -44,6 +50,11 @@ $my-theme: mat.define-theme(
 }
 
 .mat-mdc-chip {
+
+  /* Override Material 3 outline variables */
+  --mat-chip-outline-width: 0 !important;
+  --mat-chip-outline-color: transparent !important;
+  --mat-chip-flat-selected-outline-width: 0 !important;
 
   background: var(--glass-bg) !important;
   border: none !important;
