@@ -10,7 +10,7 @@
   /* Box Model */
   width: 100%;
   max-width: 400px;
-  padding: 1.25rem;
+  padding: var(--space-lg);
 
   /* Typography */
   text-align: center;
@@ -26,7 +26,7 @@
     0 8px 16px rgba(0, 0, 0, 0.15);
 
   /* Misc */
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--t-medium);
 
   /* Hover state - Material elevation */
   &:hover {

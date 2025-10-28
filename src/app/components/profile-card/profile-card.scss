@@ -12,7 +12,7 @@
   /* Box Model */
   width: 100%;
   max-width: 400px;
-  padding: 1.5rem;
+  padding: var(--space-xl);
 
   /* Typography */
   text-align: center;
@@ -28,7 +28,7 @@
     0 8px 16px rgba(0, 0, 0, 0.15);
 
   /* Misc */
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--t-medium);
 
   /* Hover state - Material elevation */
   &:hover {
@@ -114,7 +114,7 @@
 
   /* Misc */
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: all var(--t-medium) var(--ease-bounce);
 
   /* Hover state - Material elevation increase */
   &:hover {
