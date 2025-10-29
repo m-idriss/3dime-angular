@@ -1,73 +1,58 @@
-/* ========================
-   Calendar Converter Component Styles
-   ======================== */
-
-/* ========================
-   Upload Zone
-   ======================== */
 .upload-zone {
-  /* Positioning */
   text-align: center;
-
-  /* Box Model */
   padding: 0.5rem 0.5rem;
   margin: var(--space-xs);
-
-  /* Visual */
   border: 2px dashed var(--glass-border);
   border-radius: var(--radius-md);
-
-  /* Misc */
   cursor: pointer;
   transition: all var(--t-fast);
+  background: var(--glass-bg);
 
-  /* Hover state */
   &:hover {
     background: var(--glass-bg-hover);
     border-color: var(--accent-color);
   }
 
-  /* Dragging state */
   &.dragging {
     background: var(--accent-color);
     border-color: var(--accent-color);
   }
 
-  /* Upload icon */
   .upload-icon {
     margin-bottom: var(--space-sm);
     font-size: 2rem;
   }
 
-  /* Upload text */
-  p {
-    margin: var(--space-xs) 0;
+  .marketing-text {
+    margin: var(--space-sm) 0 var(--space-md) 0;
+    text-align: center;
+
+    p {
+      margin: var(--space-xs) 0;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+  }
+
+  .upload-prompt {
+    margin: var(--space-md) 0 var(--space-xs) 0;
     font-size: 0.875rem;
     color: var(--text-secondary);
   }
 
-  /* Upload button */
   .upload-button {
-    /* Positioning */
     display: inline-block;
-
-    /* Box Model */
+    width: 100%;
     padding: 0.5rem 1.25rem;
-
-    /* Typography */
     font-size: 0.875rem;
     font-weight: 500;
     color: white;
-
-    /* Visual */
     background: var(--accent-color);
     border-radius: var(--radius-md);
-
-    /* Misc */
     cursor: pointer;
     transition: all var(--t-fast);
 
-    /* Hover state */
     &:hover {
       background: #2563eb;
       transform: translateY(-2px);
@@ -78,85 +63,94 @@
     }
   }
 
-  /* Hide file input */
   .file-input {
     display: none;
   }
 
 //upload-steps
   .upload-steps {
-        /* Positioning */
-        display: inline-block;
-    margin-top: var(--space-md);
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    text-align: left;
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    margin: var(--space-lg) auto var(--space-md) auto;
+    padding: 0;
+    list-style: none;
 
-    ol {
-      padding-left: 1.25rem;
+    li {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding:var(--space-xs);
+      margin-bottom: var(--space-xs);
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: var(--text-primary);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      transition: all var(--t-fast);
 
-      li {
-        margin-bottom: 0.25rem;
+      .step-number {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: white;
+        background: linear-gradient(135deg, var(--accent-color), #6366f1);
+        border-radius: var(--radius-md);
+      }
+
+      .step-text {
+        flex: 1;
+        font-weight: 500;
       }
     }
   }
+
+  .instructions-heading {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+    margin: var(--space-md) 0 0 0;
+  }
 }
 
-/* ========================
-   Selected Files
-   ======================== */
 .selected-files {
-  /* Positioning */
   display: flex;
   flex-wrap: wrap;
-
-  /* Box Model */
   margin: var(--space-md) 0;
   gap: var(--space-sm);
 
-  /* File chip */
   .file-chip {
-    /* Positioning */
     display: flex;
     align-items: center;
-
-    /* Box Model */
     padding: 0.35rem 0.7rem;
     gap: var(--space-sm);
-
-    /* Typography */
     font-size: 0.8rem;
     color: var(--text-primary);
-
-    /* Visual */
     background: var(--primary-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-full);
 
-    /* Remove button */
     .chip-remove {
-      /* Box Model */
       padding: 0;
-
-      /* Typography */
       font-size: 0.9rem;
       line-height: 1;
       color: var(--text-secondary);
-
-      /* Visual */
       background: transparent;
       border: none;
-
-      /* Misc */
       cursor: pointer;
       transition: color var(--t-fast);
 
-      /* Hover state */
       &:hover {
         color: var(--badge-color);
       }
 
-      /* Disabled state */
       &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
@@ -165,9 +159,6 @@
   }
 }
 
-/* ========================
-   Action Buttons
-   ======================== */
 .action-button {
   /* Box Model */
   width: 100%;
@@ -218,9 +209,6 @@
   gap: var(--space-xs);
 }
 
-/* ========================
-   Processing State
-   ======================== */
 .processing {
   /* Positioning */
   display: flex;
@@ -246,9 +234,6 @@
   }
 }
 
-/* ========================
-   Alert Messages
-   ======================== */
 .alert {
   /* Box Model */
   padding: var(--space-sm) var(--space-md);
@@ -268,9 +253,6 @@
   }
 }
 
-/* ========================
-   Events List - Calendar events display
-   ======================== */
 .events-list {
   /* Box Model */
   margin-bottom: var(--space-md);
@@ -637,18 +619,12 @@
   }
 }
 
-/* ========================
-   Actions Container
-   ======================== */
 .actions {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
 
-/* ========================
-   Animations
-   ======================== */
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -658,15 +634,43 @@
   }
 }
 
-/* ========================
-   Responsive Styles
-   ======================== */
 @media (max-width: 768px) {
   .upload-zone {
     padding: 1.5rem 1rem;
 
     .upload-icon {
-      font-size: 1.75rem;
+      font-size: 2.5rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .instructions-heading {
+      font-size: 1rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .upload-steps {
+      max-width: 100%;
+      margin: var(--space-md) 0;
+
+      li {
+        padding: var(--space-sm);
+        font-size: 0.85rem;
+
+        .step-number {
+          width: 28px;
+          height: 28px;
+          font-size: 0.8rem;
+        }
+
+        &:hover {
+          transform: none;
+        }
+      }
+    }
+
+    .upload-prompt {
+      margin-top: var(--space-lg);
+      font-size: 0.9rem;
     }
   }
 
@@ -733,9 +737,6 @@
   }
 }
 
-/* ========================
-   Authentication Styles
-   ======================== */
 
 /* Auth Required Section */
 .auth-required {
@@ -832,9 +833,6 @@
   }
 }
 
-/* ========================
-   Focus Indicators & Accessibility
-   ======================== */
 .sign-in-button:focus,
 .sign-in-button:focus-visible {
   outline: 2px solid var(--accent-color);
@@ -843,9 +841,6 @@
   transition: all var(--t-fast);
 }
 
-/* ========================
-   Batch Processing Styles
-   ======================== */
 .batch-processing {
   display: flex;
   flex-direction: column;
@@ -980,9 +975,6 @@
   color: var(--text-secondary);
 }
 
-/* ========================
-   Reduced Motion Support
-   ======================== */
 @media (prefers-reduced-motion: reduce) {
   .sign-in-button:hover {
     transform: none !important;
