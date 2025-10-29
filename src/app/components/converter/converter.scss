@@ -22,6 +22,18 @@
     font-size: 2rem;
   }
 
+  .marketing-text {
+    margin: var(--space-sm) 0 var(--space-md) 0;
+    text-align: center;
+    
+    p {
+      margin: var(--space-xs) 0;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+  }
+
   .upload-prompt {
     margin: var(--space-md) 0 var(--space-xs) 0;
     font-size: 0.875rem;
@@ -82,14 +94,16 @@
         transform: translateX(4px);
       }
       
-      .step-icon {
+      .step-number {
         flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         width: 32px;
         height: 32px;
-        font-size: 1.2rem;
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: white;
         background: linear-gradient(135deg, var(--accent-color), #6366f1);
         border-radius: var(--radius-md);
       }
@@ -646,10 +660,10 @@
         padding: var(--space-sm);
         font-size: 0.85rem;
         
-        .step-icon {
+        .step-number {
           width: 28px;
           height: 28px;
-          font-size: 1rem;
+          font-size: 0.8rem;
         }
         
         &:hover {
