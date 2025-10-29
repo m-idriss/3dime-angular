@@ -1,6 +1,6 @@
 <article class="container" [attr.aria-labelledby]="title ? 'card-title-' + title : null">
   @if (title) {
-    <h2 [id]="'card-title-' + title">{{ title }}</h2>
+    <h3 [id]="'card-title-' + title">{{ title }}</h3>
   }
   <ng-content></ng-content>
 </article>

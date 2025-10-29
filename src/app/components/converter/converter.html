@@ -7,7 +7,7 @@
         <p>
           Upload or snap your appointments, and AI turns them into calendar-ready events.
         </p>
-        <img src="/assets/images/converter.png" class="auth-image" />
+        <img src="/assets/images/converter.png" alt="Calendar converter illustration" class="auth-image" loading="lazy" />
       </div>
       <button class="sign-in-button" (click)="signIn()" aria-label="Sign in with Google to use converter">
         🔐 Sign in with Google
@@ -150,7 +150,14 @@
           <article class="event-item" [class.editing]="event.isEditing" [class.show-actions]="event.showActions" [attr.aria-label]="'Event: ' + event.summary">
             <!-- View Mode -->
             @if (!event.isEditing) {
-              <div class="event-card" (click)="toggleEventActions($index)">
+              <div class="event-card" 
+                (click)="toggleEventActions($index)" 
+                (keydown.enter)="toggleEventActions($index)"
+                (keydown.space)="toggleEventActions($index)"
+                tabindex="0"
+                role="button"
+                [attr.aria-expanded]="event.showActions"
+                aria-label="Toggle event actions">
                 <div class="event-date" aria-hidden="true">
                   <div class="date-block">
                     <span [innerHTML]="getMonthDay(event.start)"></span>
@@ -175,11 +182,17 @@
               </div>
               <!-- Action Menu (shown on click) -->
               @if (event.showActions) {
-                <div class="event-actions-menu" (click)="$event.stopPropagation()">
-                  <button class="action-menu-button edit" (click)="editEvent($index)" aria-label="Edit event">
+                <div class="event-actions-menu" 
+                  (click)="$event.stopPropagation()" 
+                  (keydown.enter)="$event.stopPropagation()"
+                  (keydown.space)="$event.stopPropagation()"
+                  tabindex="-1"
+                  role="menu"
+                  aria-label="Event actions">
+                  <button class="action-menu-button edit" (click)="editEvent($index)" role="menuitem" aria-label="Edit event">
                     ✏️ Edit
                   </button>
-                  <button class="action-menu-button delete" (click)="deleteEvent($index)" aria-label="Delete event">
+                  <button class="action-menu-button delete" (click)="deleteEvent($index)" role="menuitem" aria-label="Delete event">
                     🗑️ Delete
                   </button>
                 </div>
