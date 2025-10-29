@@ -35,6 +35,14 @@
         role="region"
         aria-labelledby="upload-heading"
       >
+        <p>Save time creating calendar appointments.</p>
+        <p>AI will do the work for you!</p>
+        <ol class="upload-steps" aria-label="How it works">
+          <li>Upload photos, images, or PDFs of your events.</li>
+          <li>AI converts them into calendar-ready events.</li>
+          <li>Review and edit extracted events.</li>
+          <li>Download and import into your device.</li>
+        </ol>
         <div class="upload-icon" aria-hidden="true">📤</div>
         <h3 id="upload-heading" class="sr-only">Upload Files</h3>
         <p>Drop files here or</p>
@@ -150,8 +158,8 @@
           <article class="event-item" [class.editing]="event.isEditing" [class.show-actions]="event.showActions" [attr.aria-label]="'Event: ' + event.summary">
             <!-- View Mode -->
             @if (!event.isEditing) {
-              <div class="event-card" 
-                (click)="toggleEventActions($index)" 
+              <div class="event-card"
+                (click)="toggleEventActions($index)"
                 (keydown.enter)="toggleEventActions($index)"
                 (keydown.space)="toggleEventActions($index)"
                 tabindex="0"
@@ -182,8 +190,8 @@
               </div>
               <!-- Action Menu (shown on click) -->
               @if (event.showActions) {
-                <div class="event-actions-menu" 
-                  (click)="$event.stopPropagation()" 
+                <div class="event-actions-menu"
+                  (click)="$event.stopPropagation()"
                   (keydown.enter)="$event.stopPropagation()"
                   (keydown.space)="$event.stopPropagation()"
                   tabindex="-1"

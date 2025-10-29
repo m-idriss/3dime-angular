@@ -10,7 +10,7 @@
   text-align: center;
 
   /* Box Model */
-  padding: 2rem 1.5rem;
+  padding: 0.5rem 0.5rem;
   margin: var(--space-xs);
 
   /* Visual */
@@ -81,6 +81,24 @@
   /* Hide file input */
   .file-input {
     display: none;
+  }
+
+//upload-steps
+  .upload-steps {
+        /* Positioning */
+        display: inline-block;
+    margin-top: var(--space-md);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-align: left;
+
+    ol {
+      padding-left: 1.25rem;
+
+      li {
+        margin-bottom: 0.25rem;
+      }
+    }
   }
 }
 
