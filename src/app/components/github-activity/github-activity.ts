@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef,
   OnDestroy,
 } from '@angular/core';
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
@@ -20,7 +20,7 @@ import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
 @Component({
   selector: 'app-github-activity',
   standalone: true,
-  imports: [Card],
+  imports: [Card, LayoutModule],
   templateUrl: './github-activity.html',
   styleUrl: './github-activity.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,7 +42,7 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.breakpointSub = this.breakpointObserver
       .observe(['(max-width: 1068px)'])
-      .subscribe(result => {
+      .subscribe((result: { matches: boolean }) => {
         this.months = result.matches
           ? Math.max(1, GITHUB_ACTIVITY_CONFIG.DEFAULT_MONTHS - 1)
           : GITHUB_ACTIVITY_CONFIG.DEFAULT_MONTHS;

@@ -15,6 +15,7 @@ import { ProfileCard } from './components/profile-card/profile-card';
 import { Stuff } from './components/stuff/stuff';
 import { TechStack } from './components/tech-stack/tech-stack';
 import { PWA_CONFIG } from './constants/pwa.constants';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ import { PWA_CONFIG } from './constants/pwa.constants';
     ProfileCard,
     Stuff,
     TechStack,
+    LayoutModule,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
