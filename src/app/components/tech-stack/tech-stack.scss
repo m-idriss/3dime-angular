@@ -1,18 +1,3 @@
 /* Tech Stack Component */
 
-.chip-link-small {
-  color: var(--text-primary);
-  text-decoration: none;
-  font-size: var(--font-sm);
-  transition: color var(--transition-fast);
-}
-
-.chip-link-small:hover {
-  color: var(--primary-color);
-}
-
-.mat-mdc-chip-set {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs);
-}
+@use '../shared-chip-styles';
