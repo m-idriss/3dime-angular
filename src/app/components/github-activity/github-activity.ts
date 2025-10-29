@@ -5,7 +5,10 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
 import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
 import Tooltip from 'cal-heatmap/plugins/Tooltip';
@@ -14,11 +17,6 @@ import { ProfileService, CommitData } from '../../services/profile.service';
 import { Card } from '../card/card';
 import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
 
-/**
- * Component displaying GitHub commit activity as a heatmap calendar.
- * Uses CalHeatmap library to visualize commit frequency over time.
- * Implements OnPush change detection for optimal performance.
- */
 @Component({
   selector: 'app-github-activity',
   standalone: true,
@@ -27,40 +25,72 @@ import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
   styleUrl: './github-activity.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GithubActivity implements AfterViewInit {
+export class GithubActivity implements AfterViewInit, OnDestroy {
   @ViewChild('heatmapContainer', { static: false }) container!: ElementRef;
   data: CommitData[] = [];
   months = GITHUB_ACTIVITY_CONFIG.DEFAULT_MONTHS;
   isLoading = true;
+  private cal: any;
+  private breakpointSub!: Subscription;
 
   constructor(
     private readonly profileService: ProfileService,
     private readonly cdr: ChangeDetectorRef,
+    private readonly breakpointObserver: BreakpointObserver,
   ) {}
 
   ngAfterViewInit(): void {
-    this.profileService.getCommits(this.months).subscribe((commits: CommitData[]) => {
+    this.breakpointSub = this.breakpointObserver
+      .observe(['(max-width: 1068px)'])
+      .subscribe(result => {
+        this.months = result.matches
+          ? Math.max(1, GITHUB_ACTIVITY_CONFIG.DEFAULT_MONTHS - 1)
+          : GITHUB_ACTIVITY_CONFIG.DEFAULT_MONTHS;
+
+        this.loadCommits();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.breakpointSub?.unsubscribe();
+  }
+
+  private previousMonths?: number;
+
+  private loadCommits(): void {
+    if (this.data.length && this.months === this.previousMonths) {
+      return;
+    }
+
+    this.previousMonths = this.months;
+
+    this.isLoading = true;
+    this.profileService.getCommits(this.months).subscribe(commits => {
       this.data = commits;
       this.isLoading = false;
       this.cdr.markForCheck();
 
-      // Wait for next tick to ensure the view has been updated
-      setTimeout(() => {
-        if (this.container) {
-          this.renderHeatmap();
-        }
-      }, 0);
+      setTimeout(() => this.renderHeatmap(), 0);
     });
   }
 
-  /**
-   * Render the commit activity heatmap using CalHeatmap library.
-   * Configures color scale, date range, and interactive tooltips.
-   */
   renderHeatmap(): void {
-    const cal: any = new CalHeatmap();
+    if (this.container?.nativeElement) {
+      this.container.nativeElement.innerHTML = '';
+    }
 
-    cal.paint(
+    if (this.cal) {
+      try {
+        this.cal.destroy();
+      } catch (e) {
+        // cal.destroy() may throw an error if called too early
+        console.warn('Error destroying previous CalHeatmap instance:', e);
+      }
+    }
+
+    this.cal = new CalHeatmap();
+
+    this.cal.paint(
       {
         itemSelector: this.container.nativeElement,
         domain: {
@@ -110,18 +140,18 @@ export class GithubActivity implements AfterViewInit {
         [
           Tooltip,
           {
-           text: (_timestamp: number, value: number, dayjsDate: any) => {
-             if (value === 0) {
-               return `No contributions on ${dayjsDate.format('LL')}`;
-             } else if (value === 1) {
-               return `1 contribution on ${dayjsDate.format('LL')}`;
-             } else if (value > 1) {
-               return `${value} contributions on ${dayjsDate.format('LL')}`;
-             } else {
-               return '';
-             }
-           },
-         },
+            text: (_timestamp: number, value: number, dayjsDate: any) => {
+              if (value === 0) {
+                return `No contributions on ${dayjsDate.format('LL')}`;
+              } else if (value === 1) {
+                return `1 contribution on ${dayjsDate.format('LL')}`;
+              } else if (value > 1) {
+                return `${value} contributions on ${dayjsDate.format('LL')}`;
+              } else {
+                return '';
+              }
+            },
+          },
         ],
       ],
     );

@@ -80,11 +80,11 @@ export const CALENDAR_CONFIG = {
 /**
  * GitHub activity configuration
  */
-export const GITHUB_ACTIVITY_CONFIG = {
+export const GITHUB_ACTIVITY_CONFIG: { DEFAULT_MONTHS: number } = {
   /**
    * Number of months to display in the activity heatmap
    */
-  DEFAULT_MONTHS: 6,
+  DEFAULT_MONTHS: 7,
 } as const;
 
 /**
