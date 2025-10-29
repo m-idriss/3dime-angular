@@ -1,0 +1,80 @@
+/* Calendar Converter Component */
+
+.converter-container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  margin-bottom: var(--spacing-lg);
+}
+
+h2 {
+  font-size: var(--font-2xl);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.converter-content {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+}
+
+.converter-content h3 {
+  font-size: var(--font-xl);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.converter-content p {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+.converter-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--primary-color);
+  color: #000;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--font-base);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+}
+
+button:hover {
+  background: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 212, 170, 0.4);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .converter-container {
+    padding: var(--spacing-md);
+  }
+  
+  .converter-content {
+    padding: var(--spacing-md);
+  }
+}

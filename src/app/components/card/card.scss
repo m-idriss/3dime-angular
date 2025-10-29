@@ -1,0 +1,58 @@
+/* Card Component - Glassmorphism Style */
+
+.container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--glass-border),
+    transparent
+  );
+  opacity: 0.5;
+}
+
+.container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px var(--glass-shadow);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+h2 {
+  font-size: var(--font-2xl);
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+  }
+  
+  h2 {
+    font-size: var(--font-xl);
+  }
+}

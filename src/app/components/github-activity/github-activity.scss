@@ -1,0 +1,30 @@
+/* GitHub Activity Component */
+
+.heatmap-container {
+  margin-top: var(--spacing-md);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Heatmap styling */
+:host ::ng-deep {
+  .cal-heatmap-container {
+    font-family: inherit;
+  }
+  
+  .ch-domain-text {
+    fill: var(--text-secondary);
+    font-size: var(--font-xs);
+  }
+  
+  .ch-domain-rect {
+    stroke: var(--glass-border);
+    stroke-width: 1px;
+  }
+  
+  .ch-subdomain-rect {
+    fill: var(--glass-bg);
+    stroke: var(--glass-border);
+    stroke-width: 0.5px;
+  }
+}

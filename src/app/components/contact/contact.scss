@@ -1,0 +1,33 @@
+/* Contact Component */
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.contact-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary-color);
+  transform: translateX(4px);
+}
+
+.contact-item a {
+  color: var(--text-primary);
+  word-break: break-all;
+}
+
+.contact-item a:hover {
+  color: var(--primary-color);
+}
