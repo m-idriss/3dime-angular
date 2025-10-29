@@ -186,6 +186,7 @@
                   (click)="$event.stopPropagation()" 
                   (keydown.enter)="$event.stopPropagation()"
                   (keydown.space)="$event.stopPropagation()"
+                  tabindex="-1"
                   role="menu"
                   aria-label="Event actions">
                   <button class="action-menu-button edit" (click)="editEvent($index)" role="menuitem" aria-label="Edit event">
