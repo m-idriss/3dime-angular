@@ -121,7 +121,7 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
           opacity: {
             baseColor: '#016b26',
             type: 'linear',
-            domain: [-1, 20],
+            domain: [-1, 15],
           },
         },
       },
