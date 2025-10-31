@@ -32,19 +32,23 @@
   }
 
   @if (type === 'avatar') {
-    <div 
-      class="skeleton skeleton-avatar"
-      role="status"
-      aria-label="Loading avatar">
-    </div>
+    @for (item of items; track $index) {
+      <div 
+        class="skeleton skeleton-avatar"
+        role="status"
+        aria-label="Loading avatar">
+      </div>
+    }
   }
 
   @if (type === 'card') {
-    <div class="skeleton-card" role="status" aria-label="Loading card">
-      <div class="skeleton skeleton-title"></div>
-      <div class="skeleton skeleton-text"></div>
-      <div class="skeleton skeleton-text" style="width: 80%;"></div>
-      <div class="skeleton skeleton-text" style="width: 60%;"></div>
-    </div>
+    @for (item of items; track $index) {
+      <div class="skeleton-card" role="status" aria-label="Loading card">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text skeleton-text-80"></div>
+        <div class="skeleton skeleton-text skeleton-text-60"></div>
+      </div>
+    }
   }
 </div>
