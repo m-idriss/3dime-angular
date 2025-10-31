@@ -12,7 +12,6 @@ import { Card } from '../card/card';
   standalone: true,
   imports: [Card],
   templateUrl: './about.html',
-  styleUrl: './about.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class About implements OnInit {
