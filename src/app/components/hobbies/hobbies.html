@@ -1,14 +1,9 @@
 <app-card title="Hobbies & Interests">
-  @if (isLoading) {
-  <div class="loading-container" role="status" aria-live="polite">
-    <div class="spinner">
-      <div class="spinner-circle"></div>
-    </div>
-    <p>Loading hobbies...</p>
-  </div>
-  } @else {
   <p>Things I enjoy watching/doing.</p>
   <nav aria-label="Hobbies and interests">
+    @if (isLoading) {
+      <app-skeleton-loader type="chip" [count]="6" />
+    } @else {
       @for (hobby of hobbies; track hobby.name) {
         <a
           [href]="hobby.url"
@@ -22,6 +17,6 @@
       } @empty {
         <p>No hobbies available.</p>
       }
-    </nav>
-  }
+    }
+  </nav>
 </app-card>

@@ -9,6 +9,7 @@ import {
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
 import { AuthAwareComponent } from '../base/auth-aware.component';
+import { SkeletonLoader } from '../skeleton-loader/skeleton-loader';
 import {
   SOCIAL_ICON_MAP,
   DEFAULT_SOCIAL_ICON,
@@ -18,7 +19,7 @@ import {
 @Component({
   selector: 'app-profile-card',
   standalone: true,
-  imports: [],
+  imports: [SkeletonLoader],
   templateUrl: './profile-card.html',
   styleUrl: './profile-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

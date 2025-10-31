@@ -453,3 +453,12 @@ body.notifications-off .badge {
     }
   }
 }
+
+/* Profile skeleton loader styling */
+.profile-skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-xl) 0;
+}

@@ -15,12 +15,13 @@ import Tooltip from 'cal-heatmap/plugins/Tooltip';
 
 import { ProfileService, CommitData } from '../../services/profile.service';
 import { Card } from '../card/card';
+import { SkeletonLoader } from '../skeleton-loader/skeleton-loader';
 import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
 
 @Component({
   selector: 'app-github-activity',
   standalone: true,
-  imports: [Card, LayoutModule],
+  imports: [Card, LayoutModule, SkeletonLoader],
   templateUrl: './github-activity.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
