@@ -1,14 +1,9 @@
 <app-card title="Stuff">
-  @if (isLoading) {
-  <div class="loading-container" role="status" aria-live="polite">
-    <div class="spinner">
-      <div class="spinner-circle"></div>
-    </div>
-    <p>Loading stuff...</p>
-  </div>
-  } @else {
   <p>Stuff I use and recommend.</p>
   <nav aria-label="Recommended products and tools">
+    @if (isLoading) {
+      <app-skeleton-loader type="link" [count]="5" />
+    } @else {
       @for (stuff of stuffs; track stuff.name) {
         <a
           [href]="stuff.url"
@@ -22,6 +17,6 @@
       } @empty {
         <p>No stuff available.</p>
       }
-    </nav>
-  }
+    }
+  </nav>
 </app-card>
