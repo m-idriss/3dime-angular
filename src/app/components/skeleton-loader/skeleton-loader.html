@@ -1,0 +1,54 @@
+<div class="skeleton-container">
+  @if (type === 'text') {
+    @for (item of items; track $index) {
+      <div 
+        class="skeleton skeleton-text" 
+        [style.width]="width"
+        [style.height]="height"
+        role="status"
+        aria-label="Loading content">
+      </div>
+    }
+  }
+
+  @if (type === 'chip') {
+    @for (item of items; track $index) {
+      <div 
+        class="skeleton skeleton-chip"
+        role="status"
+        aria-label="Loading chip">
+      </div>
+    }
+  }
+
+  @if (type === 'link') {
+    @for (item of items; track $index) {
+      <div 
+        class="skeleton skeleton-link"
+        role="status"
+        aria-label="Loading link">
+      </div>
+    }
+  }
+
+  @if (type === 'avatar') {
+    @for (item of items; track $index) {
+      <div 
+        class="skeleton skeleton-avatar"
+        role="status"
+        aria-label="Loading avatar">
+      </div>
+    }
+  }
+
+  @if (type === 'card') {
+    @for (item of items; track $index) {
+      <div class="skeleton-card" role="status" aria-label="Loading card">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text skeleton-text-80"></div>
+        <div class="skeleton skeleton-text skeleton-text-60"></div>
+      </div>
+    }
+  }
+</div>

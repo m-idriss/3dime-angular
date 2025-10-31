@@ -1,10 +1,7 @@
 <app-card title="Github Activity">
   @if (isLoading) {
-    <div class="loading-container" role="status" aria-live="polite">
-      <div class="spinner">
-        <div class="spinner-circle"></div>
-      </div>
-      <p>Loading activity...</p>
+    <div class="heatmap-skeleton">
+      <app-skeleton-loader type="text" [height]="'150px'" />
     </div>
   } @else {
     <div

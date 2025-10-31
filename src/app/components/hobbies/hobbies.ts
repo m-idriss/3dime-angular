@@ -2,13 +2,14 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Card } from '../card/card';
+import { SkeletonLoader } from '../skeleton-loader/skeleton-loader';
 import { NotionAwareComponent } from '../base/notion-aware.component';
 import { LinkItem } from '../../models';
 
 @Component({
   selector: 'app-hobbies',
   standalone: true,
-  imports: [Card],
+  imports: [Card, SkeletonLoader],
   templateUrl: './hobbies.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
