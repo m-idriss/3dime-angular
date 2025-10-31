@@ -22,7 +22,6 @@ import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
   standalone: true,
   imports: [Card, LayoutModule],
   templateUrl: './github-activity.html',
-  styleUrl: './github-activity.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GithubActivity implements AfterViewInit, OnDestroy {

@@ -10,7 +10,6 @@ import { LinkItem } from '../../models';
   standalone: true,
   imports: [Card],
   templateUrl: './education.html',
-  styleUrl: './education.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Education extends NotionAwareComponent {
