@@ -1,14 +1,9 @@
 <app-card title="Tech Stack">
-  @if (isLoading) {
-  <div class="loading-container" role="status" aria-live="polite">
-    <div class="spinner">
-      <div class="spinner-circle"></div>
-    </div>
-    <p>Loading tech stack...</p>
-  </div>
-  } @else {
   <p>Some of the technologies I worked with.</p>
   <nav aria-label="Technology stack links">
+    @if (isLoading) {
+      <app-skeleton-loader type="chip" [count]="8" />
+    } @else {
       @for (tech of techStack; track tech.name) {
         <a
           [href]="tech.url"
@@ -22,6 +17,6 @@
       } @empty {
         <p>No technologies available.</p>
       }
-    </nav>
-  }
+    }
+  </nav>
 </app-card>
