@@ -10,7 +10,6 @@ import { LinkItem } from '../../models';
   standalone: true,
   imports: [Card],
   templateUrl: './hobbies.html',
-  styleUrl: './hobbies.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Hobbies extends NotionAwareComponent {

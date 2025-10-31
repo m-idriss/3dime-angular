@@ -10,7 +10,6 @@ import { LinkItem } from '../../models';
   standalone: true,
   imports: [Card],
   templateUrl: './tech-stack.html',
-  styleUrl: './tech-stack.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TechStack extends NotionAwareComponent {

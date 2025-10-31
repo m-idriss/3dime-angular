@@ -35,7 +35,6 @@ import { LayoutModule } from '@angular/cdk/layout';
     LayoutModule,
   ],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
 })
 export class App implements OnInit {
   protected readonly title = signal('3dime-angular');
