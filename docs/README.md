@@ -324,7 +324,11 @@ Going deeper into the architecture:
 
 ## 📊 Documentation Statistics
 
-- **Total Documents**: 12 (9 in docs/, 1 main README, 1 functions README, 1 Bruno README)
+- **Total Documents**: 12 
+  - Main README: 1
+  - Functions README: 1
+  - Bruno README: 1
+  - Docs folder: 9
 - **Total Pages**: ~70+ pages of documentation
 - **Topics Covered**: 120+
 - **Code Examples**: 100+

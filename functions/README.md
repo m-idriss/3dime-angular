@@ -12,7 +12,7 @@ The Firebase Functions serve as a backend layer for:
 
 ## Prerequisites
 
-- **Node.js**: 20+ (Functions require Node 22 but work with 20)
+- **Node.js**: 22+ recommended (Node 20 works but Node 22 is recommended for full compatibility)
 - **npm**: 10+
 - **Firebase CLI**: Install with `npm install -g firebase-tools`
 - **Firebase Project**: Set up in [Firebase Console](https://console.firebase.google.com)
@@ -323,9 +323,9 @@ npm install
 ## Documentation
 
 For more information, see:
-- [API Documentation](../docs/API.md) - Detailed API endpoint documentation
-- [Main README](../README.md) - Project overview
-- [Firebase Functions Docs](https://firebase.google.com/docs/functions) - Official documentation
+- **[API Documentation](../docs/API.md)** (from repository root: `docs/API.md`) - Detailed API endpoint documentation
+- **[Main README](../README.md)** (from repository root: `README.md`) - Project overview
+- **[Firebase Functions Docs](https://firebase.google.com/docs/functions)** - Official documentation
 
 ## Contributing
 
