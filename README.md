@@ -442,6 +442,9 @@ Comprehensive documentation is available to help you understand and work with th
 - **[Services Documentation](./docs/SERVICES.md)** - Service APIs and data management
 - **[Design System](./docs/DESIGN_SYSTEM.md)** - Design principles, colors, and styling
 - **[API Documentation](./docs/API.md)** - Firebase Functions and API endpoints
+- **[PWA Documentation](./docs/PWA.md)** - Progressive Web App features and setup
+- **[Calendar Converter](./docs/CONVERTER.md)** - AI-powered calendar conversion feature
+- **[Firebase Functions](./functions/README.md)** - Backend functions and deployment
 - **[Bruno API Collection](./bruno-collections/3dime-api/README.md)** - API testing with Bruno
 
 ### Planning & Roadmap
