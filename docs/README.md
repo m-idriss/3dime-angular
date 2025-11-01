@@ -45,6 +45,14 @@
 | [Component Documentation](./COMPONENTS.md) | All components, component guidelines, best practices, accessibility |
 | [Services Documentation](./SERVICES.md)    | ThemeService, ProfileService, NotionService, service patterns       |
 | [API Documentation](./API.md)              | Firebase Functions, API endpoints, error handling, deployment       |
+| [Firebase Functions](../functions/README.md) | Backend functions, deployment, configuration, testing             |
+
+### Features & Functionality
+
+| Document                       | Topics Covered                                                     |
+| ------------------------------ | ------------------------------------------------------------------ |
+| [PWA Documentation](./PWA.md)  | Progressive Web App features, installation, service worker, caching |
+| [Calendar Converter](./CONVERTER.md) | AI-powered conversion, file upload, event editing, ICS generation |
 
 ### Design & Styling
 
@@ -75,6 +83,7 @@ Essential reading for frontend development:
 
 Essential reading for backend/API work:
 
+- [Firebase Functions](../functions/README.md) - Backend implementation and deployment
 - [API Documentation](./API.md) - Firebase Functions and endpoints
 - [Services Documentation](./SERVICES.md) - Data layer integration
 - [Development Guidelines](./DEVELOPMENT.md) - Testing and deployment
@@ -183,6 +192,46 @@ Essential reading for first-time contributors:
 ✓ Deployment instructions
 ```
 
+### Firebase Functions
+
+```
+✓ Backend functions overview
+✓ Function architecture and structure
+✓ Available endpoints (proxy, GitHub, Notion, converter)
+✓ Local development with emulators
+✓ Environment variables and secrets
+✓ Deployment instructions
+✓ Testing with Bruno
+✓ Performance optimization
+✓ Troubleshooting guide
+```
+
+### PWA Documentation
+
+```
+✓ Progressive Web App features
+✓ Service worker configuration
+✓ Installability on iOS, Android, desktop
+✓ Share target implementation
+✓ App shortcuts
+✓ Offline support
+✓ Update notifications
+✓ Testing PWA locally
+```
+
+### Calendar Converter
+
+```
+✓ Feature overview and capabilities
+✓ AI-powered image/PDF to ICS conversion
+✓ File upload and validation
+✓ Batch processing
+✓ Event editing interface
+✓ Firebase integration
+✓ Architecture (frontend + backend)
+✓ Usage instructions
+```
+
 ### Contributing Guidelines
 
 ```
@@ -229,15 +278,18 @@ Essential reading for first-time contributors:
 
 ### "I want to learn about...?"
 
-| Topic             | Document                                      | Section            |
-| ----------------- | --------------------------------------------- | ------------------ |
-| Project structure | [README.md](../README.md)                     | Architecture       |
-| Components        | [Component Documentation](./COMPONENTS.md)    | Core Components    |
-| Services          | [Services Documentation](./SERVICES.md)       | Core Services      |
-| Styling           | [Design System](./DESIGN_SYSTEM.md)           | All sections       |
-| API endpoints     | [API Documentation](./API.md)                 | API Endpoints      |
-| Git workflow      | [Contributing Guidelines](../CONTRIBUTING.md) | Submitting Changes |
-| Future plans      | [Project Roadmap](../ROADMAP.md)              | All phases         |
+| Topic                 | Document                                      | Section            |
+| --------------------- | --------------------------------------------- | ------------------ |
+| Project structure     | [README.md](../README.md)                     | Architecture       |
+| Components            | [Component Documentation](./COMPONENTS.md)    | Core Components    |
+| Services              | [Services Documentation](./SERVICES.md)       | Core Services      |
+| Styling               | [Design System](./DESIGN_SYSTEM.md)           | All sections       |
+| API endpoints         | [API Documentation](./API.md)                 | API Endpoints      |
+| Backend functions     | [Firebase Functions](../functions/README.md)  | All sections       |
+| PWA features          | [PWA Documentation](./PWA.md)                 | Features           |
+| Calendar converter    | [Calendar Converter](./CONVERTER.md)          | Overview           |
+| Git workflow          | [Contributing Guidelines](../CONTRIBUTING.md) | Submitting Changes |
+| Future plans          | [Project Roadmap](../ROADMAP.md)              | All phases         |
 
 ---
 
@@ -272,13 +324,14 @@ Going deeper into the architecture:
 
 ## 📊 Documentation Statistics
 
-- **Total Documents**: 8
-- **Total Pages**: ~50+ pages of documentation
-- **Topics Covered**: 100+
-- **Code Examples**: 80+
+- **Total Documents**: 12 (9 in docs/, 1 main README, 1 functions README, 1 Bruno README)
+- **Total Pages**: ~70+ pages of documentation
+- **Topics Covered**: 120+
+- **Code Examples**: 100+
 - **Components Documented**: 9
 - **Services Documented**: 3
 - **API Endpoints**: 5
+- **Firebase Functions**: 5
 
 ---
 
