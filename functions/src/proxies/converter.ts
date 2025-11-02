@@ -29,7 +29,13 @@ async function getGeminiAccessToken(): Promise<string> {
     throw new Error("SERVICE_ACCOUNT_JSON not configured");
   }
 
-  const credentials = JSON.parse(serviceAccountJson);
+  let credentials;
+  try {
+    credentials = JSON.parse(serviceAccountJson);
+  } catch (parseError) {
+    throw new Error("Invalid SERVICE_ACCOUNT_JSON format");
+  }
+
   const auth = new GoogleAuth({
     credentials,
     scopes: ['https://www.googleapis.com/auth/generative-language'],
@@ -46,11 +52,23 @@ async function getGeminiAccessToken(): Promise<string> {
 }
 
 /**
+ * Image file interface for type safety
+ */
+interface ImageFile {
+  dataUrl?: string;
+  url?: string;
+}
+
+/**
  * Helper function to convert image data URL to inline data format for Gemini
  */
-function prepareImageForGemini(file: any) {
+function prepareImageForGemini(file: ImageFile) {
   const dataUrl = file.dataUrl || file.url;
   
+  if (!dataUrl) {
+    throw new Error("Image file must have either dataUrl or url property");
+  }
+
   // Extract mime type and base64 data from data URL
   // Format: data:image/jpeg;base64,/9j/4AAQ...
   const matches = dataUrl.match(/^data:(.+?);base64,(.+)$/);
@@ -117,18 +135,30 @@ export const converterFunction = onRequest(
         }
 
         // Prepare content parts: system prompt + text + images
+        const imageParts = [];
+        const imageErrors = [];
+        
+        for (let i = 0; i < files.length; i++) {
+          try {
+            imageParts.push(prepareImageForGemini(files[i]));
+          } catch (error: any) {
+            console.error(`Error preparing image ${i}:`, error);
+            imageErrors.push(`Image ${i + 1}: ${error.message}`);
+          }
+        }
+
+        if (imageParts.length === 0) {
+          return res.status(400).json({ 
+            error: "Failed to process any images",
+            details: imageErrors
+          });
+        }
+
         const contentParts = [
           {
             text: `${systemPrompt}\n\n${baseMessage}`
           },
-          ...files.map((file: any) => {
-            try {
-              return prepareImageForGemini(file);
-            } catch (error: any) {
-              console.error("Error preparing image:", error);
-              throw new Error(`Failed to prepare image: ${error.message}`);
-            }
-          })
+          ...imageParts
         ];
 
         // Call Gemini API
