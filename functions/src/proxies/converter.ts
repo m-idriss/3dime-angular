@@ -24,7 +24,7 @@ const corsHandler = cors({
  */
 async function getGeminiAccessToken(): Promise<string> {
   const serviceAccountJson = process.env.SERVICE_ACCOUNT_JSON;
-  
+
   if (!serviceAccountJson) {
     throw new Error("SERVICE_ACCOUNT_JSON not configured");
   }
@@ -43,7 +43,7 @@ async function getGeminiAccessToken(): Promise<string> {
 
   const client = await auth.getClient();
   const accessTokenResponse = await client.getAccessToken();
-  
+
   if (!accessTokenResponse.token) {
     throw new Error("Failed to obtain access token");
   }
@@ -64,7 +64,7 @@ interface ImageFile {
  */
 function prepareImageForGemini(file: ImageFile) {
   const dataUrl = file.dataUrl || file.url;
-  
+
   if (!dataUrl) {
     throw new Error("Image file must have either dataUrl or url property");
   }
@@ -72,13 +72,13 @@ function prepareImageForGemini(file: ImageFile) {
   // Extract mime type and base64 data from data URL
   // Format: data:image/jpeg;base64,/9j/4AAQ...
   const matches = dataUrl.match(/^data:(.+?);base64,(.+)$/);
-  
+
   if (!matches) {
     throw new Error("Invalid image data URL format");
   }
 
   const [, mimeType, data] = matches;
-  
+
   return {
     inlineData: {
       mimeType,
@@ -128,16 +128,16 @@ export const converterFunction = onRequest(
           accessToken = await getGeminiAccessToken();
         } catch (authError: any) {
           console.error("Authentication error:", authError);
-          return res.status(500).json({ 
+          return res.status(500).json({
             error: "Failed to authenticate with Gemini API",
-            message: authError.message 
+            message: authError.message
           });
         }
 
         // Prepare content parts: system prompt + text + images
         const imageParts = [];
         const imageErrors = [];
-        
+
         for (let i = 0; i < files.length; i++) {
           try {
             imageParts.push(prepareImageForGemini(files[i]));
@@ -148,7 +148,7 @@ export const converterFunction = onRequest(
         }
 
         if (imageParts.length === 0) {
-          return res.status(400).json({ 
+          return res.status(400).json({
             error: "Failed to process any images",
             details: imageErrors
           });
@@ -163,7 +163,7 @@ export const converterFunction = onRequest(
 
         // Call Gemini API
         const response = await fetch(
-          "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent",
+          "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
           {
             method: "POST",
             headers: {
@@ -192,7 +192,7 @@ export const converterFunction = onRequest(
             errorData = { message: await response.text() };
           }
           console.error("Gemini API error:", errorData);
-          
+
           // Handle specific error codes
           if (response.status === 401) {
             return res.status(401).json({
@@ -205,7 +205,7 @@ export const converterFunction = onRequest(
               details: errorData,
             });
           }
-          
+
           return res.status(response.status).json({
             error: "Failed to process images with Gemini API",
             details: errorData,
@@ -216,9 +216,9 @@ export const converterFunction = onRequest(
         let icsContent = responseData?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
 
         if (!icsContent) {
-          return res.status(500).json({ 
+          return res.status(500).json({
             error: "No ICS generated",
-            details: responseData 
+            details: responseData
           });
         }
 
