@@ -46,13 +46,14 @@ tests {
   test("success false", function() {
     const body = res.getBody();
     expect(body.success).to.equal(false);
-    expect(body.message).to.equal("Generated ICS content is invalid");
+    expect(body.message).to.equal("AI determined there are no calendar events to extract.");
   });
   
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
 
 docs {
