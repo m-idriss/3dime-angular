@@ -92,14 +92,28 @@ Fetches portfolio data from Notion database.
 
 ### 5. Converter Function (`converterFunction`)
 
-Converts images/PDFs to ICS calendar files using AI.
+Converts images/PDFs to ICS calendar files using Google Gemini AI.
 
 **Endpoint**: `/converterFunction`  
 **Method**: POST  
-**Body**: Image/PDF file data
+**Body**: JSON with image file data
+```json
+{
+  "files": [
+    {
+      "dataUrl": "data:image/jpeg;base64,/9j/4AAQ..."
+    }
+  ],
+  "timeZone": "America/New_York",
+  "currentDate": "2025-11-02"
+}
+```
 
 **Environment Variables Required**:
-- `OPENAI_API_KEY` - OpenAI API key for GPT-4 Vision
+- `SERVICE_ACCOUNT_JSON` - Google Cloud service account JSON for Gemini API authentication
+
+**Configuration**:
+The converter uses **Google Gemini 1.5 Pro** for AI-powered calendar extraction. See [Gemini API Configuration](#gemini-api-configuration) for setup details.
 
 ## Development
 
@@ -157,9 +171,116 @@ firebase functions:secrets:set GITHUB_TOKEN
 firebase functions:secrets:set NOTION_TOKEN
 firebase functions:secrets:set NOTION_DATASOURCE_ID
 
-# OpenAI API key
-firebase functions:secrets:set OPENAI_API_KEY
+# Google Cloud service account for Gemini API
+firebase functions:secrets:set SERVICE_ACCOUNT_JSON
 ```
+
+### Gemini API Configuration
+
+The converter function uses **Google Gemini 1.5 Pro** for AI-powered calendar extraction.
+
+#### Prerequisites
+
+1. **Google Cloud Project**: Create or use an existing project
+2. **Enable Generative Language API**: 
+   - Go to [Google Cloud Console](https://console.cloud.google.com)
+   - Navigate to "APIs & Services" > "Library"
+   - Search for "Generative Language API"
+   - Click "Enable"
+
+3. **Create Service Account**:
+   ```bash
+   # Using gcloud CLI
+   gcloud iam service-accounts create gemini-converter \
+       --display-name="Gemini Converter Service Account"
+   
+   # Grant necessary permissions
+   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+       --member="serviceAccount:gemini-converter@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+       --role="roles/aiplatform.user"
+   
+   # Create and download key
+   gcloud iam service-accounts keys create service-account-key.json \
+       --iam-account=gemini-converter@YOUR_PROJECT_ID.iam.gserviceaccount.com
+   ```
+
+4. **Set Firebase Secret**:
+   ```bash
+   # Read the JSON file content and set as secret
+   firebase functions:secrets:set SERVICE_ACCOUNT_JSON
+   # When prompted, paste the entire content of service-account-key.json
+   
+   # Or set from file directly
+   cat service-account-key.json | firebase functions:secrets:set SERVICE_ACCOUNT_JSON
+   ```
+
+   **⚠️ Security Note**: Never commit `service-account-key.json` to version control. Add it to `.gitignore`.
+
+#### Configuration Options
+
+Optional environment variables for customizing prompts:
+
+```bash
+# Custom message for calendar extraction
+firebase functions:config:set converter.base_text_message="Your custom extraction prompt"
+
+# Custom system prompt for the AI
+firebase functions:config:set converter.prompt="Your custom system prompt"
+```
+
+Example `.env` file for local development (see `.env.example`):
+```bash
+SERVICE_ACCOUNT_JSON='{"type":"service_account","project_id":"your-project","private_key_id":"...","private_key":"...","client_email":"...","client_id":"...","auth_uri":"...","token_uri":"...","auth_provider_x509_cert_url":"...","client_x509_cert_url":"..."}'
+```
+
+#### API Details
+
+- **Endpoint**: `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent`
+- **Authentication**: OAuth 2.0 with service account
+- **Scope**: `https://www.googleapis.com/auth/generative-language`
+- **Model**: `gemini-1.5-pro`
+- **Parameters**:
+  - Temperature: 0.1 (deterministic output)
+  - Max Output Tokens: 4096
+
+#### Testing Gemini Integration
+
+Test locally using Firebase emulators:
+
+```bash
+# Set local environment variable
+export SERVICE_ACCOUNT_JSON='{"type":"service_account",...}'
+
+# Start emulators
+firebase emulators:start
+
+# Test the converter endpoint
+curl -X POST http://localhost:5001/YOUR_PROJECT_ID/us-central1/converterFunction \
+  -H "Content-Type: application/json" \
+  -d '{
+    "files": [{"dataUrl": "data:image/jpeg;base64,..."}],
+    "timeZone": "UTC",
+    "currentDate": "2025-11-02"
+  }'
+```
+
+#### Troubleshooting Gemini API
+
+**Authentication Errors (401/403)**:
+- Verify service account has correct permissions
+- Check that Generative Language API is enabled
+- Ensure `SERVICE_ACCOUNT_JSON` secret is properly set
+- Validate JSON format of service account key
+
+**API Quota Errors**:
+- Check quota limits in Google Cloud Console
+- Implement rate limiting in your application
+- Consider upgrading to a paid plan for higher limits
+
+**Response Parsing Errors**:
+- Verify response structure matches expected format
+- Check for empty or malformed responses
+- Review Gemini API response logs in Cloud Console
 
 ### CORS Configuration
 
