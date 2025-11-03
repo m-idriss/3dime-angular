@@ -110,17 +110,10 @@ export const converterFunction = onRequest(
         const today = currentDate || new Date().toISOString().split("T")[0];
 
         // Build base system and user messages
-        const baseMessage =
-          process.env.BASE_TEXT_MESSAGE ||
-          `Extract all calendar events from the following images and generate a valid ICS file.
-           Time zone: ${tz}. Today is ${today}.
-           Only output valid ICS (no markdown, comments, or extra text).`;
+        let baseMessage = process.env.BASE_TEXT_MESSAGE || "";
+        baseMessage = baseMessage.replace("${today}", today).replace("${tz}", tz);
 
-        const systemPrompt =
-          process.env.PROMPT ||
-          "You are a calendar extraction expert. Generate RFC-compliant ICS only. \
-           Always include VERSION:2.0, UID, DTSTAMP, DTSTART, DTEND, SUMMARY, DESCRIPTION, LOCATION, TZID. \
-           Output ICS only, no extra text.";
+        const systemPrompt = process.env.PROMPT || "";
 
         // Get OAuth 2.0 access token
         let accessToken: string;
@@ -219,6 +212,14 @@ export const converterFunction = onRequest(
           return res.status(500).json({
             error: "No ICS generated",
             details: responseData
+          });
+        }
+
+        if (icsContent.toLowerCase() === "null") {
+          return res.status(200).json({
+            success: false,
+            error: "No events found in images",
+            message: "AI determined there are no calendar events to extract.",
           });
         }
 
