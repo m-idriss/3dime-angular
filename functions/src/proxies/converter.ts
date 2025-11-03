@@ -1,5 +1,6 @@
 import { onRequest } from "firebase-functions/v2/https";
 import cors from "cors";
+import { GoogleAuth } from "google-auth-library";
 
 // Whitelist of allowed origins for CORS
 const allowedOrigins = [
@@ -18,9 +19,77 @@ const corsHandler = cors({
   credentials: true,
 });
 
+/**
+ * Helper function to get OAuth 2.0 access token using service account
+ */
+async function getGeminiAccessToken(): Promise<string> {
+  const serviceAccountJson = process.env.SERVICE_ACCOUNT_JSON;
+
+  if (!serviceAccountJson) {
+    throw new Error("SERVICE_ACCOUNT_JSON not configured");
+  }
+
+  let credentials;
+  try {
+    credentials = JSON.parse(serviceAccountJson);
+  } catch (parseError) {
+    throw new Error("Invalid SERVICE_ACCOUNT_JSON format");
+  }
+
+  const auth = new GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/generative-language'],
+  });
+
+  const client = await auth.getClient();
+  const accessTokenResponse = await client.getAccessToken();
+
+  if (!accessTokenResponse.token) {
+    throw new Error("Failed to obtain access token");
+  }
+
+  return accessTokenResponse.token;
+}
+
+/**
+ * Image file interface for type safety
+ */
+interface ImageFile {
+  dataUrl?: string;
+  url?: string;
+}
+
+/**
+ * Helper function to convert image data URL to inline data format for Gemini
+ */
+function prepareImageForGemini(file: ImageFile) {
+  const dataUrl = file.dataUrl || file.url;
+
+  if (!dataUrl) {
+    throw new Error("Image file must have either dataUrl or url property");
+  }
+
+  // Extract mime type and base64 data from data URL
+  // Format: data:image/jpeg;base64,/9j/4AAQ...
+  const matches = dataUrl.match(/^data:(.+?);base64,(.+)$/);
+
+  if (!matches) {
+    throw new Error("Invalid image data URL format");
+  }
+
+  const [, mimeType, data] = matches;
+
+  return {
+    inlineData: {
+      mimeType,
+      data
+    }
+  };
+}
+
 export const converterFunction = onRequest(
   {
-    secrets: ["OPENAI_API_KEY"],
+    secrets: ["SERVICE_ACCOUNT_JSON"],
     maxInstances: 10,
     timeoutSeconds: 60,
     memory: "256MiB",
@@ -35,11 +104,6 @@ export const converterFunction = onRequest(
         const { files, timeZone, currentDate } = req.body;
         if (!files?.length) {
           return res.status(400).json({ error: "No files provided" });
-        }
-
-        const apiKey = process.env.OPENAI_API_KEY;
-        if (!apiKey) {
-          return res.status(500).json({ error: "OpenAI API key not set" });
         }
 
         const tz = timeZone || "UTC";
@@ -58,59 +122,107 @@ export const converterFunction = onRequest(
            Always include VERSION:2.0, UID, DTSTAMP, DTSTART, DTEND, SUMMARY, DESCRIPTION, LOCATION, TZID. \
            Output ICS only, no extra text.";
 
-        // ⚡ Use gpt-4o-mini for faster response and lower cost
-        // ⚡ Reduce max_tokens since ICS content is small
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`
+        // Get OAuth 2.0 access token
+        let accessToken: string;
+        try {
+          accessToken = await getGeminiAccessToken();
+        } catch (authError: any) {
+          console.error("Authentication error:", authError);
+          return res.status(500).json({
+            error: "Failed to authenticate with Gemini API",
+            message: authError.message
+          });
+        }
+
+        // Prepare content parts: system prompt + text + images
+        const imageParts = [];
+        const imageErrors = [];
+
+        for (let i = 0; i < files.length; i++) {
+          try {
+            imageParts.push(prepareImageForGemini(files[i]));
+          } catch (error: any) {
+            console.error(`Error preparing image ${i}:`, error);
+            imageErrors.push(`Image ${i + 1}: ${error.message}`);
+          }
+        }
+
+        if (imageParts.length === 0) {
+          return res.status(400).json({
+            error: "Failed to process any images",
+            details: imageErrors
+          });
+        }
+
+        const contentParts = [
+          {
+            text: `${systemPrompt}\n\n${baseMessage}`
           },
-          body: JSON.stringify({
-            model: "gpt-4o",
-            messages: [
-              {
-                role: "system",
-                content: systemPrompt
-              },
-              {
-                role: "user",
-                content: [
-                  {
-                    type: "text",
-                    text: baseMessage
-                  },
-                  ...files.map((file: any) => ({
-                    type: "image_url",
-                    image_url: {
-                      url: file.dataUrl || file.url,
-                      detail: "high"
-                    }
-                  }))
-                ]
+          ...imageParts
+        ];
+
+        // Call Gemini API
+        const response = await fetch(
+          "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+              contents: [
+                {
+                  parts: contentParts
+                }
+              ],
+              generationConfig: {
+                temperature: 0.1,
+                maxOutputTokens: 4096,
               }
-            ],
-            max_tokens: 4096,
-            temperature: 0.1
-          })
-        });
+            })
+          }
+        );
 
         if (!response.ok) {
-          const errorData = await response.json();
-          console.error("OpenAI API error:", errorData);
+          let errorData: any;
+          try {
+            errorData = await response.json();
+          } catch {
+            errorData = { message: await response.text() };
+          }
+          console.error("Gemini API error:", errorData);
+
+          // Handle specific error codes
+          if (response.status === 401) {
+            return res.status(401).json({
+              error: "Authentication failed with Gemini API",
+              details: errorData,
+            });
+          } else if (response.status === 403) {
+            return res.status(403).json({
+              error: "Permission denied for Gemini API",
+              details: errorData,
+            });
+          }
+
           return res.status(response.status).json({
-            error: "Failed to process images",
+            error: "Failed to process images with Gemini API",
             details: errorData,
           });
         }
 
-        let icsContent = (await response.json())?.choices?.[0]?.message?.content?.trim();
+        const responseData = await response.json();
+        let icsContent = responseData?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
 
         if (!icsContent) {
-          return res.status(500).json({ error: "No ICS generated" });
+          return res.status(500).json({
+            error: "No ICS generated",
+            details: responseData
+          });
         }
 
-        // Remove potential markdown fences
+        // Remove potential markdown fences (```ics ... ``` or just ```)
         icsContent = icsContent.replace(/```(?:ics)?\s*[\r\n]|```/gi, "").trim();
 
         if (!isValidIcs(icsContent)) {
