@@ -110,7 +110,7 @@ const dataUrl = `data:image/png;base64,${base64}`;
 
 | Aspect | Original | URL-based | Variable-based |
 |--------|----------|-----------|----------------|
-| File size | ~50KB | ~3KB | ~3KB |
+| File size | ~70KB | ~3KB | ~3KB |
 | Ease of use | ❌ Hard | ✅ Very Easy | ✅ Easy |
 | Maintenance | ❌ Difficult | ✅ Very Easy | ✅ Easy |
 | Error risk | ❌ High | ✅ Low | ✅ Low |

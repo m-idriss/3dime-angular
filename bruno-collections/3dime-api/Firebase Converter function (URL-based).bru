@@ -31,29 +31,39 @@ body:json {
 script:pre-request {
   const axios = require('axios');
   
-  // Get the test image URL from environment variables
-  const imageUrl = bru.getEnvVar('test_image_url');
-  
-  if (!imageUrl) {
-    throw new Error('test_image_url environment variable is not set');
+  try {
+    // Get the test image URL from environment variables
+    const imageUrl = bru.getEnvVar('test_image_url');
+    
+    if (!imageUrl) {
+      throw new Error('test_image_url environment variable is not set. Please add it to your environment file (local.bru or prod.bru)');
+    }
+    
+    // Fetch the image and convert to base64
+    const response = await axios.get(imageUrl, {
+      responseType: 'arraybuffer',
+      timeout: 10000 // 10 second timeout
+    });
+    
+    if (!response.data) {
+      throw new Error(`Failed to fetch image from ${imageUrl}: No data received`);
+    }
+    
+    // Convert to base64
+    const base64 = Buffer.from(response.data, 'binary').toString('base64');
+    
+    // Determine the image type from the URL or response headers
+    const contentType = response.headers['content-type'] || 'image/png';
+    
+    // Set the data URL with proper format
+    const dataUrl = `data:${contentType};base64,${base64}`;
+    
+    // Set as a request variable
+    bru.setVar('image_data_url', dataUrl);
+  } catch (error) {
+    console.error('Failed to fetch and convert image:', error.message);
+    throw new Error(`Image conversion failed: ${error.message}. Please check that test_image_url is valid and accessible.`);
   }
-  
-  // Fetch the image and convert to base64
-  const response = await axios.get(imageUrl, {
-    responseType: 'arraybuffer'
-  });
-  
-  // Convert to base64
-  const base64 = Buffer.from(response.data, 'binary').toString('base64');
-  
-  // Determine the image type from the URL or response headers
-  const contentType = response.headers['content-type'] || 'image/png';
-  
-  // Set the data URL with proper format
-  const dataUrl = `data:${contentType};base64,${base64}`;
-  
-  // Set as a request variable
-  bru.setVar('image_data_url', dataUrl);
 }
 
 tests {
