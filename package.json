@@ -8,14 +8,11 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-
     "serve:ng": "ng serve --configuration=local",
     "serve:functions": "firebase emulators:start --only functions",
     "build:functions": "npm run build --prefix functions -- --watch",
-
     "dev": "concurrently -k -n \"ANGULAR,FIREBASE,BUILD\" -c \"cyan,green,yellow\" \"npm run serve:ng\" \"npm run serve:functions\" \"npm run build:functions\""
   },
-
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,
@@ -49,6 +46,7 @@
     "pdfjs-dist": "^5.4.149",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "vite-plugin-ignore-dynamic-imports": "^1.0.2",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
