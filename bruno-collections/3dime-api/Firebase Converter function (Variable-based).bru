@@ -1,0 +1,107 @@
+meta {
+  name: Firebase Converter function (Variable-based)
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{api_url}}?target=converter
+  body: json
+  auth: none
+}
+
+params:query {
+  target: converter
+}
+
+body:json {
+  {
+    "files": [
+      {
+        "dataUrl": "{{test_image_data}}",
+        "name": "{{test_image_name}}",
+        "type": "{{test_image_type}}"
+      }
+    ],
+    "timeZone": "{{test_timezone}}",
+    "currentDate": "{{test_date}}"
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response is valid JSON", function() {
+    expect(res.getBody()).to.be.an("object");
+  });
+  
+  test("Response has required fields", function() {
+    expect(res.getBody()).to.have.property("icsContent");
+    expect(res.getBody()).to.have.property("success");
+  });
+  
+  test("ICS content is valid", function() {
+    const body = res.getBody();
+    if (body.success) {
+      expect(body.icsContent).to.be.a("string");
+      expect(body.icsContent).to.contain("BEGIN:VCALENDAR");
+      expect(body.icsContent).to.contain("END:VCALENDAR");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Firebase Converter Function Test (Variable-based)
+  
+  This is the simplest version that uses environment variables for all test data.
+  Perfect for when you want full control over the test data.
+  
+  ## Required Environment Variables
+  
+  Add these to your environment file (local.bru or prod.bru):
+  
+  ```
+  vars {
+    api_url: http://127.0.0.1:5001/image-to-ics/us-central1/proxyApi
+    test_image_data: data:image/png;base64,YOUR_BASE64_HERE
+    test_image_name: edt-test.png
+    test_image_type: image/png
+    test_timezone: Europe/Paris
+    test_date: 2025-10-06
+  }
+  ```
+  
+  ## Benefits
+  
+  - **Simple**: No scripts, just variables
+  - **Fast**: No network requests during test execution
+  - **Flexible**: Easy to change any parameter
+  - **Portable**: Works offline if you have the base64 data
+  
+  ## Usage
+  
+  1. Set all required variables in your environment
+  2. Run the request
+  
+  ## Converting Images to Base64
+  
+  You can convert images to base64 using:
+  
+  - Online tools: https://base64.guru/converter/encode/image
+  - Command line: `base64 -i image.png | pbcopy` (Mac) or `base64 image.png` (Linux)
+  - Node.js: `const base64 = fs.readFileSync('image.png', 'base64');`
+  
+  ## Expected Response
+  
+  The API should return a JSON object containing:
+  - `icsContent`: A string with iCalendar data (BEGIN:VCALENDAR ... END:VCALENDAR)
+  - `success`: Boolean indicating conversion success
+  - `error`: (optional) Error message if conversion failed
+}
