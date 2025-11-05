@@ -34,6 +34,8 @@
         (drop)="onDrop($event)"
         role="region"
         aria-labelledby="upload-heading"
+        ngbTooltip="Drag and drop your files or click to browse"
+        placement="top"
       >
         <div class="marketing-text">
           <h4>Save time creating calendar events.</h4>
@@ -67,6 +69,8 @@
                 (click)="removeFile($index)"
                 [disabled]="isProcessing()"
                 [attr.aria-label]="'Remove ' + file.name"
+                ngbTooltip="Remove file"
+                placement="top"
               >
                 ✕
               </button>
@@ -77,7 +81,13 @@
 
       <!-- Convert Button -->
       @if (files().length > 0 && !isProcessing()) {
-        <button class="action-button" (click)="convertToIcs()" aria-label="Convert files to calendar events">
+        <button
+          class="action-button"
+          (click)="convertToIcs()"
+          aria-label="Convert files to calendar events"
+          ngbTooltip="Convert your files to calendar events"
+          placement="top"
+        >
           Convert
         </button>
       }
@@ -101,8 +111,20 @@
       <!-- Batch Processing Details (show during and after batch processing) -->
       @if (isBatchMode() && batchFiles().length > 0) {
         <section class="batch-details" aria-labelledby="batch-heading">
-          <h3 id="batch-heading" class="sr-only">Batch Processing Status</h3>
-          <div class="batch-files-list">
+          <div class="batch-header">
+            <h3 id="batch-heading" class="batch-heading">Batch Processing Status</h3>
+            <button
+              class="batch-toggle-button"
+              (click)="isBatchDetailsCollapsed.set(!isBatchDetailsCollapsed())"
+              [attr.aria-expanded]="!isBatchDetailsCollapsed()"
+              ngbTooltip="Toggle batch details"
+              placement="top"
+            >
+              {{ isBatchDetailsCollapsed() ? '▼ Show Details' : '▲ Hide Details' }}
+            </button>
+          </div>
+          <div [ngbCollapse]="isBatchDetailsCollapsed()">
+            <div class="batch-files-list">
             @for (batchFile of batchFiles(); track $index) {
               <div class="batch-file-item" [class]="'status-' + batchFile.status">
                 <div class="batch-file-info">
@@ -124,7 +146,14 @@
                 @if (batchFile.status === BatchFileStatus.ERROR) {
                   <div class="batch-file-error">
                     <span class="error-text">{{ batchFile.error }}</span>
-                    <button class="retry-button" (click)="retryFile($index)" [disabled]="isProcessing()" aria-label="Retry processing this file">
+                    <button
+                      class="retry-button"
+                      (click)="retryFile($index)"
+                      [disabled]="isProcessing()"
+                      aria-label="Retry processing this file"
+                      ngbTooltip="Retry processing"
+                      placement="top"
+                    >
                       🔄 Retry
                     </button>
                   </div>
@@ -134,6 +163,7 @@
                 }
               </div>
             }
+          </div>
           </div>
         </section>
       }
@@ -150,62 +180,85 @@
     @if (extractedEvents().length > 0) {
       <section class="events-list" aria-labelledby="events-heading">
         <h3 id="events-heading" class="sr-only">Extracted Calendar Events</h3>
-        @for (event of extractedEvents(); track $index) {
-          <article class="event-item" [class.editing]="event.isEditing" [class.show-actions]="event.showActions" [attr.aria-label]="'Event: ' + event.summary">
-            <!-- View Mode -->
-            @if (!event.isEditing) {
-              <div class="event-card"
-                (click)="toggleEventActions($index)"
-                (keydown.enter)="toggleEventActions($index)"
-                (keydown.space)="toggleEventActions($index)"
-                tabindex="0"
-                role="button"
-                [attr.aria-expanded]="event.showActions"
-                aria-label="Toggle event actions">
-                <div class="event-date" aria-hidden="true">
-                  <div class="date-block">
-                    <span [innerHTML]="getMonthDay(event.start)"></span>
-                  </div>
-                </div>
-                <div class="event-details">
-                  <div class="event-content">
-                    <h4 class="event-title">{{ event.summary }}</h4>
-                    <div class="event-location">
+        <div ngbAccordion class="events-accordion">
+          @for (event of extractedEvents(); track $index) {
+            <div ngbAccordionItem class="event-accordion-item">
+              <h2 ngbAccordionHeader>
+                <button ngbAccordionButton class="event-accordion-header">
+                  <div class="event-accordion-header-content">
+                    <div class="event-date" aria-hidden="true">
+                      <div class="date-block">
+                        <span [innerHTML]="getMonthDay(event.start)"></span>
+                      </div>
+                    </div>
+                    <div class="event-header-main">
+                      <h4 class="event-title">{{ event.summary }}</h4>
                       @if (event.location) {
-                        <span aria-label="Location">📍 {{ event.location }}</span>
+                        <div class="event-location-header">
+                          <span>📍 {{ event.location }}</span>
+                        </div>
+                      }
+                    </div>
+                    <div class="event-times-header">
+                      <time class="event-time-start" [attr.datetime]="event.start">{{ getTime(event.start) }}</time>
+                      @if (event.end && getTime(event.end)) {
+                        <time class="event-time-end" [attr.datetime]="event.end">{{ getTime(event.end) }}</time>
                       }
                     </div>
                   </div>
-                  <div class="event-times">
-                    <time class="event-time" [attr.datetime]="event.start">{{ getTime(event.start) }}</time>
-                    @if (event.end && getTime(event.end)) {
-                      <time class="event-time-end" [attr.datetime]="event.end">{{ getTime(event.end) }}</time>
+                </button>
+              </h2>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                  <ng-template>
+                    @if (!event.isEditing) {
+                      <!-- View Mode -->
+                      <div class="event-details-body">
+                        @if (event.location) {
+                          <div class="event-detail-row">
+                            <span class="detail-label">📍 Location:</span>
+                            <span class="detail-value">{{ event.location }}</span>
+                          </div>
+                        }
+                        @if (event.description) {
+                          <div class="event-detail-row">
+                            <span class="detail-label">📝 Description:</span>
+                            <span class="detail-value">{{ event.description }}</span>
+                          </div>
+                        }
+                        <div class="event-detail-row">
+                          <span class="detail-label">🕒 Start:</span>
+                          <span class="detail-value">{{ event.start | date:'short' }}</span>
+                        </div>
+                        <div class="event-detail-row">
+                          <span class="detail-label">🕓 End:</span>
+                          <span class="detail-value">{{ event.end | date:'short' }}</span>
+                        </div>
+                        <div class="event-actions-buttons">
+                          <button
+                            class="action-button-small edit"
+                            (click)="editEvent($index)"
+                            aria-label="Edit event"
+                            ngbTooltip="Edit this event"
+                            placement="top"
+                          >
+                            ✏️ Edit
+                          </button>
+                          <button
+                            class="action-button-small delete"
+                            (click)="deleteEvent($index)"
+                            aria-label="Delete event"
+                            ngbTooltip="Delete this event"
+                            placement="top"
+                          >
+                            🗑️ Delete
+                          </button>
+                        </div>
+                      </div>
                     }
-                  </div>
-                </div>
-              </div>
-              <!-- Action Menu (shown on click) -->
-              @if (event.showActions) {
-                <div class="event-actions-menu"
-                  (click)="$event.stopPropagation()"
-                  (keydown.enter)="$event.stopPropagation()"
-                  (keydown.space)="$event.stopPropagation()"
-                  tabindex="-1"
-                  role="menu"
-                  aria-label="Event actions">
-                  <button class="action-menu-button edit" (click)="editEvent($index)" role="menuitem" aria-label="Edit event">
-                    ✏️ Edit
-                  </button>
-                  <button class="action-menu-button delete" (click)="deleteEvent($index)" role="menuitem" aria-label="Delete event">
-                    🗑️ Delete
-                  </button>
-                </div>
-              }
-            }
-
-            <!-- Edit Mode -->
-            @if (event.isEditing) {
-              <div class="event-edit-form">
+                    @if (event.isEditing) {
+                      <!-- Edit Mode -->
+                      <div class="event-edit-form">
                 <div class="form-group">
                   <label for="summary-{{$index}}">Event Title</label>
                   <input
@@ -266,25 +319,53 @@
                 </div>
 
                 <div class="form-actions">
-                  <button class="form-button save" (click)="saveEvent($index)" aria-label="Save changes">
+                  <button
+                    class="form-button save"
+                    (click)="saveEvent($index)"
+                    aria-label="Save changes"
+                    ngbTooltip="Save event changes"
+                    placement="top"
+                  >
                     💾 Save
                   </button>
-                  <button class="form-button cancel" (click)="cancelEdit($index)" aria-label="Cancel editing">
+                  <button
+                    class="form-button cancel"
+                    (click)="cancelEdit($index)"
+                    aria-label="Cancel editing"
+                    ngbTooltip="Cancel without saving"
+                    placement="top"
+                  >
                     ✕ Cancel
                   </button>
                 </div>
+                      </div>
+                    }
+                  </ng-template>
+                </div>
               </div>
-            }
-          </article>
-        }
+            </div>
+          }
+        </div>
       </section>
 
       <!-- Download Button -->
       <nav class="actions" aria-label="Calendar actions">
-        <button class="action-button download" (click)="downloadIcs()" aria-label="Download calendar file">
+        <button
+          class="action-button download"
+          (click)="downloadIcs()"
+          aria-label="Download calendar file"
+          ngbTooltip="Download your calendar as .ics file"
+          placement="top"
+        >
           Download Calendar
         </button>
-        <button class="action-button secondary" (click)="resetState()" aria-label="Convert another file">
+        <button
+          class="action-button secondary"
+          (click)="resetState()"
+          aria-label="Convert another file"
+          ngbTooltip="Start over with new files"
+          placement="top"
+        >
           Convert Another
         </button>
       </nav>
