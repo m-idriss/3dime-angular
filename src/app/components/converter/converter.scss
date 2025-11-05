@@ -650,6 +650,59 @@
    Authentication Styles
    ======================== */
 
+/* User Info Section (when authenticated) */
+.user-info-section {
+  /* Box Model */
+  margin-bottom: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+
+  /* Visual */
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+}
+
+.user-info {
+  /* Positioning */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+
+  .user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .user-email {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-left: var(--space-xs);
+  }
+
+  .sign-out-button {
+    /* Box Model */
+    padding: 0.4rem 0.9rem;
+    margin-left: auto;
+
+    /* Typography */
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    /* Misc */
+    cursor: pointer;
+    transition: all var(--t-fast);
+
+    /* Hover state */
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+    }
+  }
+}
+
 /* Auth Required Section */
 .auth-required {
   /* Positioning */

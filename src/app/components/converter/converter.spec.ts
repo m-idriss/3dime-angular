@@ -113,4 +113,43 @@ describe('Converter', () => {
       expect(icsContent).toBeNull();
     });
   });
+
+  describe('Sign Out', () => {
+    it('should call signOutUser on auth service when signing out', async () => {
+      spyOn(component['authService'], 'signOutUser').and.returnValue(Promise.resolve());
+      await component.signOut();
+      expect(component['authService'].signOutUser).toHaveBeenCalled();
+    });
+
+    it('should reset component state after successful sign out', async () => {
+      // Setup some state
+      component['files'].set([new File(['test'], 'test.jpg', { type: 'image/jpeg' })]);
+      component['extractedEvents'].set([
+        {
+          summary: 'Test Event',
+          start: new Date('2025-01-15T10:00:00'),
+          end: new Date('2025-01-15T11:00:00'),
+        },
+      ]);
+
+      spyOn(component['authService'], 'signOutUser').and.returnValue(Promise.resolve());
+
+      await component.signOut();
+
+      // Verify state was reset
+      expect(component['files']().length).toBe(0);
+      expect(component['extractedEvents']().length).toBe(0);
+    });
+
+    it('should handle sign out error gracefully', async () => {
+      const error = new Error('Sign out failed');
+      spyOn(component['authService'], 'signOutUser').and.returnValue(Promise.reject(error));
+      spyOn(console, 'error');
+
+      await component.signOut();
+
+      expect(component['errorMessage']()).toContain('Failed to sign out');
+      expect(console.error).toHaveBeenCalledWith('Sign out error:', error);
+    });
+  });
 });

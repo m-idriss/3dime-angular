@@ -508,6 +508,19 @@ export class Converter extends AuthAwareComponent implements OnInit {
     }
   }
 
+  async signOut(): Promise<void> {
+    try {
+      await this.authService.signOutUser();
+      // Reset component state after sign out
+      this.resetState();
+    } catch (error: any) {
+      let message = 'Failed to sign out. Please try again.';
+      if (error?.message) message += ` (${error.message})`;
+      this.errorMessage.set(message);
+      console.error('Sign out error:', error);
+    }
+  }
+
   protected removeFile(index: number): void {
     this.files.update((current) => current.filter((_, i) => i !== index));
     this.errorMessage.set(null);

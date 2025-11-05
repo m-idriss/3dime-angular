@@ -25,6 +25,30 @@
 
   <!-- Converter UI (only shown when authenticated) -->
   @if (!isAuthLoading && isAuthenticated) {
+    <!-- User Info and Sign Out -->
+    <section class="user-info-section" aria-labelledby="user-info-heading">
+      <h3 id="user-info-heading" class="sr-only">User Information</h3>
+      <div class="user-info">
+        @if (currentUser) {
+          @if (currentUser.displayName) {
+            <span class="user-name">{{ currentUser.displayName }}</span>
+          }
+          @if (currentUser.email) {
+            <span class="user-email">{{ currentUser.email }}</span>
+          }
+        }
+        <button
+          class="sign-out-button btn btn-outline-danger btn-sm"
+          (click)="signOut()"
+          aria-label="Sign out from Google account"
+          ngbTooltip="Sign out"
+          placement="left"
+        >
+          🚪 Sign Out
+        </button>
+      </div>
+    </section>
+
     <!-- Upload Area - Only show if no events extracted -->
     @if (extractedEvents().length === 0) {
       <section class="upload-zone"
