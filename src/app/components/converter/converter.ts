@@ -514,9 +514,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       // Reset component state after sign out
       this.resetState();
     } catch (error: any) {
-      let message = 'Failed to sign out. Please try again.';
-      if (error?.message) message += ` (${error.message})`;
-      this.errorMessage.set(message);
+      this.errorMessage.set('Failed to sign out. Please try again.');
       console.error('Sign out error:', error);
     }
   }
