@@ -24,6 +24,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly isProcessing = signal(false);
   protected readonly isBatchMode = signal(false); // Toggle between batch and single processing
   protected readonly errorMessage = signal<string | null>(null);
+  protected readonly successMessage = signal<string | null>(null);
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
   protected readonly isBatchDetailsCollapsed = signal(false);
@@ -382,12 +383,18 @@ export class Converter extends AuthAwareComponent implements OnInit {
     // Generate combined ICS content
     this.regenerateIcsContent();
 
-    // Show success message if some files failed
+    // Show success/error message
     const failedCount = this.batchFiles().filter((f) => f.status === BatchFileStatus.ERROR).length;
     if (failedCount > 0) {
       this.errorMessage.set(
         `${successfulFiles.length} file(s) processed successfully. ${failedCount} file(s) failed.`
       );
+      this.successMessage.set(null);
+    } else {
+      this.successMessage.set(
+        `Successfully processed ${successfulFiles.length} file(s) and extracted ${allEvents.length} event(s)!`
+      );
+      this.errorMessage.set(null);
     }
   }
 
@@ -441,10 +448,12 @@ export class Converter extends AuthAwareComponent implements OnInit {
       );
 
       this.extractedEvents.set(events);
+      this.successMessage.set(`Successfully extracted ${events.length} event(s) from your file!`);
       this.errorMessage.set(null);
     } catch (error) {
       console.error('Failed to parse repaired ICS:', error);
       this.errorMessage.set('Failed to parse generated ICS file (even after repair).');
+      this.successMessage.set(null);
       this.extractedEvents.set([]);
     }
   }
