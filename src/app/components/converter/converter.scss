@@ -10,7 +10,7 @@
   text-align: center;
 
   /* Box Model */
-  padding: 2rem 1.5rem;
+  padding: 1rem;
   margin: var(--space-xs);
 
   /* Visual */
@@ -251,7 +251,7 @@
 }
 
 /* ========================
-   Events List - Calendar events display
+   Events List - Calendar events display with Accordion
    ======================== */
 .events-list {
   /* Box Model */
@@ -260,362 +260,293 @@
 
   /* Positioning */
   flex-direction: column;
+}
 
-  /* Event item */
-  .event-item {
-    /* Positioning */
+/* Ng-bootstrap Accordion Customization */
+.events-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.event-accordion-item {
+  background: var(--glass-bg);
+  border: 0.2px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--t-fast);
+
+  &:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  }
+}
+
+.event-accordion-header {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  transition: all var(--t-fast);
+
+  &:hover {
+    background: var(--glass-bg-hover);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+}
+
+.event-accordion-header-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  width: 100%;
+  text-align: left;
+}
+
+.event-header-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .event-title {
+    margin: 0;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+
+  .event-location-header {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+
+    span {
+      display: inline-block;
+    }
+  }
+}
+
+.event-times-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  flex-shrink: 0;
+
+  .event-time-start {
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .event-time-end {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+}
+
+/* Remove old styles */
+.event-details-header {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .event-title {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .event-times-inline {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+
+    .event-time {
+      font-weight: 500;
+    }
+  }
+}
+
+.event-details-body {
+  padding: var(--space-sm) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.event-detail-row {
+  display: flex;
+  gap: var(--space-sm);
+  font-size: 0.8rem;
+  align-items: flex-start;
+
+  .detail-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-width: 110px;
+    flex-shrink: 0;
+  }
+
+  .detail-value {
+    color: var(--text-primary);
+    flex: 1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+.event-actions-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--glass-border);
+}
+
+.action-button-small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--t-fast);
+  background: transparent;
+  color: var(--text-primary);
+
+  &:hover {
+    background: var(--glass-bg-hover);
+  }
+
+  &.edit:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+  }
+
+  &.delete:hover {
+    border-color: var(--badge-color);
+    color: var(--badge-color);
+  }
+}
+
+/* Event edit form styles */
+.event-edit-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+
+  .form-group {
     display: flex;
     flex-direction: column;
-    position: relative;
-      margin: var(--space-md) 0;
+    gap: 0.25rem;
 
-
-    /* Box Model */
-    gap: 0;
-
-    /* Visual */
-    background: var(--glass-bg);
-    border: 0.2px solid var(--glass-border);
-    border-radius: var(--radius-md);
-
-    /* Misc */
-    transition: all var(--t-fast);
-    overflow: hidden;
-
-    /* Editing state */
-    &.editing {
-      padding: var(--space-md);
-      background: var(--glass-bg-hover);
-      border-color: var(--accent-color);
+    label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-primary);
     }
 
-    /* Show actions state */
-    &.show-actions {
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    .form-input {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+      font-family: inherit;
+      color: var(--text-primary);
+      background: var(--primary-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      transition: all var(--t-fast);
+
+      &:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+      }
+
+      &[rows] {
+        resize: vertical;
+        min-height: 60px;
+      }
     }
+  }
 
-    /* Event card (clickable area) */
-    .event-card {
-      /* Positioning */
-      display: flex;
-      align-items: flex-start;
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+  }
 
-      /* Box Model */
-      padding: var(--space-sm) var(--space-md);
-      gap: var(--space-md);
+  .form-actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-xs);
 
-      /* Misc */
+    .form-button {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius-sm);
       cursor: pointer;
       transition: all var(--t-fast);
 
-      /* Hover state */
-      &:hover {
-        background: var(--glass-bg-hover);
-      }
-    }
-
-    /* Date block */
-    .event-date {
-      flex-shrink: 0;
-
-      .date-block {
-        /* Positioning */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        /* Box Model */
-        width: 36px;
-        height: 36px;
-
-        /* Typography */
-        font-size: 0.65rem;
-        font-weight: 700;
-        line-height: 1.1;
-        text-align: center;
+      &.save {
+        background: var(--accent-color);
         color: white;
-        white-space: pre-line;
 
-        /* Visual */
-        background: linear-gradient(135deg, var(--accent-color), #6366f1);
-        border-radius: var(--radius-md);
-      }
-    }
-
-    /* Event details */
-    .event-details {
-      /* Positioning */
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-
-      /* Box Model */
-      flex: 1;
-      min-width: 0;
-      gap: var(--space-md);
-
-      /* Event content */
-      .event-content {
-        /* Positioning */
-        display: flex;
-        flex-direction: column;
-
-        /* Box Model */
-        flex: 1;
-        min-width: 0;
-        gap: 0.25rem;
-      }
-
-      /* Event title */
-      .event-title {
-        /* Box Model */
-        margin: 0;
-
-        /* Typography */
-        font-size: 0.775rem;
-        font-weight: 600;
-        color: var(--text-primary);
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-
-        /* Positioning */
-        align-self: flex-start;
-      }
-
-      /* Event location */
-      .event-location {
-        /* Box Model */
-        flex: 1;
-        min-width: 0;
-
-        /* Typography */
-        font-size: 0.75rem;
-        color: var(--text-secondary);
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        word-break: break-word;
-
-        /* Positioning */
-        align-self: flex-start;
-
-        span {
-          display: inline-block;
+        &:hover {
+          background: #2563eb;
+          transform: translateY(-1px);
         }
       }
 
-      /* Event times */
-      .event-times {
-        /* Positioning */
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-
-        /* Box Model */
-        flex-shrink: 0;
-        gap: 0.15rem;
-
-        /* Typography */
-        font-size: 0.75rem;
-
-        .event-time {
-          font-weight: 600;
-          color: var(--text-primary);
-        }
-
-        .event-time-end {
-          color: var(--text-secondary);
-        }
-      }
-    }
-
-    /* Event actions menu (shown on click) */
-    .event-actions-menu {
-      /* Positioning */
-      display: flex;
-      justify-content: flex-end;
-      gap: var(--space-xs);
-
-      /* Box Model */
-      padding: var(--space-xs) var(--space-md);
-      border-top: 1px solid var(--glass-border);
-
-      /* Visual */
-      background: var(--primary-bg);
-
-      .action-menu-button {
-        /* Positioning */
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-
-        /* Box Model */
-        padding: 0.4rem 0.8rem;
-
-        /* Typography */
-        font-size: 0.8rem;
-        font-weight: 500;
-
-        /* Visual */
+      &.cancel {
         background: transparent;
         border: 1px solid var(--glass-border);
-        border-radius: var(--radius-sm);
         color: var(--text-primary);
 
-        /* Misc */
-        cursor: pointer;
-        transition: all var(--t-fast);
-
-        /* Hover state */
         &:hover {
           background: var(--glass-bg-hover);
         }
-
-        /* Edit button variant */
-        &.edit:hover {
-          border-color: var(--accent-color);
-          color: var(--accent-color);
-        }
-
-        /* Delete button variant */
-        &.delete:hover {
-          border-color: var(--badge-color);
-          color: var(--badge-color);
-        }
       }
     }
+  }
+}
 
-    /* Event description */
-    .event-description {
-      /* Box Model */
-      margin-top: 0.25rem;
+/* Event date block shared styles */
+.event-date {
+  flex-shrink: 0;
 
-      /* Typography */
-      font-size: 0.7rem;
-      color: var(--text-secondary);
-      line-height: 1.4;
-
-      span {
-        display: block;
-      }
-    }
-
-    /* Event edit form */
-    .event-edit-form {
-      /* Positioning */
-      display: flex;
-      flex-direction: column;
-
-      /* Box Model */
-      width: 100%;
-      gap: var(--space-sm);
-
-      .form-group {
-        /* Positioning */
-        display: flex;
-        flex-direction: column;
-
-        /* Box Model */
-        gap: 0.25rem;
-
-        label {
-          /* Typography */
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: var(--text-primary);
-        }
-
-        .form-input {
-          /* Box Model */
-          padding: 0.5rem;
-
-          /* Typography */
-          font-size: 0.8rem;
-          font-family: inherit;
-          color: var(--text-primary);
-
-          /* Visual */
-          background: var(--primary-bg);
-          border: 1px solid var(--glass-border);
-          border-radius: var(--radius-sm);
-
-          /* Misc */
-          transition: all var(--t-fast);
-
-          /* Focus state */
-          &:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-          }
-
-          /* Textarea variant */
-          &[rows] {
-            resize: vertical;
-            min-height: 60px;
-          }
-        }
-      }
-
-      .form-row {
-        /* Positioning */
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-
-        /* Box Model */
-        gap: var(--space-sm);
-      }
-
-      .form-actions {
-        /* Positioning */
-        display: flex;
-
-        /* Box Model */
-        gap: var(--space-sm);
-        margin-top: var(--space-xs);
-
-        .form-button {
-          /* Box Model */
-          flex: 1;
-          padding: 0.5rem 1rem;
-
-          /* Typography */
-          font-size: 0.8rem;
-          font-weight: 600;
-
-          /* Visual */
-          border: none;
-          border-radius: var(--radius-sm);
-
-          /* Misc */
-          cursor: pointer;
-          transition: all var(--t-fast);
-
-          /* Save button variant */
-          &.save {
-            background: var(--accent-color);
-            color: white;
-
-            &:hover {
-              background: #2563eb;
-              transform: translateY(-1px);
-            }
-          }
-
-          /* Cancel button variant */
-          &.cancel {
-            background: transparent;
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-
-            &:hover {
-              background: var(--glass-bg-hover);
-            }
-          }
-        }
-      }
-    }
+  .date-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1.1;
+    text-align: center;
+    color: white;
+    white-space: pre-line;
+    background: linear-gradient(135deg, var(--accent-color), #6366f1);
+    border-radius: var(--radius-md);
   }
 }
 
@@ -828,6 +759,37 @@
 /* ========================
    Batch Processing Styles
    ======================== */
+.batch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.batch-heading {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.batch-toggle-button {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--t-fast);
+
+  &:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--accent-color);
+  }
+}
+
 .batch-processing {
   display: flex;
   flex-direction: column;

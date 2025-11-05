@@ -2,6 +2,7 @@ import { Component, signal, OnInit, Inject, PLATFORM_ID, computed } from '@angul
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import ICAL from '../../libs/ical-wrapper'; // ⚡ Wrapper to ensure parse() exists
+import { NgbAccordionModule, NgbCollapseModule, NgbTooltipModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConverterService, FileData } from '../../services/converter';
 import { Card } from '../card/card';
@@ -12,7 +13,7 @@ import { formatIcsDate, getMonthDay, getTime } from '../../utils';
 
 @Component({
   selector: 'app-converter',
-  imports: [Card, FormsModule, CommonModule],
+  imports: [Card, FormsModule, CommonModule, NgbAccordionModule, NgbCollapseModule, NgbTooltipModule, NgbPopoverModule],
   templateUrl: './converter.html',
   styleUrl: './converter.scss',
 })
@@ -25,6 +26,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
+  protected readonly isBatchDetailsCollapsed = signal(false);
 
   // Computed values for batch processing
   protected readonly batchProgress = computed(() => {
@@ -525,21 +527,11 @@ export class Converter extends AuthAwareComponent implements OnInit {
   }
 
   // ⚡ Event editing methods
-  protected toggleEventActions(index: number): void {
-    this.extractedEvents.update((events) =>
-      events.map((event, i) => ({
-        ...event,
-        showActions: i === index ? !event.showActions : false,
-      }))
-    );
-  }
-
   protected editEvent(index: number): void {
     this.extractedEvents.update((events) =>
       events.map((event, i) => ({
         ...event,
         isEditing: i === index,
-        showActions: false, // Hide actions menu when editing
       }))
     );
   }
@@ -549,7 +541,6 @@ export class Converter extends AuthAwareComponent implements OnInit {
       events.map((event, i) => ({
         ...event,
         isEditing: i === index ? false : event.isEditing,
-        showActions: false,
       }))
     );
     // Regenerate ICS content with edited events
@@ -561,7 +552,6 @@ export class Converter extends AuthAwareComponent implements OnInit {
       events.map((event, i) => ({
         ...event,
         isEditing: i === index ? false : event.isEditing,
-        showActions: false,
       }))
     );
   }
