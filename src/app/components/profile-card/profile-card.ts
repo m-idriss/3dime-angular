@@ -5,6 +5,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
@@ -19,7 +20,7 @@ import {
 @Component({
   selector: 'app-profile-card',
   standalone: true,
-  imports: [SkeletonLoader],
+  imports: [SkeletonLoader, NgbTooltipModule],
   templateUrl: './profile-card.html',
   styleUrl: './profile-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

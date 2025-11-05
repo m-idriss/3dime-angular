@@ -287,9 +287,27 @@
     transition: all var(--t-medium);
   }
 
-  /* Sign out button variant */
-  &.sign-out:hover {
-    color: var(--badge-color);
+  /* Sign out button variant with danger styling */
+  &.sign-out {
+    &.btn-danger {
+      color: #fff;
+      background-color: var(--badge-color);
+      border-color: var(--badge-color);
+
+      &:hover {
+        color: #fff;
+        background-color: #dc2626;
+        border-color: #b91c1c;
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba(239, 68, 68, 0.5);
+      }
+    }
+
+    &:hover {
+      color: var(--badge-color);
+    }
   }
 }
 
