@@ -1,0 +1,137 @@
+meta {
+  name: Firebase Converter function (URL-based)
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{api_url}}?target=converter
+  body: json
+  auth: none
+}
+
+params:query {
+  target: converter
+}
+
+body:json {
+  {
+    "files": [
+      {
+        "dataUrl": "{{image_data_url}}",
+        "name": "edt-test.png",
+        "type": "image/png"
+      }
+    ],
+    "timeZone": "Europe/Paris",
+    "currentDate": "2025-10-06"
+  }
+}
+
+vars:pre-request {
+  test_image_url: https://3dime.com/edt-test.png
+}
+
+script:pre-request {
+  const axios = require('axios');
+  
+  try {
+    // Get the test image URL from environment variables
+    const imageUrl = bru.getRequestVar('test_image_url');
+  
+    if (!imageUrl) {
+      throw new Error('test_image_url environment variable is not set. Please add it to your environment file (local.bru or prod.bru)');
+    }
+    
+    // Fetch the image and convert to base64
+    const response = await axios.get(imageUrl, {
+      responseType: 'arraybuffer',
+      timeout: 10000 // 10 second timeout
+    });
+    
+    if (!response.data) {
+      throw new Error(`Failed to fetch image from ${imageUrl}: No data received`);
+    }
+    
+    // Convert to base64
+    const base64 = Buffer.from(response.data, 'binary').toString('base64');
+    
+    // Determine the image type from the URL or response headers
+    const contentType = response.headers['content-type'] || 'image/png';
+    
+    // Set the data URL with proper format
+    const dataUrl = `data:${contentType};base64,${base64}`;
+    
+    // Set as a request variable
+    bru.setVar('image_data_url', dataUrl);
+  } catch (error) {
+    console.error('Failed to fetch and convert image:', error.message);
+    throw new Error(`Image conversion failed: ${error.message}. Please check that test_image_url is valid and accessible.`);
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response is valid JSON", function() {
+    expect(res.getBody()).to.be.an("object");
+  });
+  
+  test("Response has required fields", function() {
+    expect(res.getBody()).to.have.property("icsContent");
+    expect(res.getBody()).to.have.property("success");
+  });
+  
+  test("ICS content is valid", function() {
+    expect(res.getBody().icsContent).to.match(/^BEGIN:VCALENDAR[\s\S]*END:VCALENDAR$/);
+    expect(res.getBody().success).to.equal(true);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Firebase Converter Function Test (URL-based)
+  
+  This improved version uses a URL reference for the test image instead of embedding
+  base64 data directly in the file. This makes the file much smaller, easier to maintain,
+  and less error-prone.
+  
+  ## How it works
+  
+  1. The `test_image_url` variable is defined in the environment file (local.bru or prod.bru)
+  2. The pre-request script fetches the image from the URL
+  3. It converts the image to base64 format automatically
+  4. The converted data is injected into the request body
+  
+  ## Benefits
+  
+  - **Smaller file size**: No more huge base64 strings in the .bru file
+  - **Easier to maintain**: Change the image by updating the URL variable
+  - **Less error-prone**: No risk of corrupting base64 data when editing
+  - **Flexible**: Easy to switch between different test images
+  
+  ## Usage
+  
+  1. Set the `test_image_url` variable in your environment (local.bru or prod.bru)
+  2. Run the request - the pre-request script handles the rest!
+  
+  ## Expected Response
+  
+  The API should return a JSON object containing:
+  - `icsContent`: A string with iCalendar data (BEGIN:VCALENDAR ... END:VCALENDAR)
+  - `success`: Boolean indicating conversion success
+  - `error`: (optional) Error message if conversion failed
+  
+  ## Tests Performed
+  
+  1. Verify HTTP status code is 200
+  2. Verify response is valid JSON
+  3. Verify response contains required fields
+  4. Verify ICS content format when successful
+}
