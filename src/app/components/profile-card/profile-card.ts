@@ -1,10 +1,10 @@
 import {
   Component,
+  HostListener,
   OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ThemeService } from '../../services/theme.service';
 import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
@@ -19,12 +19,13 @@ import {
 @Component({
   selector: 'app-profile-card',
   standalone: true,
-  imports: [SkeletonLoader, NgbDropdownModule],
+  imports: [SkeletonLoader],
   templateUrl: './profile-card.html',
   styleUrl: './profile-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileCard extends AuthAwareComponent implements OnInit {
+  menuOpen = false;
   socialLinks: SocialLink[] = [];
   profileData: GithubUser | null = null;
   isLoading = true;
@@ -87,6 +88,30 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
     return `fa fa-brands fa-${iconName}`;
   }
 
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu(): void {
+    this.menuOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    const burgerMenu = target.closest('.burger-menu');
+    if (!burgerMenu && this.menuOpen) {
+      this.closeMenu();
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape' && this.menuOpen) {
+      this.closeMenu();
+    }
+  }
+
   cycleTheme() {
     this.themeService.cycleTheme();
   }
@@ -126,6 +151,7 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
   async signOut(): Promise<void> {
     try {
       await this.authService.signOutUser();
+      this.menuOpen = false;
       this.cdr.markForCheck();
     } catch (error) {
       console.error('Sign out error:', error);
