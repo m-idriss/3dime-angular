@@ -1,3 +1,6 @@
+/* Importing Bootstrap SCSS file. */
+@use 'bootstrap/scss/bootstrap';
+
 /* ==============================================
    3DIME - MODERN BASE STYLES (Refined & Optimized)
    ============================================== */
@@ -921,6 +924,3 @@ body.font-large h3 {
 body.font-large h4 {
   font-size: 1.5rem;
 }
-
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
