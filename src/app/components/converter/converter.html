@@ -98,9 +98,14 @@
           @if (isBatchMode()) {
             <div class="batch-processing">
               <span>Processing files: {{ batchStats().processing + batchStats().success }} / {{ batchStats().total }}</span>
-              <div class="batch-progress-bar">
-                <div class="batch-progress-fill" [style.width.%]="batchProgress()"></div>
-              </div>
+              <ngb-progressbar
+                [value]="batchProgress()"
+                [striped]="true"
+                [animated]="true"
+                type="info"
+                [showValue]="true"
+                height="25px"
+              ></ngb-progressbar>
             </div>
           } @else {
             <span>Processing...</span>
@@ -138,9 +143,14 @@
                 </div>
                 @if (batchFile.status === BatchFileStatus.PROCESSING) {
                   <div class="batch-file-progress">
-                    <div class="batch-file-progress-bar">
-                      <div class="batch-file-progress-fill" [style.width.%]="batchFile.progress"></div>
-                    </div>
+                    <ngb-progressbar
+                      [value]="batchFile.progress || 0"
+                      [striped]="true"
+                      [animated]="true"
+                      type="primary"
+                      [showValue]="true"
+                      height="20px"
+                    ></ngb-progressbar>
                   </div>
                 }
                 @if (batchFile.status === BatchFileStatus.ERROR) {
@@ -171,9 +181,9 @@
 
     <!-- Error Message -->
     @if (errorMessage()) {
-      <div class="alert error" role="alert" aria-live="assertive">
-        {{ errorMessage() }}
-      </div>
+      <ngb-alert type="danger" [dismissible]="true" (closed)="errorMessage.set(null)">
+        <strong>Error:</strong> {{ errorMessage() }}
+      </ngb-alert>
     }
 
     <!-- Extracted Events - Apple Calendar Style with Editing -->
