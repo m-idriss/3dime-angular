@@ -81,9 +81,9 @@
 
       <!-- Convert Button -->
       @if (files().length > 0 && !isProcessing()) {
-        <button 
-          class="action-button" 
-          (click)="convertToIcs()" 
+        <button
+          class="action-button"
+          (click)="convertToIcs()"
           aria-label="Convert files to calendar events"
           ngbTooltip="Convert your files to calendar events"
           placement="top"
@@ -113,7 +113,7 @@
         <section class="batch-details" aria-labelledby="batch-heading">
           <div class="batch-header">
             <h3 id="batch-heading" class="batch-heading">Batch Processing Status</h3>
-            <button 
+            <button
               class="batch-toggle-button"
               (click)="isBatchDetailsCollapsed.set(!isBatchDetailsCollapsed())"
               [attr.aria-expanded]="!isBatchDetailsCollapsed()"
@@ -146,10 +146,10 @@
                 @if (batchFile.status === BatchFileStatus.ERROR) {
                   <div class="batch-file-error">
                     <span class="error-text">{{ batchFile.error }}</span>
-                    <button 
-                      class="retry-button" 
-                      (click)="retryFile($index)" 
-                      [disabled]="isProcessing()" 
+                    <button
+                      class="retry-button"
+                      (click)="retryFile($index)"
+                      [disabled]="isProcessing()"
                       aria-label="Retry processing this file"
                       ngbTooltip="Retry processing"
                       placement="top"
@@ -186,6 +186,11 @@
               <h2 ngbAccordionHeader>
                 <button ngbAccordionButton class="event-accordion-header">
                   <div class="event-accordion-header-content">
+                    <div class="event-date" aria-hidden="true">
+                      <div class="date-block">
+                        <span [innerHTML]="getMonthDay(event.start)"></span>
+                      </div>
+                    </div>
                     <div class="event-header-main">
                       <h4 class="event-title">{{ event.summary }}</h4>
                       @if (event.location) {
@@ -230,18 +235,18 @@
                           <span class="detail-value">{{ event.end | date:'short' }}</span>
                         </div>
                         <div class="event-actions-buttons">
-                          <button 
-                            class="action-button-small edit" 
-                            (click)="editEvent($index)" 
+                          <button
+                            class="action-button-small edit"
+                            (click)="editEvent($index)"
                             aria-label="Edit event"
                             ngbTooltip="Edit this event"
                             placement="top"
                           >
                             ✏️ Edit
                           </button>
-                          <button 
-                            class="action-button-small delete" 
-                            (click)="deleteEvent($index)" 
+                          <button
+                            class="action-button-small delete"
+                            (click)="deleteEvent($index)"
                             aria-label="Delete event"
                             ngbTooltip="Delete this event"
                             placement="top"
@@ -314,18 +319,18 @@
                 </div>
 
                 <div class="form-actions">
-                  <button 
-                    class="form-button save" 
-                    (click)="saveEvent($index)" 
+                  <button
+                    class="form-button save"
+                    (click)="saveEvent($index)"
                     aria-label="Save changes"
                     ngbTooltip="Save event changes"
                     placement="top"
                   >
                     💾 Save
                   </button>
-                  <button 
-                    class="form-button cancel" 
-                    (click)="cancelEdit($index)" 
+                  <button
+                    class="form-button cancel"
+                    (click)="cancelEdit($index)"
                     aria-label="Cancel editing"
                     ngbTooltip="Cancel without saving"
                     placement="top"
@@ -345,18 +350,18 @@
 
       <!-- Download Button -->
       <nav class="actions" aria-label="Calendar actions">
-        <button 
-          class="action-button download" 
-          (click)="downloadIcs()" 
+        <button
+          class="action-button download"
+          (click)="downloadIcs()"
           aria-label="Download calendar file"
           ngbTooltip="Download your calendar as .ics file"
           placement="top"
         >
           Download Calendar
         </button>
-        <button 
-          class="action-button secondary" 
-          (click)="resetState()" 
+        <button
+          class="action-button secondary"
+          (click)="resetState()"
           aria-label="Convert another file"
           ngbTooltip="Start over with new files"
           placement="top"

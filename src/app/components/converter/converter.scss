@@ -318,7 +318,7 @@
 
   .event-title {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.775rem;
     font-weight: 600;
     color: var(--text-primary);
     line-height: 1.3;
@@ -327,7 +327,7 @@
   .event-location-header {
     font-size: 0.8rem;
     color: var(--text-secondary);
-    
+
     span {
       display: inline-block;
     }
@@ -342,13 +342,13 @@
   flex-shrink: 0;
 
   .event-time-start {
-    font-size: 0.95rem;
+    font-size: 0.775rem;
     font-weight: 600;
     color: var(--text-primary);
   }
 
   .event-time-end {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
   }
 }
