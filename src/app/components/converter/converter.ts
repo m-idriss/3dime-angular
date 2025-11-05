@@ -2,7 +2,7 @@ import { Component, signal, OnInit, Inject, PLATFORM_ID, computed } from '@angul
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import ICAL from '../../libs/ical-wrapper'; // ⚡ Wrapper to ensure parse() exists
-import { NgbAccordionModule, NgbCollapseModule, NgbTooltipModule, NgbPopoverModule, NgbProgressbarModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbCollapseModule, NgbTooltipModule, NgbPopoverModule, NgbProgressbarModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConverterService, FileData } from '../../services/converter';
 import { Card } from '../card/card';
@@ -13,7 +13,7 @@ import { formatIcsDate, getMonthDay, getTime } from '../../utils';
 
 @Component({
   selector: 'app-converter',
-  imports: [Card, FormsModule, CommonModule, NgbAccordionModule, NgbCollapseModule, NgbTooltipModule, NgbPopoverModule, NgbProgressbarModule, NgbAlertModule],
+  imports: [Card, FormsModule, CommonModule, NgbAccordionModule, NgbCollapseModule, NgbTooltipModule, NgbPopoverModule, NgbProgressbarModule, NgbToastModule],
   templateUrl: './converter.html',
   styleUrl: './converter.scss',
 })

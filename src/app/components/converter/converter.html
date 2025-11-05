@@ -179,19 +179,38 @@
       }
     }
 
-    <!-- Success Message -->
-    @if (successMessage()) {
-      <ngb-alert type="success" [dismissible]="true" (closed)="successMessage.set(null)">
-        <strong>Success!</strong> {{ successMessage() }}
-      </ngb-alert>
-    }
+    <!-- Toast Container for Success and Error Messages -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11000;">
+      <!-- Success Toast -->
+      @if (successMessage()) {
+        <ngb-toast 
+          [autohide]="true" 
+          [delay]="5000" 
+          (hidden)="successMessage.set(null)"
+          class="bg-success text-white"
+        >
+          <ng-template ngbToastHeader>
+            <strong class="me-auto">✅ Success</strong>
+          </ng-template>
+          {{ successMessage() }}
+        </ngb-toast>
+      }
 
-    <!-- Error Message -->
-    @if (errorMessage()) {
-      <ngb-alert type="danger" [dismissible]="true" (closed)="errorMessage.set(null)">
-        <strong>Error:</strong> {{ errorMessage() }}
-      </ngb-alert>
-    }
+      <!-- Error Toast -->
+      @if (errorMessage()) {
+        <ngb-toast 
+          [autohide]="true" 
+          [delay]="7000" 
+          (hidden)="errorMessage.set(null)"
+          class="bg-danger text-white"
+        >
+          <ng-template ngbToastHeader>
+            <strong class="me-auto">❌ Error</strong>
+          </ng-template>
+          {{ errorMessage() }}
+        </ngb-toast>
+      }
+    </div>
 
     <!-- Extracted Events - Apple Calendar Style with Editing -->
     @if (extractedEvents().length > 0) {
