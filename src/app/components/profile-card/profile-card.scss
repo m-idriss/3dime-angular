@@ -136,9 +136,8 @@
 /* Burger Menu - Settings dropdown trigger */
 .burger-menu {
   /* Positioning */
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: relative;
+  grid-column: 3;
   z-index: 10000;
 }
 
@@ -150,9 +149,9 @@
   justify-content: center;
 
   /* Box Model */
-  width: 40px;
-  height: 40px;
-  padding: 0.25rem;
+  min-width: 44px;
+  height: 44px;
+  padding: 0.5rem;
   gap: var(--space-xs);
 
   /* Visual */
@@ -172,20 +171,19 @@
     background: var(--glass-bg-hover);
     backdrop-filter: blur(20px);
     box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
-    transform: scale(1.1) rotate(5deg);
-    transition: all var(--ease-bounce);
+    transform: scale(1.05);
   }
 
   /* Active state */
-  &.active {
+  &.active,
+  &[aria-expanded="true"] {
     background: var(--glass-bg-hover);
     backdrop-filter: blur(20px);
     box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
-    transform: scale(1.05);
+    transform: scale(1.02);
 
     i {
       color: var(--accent-color);
-      transform: rotate(180deg);
     }
   }
 
@@ -198,11 +196,33 @@
 
   /* User avatar in button */
   .user-avatar {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: var(--radius-full);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     object-fit: cover;
     flex-shrink: 0;
+    transition: all var(--t-medium);
+  }
+
+  /* Add visual indicator for dropdown when showing avatar */
+  &:has(.user-avatar)::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--text-primary);
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  &:hover .user-avatar {
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: scale(1.05);
   }
 }
 
