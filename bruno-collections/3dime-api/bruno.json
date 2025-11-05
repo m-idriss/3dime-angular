@@ -2,6 +2,11 @@
   "version": "1",
   "name": "3dime API Collection",
   "type": "collection",
+  "scripts": {
+    "filesystemAccess": {
+      "allow": true
+    }
+  },
   "ignore": [
     "node_modules",
     ".git"
