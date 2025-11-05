@@ -527,21 +527,11 @@ export class Converter extends AuthAwareComponent implements OnInit {
   }
 
   // ⚡ Event editing methods
-  protected toggleEventActions(index: number): void {
-    this.extractedEvents.update((events) =>
-      events.map((event, i) => ({
-        ...event,
-        showActions: i === index ? !event.showActions : false,
-      }))
-    );
-  }
-
   protected editEvent(index: number): void {
     this.extractedEvents.update((events) =>
       events.map((event, i) => ({
         ...event,
         isEditing: i === index,
-        showActions: false, // Hide actions menu when editing
       }))
     );
   }
@@ -551,7 +541,6 @@ export class Converter extends AuthAwareComponent implements OnInit {
       events.map((event, i) => ({
         ...event,
         isEditing: i === index ? false : event.isEditing,
-        showActions: false,
       }))
     );
     // Regenerate ICS content with edited events
@@ -563,7 +552,6 @@ export class Converter extends AuthAwareComponent implements OnInit {
       events.map((event, i) => ({
         ...event,
         isEditing: i === index ? false : event.isEditing,
-        showActions: false,
       }))
     );
   }
