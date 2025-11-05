@@ -35,7 +35,7 @@ This version automatically fetches an image from a URL and converts it to base64
 #### Usage
 ```javascript
 // Environment variable (already set in local.bru and prod.bru)
-test_image_url: https://raw.githubusercontent.com/m-idriss/3dime-angular/main/bruno-collections/3dime-api/test-images/edt-test.png
+test_image_url: https://raw.githubusercontent.com/m-idriss/3dime-angular/main/bruno-collections/3dime-api/test-resources/edt-test.pdf
 
 // The pre-request script handles everything automatically!
 // Just click "Send" and the image will be fetched and converted
@@ -147,7 +147,7 @@ That's it! No complex migration needed.
 
 For questions or issues:
 - Check the [Bruno documentation](https://docs.usebruno.com/)
-- Review the test-images/README.md for more details
+- Review the test-resources/README.md for more details
 - Create an issue in the repository
 
 ---

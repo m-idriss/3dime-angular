@@ -33,7 +33,7 @@ bruno-collections/
     ├── environments/
     │   ├── local.bru                                     # Local environment variables
     │   └── prod.bru                                      # Production environment variables
-    ├── test-images/                                      # Test images for converter
+    ├── test-resources/                                      # Test images for converter
     │   └── README.md
     ├── GitHub User Profile.bru                           # GitHub API test
     ├── Firebase Converter function.bru                   # Original (with base64)
