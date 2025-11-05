@@ -9,7 +9,7 @@
         </p>
         <img src="/assets/images/converter.png" alt="Calendar converter illustration" class="auth-image" loading="lazy" />
       </div>
-      <button class="sign-in-button" (click)="signIn()" aria-label="Sign in with Google to use converter">
+      <button class="sign-in-button btn btn-primary btn-lg" (click)="signIn()" aria-label="Sign in with Google to use converter">
         🔐 Sign in with Google
       </button>
     </section>
@@ -82,7 +82,7 @@
       <!-- Convert Button -->
       @if (files().length > 0 && !isProcessing()) {
         <button
-          class="action-button"
+          class="action-button btn btn-primary"
           (click)="convertToIcs()"
           aria-label="Convert files to calendar events"
           ngbTooltip="Convert your files to calendar events"
@@ -98,9 +98,14 @@
           @if (isBatchMode()) {
             <div class="batch-processing">
               <span>Processing files: {{ batchStats().processing + batchStats().success }} / {{ batchStats().total }}</span>
-              <div class="batch-progress-bar">
-                <div class="batch-progress-fill" [style.width.%]="batchProgress()"></div>
-              </div>
+              <ngb-progressbar
+                [value]="batchProgress()"
+                [striped]="true"
+                [animated]="true"
+                type="info"
+                [showValue]="true"
+                height="25px"
+              ></ngb-progressbar>
             </div>
           } @else {
             <span>Processing...</span>
@@ -138,16 +143,21 @@
                 </div>
                 @if (batchFile.status === BatchFileStatus.PROCESSING) {
                   <div class="batch-file-progress">
-                    <div class="batch-file-progress-bar">
-                      <div class="batch-file-progress-fill" [style.width.%]="batchFile.progress"></div>
-                    </div>
+                    <ngb-progressbar
+                      [value]="batchFile.progress || 0"
+                      [striped]="true"
+                      [animated]="true"
+                      type="primary"
+                      [showValue]="true"
+                      height="20px"
+                    ></ngb-progressbar>
                   </div>
                 }
                 @if (batchFile.status === BatchFileStatus.ERROR) {
                   <div class="batch-file-error">
                     <span class="error-text">{{ batchFile.error }}</span>
                     <button
-                      class="retry-button"
+                      class="retry-button btn btn-sm btn-warning"
                       (click)="retryFile($index)"
                       [disabled]="isProcessing()"
                       aria-label="Retry processing this file"
@@ -169,12 +179,38 @@
       }
     }
 
-    <!-- Error Message -->
-    @if (errorMessage()) {
-      <div class="alert error" role="alert" aria-live="assertive">
-        {{ errorMessage() }}
-      </div>
-    }
+    <!-- Toast Container for Success and Error Messages -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11000;">
+      <!-- Success Toast -->
+      @if (successMessage()) {
+        <ngb-toast 
+          [autohide]="true" 
+          [delay]="5000" 
+          (hidden)="successMessage.set(null)"
+          class="bg-success text-white"
+        >
+          <ng-template ngbToastHeader>
+            <strong class="me-auto">✅ Success</strong>
+          </ng-template>
+          {{ successMessage() }}
+        </ngb-toast>
+      }
+
+      <!-- Error Toast -->
+      @if (errorMessage()) {
+        <ngb-toast 
+          [autohide]="true" 
+          [delay]="7000" 
+          (hidden)="errorMessage.set(null)"
+          class="bg-danger text-white"
+        >
+          <ng-template ngbToastHeader>
+            <strong class="me-auto">❌ Error</strong>
+          </ng-template>
+          {{ errorMessage() }}
+        </ngb-toast>
+      }
+    </div>
 
     <!-- Extracted Events - Apple Calendar Style with Editing -->
     @if (extractedEvents().length > 0) {
@@ -236,7 +272,7 @@
                         </div>
                         <div class="event-actions-buttons">
                           <button
-                            class="action-button-small edit"
+                            class="action-button-small edit btn btn-sm btn-info"
                             (click)="editEvent($index)"
                             aria-label="Edit event"
                             ngbTooltip="Edit this event"
@@ -245,7 +281,7 @@
                             ✏️ Edit
                           </button>
                           <button
-                            class="action-button-small delete"
+                            class="action-button-small delete btn btn-sm btn-danger"
                             (click)="deleteEvent($index)"
                             aria-label="Delete event"
                             ngbTooltip="Delete this event"
@@ -320,7 +356,7 @@
 
                 <div class="form-actions">
                   <button
-                    class="form-button save"
+                    class="form-button save btn btn-success"
                     (click)="saveEvent($index)"
                     aria-label="Save changes"
                     ngbTooltip="Save event changes"
@@ -329,7 +365,7 @@
                     💾 Save
                   </button>
                   <button
-                    class="form-button cancel"
+                    class="form-button cancel btn btn-secondary"
                     (click)="cancelEdit($index)"
                     aria-label="Cancel editing"
                     ngbTooltip="Cancel without saving"
@@ -351,7 +387,7 @@
       <!-- Download Button -->
       <nav class="actions" aria-label="Calendar actions">
         <button
-          class="action-button download"
+          class="action-button download btn btn-success"
           (click)="downloadIcs()"
           aria-label="Download calendar file"
           ngbTooltip="Download your calendar as .ics file"
@@ -360,7 +396,7 @@
           Download Calendar
         </button>
         <button
-          class="action-button secondary"
+          class="action-button secondary btn btn-secondary"
           (click)="resetState()"
           aria-label="Convert another file"
           ngbTooltip="Start over with new files"
