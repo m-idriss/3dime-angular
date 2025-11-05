@@ -28,13 +28,17 @@ body:json {
   }
 }
 
+vars:pre-request {
+  test_image_url: https://3dime.com/edt-test.png
+}
+
 script:pre-request {
   const axios = require('axios');
   
   try {
     // Get the test image URL from environment variables
-    const imageUrl = bru.getEnvVar('test_image_url');
-    
+    const imageUrl = bru.getRequestVar('test_image_url');
+  
     if (!imageUrl) {
       throw new Error('test_image_url environment variable is not set. Please add it to your environment file (local.bru or prod.bru)');
     }
@@ -81,12 +85,8 @@ tests {
   });
   
   test("ICS content is valid", function() {
-    const body = res.getBody();
-    if (body.success) {
-      expect(body.icsContent).to.be.a("string");
-      expect(body.icsContent).to.contain("BEGIN:VCALENDAR");
-      expect(body.icsContent).to.contain("END:VCALENDAR");
-    }
+    expect(res.getBody().icsContent).to.match(/^BEGIN:VCALENDAR[\s\S]*END:VCALENDAR$/);
+    expect(res.getBody().success).to.equal(true);
   });
 }
 

@@ -394,7 +394,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
    */
   private parseIcsContentToEvents(icsContent: string): CalendarEvent[] {
     try {
-      const jcalData = ICAL.parse(icsContent);
+      const cleanIcs = this.sanitizeIcs(icsContent);
+      const jcalData = ICAL.parse(cleanIcs);
       const calendar = new ICAL.Component(jcalData);
       const vevents: any[] = calendar.getAllSubcomponents('vevent');
 
@@ -417,9 +418,10 @@ export class Converter extends AuthAwareComponent implements OnInit {
   // ⚡ Parse ICS content using ical.js wrapper (works dev + prod)
   private parseIcsContent(icsContent: string): void {
     try {
-      const jcalData = ICAL.parse(icsContent);
+      const repaired = this.repairIcsContent(icsContent);
+      const jcalData = ICAL.parse(repaired);
       const calendar = new ICAL.Component(jcalData);
-      const vevents: any[] = calendar.getAllSubcomponents('vevent');
+      const vevents = calendar.getAllSubcomponents('vevent');
 
       const events: CalendarEvent[] = vevents.map((vevent: any) => {
         const eventComp = new ICAL.Event(vevent);
@@ -432,11 +434,16 @@ export class Converter extends AuthAwareComponent implements OnInit {
         };
       });
 
+      events.sort(
+        (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
+      );
+
       this.extractedEvents.set(events);
+      this.errorMessage.set(null);
     } catch (error) {
-      console.error('Failed to parse ICS with ical.js:', error);
+      console.error('Failed to parse repaired ICS:', error);
+      this.errorMessage.set('Failed to parse generated ICS file (even after repair).');
       this.extractedEvents.set([]);
-      this.errorMessage.set('Failed to parse generated ICS file.');
     }
   }
 
@@ -637,4 +644,49 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected parseDateFromInput(dateStr: string): Date {
     return new Date(dateStr);
   }
+
+  private sanitizeIcs(ics: string): string {
+    return ics
+      .split(/\r?\n/)
+      .filter((line) => line.trim() === '' || /^[A-Z-]+[;:]/i.test(line))
+      .join('\r\n');
+  }
+
+  // 🧹 Sanitize and auto-repair ICS before parsing
+  private repairIcsContent(raw: string): string {
+    if (!raw) return '';
+
+    let ics = raw
+      .replace(/\r\n|\r|\n/g, '\r\n')
+      .replace(/[^\x20-\x7E\r\n]/g, '') // retirer les caractères non ASCII imprimables
+      .trim();
+
+    ics = ics.replace(/\[\[.*?\]\]/g, '');
+    ics = ics.replace(/#+\s*/g, '');
+
+    if (!ics.includes('BEGIN:VCALENDAR')) {
+      ics = 'BEGIN:VCALENDAR\r\n' + ics;
+    }
+    if (!ics.includes('END:VCALENDAR')) {
+      ics += '\r\nEND:VCALENDAR';
+    }
+
+    ics = ics
+      .split(/\r\n/)
+      .filter((line) => line.trim() === '' || /^[A-Z0-9-]+[;:]/i.test(line))
+      .join('\r\n');
+
+    if (!/VERSION:2\.0/.test(ics)) {
+      ics = ics.replace(/BEGIN:VCALENDAR\r\n/, 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\n');
+    }
+    if (!/PRODID:/.test(ics)) {
+      ics = ics.replace(/VERSION:2\.0\r\n/, 'VERSION:2.0\r\nPRODID:-//3dime Calendar Converter//EN\r\n');
+    }
+
+    ics = ics.replace(/\r\n{2,}/g, '\r\n');
+
+    return ics.trim();
+  }
+
+
 }
