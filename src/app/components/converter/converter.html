@@ -186,20 +186,19 @@
               <h2 ngbAccordionHeader>
                 <button ngbAccordionButton class="event-accordion-header">
                   <div class="event-accordion-header-content">
-                    <div class="event-date" aria-hidden="true">
-                      <div class="date-block">
-                        <span [innerHTML]="getMonthDay(event.start)"></span>
-                      </div>
-                    </div>
-                    <div class="event-details-header">
+                    <div class="event-header-main">
                       <h4 class="event-title">{{ event.summary }}</h4>
-                      <div class="event-times-inline">
-                        <time class="event-time" [attr.datetime]="event.start">{{ getTime(event.start) }}</time>
-                        @if (event.end && getTime(event.end)) {
-                          <span> - </span>
-                          <time class="event-time-end" [attr.datetime]="event.end">{{ getTime(event.end) }}</time>
-                        }
-                      </div>
+                      @if (event.location) {
+                        <div class="event-location-header">
+                          <span>📍 {{ event.location }}</span>
+                        </div>
+                      }
+                    </div>
+                    <div class="event-times-header">
+                      <time class="event-time-start" [attr.datetime]="event.start">{{ getTime(event.start) }}</time>
+                      @if (event.end && getTime(event.end)) {
+                        <time class="event-time-end" [attr.datetime]="event.end">{{ getTime(event.end) }}</time>
+                      }
                     </div>
                   </div>
                 </button>
