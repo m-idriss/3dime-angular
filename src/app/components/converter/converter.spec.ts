@@ -46,49 +46,25 @@ describe('Converter', () => {
       component['extractedEvents'].set(testEvents);
     });
 
-    it('should toggle action menu for an event', () => {
-      component['toggleEventActions'](0);
-      let events = component['extractedEvents']();
-      expect(events[0].showActions).toBe(true);
-      expect(events[1].showActions).toBe(false);
-
-      // Toggle again to hide
-      component['toggleEventActions'](0);
-      events = component['extractedEvents']();
-      expect(events[0].showActions).toBe(false);
-    });
-
-    it('should hide action menu when toggling different event', () => {
-      component['toggleEventActions'](0);
-      component['toggleEventActions'](1);
-      const events = component['extractedEvents']();
-      expect(events[0].showActions).toBe(false);
-      expect(events[1].showActions).toBe(true);
-    });
-
-    it('should enable edit mode and hide action menu', () => {
-      component['toggleEventActions'](0);
+    it('should enable edit mode for an event', () => {
       component['editEvent'](0);
       const events = component['extractedEvents']();
       expect(events[0].isEditing).toBe(true);
-      expect(events[0].showActions).toBe(false);
       expect(events[1].isEditing).toBe(false);
     });
 
-    it('should disable edit mode and hide action menu when saving', () => {
+    it('should disable edit mode when saving', () => {
       component['editEvent'](0);
       component['saveEvent'](0);
       const events = component['extractedEvents']();
       expect(events[0].isEditing).toBe(false);
-      expect(events[0].showActions).toBe(false);
     });
 
-    it('should disable edit mode and hide action menu when canceling', () => {
+    it('should disable edit mode when canceling', () => {
       component['editEvent'](0);
       component['cancelEdit'](0);
       const events = component['extractedEvents']();
       expect(events[0].isEditing).toBe(false);
-      expect(events[0].showActions).toBe(false);
     });
 
     it('should delete an event', () => {
