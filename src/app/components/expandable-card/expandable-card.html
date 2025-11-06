@@ -1,0 +1,34 @@
+<!-- Compact icon view -->
+<button
+  *ngIf="!isExpanded() && !alwaysExpanded"
+  class="icon-tile"
+  (click)="toggleExpanded()"
+  [attr.aria-label]="ariaLabel || 'Expand ' + title"
+  [attr.aria-expanded]="false"
+  type="button"
+>
+  <i [class]="'fa ' + icon" aria-hidden="true"></i>
+</button>
+
+<!-- Expanded card view (inline, not modal) -->
+<article
+  *ngIf="isExpanded()"
+  class="expanded-card"
+  [attr.aria-labelledby]="'card-title-' + title"
+>
+  <div class="card-header">
+    <button
+      *ngIf="!alwaysExpanded"
+      class="collapse-btn"
+      (click)="toggleExpanded()"
+      [attr.aria-label]="'Collapse ' + title"
+      [attr.aria-expanded]="true"
+      type="button"
+    >
+      <i class="fa fa-minus" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="card-content">
+    <ng-content></ng-content>
+  </div>
+</article>

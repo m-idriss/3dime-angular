@@ -7,6 +7,7 @@ import { About } from './components/about/about';
 import { BackToTop } from './components/back-to-top/back-to-top';
 import { Converter } from './components/converter/converter';
 import { Education } from './components/education/education';
+import { ExpandableCard } from './components/expandable-card/expandable-card';
 import { Experience } from './components/experience/experience';
 import { GithubActivity } from './components/github-activity/github-activity';
 import { Hobbies } from './components/hobbies/hobbies';
@@ -24,6 +25,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     BackToTop,
     Converter,
     Education,
+    ExpandableCard,
     Experience,
     GithubActivity,
     Hobbies,
