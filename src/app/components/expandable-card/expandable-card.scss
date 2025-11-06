@@ -9,17 +9,6 @@
   width: 100%;
 }
 
-/* When expanded on mobile, span full grid width */
-:host.expanded {
-  grid-column: 1 / -1;
-}
-
-@media (min-width: 768px) {
-  :host.expanded {
-    grid-column: auto;
-  }
-}
-
 /* Icon tile - compact state */
 .icon-tile {
   /* Positioning */
