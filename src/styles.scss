@@ -384,7 +384,7 @@ body.bg-video .bg {
 
   /* Box Model */
   width: 100%;
-  max-width: clamp(280px, 90%, 1200px);
+  max-width: clamp(280px, 90%, 1600px);
   margin: 0 auto;
   padding: var(--space-lg);
   padding-top: 50px;
@@ -392,7 +392,7 @@ body.bg-video .bg {
   gap: var(--space-lg);
 }
 
-/* Primary column - always visible cards */
+/* Primary column - always visible cards (centered) */
 .primary-column {
   /* Positioning */
   display: flex;
@@ -407,7 +407,35 @@ body.bg-video .bg {
   color: var(--text-primary);
 }
 
-/* Secondary cards - compact icon grid */
+/* Left column - Tech Stack, Experience, Education */
+.left-column {
+  /* Positioning */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  
+  /* Box Model */
+  width: 100%;
+  
+  /* Typography */
+  color: var(--text-primary);
+}
+
+/* Right column - GitHub Activity, Hobbies, Stuff */
+.right-column {
+  /* Positioning */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  
+  /* Box Model */
+  width: 100%;
+  
+  /* Typography */
+  color: var(--text-primary);
+}
+
+/* Legacy secondary-cards for backwards compatibility */
 .secondary-cards {
   /* Positioning */
   display: grid;
@@ -446,23 +474,32 @@ body.bg-video .bg {
   }
 
   .cards-container {
-    max-width: clamp(280px, 100%, 1200px);
+    max-width: clamp(280px, 100%, 1600px);
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
     gap: calc(var(--space-lg) * 2);
+  }
+  
+  .left-column {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 350px;
+    order: 1;
   }
   
   .primary-column {
     flex: 0 0 auto;
     width: auto;
     max-width: 400px;
+    order: 2;
   }
   
-  .secondary-cards {
-    flex: 1;
-    align-self: flex-start;
-    max-width: 800px;
+  .right-column {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 350px;
+    order: 3;
   }
 
   .main-card,
