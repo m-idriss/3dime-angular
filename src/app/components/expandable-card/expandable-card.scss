@@ -62,7 +62,7 @@
     border-color: var(--accent-color);
     box-shadow: 
       0 4px 12px rgba(0, 0, 0, 0.2),
-      0 0 12px rgba(59, 130, 246, 0.2);
+      var(--shadow-glow);
     transform: translateY(-2px);
     
     i {
@@ -125,7 +125,7 @@
       margin: 0;
       
       /* Gradient effect */
-      background: linear-gradient(135deg, var(--text-primary), rgba(59, 130, 246, 0.8));
+      background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;

@@ -440,12 +440,6 @@ body.bg-video .bg {
 /* ========================
    Responsive
    ======================== */
-@media (min-width: 768px) {
-  .secondary-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media (min-width: 1024px) {
   .wrapper {
     max-width: clamp(280px, 100%, 400px);
@@ -467,7 +461,6 @@ body.bg-video .bg {
   
   .secondary-cards {
     flex: 1;
-    grid-template-columns: repeat(2, 1fr);
     align-self: flex-start;
     max-width: 800px;
   }
