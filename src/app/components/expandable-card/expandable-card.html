@@ -1,6 +1,6 @@
 <!-- Compact icon view -->
 <button
-  *ngIf="!isExpanded()"
+  *ngIf="!isExpanded() && !alwaysExpanded"
   class="icon-tile"
   (click)="toggleExpanded()"
   [attr.aria-label]="ariaLabel || 'Expand ' + title"
