@@ -50,7 +50,14 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
 
     this.profileService.getProfile().subscribe((user) => {
       this.profileData = user;
-      this.socialLinks = [{ provider: 'GitHub', url: user.html_url }, ...this.socialLinks];
+      const links = [{ provider: 'GitHub', url: user.html_url }];
+      
+      // Add email link if available
+      if (user.email) {
+        links.push({ provider: 'Email', url: `mailto:${user.email}` });
+      }
+      
+      this.socialLinks = [...links, ...this.socialLinks];
       this.decrementLoadingCount();
     });
   }
@@ -85,6 +92,11 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
 
     const iconKey = provider.toLowerCase();
     const iconName = SOCIAL_ICON_MAP[iconKey] || iconKey;
+
+    // Email uses solid icon instead of brand icon
+    if (iconKey === 'email') {
+      return `fas fa-${iconName}`;
+    }
 
     return `fa fa-brands fa-${iconName}`;
   }
