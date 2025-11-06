@@ -410,52 +410,40 @@ body.bg-video .bg {
   order: 1;
 }
 
-/* Left column - Tech Stack, Experience, Education */
-.left-column {
-  /* Positioning */
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-lg);
-
-  /* Box Model */
-  width: 100%;
-
-  /* Typography */
-  color: var(--text-primary);
-
-  /* Order - appears after primary on mobile */
-  order: 2;
-}
-
-/* Right column - GitHub Activity, Hobbies, Stuff */
-.right-column {
-  /* Positioning */
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-lg);
-
-  /* Box Model */
-  width: 100%;
-
-  /* Typography */
-  color: var(--text-primary);
-
-  /* Order - appears last on mobile */
-  order: 3;
-}
-
-/* Legacy secondary-cards for backwards compatibility */
+/* Secondary cards - expandable icon tiles in single horizontal row on mobile */
 .secondary-cards {
   /* Positioning */
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-lg);
-
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(80px, 1fr);
+  gap: var(--space-md);
+  overflow-x: auto;
+  
   /* Box Model */
   width: 100%;
-
+  
   /* Typography */
   color: var(--text-primary);
+  
+  /* Order - appears after primary on mobile */
+  order: 2;
+  
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--shadow-color) transparent;
+  
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--shadow-color);
+    border-radius: 3px;
+  }
 }
 
 /* Legacy group-column for backwards compatibility */
@@ -490,25 +478,22 @@ body.bg-video .bg {
     gap: calc(var(--space-lg) * 2);
   }
 
-  .left-column {
-    flex: 0 0 auto;
-    width: auto;
-    max-width: 350px;
-    order: 1;
-  }
-
   .primary-column {
     flex: 0 0 auto;
     width: auto;
     max-width: 400px;
-    order: 2;
+    order: 1;
   }
 
-  .right-column {
-    flex: 0 0 auto;
-    width: auto;
-    max-width: 350px;
-    order: 3;
+  .secondary-cards {
+    /* Reset mobile horizontal scroll to grid layout on desktop */
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-columns: auto;
+    overflow-x: visible;
+    flex: 1;
+    max-width: 800px;
+    order: 2;
   }
 
   .main-card,
