@@ -95,7 +95,7 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
 
     // Email uses solid icon instead of brand icon
     if (iconKey === 'email') {
-      return `fa fa-solid fa-${iconName}`;
+      return `fas fa-${iconName}`;
     }
 
     return `fa fa-brands fa-${iconName}`;
