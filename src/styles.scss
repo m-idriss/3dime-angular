@@ -405,6 +405,9 @@ body.bg-video .bg {
 
   /* Typography */
   color: var(--text-primary);
+  
+  /* Order - appears first on mobile */
+  order: 1;
 }
 
 /* Left column - Tech Stack, Experience, Education */
@@ -419,6 +422,9 @@ body.bg-video .bg {
   
   /* Typography */
   color: var(--text-primary);
+  
+  /* Order - appears after primary on mobile */
+  order: 2;
 }
 
 /* Right column - GitHub Activity, Hobbies, Stuff */
@@ -433,6 +439,9 @@ body.bg-video .bg {
   
   /* Typography */
   color: var(--text-primary);
+  
+  /* Order - appears last on mobile */
+  order: 3;
 }
 
 /* Legacy secondary-cards for backwards compatibility */
