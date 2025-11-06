@@ -30,6 +30,7 @@ export const SOCIAL_ICON_MAP: Record<string, string> = {
   linkedin: 'linkedin',
   instagram: 'instagram',
   youtube: 'youtube',
+  email: 'envelope',
 } as const;
 
 /**
