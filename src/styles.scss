@@ -384,7 +384,7 @@ body.bg-video .bg {
 
   /* Box Model */
   width: 100%;
-  max-width: clamp(280px, 90%, 1200px);
+  max-width: clamp(280px, 90%, 1600px);
   margin: 0 auto;
   padding: var(--space-lg);
   padding-top: 50px;
@@ -392,6 +392,73 @@ body.bg-video .bg {
   gap: var(--space-lg);
 }
 
+/* Primary column - always visible cards (centered) */
+.primary-column {
+  /* Positioning */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  /* Box Model */
+  width: 100%;
+  gap: var(--space-lg);
+
+  /* Typography */
+  color: var(--text-primary);
+
+  /* Order - appears first on mobile */
+  order: 1;
+}
+
+/* Left column - Tech Stack, Experience, Education */
+.left-column {
+  /* Positioning */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+
+  /* Box Model */
+  width: 100%;
+
+  /* Typography */
+  color: var(--text-primary);
+
+  /* Order - appears after primary on mobile */
+  order: 2;
+}
+
+/* Right column - GitHub Activity, Hobbies, Stuff */
+.right-column {
+  /* Positioning */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+
+  /* Box Model */
+  width: 100%;
+
+  /* Typography */
+  color: var(--text-primary);
+
+  /* Order - appears last on mobile */
+  order: 3;
+}
+
+/* Legacy secondary-cards for backwards compatibility */
+.secondary-cards {
+  /* Positioning */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+
+  /* Box Model */
+  width: 100%;
+
+  /* Typography */
+  color: var(--text-primary);
+}
+
+/* Legacy group-column for backwards compatibility */
 .group-column {
   /* Positioning */
   display: flex;
@@ -410,15 +477,38 @@ body.bg-video .bg {
 /* ========================
    Responsive
    ======================== */
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .wrapper {
     max-width: clamp(280px, 100%, 400px);
   }
 
   .cards-container {
-    max-width: clamp(280px, 100%, 1200px);
+    max-width: clamp(280px, 100%, 1600px);
     flex-direction: row;
     justify-content: center;
+    align-items: flex-start;
+    gap: calc(var(--space-lg) * 2);
+  }
+
+  .left-column {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 350px;
+    order: 1;
+  }
+
+  .primary-column {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 400px;
+    order: 2;
+  }
+
+  .right-column {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 350px;
+    order: 3;
   }
 
   .main-card,
@@ -562,29 +652,6 @@ body.bg-video .bg {
 }
 
 /* Enhanced mobile experience */
-@media (max-width: 768px) {
-  .theme-notification {
-    top: 10px;
-    right: 10px;
-    left: 10px;
-    transform: translateY(-100%);
-  }
-
-  .theme-notification.show {
-    transform: translateY(0);
-  }
-
-  .theme-selector {
-    left: 10px;
-    right: 10px;
-    transform: translateY(-50%);
-    min-width: auto;
-  }
-
-  .theme-options {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
 
 /* Progressive disclosure for better mobile UX */
 .collapsible-section {

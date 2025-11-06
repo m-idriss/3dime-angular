@@ -1,18 +1,45 @@
 <main class="cards-container" aria-label="Main content" id="main-content">
-  <div class="group-column">
-    <app-profile-card></app-profile-card>
-    <app-converter></app-converter>
-    <app-about></app-about>
+  <!-- Left column - secondary cards (Tech Stack, Experience, Education) -->
+  <div class="left-column">
+    <app-expandable-card icon="fa-code" title="Tech Stack" ariaLabel="View technology stack">
+      <app-tech-stack></app-tech-stack>
+    </app-expandable-card>
+
+    <app-expandable-card icon="fa-briefcase" title="Experience" ariaLabel="View work experience">
+      <app-experience></app-experience>
+    </app-expandable-card>
+
+    <app-expandable-card icon="fa-graduation-cap" title="Education" ariaLabel="View education">
+      <app-education></app-education>
+    </app-expandable-card>
   </div>
-  <div class="group-column">
-    <app-tech-stack></app-tech-stack>
-    <app-experience></app-experience>
-    <app-education></app-education>
+
+  <!-- Center column - always visible full-size cards -->
+  <div class="primary-column">
+    <app-expandable-card icon="fa-blog" title="Blog Posts" ariaLabel="View blog posts" [alwaysExpanded]="true">
+      <app-profile-card></app-profile-card>
+    </app-expandable-card>
+    <app-expandable-card icon="fa-project-diagram" title="Projects" ariaLabel="View projects" [alwaysExpanded]="true">
+      <app-converter></app-converter>
+    </app-expandable-card>
+    <app-expandable-card icon="fa-user" title="About Me" ariaLabel="About me" [alwaysExpanded]="true">
+      <app-about></app-about>
+    </app-expandable-card>
   </div>
-  <div class="group-column">
-    <app-github-activity></app-github-activity>
-    <app-hobbies></app-hobbies>
-    <app-stuff></app-stuff>
+
+  <!-- Right column - remaining secondary cards -->
+  <div class="right-column">
+    <app-expandable-card icon="fa-solid fa-chart-line" title="GitHub" ariaLabel="View GitHub activity">
+      <app-github-activity></app-github-activity>
+    </app-expandable-card>
+
+    <app-expandable-card icon="fa-heart" title="Hobbies" ariaLabel="View hobbies">
+      <app-hobbies></app-hobbies>
+    </app-expandable-card>
+
+    <app-expandable-card icon="fa-star" title="Stuff" ariaLabel="View recommended stuff">
+      <app-stuff></app-stuff>
+    </app-expandable-card>
   </div>
 </main>
 
