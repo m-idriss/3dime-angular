@@ -1,18 +1,36 @@
 <main class="cards-container" aria-label="Main content" id="main-content">
-  <div class="group-column">
+  <!-- Left column - always visible full-size cards -->
+  <div class="primary-column">
     <app-profile-card></app-profile-card>
     <app-converter></app-converter>
     <app-about></app-about>
   </div>
-  <div class="group-column">
-    <app-tech-stack></app-tech-stack>
-    <app-experience></app-experience>
-    <app-education></app-education>
-  </div>
-  <div class="group-column">
-    <app-github-activity></app-github-activity>
-    <app-hobbies></app-hobbies>
-    <app-stuff></app-stuff>
+  
+  <!-- Secondary cards - compact icon tiles that can expand -->
+  <div class="secondary-cards">
+    <app-expandable-card icon="fa-code" title="Tech Stack" ariaLabel="View technology stack">
+      <app-tech-stack></app-tech-stack>
+    </app-expandable-card>
+    
+    <app-expandable-card icon="fa-briefcase" title="Experience" ariaLabel="View work experience">
+      <app-experience></app-experience>
+    </app-expandable-card>
+    
+    <app-expandable-card icon="fa-graduation-cap" title="Education" ariaLabel="View education">
+      <app-education></app-education>
+    </app-expandable-card>
+    
+    <app-expandable-card icon="fa-github" title="GitHub Activity" ariaLabel="View GitHub activity">
+      <app-github-activity></app-github-activity>
+    </app-expandable-card>
+    
+    <app-expandable-card icon="fa-heart" title="Hobbies" ariaLabel="View hobbies">
+      <app-hobbies></app-hobbies>
+    </app-expandable-card>
+    
+    <app-expandable-card icon="fa-star" title="Stuff" ariaLabel="View recommended stuff">
+      <app-stuff></app-stuff>
+    </app-expandable-card>
   </div>
 </main>
 

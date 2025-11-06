@@ -1,0 +1,245 @@
+/* ========================
+   Expandable Card Component
+   ======================== */
+
+/* Host element styling */
+:host {
+  display: block;
+  position: relative;
+}
+
+/* Icon tile - compact state */
+.icon-tile {
+  /* Positioning */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  
+  /* Box Model */
+  width: 100px;
+  height: 100px;
+  padding: var(--space-md);
+  
+  /* Typography */
+  font-size: var(--font-size-base);
+  font-weight: var(--fw-semibold);
+  color: var(--text-secondary);
+  text-align: center;
+  
+  /* Visual */
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  
+  /* Misc */
+  transition: all var(--t-medium);
+  
+  /* Icon styling */
+  i {
+    font-size: 2rem;
+    color: var(--text-secondary);
+    transition: all var(--t-medium);
+  }
+  
+  /* Label styling */
+  .icon-label {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: var(--text-secondary);
+    transition: color var(--t-medium);
+  }
+  
+  /* Hover state */
+  &:hover {
+    background: var(--glass-bg-hover);
+    backdrop-filter: blur(12px);
+    border-color: var(--accent-color);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.2),
+      0 0 12px rgba(59, 130, 246, 0.2);
+    transform: translateY(-2px) scale(1.05);
+    
+    i {
+      color: var(--accent-color);
+      transform: scale(1.1);
+    }
+    
+    .icon-label {
+      color: var(--text-primary);
+    }
+  }
+  
+  /* Focus state for accessibility */
+  &:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+}
+
+/* Expanded card - full state */
+.expanded-card {
+  /* Positioning */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  
+  /* Box Model */
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: var(--space-lg);
+  
+  /* Visual */
+  background: var(--primary-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(59, 130, 246, 0.2);
+  
+  /* Animation */
+  animation: expandIn var(--t-medium);
+  
+  /* Card header */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    
+    h3 {
+      /* Typography */
+      font-size: var(--font-size-xl);
+      font-weight: var(--fw-semibold);
+      color: var(--text-primary);
+      margin: 0;
+      
+      /* Gradient effect */
+      background: linear-gradient(135deg, var(--text-primary), rgba(59, 130, 246, 0.8));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  }
+  
+  /* Close button */
+  .close-btn {
+    /* Positioning */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Box Model */
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    
+    /* Visual */
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    
+    /* Misc */
+    transition: all var(--t-fast);
+    
+    i {
+      font-size: 1.2rem;
+    }
+    
+    &:hover {
+      background: var(--glass-bg-hover);
+      color: var(--text-primary);
+      border-color: var(--accent-color);
+    }
+    
+    &:focus {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+  }
+  
+  /* Card content */
+  .card-content {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+}
+
+/* Backdrop overlay when card is expanded */
+:host.expanded::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 99;
+  animation: fadeIn var(--t-medium);
+}
+
+/* Animations */
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .icon-tile {
+    width: 80px;
+    height: 80px;
+    
+    i {
+      font-size: 1.5rem;
+    }
+    
+    .icon-label {
+      font-size: 0.65rem;
+    }
+  }
+  
+  .expanded-card {
+    width: 95%;
+    max-height: 90vh;
+    padding: var(--space-md);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .icon-tile,
+  .expanded-card,
+  :host.expanded::before {
+    animation: none;
+    transition: none;
+  }
+  
+  .icon-tile:hover {
+    transform: none;
+  }
+}
