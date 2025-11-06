@@ -5,7 +5,6 @@ import { filter } from 'rxjs/operators';
 
 import { About } from './components/about/about';
 import { BackToTop } from './components/back-to-top/back-to-top';
-import { Contact } from './components/contact/contact';
 import { Converter } from './components/converter/converter';
 import { Education } from './components/education/education';
 import { Experience } from './components/experience/experience';
@@ -23,7 +22,6 @@ import { LayoutModule } from '@angular/cdk/layout';
   imports: [
     About,
     BackToTop,
-    Contact,
     Converter,
     Education,
     Experience,
