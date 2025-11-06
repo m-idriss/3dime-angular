@@ -19,8 +19,6 @@
   gap: var(--space-sm);
 
   /* Box Model */
-  //width: 100%;
-  //min-height: 80px;
   padding: var(--space-md);
 
   /* Typography */
@@ -206,7 +204,6 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .icon-tile {
-    //min-height: 70px;
     width: 100%;
 
     i {
