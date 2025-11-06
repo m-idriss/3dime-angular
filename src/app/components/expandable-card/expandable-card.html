@@ -20,6 +20,7 @@
   <div class="card-header">
     <h3 [id]="'card-title-' + title">{{ title }}</h3>
     <button
+      *ngIf="!alwaysExpanded"
       class="collapse-btn"
       (click)="toggleExpanded()"
       [attr.aria-label]="'Collapse ' + title"

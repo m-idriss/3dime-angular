@@ -1,4 +1,4 @@
-import { Component, Input, signal, HostBinding } from '@angular/core';
+import { Component, Input, signal, HostBinding, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
 
 /**
@@ -12,7 +12,7 @@ import { NgIf } from '@angular/common';
   templateUrl: './expandable-card.html',
   styleUrl: './expandable-card.scss',
 })
-export class ExpandableCard {
+export class ExpandableCard implements OnInit {
   /**
    * Icon class for the card (e.g., 'fa-code', 'fa-briefcase')
    */
@@ -29,9 +29,20 @@ export class ExpandableCard {
   @Input() ariaLabel = '';
 
   /**
+   * Whether card should always stay expanded and not allow collapsing
+   */
+  @Input() alwaysExpanded = false;
+
+  /**
    * Whether card is currently expanded
    */
   isExpanded = signal(false);
+
+  ngOnInit(): void {
+    if (this.alwaysExpanded) {
+      this.isExpanded.set(true);
+    }
+  }
 
   /**
    * Apply expanded class to host element for styling
@@ -51,6 +62,10 @@ export class ExpandableCard {
    * Toggle between compact and expanded states
    */
   toggleExpanded(): void {
+    // Don't allow toggle if alwaysExpanded is true
+    if (this.alwaysExpanded) {
+      return;
+    }
     this.isExpanded.update((v) => !v);
   }
 
@@ -65,6 +80,10 @@ export class ExpandableCard {
    * Collapse the card
    */
   collapse(): void {
+    // Don't allow collapse if alwaysExpanded is true
+    if (this.alwaysExpanded) {
+      return;
+    }
     this.isExpanded.set(false);
   }
 }
