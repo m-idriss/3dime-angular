@@ -411,16 +411,14 @@ body.bg-video .bg {
 .secondary-cards {
   /* Positioning */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-lg);
   
   /* Box Model */
   width: 100%;
-  max-width: 600px;
-  padding: var(--space-lg) 0;
   
-  /* Center the grid */
-  justify-items: center;
+  /* Typography */
+  color: var(--text-primary);
 }
 
 /* Legacy group-column for backwards compatibility */
@@ -445,7 +443,6 @@ body.bg-video .bg {
 @media (min-width: 768px) {
   .secondary-cards {
     grid-template-columns: repeat(3, 1fr);
-    max-width: 400px;
   }
 }
 
@@ -470,9 +467,9 @@ body.bg-video .bg {
   
   .secondary-cards {
     flex: 1;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     align-self: flex-start;
-    max-width: none;
+    max-width: 800px;
   }
 
   .main-card,
