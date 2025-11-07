@@ -276,6 +276,12 @@
   overflow: hidden;
   transition: all var(--t-fast);
 
+  .accordion-button {
+    &::after {
+      display: none;
+    }
+  }
+
   &:hover {
     border-color: var(--accent-color);
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
