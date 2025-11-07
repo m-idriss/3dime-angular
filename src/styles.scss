@@ -217,8 +217,7 @@ textarea:focus,
 }
 
 /* Empty state styling */
-.empty-state,
-p:has-text("No"):not(.loading-container p) {
+.empty-state {
   color: var(--text-secondary);
   font-style: italic;
   text-align: center;

@@ -123,9 +123,10 @@ body.dark-theme .container {
     border-color: var(--accent-color);
   }
 
-  &:focus {
-    outline: 2px solid var(--accent-color);
-    outline-offset: 2px;
+  &:focus,
+  &:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 3px;
   }
 }
 

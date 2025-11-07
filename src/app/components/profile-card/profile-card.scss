@@ -310,7 +310,7 @@ body.dark-theme .profile-dropdown {
 
   /* Focus state */
   &:focus-visible {
-    outline: 2px solid var(--accent-color);
+    outline: 3px solid var(--accent-color);
     outline-offset: -2px;
   }
 
@@ -435,8 +435,8 @@ body.notifications-off .badge {
 .burger-button:focus-visible,
 .dropdown-item:focus,
 .dropdown-item:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
+  outline: 3px solid var(--accent-color);
+  outline-offset: 3px;
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
   transition: all var(--t-fast);
 }
