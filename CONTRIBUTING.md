@@ -362,7 +362,7 @@ export interface UserProfile {
   email: string;
 }
 
-export class ProfileService {
+export class GithubService {
   private readonly http: HttpClient;
   
   constructor(http: HttpClient) {

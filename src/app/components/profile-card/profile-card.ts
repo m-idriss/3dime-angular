@@ -8,7 +8,7 @@ import {
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ThemeService } from '../../services/theme.service';
-import { ProfileService, SocialLink, GithubUser } from '../../services/profile.service';
+import { GithubService, SocialLink, GithubUser } from '../../services/github.service';
 import { AuthAwareComponent } from '../base/auth-aware.component';
 import { SkeletonLoader } from '../skeleton-loader/skeleton-loader';
 import {
@@ -34,7 +34,7 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
 
   constructor(
     private readonly themeService: ThemeService,
-    private readonly profileService: ProfileService,
+    private readonly githubService: GithubService,
     private readonly cdr: ChangeDetectorRef,
   ) {
     super();
@@ -43,20 +43,20 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
   ngOnInit(): void {
     this.loadingCount = PROFILE_LOADING_COUNT;
 
-    this.profileService.getSocialLinks().subscribe((links) => {
+    this.githubService.getSocialLinks().subscribe((links) => {
       this.socialLinks = [...this.socialLinks, ...links];
       this.decrementLoadingCount();
     });
 
-    this.profileService.getProfile().subscribe((user) => {
+    this.githubService.getProfile().subscribe((user) => {
       this.profileData = user;
       const links = [{ provider: 'GitHub', url: user.html_url }];
-      
+
       // Add email link if available
       if (user.email) {
         links.push({ provider: 'Email', url: `mailto:${user.email}` });
       }
-      
+
       this.socialLinks = [...links, ...this.socialLinks];
       this.decrementLoadingCount();
     });

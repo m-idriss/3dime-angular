@@ -66,7 +66,7 @@ component-name/
 
 **Features**:
 
-- GitHub profile integration via `ProfileService`
+- GitHub profile integration via `GithubService`
 - Social media links fetched from API
 - Theme switching controls (dark/light/glass)
 - Background toggle (black/white/video)
@@ -94,7 +94,7 @@ changeFontSize(); // Cycle through font sizes
 **Dependencies**:
 
 - `ThemeService` - Theme management
-- `ProfileService` - Profile and social data
+- `GithubService` - Profile and social data
 
 **Usage**:
 
@@ -154,7 +154,7 @@ changeFontSize(); // Cycle through font sizes
 
 **Features**:
 
-- Integration with GitHub API via `ProfileService`
+- Integration with GitHub API via `GithubService`
 - Cal-heatmap visualization library
 - Interactive contribution calendar
 - Last 365 days of activity
@@ -174,7 +174,7 @@ ngOnInit(); // Initialize and fetch commit data
 
 **Dependencies**:
 
-- `ProfileService` - GitHub commit data
+- `GithubService` - GitHub commit data
 - `cal-heatmap` - Heatmap visualization
 
 **Usage**:

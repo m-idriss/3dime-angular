@@ -559,7 +559,7 @@ src/app/
 │   └── contact/           # Contact information
 ├── services/
 │   ├── theme.service.ts   # Theme management
-│   ├── profile.service.ts # GitHub profile data
+│   ├── github.service.ts # GitHub profile data
 │   └── notion.service.ts  # Notion API integration
 ├── app.ts                 # Main standalone app component
 └── app.config.ts          # Application configuration

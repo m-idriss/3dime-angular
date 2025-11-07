@@ -43,7 +43,7 @@
 | Document                                   | Topics Covered                                                      |
 | ------------------------------------------ | ------------------------------------------------------------------- |
 | [Component Documentation](./COMPONENTS.md) | All components, component guidelines, best practices, accessibility |
-| [Services Documentation](./SERVICES.md)    | ThemeService, ProfileService, NotionService, service patterns       |
+| [Services Documentation](./SERVICES.md)    | ThemeService, GithubService, NotionService, service patterns       |
 | [API Documentation](./API.md)              | Firebase Functions, API endpoints, error handling, deployment       |
 | [Firebase Functions](../functions/README.md) | Backend functions, deployment, configuration, testing             |
 
@@ -154,7 +154,7 @@ Essential reading for first-time contributors:
 ```
 ✓ Service architecture overview
 ✓ ThemeService - Theme management
-✓ ProfileService - GitHub data
+✓ GithubService - GitHub data
 ✓ NotionService - Notion integration
 ✓ Service creation guidelines
 ✓ Best practices and patterns

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
-import { ProfileService, GithubUser } from '../../services/profile.service';
+import { GithubService, GithubUser } from '../../services/github.service';
 import { Card } from '../card/card';
 
 /**
@@ -18,12 +18,12 @@ export class About implements OnInit {
   bio: string | null = null;
 
   constructor(
-    private readonly profileService: ProfileService,
+    private readonly githubService: GithubService,
     private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
-    this.profileService.getProfile().subscribe((user: GithubUser) => {
+    this.githubService.getProfile().subscribe((user: GithubUser) => {
       this.bio = user.bio || 'No bio available.';
       this.cdr.markForCheck();
     });

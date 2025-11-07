@@ -49,10 +49,10 @@ export interface CommitData {
  *
  * @example
  * ```typescript
- * constructor(private profileService: ProfileService) {}
+ * constructor(private githubService: GithubService) {}
  *
  * ngOnInit() {
- *   this.profileService.getProfile().subscribe(user => {
+ *   this.githubService.getProfile().subscribe(user => {
  *     console.log(user.name);
  *   });
  * }
@@ -61,7 +61,7 @@ export interface CommitData {
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileService {
+export class GithubService {
   private readonly endpoints = {
     profile: `${environment.apiUrl}?target=profile`,
     social: `${environment.apiUrl}?target=social`,
