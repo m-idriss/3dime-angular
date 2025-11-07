@@ -6,6 +6,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
+  Input,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
@@ -27,6 +30,17 @@ import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
 })
 export class GithubActivity implements AfterViewInit, OnDestroy {
   @ViewChild('heatmapContainer', { static: false }) container!: ElementRef;
+  
+  /**
+   * Whether to show collapse button in the card header
+   */
+  @Input() showCollapseButton = false;
+
+  /**
+   * Event emitted when collapse button is clicked
+   */
+  @Output() collapseClicked = new EventEmitter<void>();
+
   data: CommitData[] = [];
   months = GITHUB_ACTIVITY_CONFIG.DEFAULT_MONTHS;
   isLoading = true;
@@ -155,5 +169,12 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
         ],
       ],
     );
+  }
+
+  /**
+   * Handle collapse button click from Card component
+   */
+  onCardCollapseClick(): void {
+    this.collapseClicked.emit();
   }
 }
