@@ -9,6 +9,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  inject,
 } from '@angular/core';
 import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
@@ -29,6 +30,10 @@ import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GithubActivity implements AfterViewInit, OnDestroy {
+  private readonly githubService = inject(GithubService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+
   @ViewChild('heatmapContainer', { static: false }) container!: ElementRef;
   
   /**
@@ -46,12 +51,6 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
   isLoading = true;
   private cal: any;
   private breakpointSub!: Subscription;
-
-  constructor(
-    private readonly githubService: GithubService,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly breakpointObserver: BreakpointObserver,
-  ) {}
 
   ngAfterViewInit(): void {
     this.breakpointSub = this.breakpointObserver

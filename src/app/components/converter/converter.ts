@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, Inject, PLATFORM_ID, computed } from '@angular/core';
+import { Component, signal, OnInit, PLATFORM_ID, computed, inject } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import ICAL from '../../libs/ical-wrapper'; // ⚡ Wrapper to ensure parse() exists
@@ -10,7 +10,7 @@ import { Card } from '../card/card';
 import { AuthAwareComponent } from '../base/auth-aware.component';
 import { CalendarEvent, BatchFile, BatchFileStatus } from '../../models';
 import { FILE_UPLOAD_CONSTRAINTS } from '../../constants';
-import { formatIcsDate, getMonthDay, getTime } from '../../utils';
+import { getMonthDay } from '../../utils';
 
 @Component({
   selector: 'app-converter',
@@ -52,16 +52,12 @@ export class Converter extends AuthAwareComponent implements OnInit {
   // Expose BatchFileStatus enum to template
   protected readonly BatchFileStatus = BatchFileStatus;
 
+  private readonly converterService = inject(ConverterService);
+  private readonly toastService = inject(ToastService);
+  private readonly platformId = inject(PLATFORM_ID);
+
   private readonly acceptedTypes = FILE_UPLOAD_CONSTRAINTS.ACCEPTED_TYPES;
   private readonly maxFileSize = FILE_UPLOAD_CONSTRAINTS.MAX_FILE_SIZE;
-
-  constructor(
-    private readonly converterService: ConverterService,
-    private readonly toastService: ToastService,
-    @Inject(PLATFORM_ID) private readonly platformId: Object,
-  ) {
-    super();
-  }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) this.handleSharedFiles();
@@ -289,7 +285,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       );
 
       // Call API for this single file
-      await new Promise<void>((resolve, reject) => {
+      await new Promise<void>((resolve) => {
         this.converterService.convertSingleFile(fileDataArray[0]).subscribe({
           next: (response) => {
             if (response.success && response.icsContent) {

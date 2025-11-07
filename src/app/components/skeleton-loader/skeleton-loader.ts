@@ -42,17 +42,17 @@ export class SkeletonLoader {
   /**
    * Number of skeleton items to show
    */
-  @Input() count: number = 1;
+  @Input() count = 1;
 
   /**
    * Width of skeleton (for text type)
    */
-  @Input() width: string = '100%';
+  @Input() width = '100%';
 
   /**
    * Height of skeleton (for text type)
    */
-  @Input() height: string = '1rem';
+  @Input() height = '1rem';
 
   get items(): number[] {
     return Array(this.count).fill(0);

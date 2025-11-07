@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 
 import { GithubService, GithubUser } from '../../services/github.service';
 import { Card } from '../card/card';
@@ -15,12 +15,10 @@ import { Card } from '../card/card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class About implements OnInit {
-  bio: string | null = null;
+  private readonly githubService = inject(GithubService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
-  constructor(
-    private readonly githubService: GithubService,
-    private readonly cdr: ChangeDetectorRef,
-  ) {}
+  bio: string | null = null;
 
   ngOnInit(): void {
     this.githubService.getProfile().subscribe((user: GithubUser) => {

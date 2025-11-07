@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as pdfjsLib from 'pdfjs-dist';
@@ -52,9 +52,10 @@ export interface ConversionResponse {
   providedIn: 'root',
 })
 export class ConverterService {
+  private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
 
-  constructor(private readonly http: HttpClient) {
+  constructor() {
     // Configure PDF.js worker - using unpkg.com which has better version availability
     // unpkg.com automatically resolves to the closest matching version
     pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;

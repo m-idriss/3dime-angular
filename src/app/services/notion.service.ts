@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, from, concat } from 'rxjs';
 import { map, catchError, shareReplay, timeout, concatMap, delay } from 'rxjs/operators';
@@ -40,6 +40,7 @@ const PROGRESSIVE_DELAY_MS = 0; // 100ms between each item
   providedIn: 'root',
 })
 export class NotionService {
+  private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
   private fetchAll$?: Observable<void>;
 
@@ -48,8 +49,6 @@ export class NotionService {
   educations: LinkItem[] = [];
   hobbies: LinkItem[] = [];
   techStacks: LinkItem[] = [];
-
-  constructor(private readonly http: HttpClient) {}
 
   /**
    * Fetch all data from Notion API.

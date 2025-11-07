@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, signal, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs/operators';
@@ -40,14 +40,12 @@ import { ToastService } from './services/toast.service';
   templateUrl: './app.html',
 })
 export class App implements OnInit {
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly swUpdate = inject(SwUpdate);
+  public readonly toastService = inject(ToastService);
+
   protected readonly title = signal('3dime-angular');
   private deferredPrompt: BeforeInstallPromptEvent | null = null;
-
-  constructor(
-    @Inject(PLATFORM_ID) private readonly platformId: Object,
-    private readonly swUpdate: SwUpdate,
-    public readonly toastService: ToastService,
-  ) {}
 
   ngOnInit(): void {
     // Check for service worker updates
