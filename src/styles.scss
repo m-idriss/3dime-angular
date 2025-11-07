@@ -483,29 +483,34 @@ body.bg-video .bg {
   }
 
   .cards-container {
-    max-width: clamp(280px, 100%, 1600px);
-    flex-direction: row;
-    justify-content: center;
+    /* Use grid layout to keep center column fixed */
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    max-width: 100%;
     align-items: flex-start;
     gap: calc(var(--space-lg) * 2);
   }
 
   .left-column {
-    flex: 0 0 auto;
+    /* Left column in first grid cell, right-aligned */
+    grid-column: 1;
+    justify-self: end;
     width: auto;
     max-width: 350px;
     order: 1;
   }
 
   .primary-column {
-    flex: 0 0 auto;
-    width: auto;
-    max-width: 400px;
+    /* Center column in middle grid cell, always centered */
+    grid-column: 2;
+    width: 400px;
     order: 2;
   }
 
   .right-column {
-    flex: 0 0 auto;
+    /* Right column in third grid cell, left-aligned */
+    grid-column: 3;
+    justify-self: start;
     width: auto;
     max-width: 350px;
     order: 3;
