@@ -9,6 +9,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  inject,
 } from '@angular/core';
 import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
@@ -29,6 +30,10 @@ import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GithubActivity implements AfterViewInit, OnDestroy {
+  private readonly githubService = inject(GithubService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+
   @ViewChild('heatmapContainer', { static: false }) container!: ElementRef;
   
   /**
@@ -44,14 +49,10 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
   data: CommitData[] = [];
   months = GITHUB_ACTIVITY_CONFIG.DEFAULT_MONTHS;
   isLoading = true;
+  // CalHeatmap doesn't provide TypeScript types
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private cal: any;
   private breakpointSub!: Subscription;
-
-  constructor(
-    private readonly githubService: GithubService,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly breakpointObserver: BreakpointObserver,
-  ) {}
 
   ngAfterViewInit(): void {
     this.breakpointSub = this.breakpointObserver
@@ -154,6 +155,8 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
         [
           Tooltip,
           {
+            // dayjsDate is from cal-heatmap library without proper types
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             text: (_timestamp: number, value: number, dayjsDate: any) => {
               if (value === 0) {
                 return `No contributions on ${dayjsDate.format('LL')}`;
