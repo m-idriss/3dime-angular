@@ -22,7 +22,7 @@ export class About implements OnInit {
 
   ngOnInit(): void {
     this.githubService.getProfile().subscribe((user: GithubUser) => {
-      this.bio = user.bio || 'No bio available.';
+      this.bio = user.bio || 'Bio information will be displayed here.';
       this.cdr.markForCheck();
     });
   }

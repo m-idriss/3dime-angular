@@ -190,16 +190,16 @@ input:focus,
 select:focus,
 textarea:focus,
 [tabindex]:focus {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
+  outline: 3px solid var(--accent-color);
+  outline-offset: 3px;
   border-radius: var(--radius-md);
   transition: outline var(--t-fast);
 }
 
 /* Re-apply focus for our custom implementation */
 *:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
+  outline: 3px solid var(--accent-color);
+  outline-offset: 3px;
 }
 
 /* ========================
@@ -214,6 +214,15 @@ textarea:focus,
   text-align: center;
   font-size: var(--font-size-base);
   margin: var(--space-lg) 0;
+}
+
+/* Empty state styling */
+.empty-state {
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+  padding: var(--space-md);
+  opacity: 0.85;
 }
 
 /* ========================
@@ -323,21 +332,21 @@ body.bg-video .bg {
 
   /* Box Model */
   margin: var(--space-md);
-  padding: var(--space-xs) var(--space-md);
+  padding: var(--space-sm) var(--space-md);
 
   /* Typography */
   font-size: var(--font-size-base);
   font-weight: var(--fw-semibold);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   color: var(--text-primary);
   text-decoration: none;
 
   /* Visual */
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
-  border: 1px solid transparent;
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 
   /* Misc */
   transition: all var(--t-medium);
@@ -350,21 +359,27 @@ body.bg-video .bg {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-    transition: left 0.6s var(--ease);
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.15), transparent);
+    transition: left 0.5s var(--ease);
   }
 
   /* Hover state */
   &:hover {
     background: var(--glass-bg-hover);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.2);
-    transform: translateY(-3px) scale(1.05);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
 
     &::before {
       left: 100%;
     }
+  }
+
+  /* Focus state for accessibility */
+  &:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 3px;
   }
 }
 
@@ -381,9 +396,15 @@ body.dark-theme .link {
 /* Small chip variant for inline tags */
 .chip-little {
   display: inline-block;
-  margin: calc(var(--space-xs) * 0.5);
+  margin: var(--space-xs);
+  padding: calc(var(--space-xs) * 0.75) var(--space-sm);
   font-size: calc(var(--font-size-base) * 0.875);
   font-weight: var(--fw-normal);
+  
+  /* Enhanced chip hover */
+  &:hover {
+    transform: translateY(-1px);
+  }
 }
 
 /* ========================
@@ -400,10 +421,10 @@ body.dark-theme .link {
   width: 100%;
   max-width: clamp(300px, 95%, 1600px);
   margin: 0 auto;
-  padding: var(--space-lg);
-  padding-top: 50px;
-  padding-bottom: calc(50px + env(safe-area-inset-bottom));
-  gap: var(--space-lg);
+  padding: var(--space-xl);
+  padding-top: var(--space-xl);
+  padding-bottom: calc(var(--space-xl) + env(safe-area-inset-bottom));
+  gap: var(--space-xl);
 }
 
 /* Primary column - always visible cards (centered) */
@@ -415,7 +436,7 @@ body.dark-theme .link {
 
   /* Box Model */
   width: 100%;
-  gap: var(--space-lg);
+  gap: var(--space-xl);
 
   /* Typography */
   color: var(--text-primary);
@@ -429,7 +450,7 @@ body.dark-theme .link {
   /* Positioning */
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-lg);
+  gap: var(--space-xl);
 
   /* Box Model */
   width: 100%;
@@ -446,7 +467,7 @@ body.dark-theme .link {
   /* Positioning */
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-lg);
+  gap: var(--space-xl);
 
   /* Box Model */
   width: 100%;
@@ -502,7 +523,8 @@ body.dark-theme .link {
     grid-template-columns: 1fr auto 1fr;
     max-width: 100%;
     align-items: flex-start;
-    gap: calc(var(--space-lg) * 2);
+    gap: var(--space-xl);
+    padding-top: calc(var(--space-xl) * 1.5);
   }
 
   .left-column {
@@ -953,7 +975,8 @@ body.dark-theme .link {
   }
 
   .cards-container {
-    padding-top: 20px;
+    padding-top: var(--space-lg);
+    gap: var(--space-lg);
   }
 }
 
