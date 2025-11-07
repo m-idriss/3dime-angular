@@ -50,12 +50,12 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
 
     this.githubService.getProfile().subscribe((user) => {
       this.profileData = user;
-      const links = [{ provider: 'GitHub', url: user.html_url }];
-
-      // Add email link if available
-      if (user.email) {
-        links.push({ provider: 'Email', url: `mailto:${user.email}` });
-      }
+      const links = user.email
+        ? [
+            { provider: 'Email', url: `mailto:${user.email}` },
+            { provider: 'GitHub', url: user.html_url },
+          ]
+        : [{ provider: 'GitHub', url: user.html_url }];
 
       this.socialLinks = [...links, ...this.socialLinks];
       this.decrementLoadingCount();
