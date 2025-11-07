@@ -31,8 +31,8 @@
   text-align: center;
 
   /* Visual */
-  background: var(--glass-bg);
-  backdrop-filter: blur(8px);
+  background: var(--primary-bg);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -44,7 +44,7 @@
   /* Icon styling */
   i {
     font-size: 1.5rem;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     transition: all var(--t-medium);
   }
 
@@ -58,8 +58,8 @@
 
   /* Hover state */
   &:hover {
-    background: var(--glass-bg-hover);
-    backdrop-filter: blur(12px);
+    background: var(--primary-bg-hover);
+    backdrop-filter: blur(20px);
     border-color: var(--accent-color);
     box-shadow:
       0 4px 12px rgba(0, 0, 0, 0.2),
