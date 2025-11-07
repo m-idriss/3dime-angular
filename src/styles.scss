@@ -928,11 +928,14 @@ body.bg-video .bg {
 /* Mobile responsive */
 @media (max-width: 768px) {
   .back-to-top-btn {
-    bottom: 1.5rem;
-    right: 1.5rem;
+    /* Use safe area insets for devices with notches */
+    bottom: calc(1.5rem + env(safe-area-inset-bottom));
+    right: calc(1.5rem + env(safe-area-inset-right));
     width: 3rem;
     height: 3rem;
     font-size: 1.125rem;
+    /* Ensure button stays on top on mobile */
+    z-index: 9999;
   }
 
   .cards-container {
