@@ -49,6 +49,8 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
   data: CommitData[] = [];
   months = GITHUB_ACTIVITY_CONFIG.DEFAULT_MONTHS;
   isLoading = true;
+  // CalHeatmap doesn't provide TypeScript types
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private cal: any;
   private breakpointSub!: Subscription;
 
@@ -153,6 +155,8 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
         [
           Tooltip,
           {
+            // dayjsDate is from cal-heatmap library without proper types
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             text: (_timestamp: number, value: number, dayjsDate: any) => {
               if (value === 0) {
                 return `No contributions on ${dayjsDate.format('LL')}`;

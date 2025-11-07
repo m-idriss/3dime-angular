@@ -65,6 +65,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
 
   private async handleSharedFiles(): Promise<void> {
     if ('launchQueue' in window) {
+      // Web Share Target API doesn't have full TypeScript definitions
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).launchQueue.setConsumer(async (launchParams: any) => {
         if (!launchParams.files?.length) return;
 
@@ -402,8 +404,11 @@ export class Converter extends AuthAwareComponent implements OnInit {
       const cleanIcs = this.sanitizeIcs(icsContent);
       const jcalData = ICAL.parse(cleanIcs);
       const calendar = new ICAL.Component(jcalData);
+      // ICAL.js doesn't have proper TypeScript types
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const vevents: any[] = calendar.getAllSubcomponents('vevent');
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return vevents.map((vevent: any) => {
         const eventComp = new ICAL.Event(vevent);
         return {
@@ -428,6 +433,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
       const calendar = new ICAL.Component(jcalData);
       const vevents = calendar.getAllSubcomponents('vevent');
 
+      // ICAL.js doesn't have proper TypeScript types
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const events: CalendarEvent[] = vevents.map((vevent: any) => {
         const eventComp = new ICAL.Event(vevent);
         return {
@@ -496,6 +503,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
   async signIn(): Promise<void> {
     try {
       await this.authService.signInWithGoogle();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       let message = 'Failed to sign in. Please try again.';
       if (error?.message) message += ` (${error.message})`;
@@ -567,7 +575,11 @@ export class Converter extends AuthAwareComponent implements OnInit {
     this.regenerateIcsContent();
   }
 
-  protected updateEventField(index: number, field: keyof CalendarEvent, value: any): void {
+  protected updateEventField(
+    index: number, 
+    field: keyof CalendarEvent, 
+    value: string | Date | boolean
+  ): void {
     this.extractedEvents.update((events) =>
       events.map((event, i) =>
         i === index

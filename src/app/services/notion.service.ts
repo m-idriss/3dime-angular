@@ -7,6 +7,17 @@ import { LinkItem } from '../models';
 import { environment } from '../../environments/environment';
 
 /**
+ * Notion API response interface
+ */
+interface NotionApiResponse {
+  stuff?: LinkItem[];
+  experience?: LinkItem[];
+  education?: LinkItem[];
+  hobbies?: LinkItem[];
+  tech_stack?: LinkItem[];
+}
+
+/**
  * Timeout for API calls in milliseconds.
  * Ensures components don't hang indefinitely waiting for API responses.
  * This is critical for screenshot workflows and CI environments where APIs might be blocked.
@@ -59,7 +70,7 @@ export class NotionService {
    * @returns Observable that completes when data is loaded (empty arrays on timeout/error)
    */
   fetchAll(): Observable<void> {
-    this.fetchAll$ ??= this.http.get<any>(`${this.baseUrl}?target=notion`).pipe(
+    this.fetchAll$ ??= this.http.get<NotionApiResponse>(`${this.baseUrl}?target=notion`).pipe(
         timeout(API_TIMEOUT_MS),
         map((res) => {
           this.stuffs = res.stuff ?? [];
