@@ -2,9 +2,10 @@ import { Component, signal, OnInit, Inject, PLATFORM_ID, computed } from '@angul
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import ICAL from '../../libs/ical-wrapper'; // ⚡ Wrapper to ensure parse() exists
-import { NgbAccordionModule, NgbCollapseModule, NgbTooltipModule, NgbPopoverModule, NgbProgressbarModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbCollapseModule, NgbTooltipModule, NgbPopoverModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConverterService, FileData } from '../../services/converter';
+import { ToastService } from '../../services/toast.service';
 import { Card } from '../card/card';
 import { AuthAwareComponent } from '../base/auth-aware.component';
 import { CalendarEvent, BatchFile, BatchFileStatus } from '../../models';
@@ -13,7 +14,7 @@ import { formatIcsDate, getMonthDay, getTime } from '../../utils';
 
 @Component({
   selector: 'app-converter',
-  imports: [Card, FormsModule, CommonModule, NgbAccordionModule, NgbCollapseModule, NgbTooltipModule, NgbPopoverModule, NgbProgressbarModule, NgbToastModule],
+  imports: [Card, FormsModule, CommonModule, NgbAccordionModule, NgbCollapseModule, NgbTooltipModule, NgbPopoverModule, NgbProgressbarModule],
   templateUrl: './converter.html',
   styleUrl: './converter.scss',
 })
@@ -23,8 +24,6 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly isDragging = signal(false);
   protected readonly isProcessing = signal(false);
   protected readonly isBatchMode = signal(false); // Toggle between batch and single processing
-  protected readonly errorMessage = signal<string | null>(null);
-  protected readonly successMessage = signal<string | null>(null);
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
   protected readonly isBatchDetailsCollapsed = signal(false);
@@ -58,6 +57,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
 
   constructor(
     private readonly converterService: ConverterService,
+    private readonly toastService: ToastService,
     @Inject(PLATFORM_ID) private readonly platformId: Object,
   ) {
     super();
@@ -86,7 +86,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
           }
         } catch (error) {
           console.error('Error handling shared files:', error);
-          this.errorMessage.set('Failed to load shared files. Please try again.');
+          this.toastService.showError('Failed to load shared files. Please try again.');
         }
       });
     }
@@ -126,25 +126,25 @@ export class Converter extends AuthAwareComponent implements OnInit {
   }
 
   private addFiles(newFiles: File[]): void {
-    this.errorMessage.set(null);
+    this.toastService.clearError();
     this.extractedEvents.set([]);
     this.icsContent.set(null);
 
     const validFiles = newFiles.filter((file) => {
       if (this.files().some((f) => f.name === file.name && f.size === file.size)) {
-        this.errorMessage.set(`Duplicate file skipped: ${file.name}`);
+        this.toastService.showError(`Duplicate file skipped: ${file.name}`);
         return false;
       }
       if (!(this.acceptedTypes as readonly string[]).includes(file.type)) {
-        this.errorMessage.set(`Invalid file type: ${file.name}`);
+        this.toastService.showError(`Invalid file type: ${file.name}`);
         return false;
       }
       if (file.size === 0) {
-        this.errorMessage.set(`Empty file: ${file.name}`);
+        this.toastService.showError(`Empty file: ${file.name}`);
         return false;
       }
       if (file.size > this.maxFileSize) {
-        this.errorMessage.set(`File too large: ${file.name}`);
+        this.toastService.showError(`File too large: ${file.name}`);
         return false;
       }
       return true;
@@ -155,7 +155,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
 
   protected async convertToIcs(): Promise<void> {
     if (!this.files().length) {
-      this.errorMessage.set('Please add at least one file.');
+      this.toastService.showError('Please add at least one file.');
       return;
     }
 
@@ -175,7 +175,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
    */
   private async convertSingle(): Promise<void> {
     this.isProcessing.set(true);
-    this.errorMessage.set(null);
+    this.toastService.clearError();
     this.extractedEvents.set([]);
     this.icsContent.set(null);
 
@@ -207,17 +207,17 @@ export class Converter extends AuthAwareComponent implements OnInit {
             this.icsContent.set(response.icsContent);
             this.parseIcsContent(response.icsContent);
           } else {
-            this.errorMessage.set(response.error || 'Failed to convert files.');
+            this.toastService.showError(response.error || 'Failed to convert files.');
           }
           this.isProcessing.set(false);
         },
         error: (err) => {
-          this.errorMessage.set(err.error?.message || err.message || 'Conversion error.');
+          this.toastService.showError(err.error?.message || err.message || 'Conversion error.');
           this.isProcessing.set(false);
         },
       });
     } catch (err) {
-      this.errorMessage.set((err as Error).message || 'Failed to process files.');
+      this.toastService.showError((err as Error).message || 'Failed to process files.');
       this.isProcessing.set(false);
     }
   }
@@ -227,7 +227,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
    */
   private async convertBatch(): Promise<void> {
     this.isProcessing.set(true);
-    this.errorMessage.set(null);
+    this.toastService.clearError();
     this.extractedEvents.set([]);
     this.icsContent.set(null);
 
@@ -366,7 +366,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
     const successfulFiles = this.batchFiles().filter((f) => f.status === BatchFileStatus.SUCCESS);
 
     if (successfulFiles.length === 0) {
-      this.errorMessage.set('All files failed to process. Please try again.');
+      this.toastService.showError('All files failed to process. Please try again.');
       return;
     }
 
@@ -386,15 +386,15 @@ export class Converter extends AuthAwareComponent implements OnInit {
     // Show success/error message
     const failedCount = this.batchFiles().filter((f) => f.status === BatchFileStatus.ERROR).length;
     if (failedCount > 0) {
-      this.errorMessage.set(
+      this.toastService.showError(
         `${successfulFiles.length} file(s) processed successfully. ${failedCount} file(s) failed.`
       );
-      this.successMessage.set(null);
+      this.toastService.clearSuccess();
     } else {
-      this.successMessage.set(
+      this.toastService.showSuccess(
         `Successfully processed ${successfulFiles.length} file(s) and extracted ${allEvents.length} event(s)!`
       );
-      this.errorMessage.set(null);
+      this.toastService.clearError();
     }
   }
 
@@ -448,12 +448,12 @@ export class Converter extends AuthAwareComponent implements OnInit {
       );
 
       this.extractedEvents.set(events);
-      this.successMessage.set(`Successfully extracted ${events.length} event(s) from your file!`);
-      this.errorMessage.set(null);
+      this.toastService.showSuccess(`Successfully extracted ${events.length} event(s) from your file!`);
+      this.toastService.clearError();
     } catch (error) {
       console.error('Failed to parse repaired ICS:', error);
-      this.errorMessage.set('Failed to parse generated ICS file (even after repair).');
-      this.successMessage.set(null);
+      this.toastService.showError('Failed to parse generated ICS file (even after repair).');
+      this.toastService.clearSuccess();
       this.extractedEvents.set([]);
     }
   }
@@ -468,7 +468,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
     this.isDragging.set(false);
     this.isProcessing.set(false);
     this.isBatchMode.set(false);
-    this.errorMessage.set(null);
+    this.toastService.clearAll();
     this.extractedEvents.set([]);
     this.icsContent.set(null);
   }
@@ -503,14 +503,14 @@ export class Converter extends AuthAwareComponent implements OnInit {
     } catch (error: any) {
       let message = 'Failed to sign in. Please try again.';
       if (error?.message) message += ` (${error.message})`;
-      this.errorMessage.set(message);
+      this.toastService.showError(message);
       console.error('Sign in error:', error);
     }
   }
 
   protected removeFile(index: number): void {
     this.files.update((current) => current.filter((_, i) => i !== index));
-    this.errorMessage.set(null);
+    this.toastService.clearError();
     this.extractedEvents.set([]);
     this.icsContent.set(null);
   }
