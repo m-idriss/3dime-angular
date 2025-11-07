@@ -1,6 +1,19 @@
 <article class="container" [attr.aria-labelledby]="title ? 'card-title-' + title : null">
   @if (title) {
-    <h3 [id]="'card-title-' + title">{{ title }}</h3>
+    <div class="card-header">
+      <h3 [id]="'card-title-' + title">{{ title }}</h3>
+      @if (showCollapseButton) {
+        <button
+          class="collapse-btn"
+          (click)="onCollapseClick()"
+          [attr.aria-label]="'Collapse ' + title"
+          [attr.aria-expanded]="true"
+          type="button"
+        >
+          <i class="fa fa-minus" aria-hidden="true"></i>
+        </button>
+      }
+    </div>
   }
   <ng-content></ng-content>
 </article>

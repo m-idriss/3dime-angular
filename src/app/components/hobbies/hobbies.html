@@ -1,4 +1,8 @@
-<app-card title="Hobbies & Interests">
+<app-card 
+  title="Hobbies & Interests"
+  [showCollapseButton]="showCollapseButton"
+  (collapseClicked)="onCardCollapseClick()"
+>
   <p>Things I enjoy watching/doing.</p>
   <nav aria-label="Hobbies and interests">
     @if (isLoading) {

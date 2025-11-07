@@ -111,43 +111,15 @@
     box-shadow: var(--shadow-card-hover), var(--shadow-glow);
   }
 
-  /* Card header */
+  /* Card header - for cards without child collapse button */
   .card-header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     margin-bottom: var(--space-md);
-
-    h3 {
-      /* Typography */
-      font-size: var(--font-size-xl);
-      font-weight: var(--fw-semibold);
-      color: var(--text-primary);
-      margin: 0;
-
-      /* Gradient effect */
-      background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-
-      /* Decorative underline */
-      position: relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -8px;
-        left: 0;
-        width: 60px;
-        height: 2px;
-        background: linear-gradient(90deg, var(--accent-color), transparent);
-        border-radius: 1px;
-      }
-    }
   }
 
-  /* Collapse button */
+  /* Collapse button - for cards without child collapse button */
   .collapse-btn {
     /* Positioning */
     display: flex;

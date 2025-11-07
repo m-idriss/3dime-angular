@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Card } from '../card/card';
@@ -16,11 +16,28 @@ import { LinkItem } from '../../models';
 export class Stuff extends NotionAwareComponent {
   stuffs: LinkItem[] = [];
 
+  /**
+   * Whether to show collapse button in the card header
+   */
+  @Input() showCollapseButton = false;
+
+  /**
+   * Event emitted when collapse button is clicked
+   */
+  @Output() collapseClicked = new EventEmitter<void>();
+
   protected getProgressiveItems(): Observable<LinkItem> {
     return this.notionService.fetchStuffsProgressively();
   }
 
   protected onItemLoaded(item: LinkItem): void {
     this.stuffs.push(item);
+  }
+
+  /**
+   * Handle collapse button click from Card component
+   */
+  onCardCollapseClick(): void {
+    this.collapseClicked.emit();
   }
 }

@@ -1,4 +1,8 @@
-<app-card title="Stuff">
+<app-card 
+  title="Stuff"
+  [showCollapseButton]="showCollapseButton"
+  (collapseClicked)="onCardCollapseClick()"
+>
   <p>Stuff I use and recommend.</p>
   <nav aria-label="Recommended products and tools">
     @if (isLoading) {

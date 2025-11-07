@@ -1,4 +1,8 @@
-<app-card title="Experience & Projects">
+<app-card 
+  title="Experience & Projects"
+  [showCollapseButton]="showCollapseButton"
+  (collapseClicked)="onCardCollapseClick()"
+>
   <p>Companies and projects I've contributed to.</p>
   <nav aria-label="Work experience and projects">
     @if (isLoading) {

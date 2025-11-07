@@ -16,10 +16,9 @@
   class="expanded-card"
   [attr.aria-labelledby]="'card-title-' + title"
 >
-  @if (!alwaysExpanded) {
+  @if (!alwaysExpanded && !childHasCollapseButton) {
   <div class="card-header">
     <button
-      *ngIf="!alwaysExpanded"
       class="collapse-btn"
       (click)="toggleExpanded()"
       [attr.aria-label]="'Collapse ' + title"

@@ -1,4 +1,8 @@
-<app-card title="Github Activity">
+<app-card 
+  title="Github Activity" 
+  [showCollapseButton]="showCollapseButton"
+  (collapseClicked)="onCardCollapseClick()"
+>
   @if (isLoading) {
     <div class="heatmap-skeleton">
       <app-skeleton-loader type="text" [height]="'150px'" />

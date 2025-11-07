@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 /**
  * Reusable card component providing consistent styling for content sections.
@@ -14,7 +14,6 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })
@@ -23,4 +22,21 @@ export class Card {
    * Optional title to display in the card header
    */
   @Input() title?: string;
+
+  /**
+   * Whether to show a collapse button in the header
+   */
+  @Input() showCollapseButton = false;
+
+  /**
+   * Event emitted when collapse button is clicked
+   */
+  @Output() collapseClicked = new EventEmitter<void>();
+
+  /**
+   * Handle collapse button click
+   */
+  onCollapseClick(): void {
+    this.collapseClicked.emit();
+  }
 }
