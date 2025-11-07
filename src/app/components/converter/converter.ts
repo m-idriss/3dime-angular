@@ -392,7 +392,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       this.toastService.clearSuccess();
     } else {
       this.toastService.showSuccess(
-        `Successfully processed ${successfulFiles.length} file(s) and extracted ${allEvents.length} event(s)!`
+        `Successfully extracted ${allEvents.length} event(s)!`
       );
       this.toastService.clearError();
     }
