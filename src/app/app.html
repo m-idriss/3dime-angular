@@ -1,16 +1,43 @@
 <main class="cards-container" aria-label="Main content" id="main-content">
   <!-- Left column - secondary cards (Tech Stack, Experience, Education) -->
   <div class="left-column">
-    <app-expandable-card icon="fa-code" title="Tech Stack" ariaLabel="View technology stack">
-      <app-tech-stack></app-tech-stack>
+    <app-expandable-card 
+      #techStackCard
+      icon="fa-code" 
+      title="Tech Stack" 
+      ariaLabel="View technology stack"
+      [childHasCollapseButton]="true"
+    >
+      <app-tech-stack
+        [showCollapseButton]="!techStackCard.alwaysExpanded"
+        (collapseClicked)="techStackCard.toggleExpanded()"
+      ></app-tech-stack>
     </app-expandable-card>
 
-    <app-expandable-card icon="fa-briefcase" title="Experience" ariaLabel="View work experience">
-      <app-experience></app-experience>
+    <app-expandable-card 
+      #experienceCard
+      icon="fa-briefcase" 
+      title="Experience" 
+      ariaLabel="View work experience"
+      [childHasCollapseButton]="true"
+    >
+      <app-experience
+        [showCollapseButton]="!experienceCard.alwaysExpanded"
+        (collapseClicked)="experienceCard.toggleExpanded()"
+      ></app-experience>
     </app-expandable-card>
 
-    <app-expandable-card icon="fa-graduation-cap" title="Education" ariaLabel="View education">
-      <app-education></app-education>
+    <app-expandable-card 
+      #educationCard
+      icon="fa-graduation-cap" 
+      title="Education" 
+      ariaLabel="View education"
+      [childHasCollapseButton]="true"
+    >
+      <app-education
+        [showCollapseButton]="!educationCard.alwaysExpanded"
+        (collapseClicked)="educationCard.toggleExpanded()"
+      ></app-education>
     </app-expandable-card>
   </div>
 
@@ -29,16 +56,43 @@
 
   <!-- Right column - remaining secondary cards -->
   <div class="right-column">
-    <app-expandable-card icon="fa-solid fa-chart-line" title="GitHub" ariaLabel="View GitHub activity">
-      <app-github-activity></app-github-activity>
+    <app-expandable-card 
+      #githubCard 
+      icon="fa-solid fa-chart-line" 
+      title="GitHub" 
+      ariaLabel="View GitHub activity"
+      [childHasCollapseButton]="true"
+    >
+      <app-github-activity 
+        [showCollapseButton]="!githubCard.alwaysExpanded"
+        (collapseClicked)="githubCard.toggleExpanded()"
+      ></app-github-activity>
     </app-expandable-card>
 
-    <app-expandable-card icon="fa-heart" title="Hobbies" ariaLabel="View hobbies">
-      <app-hobbies></app-hobbies>
+    <app-expandable-card 
+      #hobbiesCard
+      icon="fa-heart" 
+      title="Hobbies" 
+      ariaLabel="View hobbies"
+      [childHasCollapseButton]="true"
+    >
+      <app-hobbies
+        [showCollapseButton]="!hobbiesCard.alwaysExpanded"
+        (collapseClicked)="hobbiesCard.toggleExpanded()"
+      ></app-hobbies>
     </app-expandable-card>
 
-    <app-expandable-card icon="fa-star" title="Stuff" ariaLabel="View recommended stuff">
-      <app-stuff></app-stuff>
+    <app-expandable-card 
+      #stuffCard
+      icon="fa-star" 
+      title="Stuff" 
+      ariaLabel="View recommended stuff"
+      [childHasCollapseButton]="true"
+    >
+      <app-stuff
+        [showCollapseButton]="!stuffCard.alwaysExpanded"
+        (collapseClicked)="stuffCard.toggleExpanded()"
+      ></app-stuff>
     </app-expandable-card>
   </div>
 </main>
