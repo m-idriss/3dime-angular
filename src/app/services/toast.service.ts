@@ -1,11 +1,5 @@
 import { Injectable, signal } from '@angular/core';
 
-export interface ToastMessage {
-  type: 'success' | 'error';
-  message: string;
-  timestamp: number;
-}
-
 @Injectable({
   providedIn: 'root',
 })
