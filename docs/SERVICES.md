@@ -19,7 +19,7 @@ Services provide shared business logic, data management, and API integration acr
 ```
 src/app/services/
 ├── theme.service.ts      # Theme and appearance management
-├── profile.service.ts    # GitHub profile and social data
+├── github.service.ts    # GitHub profile and social data
 └── notion.service.ts     # Notion API integration
 ```
 
@@ -187,9 +187,9 @@ Settings are automatically restored on page load.
 
 ---
 
-### ProfileService
+### GithubService
 
-**Location**: `src/app/services/profile.service.ts`
+**Location**: `src/app/services/github.service.ts`
 
 **Purpose**: Fetch and manage GitHub profile data, social links, and commit activity.
 
@@ -236,7 +236,7 @@ getProfile(): Observable<GithubUser>
 **Example**:
 
 ```typescript
-this.profileService.getProfile().subscribe((user) => {
+this.githubService.getProfile().subscribe((user) => {
   console.log(user.name);
   console.log(user.avatar_url);
 });
@@ -257,7 +257,7 @@ getSocialLinks(): Observable<SocialLink[]>
 **Example**:
 
 ```typescript
-this.profileService.getSocialLinks().subscribe((links) => {
+this.githubService.getSocialLinks().subscribe((links) => {
   links.forEach((link) => {
     console.log(`${link.provider}: ${link.url}`);
   });
@@ -279,7 +279,7 @@ getCommitsV2(): Observable<CommitData[]>
 **Example**:
 
 ```typescript
-this.profileService.getCommitsV2().subscribe((commits) => {
+this.githubService.getCommitsV2().subscribe((commits) => {
   commits.forEach((commit) => {
     const date = new Date(commit.date);
     console.log(`${date.toDateString()}: ${commit.value} commits`);
@@ -299,7 +299,7 @@ private readonly baseUrl = environment.apiUrl;
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
-import { ProfileService, GithubUser, SocialLink } from './services/profile.service';
+import { GithubService, GithubUser, SocialLink } from './services/github.service';
 
 @Component({
   selector: 'app-profile',
@@ -325,16 +325,16 @@ export class ProfileComponent implements OnInit {
   bio = '';
   socialLinks: SocialLink[] = [];
 
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(private readonly githubService: GithubService) {}
 
   ngOnInit(): void {
-    this.profileService.getProfile().subscribe((user) => {
+    this.githubService.getProfile().subscribe((user) => {
       this.name = user.name || user.login;
       this.avatar = user.avatar_url;
       this.bio = user.bio || '';
     });
 
-    this.profileService.getSocialLinks().subscribe((links) => {
+    this.githubService.getSocialLinks().subscribe((links) => {
       this.socialLinks = links;
     });
   }

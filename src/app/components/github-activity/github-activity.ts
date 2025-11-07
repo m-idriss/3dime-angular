@@ -13,7 +13,7 @@ import CalHeatmap from 'cal-heatmap';
 import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
 import Tooltip from 'cal-heatmap/plugins/Tooltip';
 
-import { ProfileService, CommitData } from '../../services/profile.service';
+import { GithubService, CommitData } from '../../services/github.service';
 import { Card } from '../card/card';
 import { SkeletonLoader } from '../skeleton-loader/skeleton-loader';
 import { GITHUB_ACTIVITY_CONFIG } from '../../constants/app.constants';
@@ -34,7 +34,7 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
   private breakpointSub!: Subscription;
 
   constructor(
-    private readonly profileService: ProfileService,
+    private readonly githubService: GithubService,
     private readonly cdr: ChangeDetectorRef,
     private readonly breakpointObserver: BreakpointObserver,
   ) {}
@@ -65,7 +65,7 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
     this.previousMonths = this.months;
 
     this.isLoading = true;
-    this.profileService.getCommits(this.months).subscribe(commits => {
+    this.githubService.getCommits(this.months).subscribe(commits => {
       this.data = commits;
       this.isLoading = false;
       this.cdr.markForCheck();

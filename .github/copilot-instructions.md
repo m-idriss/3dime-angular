@@ -124,7 +124,7 @@ src/
 │   │   ├── hobbies/           # Personal interests
 │   │   └── contact/           # Contact information
 │   ├── services/
-│   │   ├── profile.service.ts # GitHub profile and activity data
+│   │   ├── github.service.ts # GitHub profile and activity data
 │   │   ├── notion.service.ts  # Notion API integration
 │   │   └── theme.service.ts   # Theme management service
 │   ├── app.ts                 # Main standalone app component
@@ -178,7 +178,7 @@ ng generate component components/my-component --style=scss
 
 ### Working with Services
 Current services:
-- `ProfileService` - Fetch GitHub profile data and commit activity
+- `GithubService` - Fetch GitHub profile data and commit activity
 - `NotionService` - Integrate with Notion API for stuff/recommendations
 - `ThemeService` - Manage theme switching and preferences
 
