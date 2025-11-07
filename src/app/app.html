@@ -1,3 +1,36 @@
+<!-- Toast Container for Global Messages - At viewport level -->
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11000;">
+  <!-- Success Toast -->
+  @if (toastService.successMessage()) {
+    <ngb-toast 
+      [autohide]="true" 
+      [delay]="10000" 
+      (hidden)="toastService.clearSuccess()"
+      class="bg-success text-white"
+    >
+      <ng-template ngbToastHeader>
+        <strong class="me-auto">✅ Success</strong>
+      </ng-template>
+      {{ toastService.successMessage() }}
+    </ngb-toast>
+  }
+
+  <!-- Error Toast -->
+  @if (toastService.errorMessage()) {
+    <ngb-toast 
+      [autohide]="true" 
+      [delay]="10000" 
+      (hidden)="toastService.clearError()"
+      class="bg-danger text-white"
+    >
+      <ng-template ngbToastHeader>
+        <strong class="me-auto">❌ Error</strong>
+      </ng-template>
+      {{ toastService.errorMessage() }}
+    </ngb-toast>
+  }
+</div>
+
 <main class="cards-container" aria-label="Main content" id="main-content">
   <!-- Left column - secondary cards (Tech Stack, Experience, Education) -->
   <div class="left-column">

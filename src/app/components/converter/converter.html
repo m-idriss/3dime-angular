@@ -179,39 +179,6 @@
       }
     }
 
-    <!-- Toast Container for Success and Error Messages -->
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11000;">
-      <!-- Success Toast -->
-      @if (successMessage()) {
-        <ngb-toast 
-          [autohide]="true" 
-          [delay]="5000" 
-          (hidden)="successMessage.set(null)"
-          class="bg-success text-white"
-        >
-          <ng-template ngbToastHeader>
-            <strong class="me-auto">✅ Success</strong>
-          </ng-template>
-          {{ successMessage() }}
-        </ngb-toast>
-      }
-
-      <!-- Error Toast -->
-      @if (errorMessage()) {
-        <ngb-toast 
-          [autohide]="true" 
-          [delay]="7000" 
-          (hidden)="errorMessage.set(null)"
-          class="bg-danger text-white"
-        >
-          <ng-template ngbToastHeader>
-            <strong class="me-auto">❌ Error</strong>
-          </ng-template>
-          {{ errorMessage() }}
-        </ngb-toast>
-      }
-    </div>
-
     <!-- Extracted Events - Apple Calendar Style with Editing -->
     @if (extractedEvents().length > 0) {
       <section class="events-list" aria-labelledby="events-heading">
