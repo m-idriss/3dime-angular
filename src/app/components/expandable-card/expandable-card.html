@@ -16,6 +16,7 @@
   class="expanded-card"
   [attr.aria-labelledby]="'card-title-' + title"
 >
+  @if (!alwaysExpanded) {
   <div class="card-header">
     <button
       *ngIf="!alwaysExpanded"
@@ -28,6 +29,7 @@
       <i class="fa fa-minus" aria-hidden="true"></i>
     </button>
   </div>
+  }
   <div class="card-content">
     <ng-content></ng-content>
   </div>
