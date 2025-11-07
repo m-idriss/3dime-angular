@@ -19,7 +19,7 @@
 
   /* Visual */
   background: var(--primary-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
@@ -30,7 +30,7 @@
   /* Hover state */
   &:hover {
     background: var(--primary-bg-hover);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(24px);
     box-shadow: var(--shadow-card-hover), var(--shadow-glow);
     transform: none;
   }
@@ -38,6 +38,15 @@
   /* Prevent transform when menu is open to avoid stacking context issues */
   &:has(.burger-menu.active):hover {
     transform: none;
+  }
+}
+
+/* Enhanced blur and effects for dark theme */
+body.dark-theme .container {
+  backdrop-filter: blur(20px);
+  
+  &:hover {
+    backdrop-filter: blur(28px);
   }
 }
 
@@ -102,7 +111,7 @@
 
   /* Visual */
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-card);
   object-fit: contain;
@@ -114,10 +123,19 @@
   /* Hover state */
   &:hover {
     background: var(--glass-bg-hover);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(24px);
     box-shadow: var(--shadow-card-hover), var(--shadow-glow);
     transform: scale(1.12) rotate(5deg);
     transition: all var(--ease-bounce);
+  }
+}
+
+/* Enhanced blur for dark theme */
+body.dark-theme .logo {
+  backdrop-filter: blur(20px);
+  
+  &:hover {
+    backdrop-filter: blur(28px);
   }
 }
 
@@ -157,7 +175,7 @@
 
   /* Visual */
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
@@ -170,7 +188,7 @@
   /* Hover state */
   &:hover {
     background: var(--glass-bg-hover);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(24px);
     box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
     transform: scale(1.1) rotate(5deg);
     transition: all var(--ease-bounce);
@@ -179,7 +197,7 @@
   /* Active state */
   &.active {
     background: var(--glass-bg-hover);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(24px);
     box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
     transform: scale(1.05);
 
@@ -206,6 +224,16 @@
   }
 }
 
+/* Enhanced blur for dark theme */
+body.dark-theme .burger-button {
+  backdrop-filter: blur(20px);
+  
+  &:hover,
+  &.active {
+    backdrop-filter: blur(28px);
+  }
+}
+
 /* Dropdown Menu - Settings menu popup */
 .profile-dropdown {
   /* Positioning */
@@ -220,13 +248,18 @@
 
   /* Visual */
   background: var(--menu-bg);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
 
   /* Animation */
   animation: dropdownSlideIn 0.2s ease-out;
+}
+
+/* Enhanced blur for dark theme dropdown */
+body.dark-theme .profile-dropdown {
+  backdrop-filter: blur(24px);
 }
 
 @keyframes dropdownSlideIn {
