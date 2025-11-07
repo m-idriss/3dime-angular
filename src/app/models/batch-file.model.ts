@@ -1,3 +1,5 @@
+import { CalendarEvent } from './calendar-event.model';
+
 /**
  * Status of a file in the batch processing queue
  */
@@ -16,6 +18,6 @@ export interface BatchFile {
   status: BatchFileStatus;
   progress?: number; // 0-100
   error?: string;
-  events?: any[]; // Extracted events for this file
+  events?: CalendarEvent[]; // Extracted events for this file
   icsContent?: string; // Generated ICS content for this file
 }

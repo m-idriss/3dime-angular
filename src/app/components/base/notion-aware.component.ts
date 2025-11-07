@@ -73,15 +73,6 @@ export abstract class NotionAwareComponent implements OnInit {
   }
 
   /**
-   * Override this method to retrieve specific items from NotionService
-   * @returns Array of LinkItems for the specific component
-   * @deprecated Use getProgressiveItems() instead for progressive loading
-   */
-  protected getItems(): LinkItem[] {
-    return [];
-  }
-
-  /**
    * Override this method to return an Observable that emits items progressively.
    * @returns Observable that emits LinkItems one by one
    */
@@ -93,13 +84,4 @@ export abstract class NotionAwareComponent implements OnInit {
    * @param item The item that was just loaded
    */
   protected abstract onItemLoaded(item: LinkItem): void;
-
-  /**
-   * Override this method to perform additional actions after data is loaded
-   * Default implementation does nothing
-   * @deprecated This is no longer called in progressive loading flow
-   */
-  protected onDataLoaded(): void {
-    // Default implementation - override in subclasses if needed
-  }
 }

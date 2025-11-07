@@ -14,6 +14,7 @@ interface WindowEventMap {
 }
 
 declare module 'ical.js' {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ICAL: any;
   export = ICAL;
 }

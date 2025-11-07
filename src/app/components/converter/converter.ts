@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, Inject, PLATFORM_ID, computed } from '@angular/core';
+import { Component, signal, OnInit, PLATFORM_ID, computed, inject } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import ICAL from '../../libs/ical-wrapper'; // ⚡ Wrapper to ensure parse() exists
@@ -10,7 +10,7 @@ import { Card } from '../card/card';
 import { AuthAwareComponent } from '../base/auth-aware.component';
 import { CalendarEvent, BatchFile, BatchFileStatus } from '../../models';
 import { FILE_UPLOAD_CONSTRAINTS } from '../../constants';
-import { formatIcsDate, getMonthDay, getTime } from '../../utils';
+import { getMonthDay } from '../../utils';
 
 @Component({
   selector: 'app-converter',
@@ -52,16 +52,12 @@ export class Converter extends AuthAwareComponent implements OnInit {
   // Expose BatchFileStatus enum to template
   protected readonly BatchFileStatus = BatchFileStatus;
 
+  private readonly converterService = inject(ConverterService);
+  private readonly toastService = inject(ToastService);
+  private readonly platformId = inject(PLATFORM_ID);
+
   private readonly acceptedTypes = FILE_UPLOAD_CONSTRAINTS.ACCEPTED_TYPES;
   private readonly maxFileSize = FILE_UPLOAD_CONSTRAINTS.MAX_FILE_SIZE;
-
-  constructor(
-    private readonly converterService: ConverterService,
-    private readonly toastService: ToastService,
-    @Inject(PLATFORM_ID) private readonly platformId: Object,
-  ) {
-    super();
-  }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) this.handleSharedFiles();
@@ -69,6 +65,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
 
   private async handleSharedFiles(): Promise<void> {
     if ('launchQueue' in window) {
+      // Web Share Target API doesn't have full TypeScript definitions
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).launchQueue.setConsumer(async (launchParams: any) => {
         if (!launchParams.files?.length) return;
 
@@ -289,7 +287,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       );
 
       // Call API for this single file
-      await new Promise<void>((resolve, reject) => {
+      await new Promise<void>((resolve) => {
         this.converterService.convertSingleFile(fileDataArray[0]).subscribe({
           next: (response) => {
             if (response.success && response.icsContent) {
@@ -406,8 +404,11 @@ export class Converter extends AuthAwareComponent implements OnInit {
       const cleanIcs = this.sanitizeIcs(icsContent);
       const jcalData = ICAL.parse(cleanIcs);
       const calendar = new ICAL.Component(jcalData);
+      // ICAL.js doesn't have proper TypeScript types
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const vevents: any[] = calendar.getAllSubcomponents('vevent');
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return vevents.map((vevent: any) => {
         const eventComp = new ICAL.Event(vevent);
         return {
@@ -432,6 +433,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
       const calendar = new ICAL.Component(jcalData);
       const vevents = calendar.getAllSubcomponents('vevent');
 
+      // ICAL.js doesn't have proper TypeScript types
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const events: CalendarEvent[] = vevents.map((vevent: any) => {
         const eventComp = new ICAL.Event(vevent);
         return {
@@ -500,6 +503,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
   async signIn(): Promise<void> {
     try {
       await this.authService.signInWithGoogle();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       let message = 'Failed to sign in. Please try again.';
       if (error?.message) message += ` (${error.message})`;
@@ -571,7 +575,11 @@ export class Converter extends AuthAwareComponent implements OnInit {
     this.regenerateIcsContent();
   }
 
-  protected updateEventField(index: number, field: keyof CalendarEvent, value: any): void {
+  protected updateEventField(
+    index: number, 
+    field: keyof CalendarEvent, 
+    value: string | Date | boolean
+  ): void {
     this.extractedEvents.update((events) =>
       events.map((event, i) =>
         i === index

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { shareReplay, catchError, timeout } from 'rxjs/operators';
@@ -62,6 +62,8 @@ export interface CommitData {
   providedIn: 'root',
 })
 export class GithubService {
+  private readonly http = inject(HttpClient);
+
   private readonly endpoints = {
     profile: `${environment.apiUrl}?target=profile`,
     social: `${environment.apiUrl}?target=social`,
@@ -71,8 +73,6 @@ export class GithubService {
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
   private commits$?: Observable<CommitData[]>;
-
-  constructor(private readonly http: HttpClient) {}
 
   /**
    * Get GitHub user profile.
@@ -119,7 +119,7 @@ export class GithubService {
    * @param months - Number of months of commit history to fetch (default: 6)
    * @returns Observable of commit activity data (returns empty array on timeout/error)
    */
-  getCommits(months: number = 6): Observable<CommitData[]> {
+  getCommits(months = 6): Observable<CommitData[]> {
     const url = `${this.endpoints.commits}&months=${months}`;
     return this.http.get<CommitData[]>(url).pipe(
       timeout(API_TIMEOUT_MS),

@@ -1,10 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, from, concat } from 'rxjs';
 import { map, catchError, shareReplay, timeout, concatMap, delay } from 'rxjs/operators';
 
 import { LinkItem } from '../models';
 import { environment } from '../../environments/environment';
+
+/**
+ * Notion API response interface
+ */
+interface NotionApiResponse {
+  stuff?: LinkItem[];
+  experience?: LinkItem[];
+  education?: LinkItem[];
+  hobbies?: LinkItem[];
+  tech_stack?: LinkItem[];
+}
 
 /**
  * Timeout for API calls in milliseconds.
@@ -40,6 +51,7 @@ const PROGRESSIVE_DELAY_MS = 0; // 100ms between each item
   providedIn: 'root',
 })
 export class NotionService {
+  private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
   private fetchAll$?: Observable<void>;
 
@@ -48,8 +60,6 @@ export class NotionService {
   educations: LinkItem[] = [];
   hobbies: LinkItem[] = [];
   techStacks: LinkItem[] = [];
-
-  constructor(private readonly http: HttpClient) {}
 
   /**
    * Fetch all data from Notion API.
@@ -60,7 +70,7 @@ export class NotionService {
    * @returns Observable that completes when data is loaded (empty arrays on timeout/error)
    */
   fetchAll(): Observable<void> {
-    this.fetchAll$ ??= this.http.get<any>(`${this.baseUrl}?target=notion`).pipe(
+    this.fetchAll$ ??= this.http.get<NotionApiResponse>(`${this.baseUrl}?target=notion`).pipe(
         timeout(API_TIMEOUT_MS),
         map((res) => {
           this.stuffs = res.stuff ?? [];

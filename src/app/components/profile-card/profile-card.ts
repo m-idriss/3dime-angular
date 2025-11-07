@@ -4,6 +4,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  inject,
 } from '@angular/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -26,19 +27,15 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileCard extends AuthAwareComponent implements OnInit {
+  private readonly themeService = inject(ThemeService);
+  private readonly githubService = inject(GithubService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
   menuOpen = false;
   socialLinks: SocialLink[] = [];
   profileData: GithubUser | null = null;
   isLoading = true;
   private loadingCount = 0;
-
-  constructor(
-    private readonly themeService: ThemeService,
-    private readonly githubService: GithubService,
-    private readonly cdr: ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   ngOnInit(): void {
     this.loadingCount = PROFILE_LOADING_COUNT;

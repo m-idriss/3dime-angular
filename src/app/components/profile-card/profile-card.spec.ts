@@ -8,7 +8,6 @@ import { AuthService } from '../../services/auth.service';
 describe('ProfileCard', () => {
   let component: ProfileCard;
   let fixture: ComponentFixture<ProfileCard>;
-  let authService: jasmine.SpyObj<AuthService>;
 
   beforeEach(async () => {
     const authServiceSpy = jasmine.createSpyObj('AuthService', [
@@ -27,7 +26,6 @@ describe('ProfileCard', () => {
       ],
     }).compileComponents();
 
-    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     fixture = TestBed.createComponent(ProfileCard);
     component = fixture.componentInstance;
     fixture.detectChanges();
