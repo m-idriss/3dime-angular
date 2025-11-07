@@ -1,5 +1,6 @@
-import { Component, Input, signal, HostBinding, OnInit } from '@angular/core';
+import { Component, Input, signal, HostBinding, OnInit, ContentChild } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { Card } from '../card/card';
 
 /**
  * Expandable card component that can display in compact icon mode or full expanded mode.
@@ -38,6 +39,11 @@ export class ExpandableCard implements OnInit {
    */
   isExpanded = signal(false);
 
+  /**
+   * Reference to child Card component if present
+   */
+  @ContentChild(Card) cardComponent?: Card;
+
   ngOnInit(): void {
     if (this.alwaysExpanded) {
       this.isExpanded.set(true);
@@ -56,6 +62,13 @@ export class ExpandableCard implements OnInit {
    */
   @HostBinding('class.compact') get compact() {
     return !this.isExpanded();
+  }
+
+  /**
+   * Check if child Card component has its own collapse button
+   */
+  get hasChildCollapseButton(): boolean {
+    return this.cardComponent?.showCollapseButton ?? false;
   }
 
   /**

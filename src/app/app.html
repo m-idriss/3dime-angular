@@ -29,8 +29,11 @@
 
   <!-- Right column - remaining secondary cards -->
   <div class="right-column">
-    <app-expandable-card icon="fa-solid fa-chart-line" title="GitHub" ariaLabel="View GitHub activity">
-      <app-github-activity></app-github-activity>
+    <app-expandable-card #githubCard icon="fa-solid fa-chart-line" title="GitHub" ariaLabel="View GitHub activity">
+      <app-github-activity 
+        [showCollapseButton]="!githubCard.alwaysExpanded"
+        (collapseClicked)="githubCard.toggleExpanded()"
+      ></app-github-activity>
     </app-expandable-card>
 
     <app-expandable-card icon="fa-heart" title="Hobbies" ariaLabel="View hobbies">
