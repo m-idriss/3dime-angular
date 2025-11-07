@@ -375,36 +375,3 @@
     }
   }
 </app-card>
-
-<!-- Toast Container for Success and Error Messages - Outside card for viewport positioning -->
-<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11000;">
-  <!-- Success Toast -->
-  @if (successMessage()) {
-    <ngb-toast 
-      [autohide]="true" 
-      [delay]="10000" 
-      (hidden)="successMessage.set(null)"
-      class="bg-success text-white"
-    >
-      <ng-template ngbToastHeader>
-        <strong class="me-auto">✅ Success</strong>
-      </ng-template>
-      {{ successMessage() }}
-    </ngb-toast>
-  }
-
-  <!-- Error Toast -->
-  @if (errorMessage()) {
-    <ngb-toast 
-      [autohide]="true" 
-      [delay]="10000" 
-      (hidden)="errorMessage.set(null)"
-      class="bg-danger text-white"
-    >
-      <ng-template ngbToastHeader>
-        <strong class="me-auto">❌ Error</strong>
-      </ng-template>
-      {{ errorMessage() }}
-    </ngb-toast>
-  }
-</div>

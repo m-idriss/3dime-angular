@@ -2,6 +2,7 @@ import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs/operators';
+import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { About } from './components/about/about';
 import { BackToTop } from './components/back-to-top/back-to-top';
@@ -16,6 +17,7 @@ import { Stuff } from './components/stuff/stuff';
 import { TechStack } from './components/tech-stack/tech-stack';
 import { PWA_CONFIG } from './constants/pwa.constants';
 import { LayoutModule } from '@angular/cdk/layout';
+import { ToastService } from './services/toast.service';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +35,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     Stuff,
     TechStack,
     LayoutModule,
+    NgbToastModule,
   ],
   templateUrl: './app.html',
 })
@@ -43,6 +46,7 @@ export class App implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: Object,
     private readonly swUpdate: SwUpdate,
+    public readonly toastService: ToastService,
   ) {}
 
   ngOnInit(): void {
