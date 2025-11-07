@@ -34,6 +34,11 @@ export class ExpandableCard implements OnInit {
   @Input() alwaysExpanded = false;
 
   /**
+   * Whether the child content provides its own collapse button
+   */
+  @Input() childHasCollapseButton = false;
+
+  /**
    * Whether card is currently expanded
    */
   isExpanded = signal(false);

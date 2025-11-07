@@ -17,6 +17,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
+  margin-top: 70px;
 
   /* Box Model */
   //width: 100%;
@@ -30,8 +31,8 @@
   text-align: center;
 
   /* Visual */
-  background: var(--glass-bg);
-  backdrop-filter: blur(8px);
+  background: var(--primary-bg);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -43,7 +44,7 @@
   /* Icon styling */
   i {
     font-size: 1.5rem;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     transition: all var(--t-medium);
   }
 
@@ -57,8 +58,8 @@
 
   /* Hover state */
   &:hover {
-    background: var(--glass-bg-hover);
-    backdrop-filter: blur(12px);
+    background: var(--primary-bg-hover);
+    backdrop-filter: blur(20px);
     border-color: var(--accent-color);
     box-shadow:
       0 4px 12px rgba(0, 0, 0, 0.2),
@@ -110,43 +111,15 @@
     box-shadow: var(--shadow-card-hover), var(--shadow-glow);
   }
 
-  /* Card header */
+  /* Card header - for cards without child collapse button */
   .card-header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     margin-bottom: var(--space-md);
-
-    h3 {
-      /* Typography */
-      font-size: var(--font-size-xl);
-      font-weight: var(--fw-semibold);
-      color: var(--text-primary);
-      margin: 0;
-
-      /* Gradient effect */
-      background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-
-      /* Decorative underline */
-      position: relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -8px;
-        left: 0;
-        width: 60px;
-        height: 2px;
-        background: linear-gradient(90deg, var(--accent-color), transparent);
-        border-radius: 1px;
-      }
-    }
   }
 
-  /* Collapse button */
+  /* Collapse button - for cards without child collapse button */
   .collapse-btn {
     /* Positioning */
     display: flex;
@@ -208,6 +181,7 @@
   .icon-tile {
     //min-height: 70px;
     width: 100%;
+    margin-top: 0px;
 
     i {
       font-size: 1.25rem;
