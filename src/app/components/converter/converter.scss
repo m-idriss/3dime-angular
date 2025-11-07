@@ -251,25 +251,20 @@
 }
 
 /* ========================
-   Events List - Calendar events display with Accordion
+   Events List - Compact Card Display
    ======================== */
 .events-list {
   /* Box Model */
   margin-bottom: var(--space-md);
-  gap: var(--space-xs);
-
-  /* Positioning */
-  flex-direction: column;
 }
 
-/* Ng-bootstrap Accordion Customization */
-.events-accordion {
+.events-container {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
 
-.event-accordion-item {
+.event-card {
   background: var(--glass-bg);
   border: 0.2px solid var(--glass-border);
   border-radius: var(--radius-md);
@@ -280,81 +275,21 @@
     border-color: var(--accent-color);
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
   }
-}
 
-.event-accordion-header {
-  width: 100%;
-  background: transparent;
-  border: none;
-  padding: var(--space-sm) var(--space-md);
-  cursor: pointer;
-  transition: all var(--t-fast);
-
-  &:hover {
-    background: var(--glass-bg-hover);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.3);
+  &.editing {
+    padding: var(--space-sm) var(--space-md);
   }
 }
 
-.event-accordion-header-content {
+.event-card-header {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-md);
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   width: 100%;
-  text-align: left;
 }
 
-.event-header-main {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
-  .event-title {
-    margin: 0;
-    font-size: 0.775rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    line-height: 1.3;
-  }
-
-  .event-location-header {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-
-    span {
-      display: inline-block;
-    }
-  }
-}
-
-.event-times-header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.25rem;
-  flex-shrink: 0;
-
-  .event-time-start {
-    font-size: 0.775rem;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .event-time-end {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-  }
-}
-
-/* Remove old styles */
-.event-details-header {
+.event-main-content {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -366,66 +301,48 @@
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-primary);
+    line-height: 1.3;
   }
 
-  .event-times-inline {
+  .event-compact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
     font-size: 0.75rem;
     color: var(--text-secondary);
-    display: flex;
-    gap: 0.25rem;
-    align-items: center;
 
     .event-time {
       font-weight: 500;
     }
+
+    .event-location {
+      display: inline-block;
+    }
   }
-}
 
-.event-details-body {
-  padding: var(--space-sm) 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.event-detail-row {
-  display: flex;
-  gap: var(--space-sm);
-  font-size: 0.8rem;
-  align-items: flex-start;
-
-  .detail-label {
-    font-weight: 600;
+  .event-description {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.75rem;
     color: var(--text-secondary);
-    min-width: 110px;
-    flex-shrink: 0;
-  }
-
-  .detail-value {
-    color: var(--text-primary);
-    flex: 1;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    line-height: 1.4;
   }
 }
 
-.event-actions-buttons {
+.event-actions {
   display: flex;
-  gap: var(--space-sm);
-  margin-top: var(--space-xs);
-  padding-top: var(--space-sm);
-  border-top: 1px solid var(--glass-border);
+  gap: 0.25rem;
+  flex-shrink: 0;
+  align-self: flex-start;
 }
 
-.action-button-small {
-  padding: 0.4rem 0.8rem;
-  font-size: 0.75rem;
-  font-weight: 500;
+.action-icon-btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  background: transparent;
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all var(--t-fast);
-  background: transparent;
   color: var(--text-primary);
 
   &:hover {
@@ -434,12 +351,10 @@
 
   &.edit:hover {
     border-color: var(--accent-color);
-    color: var(--accent-color);
   }
 
   &.delete:hover {
     border-color: var(--badge-color);
-    color: var(--badge-color);
   }
 }
 
@@ -583,64 +498,43 @@
     }
   }
 
-  .events-list {
-    .event-item {
-      padding: var(--space-xs);
+  .event-card-header {
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
 
-      .event-date {
-        .date-block {
-          width: 40px;
-          height: 40px;
-          font-size: 0.6rem;
-        }
+  .event-main-content {
+    .event-title {
+      font-size: 0.8rem;
+    }
+
+    .event-compact-info {
+      font-size: 0.7rem;
+    }
+
+    .event-description {
+      font-size: 0.7rem;
+    }
+  }
+
+  .event-date {
+    .date-block {
+      width: 32px;
+      height: 32px;
+      font-size: 0.6rem;
+    }
+  }
+
+  .event-card.editing {
+    padding: var(--space-xs);
+
+    .event-edit-form {
+      .form-row {
+        grid-template-columns: 1fr;
       }
 
-      .event-details {
-        flex: 1;
-        min-width: 0;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: var(--space-md);
-
-        .event-title {
-          font-size: 0.8rem;
-          line-height: 1.3;
-        }
-
-        .event-times {
-          align-self: flex-end;
-        }
-      }
-
-      /* Mobile edit form adjustments */
-      &.editing {
-        padding: var(--space-sm);
-
-        .event-edit-form {
-          .form-row {
-            grid-template-columns: 1fr;
-          }
-
-          .form-actions {
-            flex-direction: column;
-          }
-        }
-      }
-
-      .event-card {
-        padding: var(--space-xs);
-      }
-
-      .event-actions-menu {
-        padding: var(--space-xs);
+      .form-actions {
         flex-direction: column;
-
-        .action-menu-button {
-          width: 100%;
-          justify-content: center;
-        }
       }
     }
   }
