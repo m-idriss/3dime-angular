@@ -384,7 +384,7 @@ body.bg-video .bg {
 
   /* Box Model */
   width: 100%;
-  max-width: clamp(280px, 90%, 1600px);
+  max-width: clamp(300px, 95%, 1600px);
   margin: 0 auto;
   padding: var(--space-lg);
   padding-top: 50px;
@@ -489,6 +489,7 @@ body.bg-video .bg {
     max-width: 100%;
     align-items: flex-start;
     gap: calc(var(--space-lg) * 2);
+    padding-top: 25px;
   }
 
   .left-column {
