@@ -62,11 +62,15 @@ body.dark-theme {
   --primary-bg-hover: rgba(0, 0, 0, 1);
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-bg-hover: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
   --text-primary: #fff;
   --text-secondary: rgba(255, 255, 255, 0.9);
   --menu-bg: rgba(0, 0, 0, 0.95);
   --text-menu: #fff;
+  
+  /* Enhanced shadows for dark theme depth */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255, 255, 255, 0.1);
+  --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 2px rgba(59, 130, 246, 0.4);
 }
 
 /* Light theme */
@@ -330,7 +334,7 @@ body.bg-video .bg {
 
   /* Visual */
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
@@ -353,7 +357,7 @@ body.bg-video .bg {
   /* Hover state */
   &:hover {
     background: var(--glass-bg-hover);
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(59, 130, 246, 0.3);
     box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.2);
     transform: translateY(-3px) scale(1.05);
@@ -361,6 +365,16 @@ body.bg-video .bg {
     &::before {
       left: 100%;
     }
+  }
+}
+
+/* Enhanced blur for dark theme links */
+body.dark-theme .link {
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  
+  &:hover {
+    backdrop-filter: blur(24px);
   }
 }
 
