@@ -30,8 +30,8 @@
   /* Hover state */
   &:hover {
     background: var(--primary-bg-hover);
-    backdrop-filter: blur(24px);
-    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card-hover);
     transform: none;
   }
 
@@ -44,9 +44,10 @@
 /* Enhanced blur and effects for dark theme */
 body.dark-theme .container {
   backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
   
   &:hover {
-    backdrop-filter: blur(28px);
+    backdrop-filter: blur(24px);
   }
 }
 
@@ -123,9 +124,9 @@ body.dark-theme .container {
   /* Hover state */
   &:hover {
     background: var(--glass-bg-hover);
-    backdrop-filter: blur(24px);
-    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
-    transform: scale(1.12) rotate(5deg);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card-hover);
+    transform: scale(1.1) rotate(3deg);
     transition: all var(--ease-bounce);
   }
 }
@@ -135,7 +136,7 @@ body.dark-theme .logo {
   backdrop-filter: blur(20px);
   
   &:hover {
-    backdrop-filter: blur(28px);
+    backdrop-filter: blur(24px);
   }
 }
 
@@ -188,17 +189,17 @@ body.dark-theme .logo {
   /* Hover state */
   &:hover {
     background: var(--glass-bg-hover);
-    backdrop-filter: blur(24px);
-    box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
-    transform: scale(1.1) rotate(5deg);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card-hover);
+    transform: scale(1.08) rotate(3deg);
     transition: all var(--ease-bounce);
   }
 
   /* Active state */
   &.active {
     background: var(--glass-bg-hover);
-    backdrop-filter: blur(24px);
-    box-shadow: var(--shadow-card-hover), 0 0 15px rgba(59, 130, 246, 0.3);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-card-hover);
     transform: scale(1.05);
 
     i {
@@ -230,7 +231,7 @@ body.dark-theme .burger-button {
   
   &:hover,
   &.active {
-    backdrop-filter: blur(28px);
+    backdrop-filter: blur(24px);
   }
 }
 
@@ -309,7 +310,7 @@ body.dark-theme .profile-dropdown {
 
   /* Focus state */
   &:focus-visible {
-    outline: 2px solid var(--accent-color);
+    outline: 3px solid var(--accent-color);
     outline-offset: -2px;
   }
 
@@ -392,7 +393,7 @@ body.dark-theme .profile-dropdown {
     outline: 3px solid var(--accent-color);
     outline-offset: 3px;
     background: var(--glass-bg-hover);
-    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2), var(--shadow-card-hover);
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2);
     transform: scale(1.2);
   }
 }
@@ -434,8 +435,8 @@ body.notifications-off .badge {
 .burger-button:focus-visible,
 .dropdown-item:focus,
 .dropdown-item:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
+  outline: 3px solid var(--accent-color);
+  outline-offset: 3px;
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
   transition: all var(--t-fast);
 }
@@ -444,7 +445,7 @@ body.notifications-off .badge {
 .burger-button:focus-visible {
   outline: 3px solid var(--accent-color);
   outline-offset: 3px;
-  box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2), var(--shadow-card-hover);
+  box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2);
 }
 
 /* Reduced motion support */
