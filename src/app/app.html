@@ -29,7 +29,13 @@
 
   <!-- Right column - remaining secondary cards -->
   <div class="right-column">
-    <app-expandable-card #githubCard icon="fa-solid fa-chart-line" title="GitHub" ariaLabel="View GitHub activity">
+    <app-expandable-card 
+      #githubCard 
+      icon="fa-solid fa-chart-line" 
+      title="GitHub" 
+      ariaLabel="View GitHub activity"
+      [childHasCollapseButton]="true"
+    >
       <app-github-activity 
         [showCollapseButton]="!githubCard.alwaysExpanded"
         (collapseClicked)="githubCard.toggleExpanded()"

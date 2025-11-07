@@ -16,7 +16,7 @@
   class="expanded-card"
   [attr.aria-labelledby]="'card-title-' + title"
 >
-  @if (!alwaysExpanded && !hasChildCollapseButton) {
+  @if (!alwaysExpanded && !childHasCollapseButton) {
   <div class="card-header">
     <button
       class="collapse-btn"
