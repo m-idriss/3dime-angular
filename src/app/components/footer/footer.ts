@@ -1,17 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { GithubService } from '../../services/github.service';
 
+/**
+ * Footer link interface for type safety
+ */
+export interface FooterLink {
+  label: string;
+  url: string;
+}
+
+/**
+ * Global footer component displaying navigation links, project information, and credits.
+ * Fetches version dynamically from GitHub releases API for maintainability.
+ */
 @Component({
   selector: 'app-footer',
+  standalone: true,
   imports: [],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
-export class Footer {
-  currentYear = new Date().getFullYear();
-  appVersion = '0.0.0'; // This will match package.json version
-  githubRepo = 'https://github.com/m-idriss/3dime-angular';
+export class Footer implements OnInit {
+  private readonly githubService = inject(GithubService);
 
-  footerLinks = [
+  currentYear = new Date().getFullYear();
+  appVersion = '0.0.0';
+  releaseUrl = '';
+  githubRepo = 'https://github.com/m-idriss/3dime-angular';
+  authorName = 'Idriss';
+  authorProfile = 'https://github.com/m-idriss';
+
+  footerLinks: FooterLink[] = [
     { label: 'Security', url: `${this.githubRepo}/blob/main/SECURITY.md` },
     { label: 'License', url: `${this.githubRepo}/blob/main/LICENSE` },
     { label: 'Community', url: `${this.githubRepo}/blob/main/CONTRIBUTING.md` },
@@ -20,4 +39,13 @@ export class Footer {
     { label: 'Issues', url: `${this.githubRepo}/issues` },
     { label: 'Repository', url: this.githubRepo },
   ];
+
+  ngOnInit(): void {
+    this.githubService.getLatestRelease().subscribe((release) => {
+      if (release?.tag_name) {
+        this.appVersion = release.tag_name;
+        this.releaseUrl = release.html_url;
+      }
+    });
+  }
 }
