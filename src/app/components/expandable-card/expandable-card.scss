@@ -22,7 +22,7 @@
   /* Box Model */
   //width: 100%;
   //min-height: 80px;
-  padding: var(--space-md);
+  padding: var(--space-lg);
 
   /* Typography */
   font-size: var(--font-size-base);
@@ -85,7 +85,7 @@
 /* Enhanced blur for dark theme */
 body.dark-theme .icon-tile {
   backdrop-filter: blur(20px);
-  
+
   &:hover {
     backdrop-filter: blur(28px);
   }
@@ -176,7 +176,7 @@ body.dark-theme .icon-tile {
 /* Enhanced blur for dark theme */
 body.dark-theme .expanded-card {
   backdrop-filter: blur(20px);
-  
+
   &:hover {
     backdrop-filter: blur(28px);
   }

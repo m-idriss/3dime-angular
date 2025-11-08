@@ -1,4 +1,4 @@
-<app-card 
+<app-card
   title="Stuff"
   [showCollapseButton]="showCollapseButton"
   (collapseClicked)="onCardCollapseClick()"
@@ -19,7 +19,7 @@
           {{ stuff.name }}
         </a>
       } @empty {
-        <p>No stuff available.</p>
+        <p class="empty-state">Recommended items will be displayed here.</p>
       }
     }
   </nav>

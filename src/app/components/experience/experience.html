@@ -1,4 +1,4 @@
-<app-card 
+<app-card
   title="Experience & Projects"
   [showCollapseButton]="showCollapseButton"
   (collapseClicked)="onCardCollapseClick()"
@@ -19,7 +19,7 @@
           {{ experience.name }}
         </a>
       } @empty {
-        <p>No experiences available.</p>
+        <p class="empty-state">Experience and projects will be displayed here.</p>
       }
     }
   </nav>
