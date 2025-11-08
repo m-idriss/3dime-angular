@@ -1,5 +1,8 @@
 <!-- Toast Container for Global Messages - At viewport level -->
-<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11000;">
+<div
+  class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
+  style="z-index: 11000;"
+>
   <!-- Success Toast -->
   @if (toastService.successMessage()) {
     <ngb-toast
@@ -70,13 +73,29 @@
 
   <!-- Center column - always visible full-size cards -->
   <div class="primary-column">
-    <app-expandable-card icon="fa-blog" title="Blog Posts" ariaLabel="View blog posts" [alwaysExpanded]="true"  style="z-index: 11000;">
+    <app-expandable-card
+      icon="fa-blog"
+      title="Blog Posts"
+      ariaLabel="View blog posts"
+      [alwaysExpanded]="true"
+      style="z-index: 11000;"
+    >
       <app-profile-card></app-profile-card>
     </app-expandable-card>
-    <app-expandable-card icon="fa-project-diagram" title="Projects" ariaLabel="View projects" [alwaysExpanded]="true">
+    <app-expandable-card
+      icon="fa-project-diagram"
+      title="Projects"
+      ariaLabel="View projects"
+      [alwaysExpanded]="true"
+    >
       <app-converter></app-converter>
     </app-expandable-card>
-    <app-expandable-card icon="fa-user" title="About Me" ariaLabel="About me" [alwaysExpanded]="true">
+    <app-expandable-card
+      icon="fa-user"
+      title="About Me"
+      ariaLabel="About me"
+      [alwaysExpanded]="true"
+    >
       <app-about></app-about>
     </app-expandable-card>
   </div>

@@ -78,9 +78,7 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
     return this.profileData?.avatar_url || '';
   }
 
-  get mainUrl(): string {
-    return '';
-  }
+  protected readonly mainUrl = '';
 
   /**
    * Get Font Awesome icon class for social media provider.
