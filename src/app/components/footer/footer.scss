@@ -10,14 +10,14 @@
   margin-top: var(--space-xl);
   padding: var(--space-lg) 0;
 
-  /* Visual - uses background-based styling, not theme-dependent */
+  /* Visual - follows theme and background like containers */
   background: var(--primary-bg);
   backdrop-filter: blur(16px);
   border-top: 1px solid var(--glass-border);
 
   /* Typography */
   font-size: 0.75rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   text-align: center;
 }
 
@@ -35,14 +35,14 @@
 
 /* Footer text */
 .footer-text {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   white-space: nowrap;
 }
 
 /* Footer link */
 .footer-link {
   /* Typography */
-  color: var(--text-secondary);
+  color: var(--text-primary);
   text-decoration: none;
   white-space: nowrap;
 
@@ -74,9 +74,18 @@
 
 /* Footer separator */
 .footer-separator {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   opacity: 0.5;
   user-select: none;
+}
+
+/* Enhanced blur for dark theme - matches container behavior */
+body.dark-theme .global-footer {
+  backdrop-filter: blur(20px);
+
+  &:hover {
+    backdrop-filter: blur(24px);
+  }
 }
 
 /* Responsive adjustments */
