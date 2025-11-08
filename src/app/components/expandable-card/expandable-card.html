@@ -5,6 +5,8 @@
   (click)="toggleExpanded()"
   [attr.aria-label]="ariaLabel || 'Expand ' + title"
   [attr.aria-expanded]="false"
+  [appTooltip]="'Expand ' + title"
+  appTooltipPlacement="top"
   type="button"
 >
   <i [class]="'fa ' + icon" class="icon-display" aria-hidden="true"></i>
@@ -24,6 +26,8 @@
       (click)="toggleExpanded()"
       [attr.aria-label]="'Collapse ' + title"
       [attr.aria-expanded]="true"
+      [appTooltip]="'Collapse ' + title"
+      appTooltipPlacement="top"
       type="button"
     >
       <i class="fa fa-minus" aria-hidden="true"></i>

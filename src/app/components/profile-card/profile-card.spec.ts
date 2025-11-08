@@ -35,10 +35,12 @@ describe('ProfileCard', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have NgbTooltipModule imported', () => {
-    // This test verifies that NgbTooltipModule is properly imported
-    // The tooltip enhancement is applied to the sign-out button with:
-    // ngbTooltip="Sign out of your account" placement="left" container="body"
+  it('should have AppTooltipDirective imported', () => {
+    // This test verifies that AppTooltipDirective is properly imported
+    // The tooltip enhancement is applied to various elements including:
+    // - Sign-out button: appTooltip="Sign out of your account" appTooltipPlacement="left"
+    // - Social links: appTooltip="[provider]" appTooltipPlacement="bottom"
+    // - Menu items: appTooltip="[action]" appTooltipPlacement="left"
     expect(component).toBeTruthy();
   });
 });

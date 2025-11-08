@@ -7,7 +7,14 @@
         <p>
           Upload or snap your appointments, and AI turns them into calendar-ready events.
         </p>
-        <img src="/assets/images/converter.png" alt="Calendar converter illustration" class="auth-image" loading="lazy" />
+        <img 
+          src="/assets/images/converter.png" 
+          alt="Calendar converter illustration" 
+          class="auth-image" 
+          loading="lazy"
+          appTooltip="AI-powered calendar conversion"
+          appTooltipPlacement="bottom"
+        />
       </div>
       <button class="sign-in-button btn btn-primary btn-lg" (click)="signIn()" aria-label="Sign in with Google to use converter">
         🔐 Sign in with Google
@@ -34,8 +41,8 @@
         (drop)="onDrop($event)"
         role="region"
         aria-labelledby="upload-heading"
-        ngbTooltip="Drag and drop your files or click to browse"
-        placement="top"
+        appTooltip="Drag and drop your files or click to browse"
+        appTooltipPlacement="top"
       >
         <div class="marketing-text">
           <h4>Save time creating calendar events.</h4>
@@ -69,8 +76,8 @@
                 (click)="removeFile($index)"
                 [disabled]="isProcessing()"
                 [attr.aria-label]="'Remove ' + file.name"
-                ngbTooltip="Remove file"
-                placement="top"
+                appTooltip="Remove file"
+                appTooltipPlacement="top"
               >
                 ✕
               </button>
@@ -85,8 +92,8 @@
           class="action-button btn btn-primary"
           (click)="convertToIcs()"
           aria-label="Convert files to calendar events"
-          ngbTooltip="Convert your files to calendar events"
-          placement="top"
+          appTooltip="Convert your files to calendar events"
+          appTooltipPlacement="top"
         >
           Convert
         </button>
@@ -122,8 +129,8 @@
               class="batch-toggle-button"
               (click)="isBatchDetailsCollapsed.set(!isBatchDetailsCollapsed())"
               [attr.aria-expanded]="!isBatchDetailsCollapsed()"
-              ngbTooltip="Toggle batch details"
-              placement="top"
+              appTooltip="Toggle batch details"
+              appTooltipPlacement="top"
             >
               {{ isBatchDetailsCollapsed() ? '▼ Show Details' : '▲ Hide Details' }}
             </button>
@@ -161,8 +168,8 @@
                       (click)="retryFile($index)"
                       [disabled]="isProcessing()"
                       aria-label="Retry processing this file"
-                      ngbTooltip="Retry processing"
-                      placement="top"
+                      appTooltip="Retry processing"
+                      appTooltipPlacement="top"
                     >
                       🔄 Retry
                     </button>
@@ -242,8 +249,8 @@
                             class="action-button-small edit btn btn-sm btn-info"
                             (click)="editEvent($index)"
                             aria-label="Edit event"
-                            ngbTooltip="Edit this event"
-                            placement="top"
+                            appTooltip="Edit this event"
+                            appTooltipPlacement="top"
                           >
                             ✏️ Edit
                           </button>
@@ -251,8 +258,8 @@
                             class="action-button-small delete btn btn-sm btn-danger"
                             (click)="deleteEvent($index)"
                             aria-label="Delete event"
-                            ngbTooltip="Delete this event"
-                            placement="top"
+                            appTooltip="Delete this event"
+                            appTooltipPlacement="top"
                           >
                             🗑️ Delete
                           </button>
@@ -326,8 +333,8 @@
                     class="form-button save btn btn-success"
                     (click)="saveEvent($index)"
                     aria-label="Save changes"
-                    ngbTooltip="Save event changes"
-                    placement="top"
+                    appTooltip="Save event changes"
+                    appTooltipPlacement="top"
                   >
                     💾 Save
                   </button>
@@ -335,8 +342,8 @@
                     class="form-button cancel btn btn-secondary"
                     (click)="cancelEdit($index)"
                     aria-label="Cancel editing"
-                    ngbTooltip="Cancel without saving"
-                    placement="top"
+                    appTooltip="Cancel without saving"
+                    appTooltipPlacement="top"
                   >
                     ✕ Cancel
                   </button>
@@ -357,8 +364,8 @@
           class="action-button download btn btn-success"
           (click)="downloadIcs()"
           aria-label="Download calendar file"
-          ngbTooltip="Download your calendar as .ics file"
-          placement="top"
+          appTooltip="Download your calendar as .ics file"
+          appTooltipPlacement="top"
         >
           Download Calendar
         </button>
@@ -366,8 +373,8 @@
           class="action-button secondary btn btn-secondary"
           (click)="resetState()"
           aria-label="Convert another file"
-          ngbTooltip="Start over with new files"
-          placement="top"
+          appTooltip="Start over with new files"
+          appTooltipPlacement="top"
         >
           Convert Another
         </button>

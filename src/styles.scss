@@ -1041,3 +1041,22 @@ body.font-large h3 {
 body.font-large h4 {
   font-size: 1.5rem;
 }
+
+/* ========================
+   Tooltip Z-Index Override
+   ======================== */
+/* Ensure tooltips appear above all other content, including dropdowns, modals, and cards with high z-index */
+/* Using multiple selectors to ensure it works with different Bootstrap versions and Angular rendering */
+/* Z-index must be higher than 11000 (Blog Posts card) */
+.tooltip,
+ngb-tooltip-window,
+.ngb-tooltip,
+[class*="tooltip"] {
+  z-index: 11500 !important;
+}
+
+/* Ensure the tooltip container is also above everything */
+body > .tooltip,
+body > ngb-tooltip-window {
+  z-index: 11500 !important;
+}

@@ -1,4 +1,5 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { AppTooltipDirective } from '../../shared/directives';
 
 /**
  * Reusable card component providing consistent styling for content sections.
@@ -14,6 +15,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-card',
   standalone: true,
+  imports: [AppTooltipDirective],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })

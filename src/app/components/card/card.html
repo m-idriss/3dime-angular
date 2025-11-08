@@ -8,6 +8,8 @@
           (click)="onCollapseClick()"
           [attr.aria-label]="'Collapse ' + title"
           [attr.aria-expanded]="true"
+          [appTooltip]="'Collapse ' + title"
+          appTooltipPlacement="top"
           type="button"
         >
           <i class="fa fa-minus" aria-hidden="true"></i>
