@@ -1,12 +1,11 @@
 import {
   Component,
-  HostListener,
   OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   inject,
 } from '@angular/core';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ThemeService } from '../../services/theme.service';
 import { GithubService, SocialLink, GithubUser } from '../../services/github.service';
@@ -21,7 +20,7 @@ import {
 @Component({
   selector: 'app-profile-card',
   standalone: true,
-  imports: [SkeletonLoader, NgbTooltipModule],
+  imports: [SkeletonLoader, NgbTooltipModule, NgbDropdownModule],
   templateUrl: './profile-card.html',
   styleUrl: './profile-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +30,6 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
   private readonly githubService = inject(GithubService);
   private readonly cdr = inject(ChangeDetectorRef);
 
-  menuOpen = false;
   socialLinks: SocialLink[] = [];
   profileData: GithubUser | null = null;
   isLoading = true;
@@ -98,30 +96,6 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
     return `fa fa-brands fa-${iconName}`;
   }
 
-  toggleMenu(): void {
-    this.menuOpen = !this.menuOpen;
-  }
-
-  closeMenu(): void {
-    this.menuOpen = false;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event) {
-    const target = event.target as HTMLElement;
-    const burgerMenu = target.closest('.burger-menu');
-    if (!burgerMenu && this.menuOpen) {
-      this.closeMenu();
-    }
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape' && this.menuOpen) {
-      this.closeMenu();
-    }
-  }
-
   cycleTheme() {
     this.themeService.cycleTheme();
   }
@@ -161,7 +135,6 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
   async signOut(): Promise<void> {
     try {
       await this.authService.signOutUser();
-      this.menuOpen = false;
       this.cdr.markForCheck();
     } catch (error) {
       console.error('Sign out error:', error);

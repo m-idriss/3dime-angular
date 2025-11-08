@@ -9,14 +9,13 @@
     <header class="profile-header">
       <img [src]="avatar" alt="Profile avatar" class="logo" />
 
-      <nav class="burger-menu" [class.active]="menuOpen" aria-label="Profile options">
+      <!-- New ng-bootstrap dropdown menu -->
+      <nav class="settings-menu" ngbDropdown placement="bottom-end" aria-label="Profile options">
         <button
-          class="burger-button"
-          [class.active]="menuOpen"
-          (click)="toggleMenu()"
-          aria-label="Open profile menu"
-          [attr.aria-expanded]="menuOpen"
-          aria-haspopup="true"
+          class="menu-toggle-button"
+          ngbDropdownToggle
+          aria-label="Open settings menu"
+          type="button"
         >
           @if (isAuthenticated && currentUser) {
             <img
@@ -25,76 +24,84 @@
               class="user-avatar"
             />
           } @else {
-            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+            <i class="fas fa-cog" aria-hidden="true"></i>
           }
         </button>
 
         <!-- Dropdown menu -->
-        @if (menuOpen) {
-          <div class="profile-dropdown" role="menu" aria-label="Profile settings">
-            @if (isAuthenticated && currentUser) {
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">{{ currentUser.displayName }}</div>
-                  <div class="user-email">{{ currentUser.email }}</div>
-                </div>
+        <div ngbDropdownMenu class="settings-dropdown" aria-label="Settings menu">
+          @if (isAuthenticated && currentUser) {
+            <div class="user-info-section">
+              <div class="user-details">
+                <div class="user-name">{{ currentUser.displayName }}</div>
+                <div class="user-email">{{ currentUser.email }}</div>
               </div>
+            </div>
+            <div class="dropdown-divider"></div>
+          }
 
-              <div class="dropdown-separator" role="separator"></div>
-            }
+          <button
+            ngbDropdownItem
+            class="menu-item theme-item"
+            (click)="cycleTheme()"
+            type="button"
+          >
+            <i
+              class="fas item-icon"
+              [class.fa-moon]="currentTheme === 'dark'"
+              [class.fa-sun]="currentTheme === 'white'"
+              [class.fa-gem]="currentTheme === 'glass'"
+              aria-hidden="true"
+            ></i>
+            <span class="item-label">Theme</span>
+            <span class="item-value">{{ themeDisplayName }}</span>
+          </button>
 
-            <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
-              <i
-                class="fas"
-                [class.fa-moon]="currentTheme === 'dark'"
-                [class.fa-sun]="currentTheme === 'white'"
-                [class.fa-gem]="currentTheme === 'glass'"
-                aria-hidden="true"
-              ></i>
-              <span>{{ themeDisplayName }}</span>
-            </button>
+          <button
+            ngbDropdownItem
+            class="menu-item background-item"
+            (click)="toggleVideoBg()"
+            type="button"
+          >
+            <i
+              class="fas item-icon"
+              [class.fa-circle]="currentBackground === 'black'"
+              [class.fa-circle-notch]="currentBackground === 'white'"
+              [class.fa-play]="currentBackground === 'video'"
+              aria-hidden="true"
+            ></i>
+            <span class="item-label">Background</span>
+            <span class="item-value">{{ backgroundDisplayName }}</span>
+          </button>
 
-            <div class="dropdown-separator" role="separator"></div>
+          <button
+            ngbDropdownItem
+            class="menu-item font-size-item"
+            (click)="changeFontSize()"
+            type="button"
+          >
+            <i class="fas fa-text-height item-icon" aria-hidden="true"></i>
+            <span class="item-label">Font Size</span>
+            <span class="item-value">{{ fontSizeDisplayName }}</span>
+          </button>
 
-            <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
-              <i
-                class="fas"
-                [class.fa-circle]="currentBackground === 'black'"
-                [class.fa-circle-notch]="currentBackground === 'white'"
-                [class.fa-play]="currentBackground === 'video'"
-                aria-hidden="true"
-              ></i>
-              <span>{{ backgroundDisplayName }}</span>
-            </button>
-
-            <div class="dropdown-separator" role="separator"></div>
+          @if (isAuthenticated) {
+            <div class="dropdown-divider"></div>
 
             <button
-              class="dropdown-item font-size-toggle"
-              role="menuitem"
-              (click)="changeFontSize()"
+              ngbDropdownItem
+              class="menu-item sign-out-item"
+              (click)="signOut()"
+              ngbTooltip="Sign out of your account"
+              placement="left"
+              container="body"
+              type="button"
             >
-              <i class="fas fa-text-height" aria-hidden="true"></i>
-              <span>Font Size: {{ fontSizeDisplayName }}</span>
+              <i class="fas fa-sign-out-alt item-icon" aria-hidden="true"></i>
+              <span class="item-label">Sign Out</span>
             </button>
-
-            @if (isAuthenticated) {
-              <div class="dropdown-separator" role="separator"></div>
-
-              <button
-                class="dropdown-item sign-out btn btn-danger"
-                role="menuitem"
-                (click)="signOut()"
-                ngbTooltip="Sign out of your account"
-                placement="left"
-                container="body"
-              >
-                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-                <span>Sign Out</span>
-              </button>
-            }
-          </div>
-        }
+          }
+        </div>
       </nav>
     </header>
 
