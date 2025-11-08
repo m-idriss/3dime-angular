@@ -1,0 +1,91 @@
+/* ========================
+   Minimal Global Footer
+   ======================== */
+
+/* Footer container - single horizontal bar */
+.global-footer {
+  /* Positioning */
+  position: relative;
+  width: 100%;
+  margin-top: var(--space-xl);
+  padding: var(--space-lg) 0;
+
+  /* Visual - uses background-based styling, not theme-dependent */
+  background: var(--primary-bg);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--glass-border);
+
+  /* Typography */
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Footer container layout - single row */
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-sm);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* Footer text */
+.footer-text {
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* Footer link */
+.footer-link {
+  /* Typography */
+  color: var(--text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+
+  /* Misc */
+  transition: color var(--t-fast);
+
+  /* Hover state */
+  &:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+  }
+
+  /* Focus state for accessibility */
+  &:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Inline variant */
+  &.inline {
+    color: var(--accent-color);
+
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
+}
+
+/* Footer separator */
+.footer-separator {
+  color: var(--text-secondary);
+  opacity: 0.5;
+  user-select: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .global-footer {
+    font-size: 0.7rem;
+  }
+
+  .footer-container {
+    gap: var(--space-xs);
+  }
+}
