@@ -41,4 +41,20 @@ describe('ProfileCard', () => {
     // ngbTooltip="Sign out of your account" placement="left" container="body"
     expect(component).toBeTruthy();
   });
+
+  it('should provide profileUrl getter', () => {
+    // Test that profileUrl getter returns empty string when profileData is null
+    component.profileData = null;
+    expect(component.profileUrl).toBe('');
+
+    // Test that profileUrl getter returns html_url when profileData exists
+    component.profileData = {
+      html_url: 'https://github.com/testuser',
+      avatar_url: 'https://avatars.githubusercontent.com/u/12345',
+      login: 'testuser',
+      name: 'Test User',
+      email: 'test@example.com',
+    } as any;
+    expect(component.profileUrl).toBe('https://github.com/testuser');
+  });
 });

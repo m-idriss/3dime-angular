@@ -96,11 +96,28 @@ body.dark-theme .container {
   z-index: 1;
 }
 
+/* Logo/Avatar Link - Wrapper for profile image link */
+.logo-link {
+  /* Positioning */
+  display: block;
+  grid-column: 2;
+  
+  /* Typography */
+  text-decoration: none;
+  
+  /* Focus state */
+  &:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 3px;
+    border-radius: var(--radius-full);
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2);
+  }
+}
+
 /* Logo/Avatar - Profile image */
 .logo {
   /* Positioning */
   display: block;
-  grid-column: 2;
 
   /* Box Model */
   width: 120px;
@@ -429,8 +446,6 @@ body.notifications-off .badge {
 }
 
 /* Enhanced focus indicators */
-.logo:focus,
-.logo:focus-visible,
 .burger-button:focus,
 .burger-button:focus-visible,
 .dropdown-item:focus,
@@ -441,7 +456,6 @@ body.notifications-off .badge {
   transition: all var(--t-fast);
 }
 
-.logo:focus-visible,
 .burger-button:focus-visible {
   outline: 3px solid var(--accent-color);
   outline-offset: 3px;
