@@ -42,10 +42,20 @@
   transition: all var(--t-medium);
 
   /* Icon styling */
-  i {
+  i.icon-display {
     font-size: 1.5rem;
     color: var(--text-primary);
     transition: all var(--t-medium);
+    display: block; /* Show icon by default on desktop */
+  }
+
+  /* Title styling */
+  .title-display {
+    display: none; /* Hide title by default on desktop */
+    font-size: 0.95rem;
+    font-weight: var(--fw-semibold);
+    color: var(--text-primary);
+    transition: color var(--t-medium);
   }
 
   /* Label styling */
@@ -66,7 +76,11 @@
       var(--shadow-glow);
     transform: translateY(-2px);
 
-    i {
+    i.icon-display {
+      color: var(--accent-color);
+    }
+
+    .title-display {
       color: var(--accent-color);
     }
 
@@ -201,8 +215,15 @@ body.dark-theme .expanded-card {
     width: 100%;
     margin-top: 0px;
 
-    i {
-      font-size: 1.25rem;
+    /* Hide icon on mobile */
+    i.icon-display {
+      display: none;
+    }
+
+    /* Show title on mobile */
+    .title-display {
+      display: block;
+      font-size: 1rem;
     }
 
     .icon-label {
