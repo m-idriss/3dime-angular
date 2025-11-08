@@ -44,13 +44,20 @@ export class Footer implements OnInit {
     // Always set a fallback release URL
     this.releaseUrl = `${this.githubRepo}/releases/latest`;
     
-    // Try to fetch actual release data
-    this.githubService.getLatestRelease().subscribe((release) => {
-      if (release?.tag_name) {
-        this.appVersion = release.tag_name;
-        if (release.html_url) {
-          this.releaseUrl = release.html_url;
+    // Fetch actual release data from backend API
+    this.githubService.getLatestRelease().subscribe({
+      next: (release) => {
+        console.log('Release data received:', release);
+        if (release && release.tag_name) {
+          this.appVersion = release.tag_name;
+          console.log('Version updated to:', this.appVersion);
+          if (release.html_url) {
+            this.releaseUrl = release.html_url;
+          }
         }
+      },
+      error: (err) => {
+        console.warn('Failed to fetch release version:', err);
       }
     });
   }
