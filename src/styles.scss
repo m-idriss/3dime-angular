@@ -986,7 +986,9 @@ body.dark-theme .link {
   }
 
   .cards-container {
+    padding: var(--space-sm);
     padding-top: var(--space-lg);
+    padding-bottom: calc(var(--space-xl) + env(safe-area-inset-bottom));
     gap: var(--space-lg);
   }
 }
