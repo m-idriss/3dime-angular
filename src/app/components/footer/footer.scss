@@ -11,13 +11,11 @@
   padding: var(--space-lg) 0;
 
   /* Visual - follows theme and background like containers */
-  background: var(--primary-bg);
   backdrop-filter: blur(16px);
   border-top: 1px solid var(--glass-border);
 
   /* Typography */
   font-size: 0.75rem;
-  color: var(--text-primary);
   text-align: center;
 }
 
@@ -35,7 +33,6 @@
 
 /* Footer text */
 .footer-text {
-  color: var(--text-primary);
   white-space: nowrap;
 }
 
