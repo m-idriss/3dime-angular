@@ -211,6 +211,14 @@ body.dark-theme .expanded-card {
   }
 }
 
+/* Desktop layout - keep icon tiles aligned to right in left column */
+@media (min-width: 768px) {
+  :host.compact {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .icon-tile,
