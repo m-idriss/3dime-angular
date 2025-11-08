@@ -1,0 +1,113 @@
+<footer class="global-footer" aria-labelledby="footer-heading">
+  <div class="footer-container">
+    <!-- Footer Links Grid -->
+    <div class="footer-links">
+      <!-- Legal Section -->
+      <div class="footer-section">
+        <h3 class="footer-title">Legal</h3>
+        <ul class="footer-list" role="list">
+          @for (link of footerLinks.legal; track link.url) {
+            <li>
+              <a
+                [href]="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-link"
+                [attr.aria-label]="link.label"
+              >
+                <i [class]="'fas ' + link.icon" aria-hidden="true"></i>
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Community Section -->
+      <div class="footer-section">
+        <h3 class="footer-title">Community</h3>
+        <ul class="footer-list" role="list">
+          @for (link of footerLinks.community; track link.url) {
+            <li>
+              <a
+                [href]="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-link"
+                [attr.aria-label]="link.label"
+              >
+                <i [class]="'fas ' + link.icon" aria-hidden="true"></i>
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Documentation Section -->
+      <div class="footer-section">
+        <h3 class="footer-title">Documentation</h3>
+        <ul class="footer-list" role="list">
+          @for (link of footerLinks.docs; track link.url) {
+            <li>
+              <a
+                [href]="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-link"
+                [attr.aria-label]="link.label"
+              >
+                <i [class]="'fas ' + link.icon" aria-hidden="true"></i>
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Project Section -->
+      <div class="footer-section">
+        <h3 class="footer-title">Project</h3>
+        <ul class="footer-list" role="list">
+          @for (link of footerLinks.project; track link.url) {
+            <li>
+              <a
+                [href]="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-link"
+                [attr.aria-label]="link.label"
+              >
+                <i [class]="'fas ' + link.icon" aria-hidden="true"></i>
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="footer-info">
+        <span class="footer-text">© {{ currentYear }} 3dime-angular</span>
+        <span class="footer-separator" aria-hidden="true">•</span>
+        <span class="footer-text">Version {{ appVersion }}</span>
+        <span class="footer-separator" aria-hidden="true">•</span>
+        <span class="footer-text">Built with Angular 20+</span>
+      </div>
+      <div class="footer-credits">
+        <span class="footer-text">Made with ❤️ by </span>
+        <a
+          href="https://github.com/m-idriss"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-link inline"
+          aria-label="Visit Idriss Mohamady's GitHub profile"
+        >
+          Idriss Mohamady
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
