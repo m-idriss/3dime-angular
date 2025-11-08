@@ -15,19 +15,17 @@
         <span class="footer-separator" aria-hidden="true">•</span>
       }
     }
-    @if (releaseUrl) {
-      <a
-        [href]="releaseUrl"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="footer-link"
-        aria-label="View release {{ appVersion }}"
-      >
-        Version {{ appVersion }}
-      </a>
-    } @else {
-      <span class="footer-text">Version {{ appVersion }}</span>
-    }
+    <span class="footer-separator" aria-hidden="true">•</span>
+    <a
+      [href]="releaseUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="footer-link"
+      [attr.aria-label]="'View release ' + appVersion"
+    >
+      Version {{ appVersion }}
+    </a>
+    <span class="footer-separator" aria-hidden="true">•</span>
     <span class="footer-text">Made with ❤️ by 
       <a
         [href]="authorProfile"

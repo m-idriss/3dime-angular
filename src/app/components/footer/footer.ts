@@ -41,10 +41,16 @@ export class Footer implements OnInit {
   ];
 
   ngOnInit(): void {
+    // Always set a fallback release URL
+    this.releaseUrl = `${this.githubRepo}/releases/latest`;
+    
+    // Try to fetch actual release data
     this.githubService.getLatestRelease().subscribe((release) => {
       if (release?.tag_name) {
         this.appVersion = release.tag_name;
-        this.releaseUrl = release.html_url;
+        if (release.html_url) {
+          this.releaseUrl = release.html_url;
+        }
       }
     });
   }
