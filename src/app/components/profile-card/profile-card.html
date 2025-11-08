@@ -50,7 +50,13 @@
               <div class="dropdown-separator" role="separator"></div>
             }
 
-            <button class="dropdown-item theme-toggle" role="menuitem" (click)="cycleTheme()">
+            <button
+              class="dropdown-item theme-toggle"
+              role="menuitem"
+              (click)="cycleTheme()"
+              [appTooltip]="'Switch theme'"
+              appTooltipPlacement="left"
+            >
               <i
                 class="fas"
                 [class.fa-moon]="currentTheme === 'dark'"
@@ -63,7 +69,13 @@
 
             <div class="dropdown-separator" role="separator"></div>
 
-            <button class="dropdown-item video-bg-toggle" role="menuitem" (click)="toggleVideoBg()">
+            <button
+              class="dropdown-item video-bg-toggle"
+              role="menuitem"
+              (click)="toggleVideoBg()"
+              [appTooltip]="'Change background'"
+              appTooltipPlacement="left"
+            >
               <i
                 class="fas"
                 [class.fa-circle]="currentBackground === 'black'"
@@ -80,6 +92,8 @@
               class="dropdown-item font-size-toggle"
               role="menuitem"
               (click)="changeFontSize()"
+              [appTooltip]="'Adjust font size'"
+              appTooltipPlacement="left"
             >
               <i class="fas fa-text-height" aria-hidden="true"></i>
               <span>Font Size: {{ fontSizeDisplayName }}</span>
@@ -92,9 +106,8 @@
                 class="dropdown-item sign-out btn btn-danger"
                 role="menuitem"
                 (click)="signOut()"
-                ngbTooltip="Sign out of your account"
-                placement="left"
-                container="body"
+                [appTooltip]="'Sign out of your account'"
+                appTooltipPlacement="left"
               >
                 <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
                 <span>Sign Out</span>
@@ -113,6 +126,8 @@
           target="_blank"
           rel="noopener noreferrer"
           [attr.aria-label]="link.provider + ' profile'"
+          [appTooltip]="link.provider"
+          appTooltipPlacement="bottom"
         >
           <i [class]="getFontAwesomeLinks(link.provider)" aria-hidden="true"></i>
         </a>
