@@ -37,6 +37,5 @@ export class AppTooltipDirective implements OnInit {
     // Apply default configuration
     this.ngbTooltip.container = 'body';
     this.ngbTooltip.triggers = 'hover focus';
-    this.ngbTooltip.placement = this.appTooltipPlacement;
   }
 }
