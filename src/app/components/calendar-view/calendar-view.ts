@@ -51,7 +51,9 @@ export class CalendarView implements OnInit {
     eventDrop: this.handleEventDrop.bind(this),
     eventResize: this.handleEventResize.bind(this),
     eventClick: this.handleEventClick.bind(this),
-    height: 'auto',
+    height: '100%',
+    contentHeight: 'auto',
+    expandRows: true,
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
