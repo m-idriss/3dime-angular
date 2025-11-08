@@ -402,14 +402,14 @@
         </button>
       </nav>
     }
-
-    <!-- Calendar View Modal -->
-    <app-calendar-view
-      [events]="extractedEvents()"
-      [visible]="isCalendarViewVisible()"
-      (visibleChange)="handleCalendarVisibilityChange($event)"
-      (eventsChange)="handleCalendarEventsChange($event)"
-      (exportIcs)="handleCalendarExport()"
-    />
   }
 </app-card>
+
+<!-- Calendar View Modal - Outside card for full-width display -->
+<app-calendar-view
+  [events]="extractedEvents()"
+  [visible]="isCalendarViewVisible()"
+  (visibleChange)="handleCalendarVisibilityChange($event)"
+  (eventsChange)="handleCalendarEventsChange($event)"
+  (exportIcs)="handleCalendarExport()"
+/>
