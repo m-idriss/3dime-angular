@@ -11,9 +11,9 @@
   padding: var(--space-lg) 0;
 
   /* Visual - follows theme and background like containers */
-  background: var(--primary-bg);
+  //background: var(--primary-bg);
   backdrop-filter: blur(16px);
-  border-top: 1px solid var(--glass-border);
+  border-top: 1px solid var(--text-bg-alt);
 
   /* Typography */
   font-size: 0.75rem;
@@ -35,12 +35,13 @@
 /* Footer text */
 .footer-text {
   white-space: nowrap;
+  color: var(--text-bg);
 }
 
 /* Footer link */
 .footer-link {
   /* Typography */
-  color: var(--text-primary);
+  color: var(--text-bg);
   text-decoration: none;
   white-space: nowrap;
 
@@ -49,7 +50,7 @@
 
   /* Hover state */
   &:hover {
-    color: var(--accent-color);
+    color: var(--text-bg);
     text-decoration: underline;
   }
 
@@ -62,24 +63,23 @@
 
   /* Inline variant */
   &.inline {
-    color: var(--accent-color);
+    color: var(--text-bg);
 
     &:hover {
-      color: var(--text-primary);
+      color: var(--text-bg);
     }
   }
 }
 
 /* Footer separator */
 .footer-separator {
-  color: var(--text-primary);
+  color: var(--text-bg);
   opacity: 0.5;
   user-select: none;
 }
 
 /* Enhanced styling for dark theme - matches container behavior */
 body.dark-theme .global-footer {
-  background: var(--primary-bg);
   backdrop-filter: blur(20px);
 
   &:hover {
