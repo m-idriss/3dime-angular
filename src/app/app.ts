@@ -108,22 +108,20 @@ export class App implements OnInit {
    */
   toggleAllCards(): void {
     const shouldExpand = !this.allExpanded();
-    
-    // Expand or collapse all cards
-    if (shouldExpand) {
-      this.techStackCard?.expand();
-      this.experienceCard?.expand();
-      this.educationCard?.expand();
-      this.githubCard?.expand();
-      this.hobbiesCard?.expand();
-      this.stuffCard?.expand();
-    } else {
-      this.techStackCard?.collapse();
-      this.experienceCard?.collapse();
-      this.educationCard?.collapse();
-      this.githubCard?.collapse();
-      this.hobbiesCard?.collapse();
-      this.stuffCard?.collapse();
-    }
+    const cards = [
+      this.techStackCard,
+      this.experienceCard,
+      this.educationCard,
+      this.githubCard,
+      this.hobbiesCard,
+      this.stuffCard
+    ];
+    cards.forEach(card => {
+      if (shouldExpand) {
+        card?.expand();
+      } else {
+        card?.collapse();
+      }
+    });
   }
 }
