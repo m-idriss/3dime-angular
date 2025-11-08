@@ -1,4 +1,4 @@
-<app-card 
+<app-card
   title="Tech Stack"
   [showCollapseButton]="showCollapseButton"
   (collapseClicked)="onCardCollapseClick()"
@@ -19,7 +19,7 @@
           {{ tech.name }}
         </a>
       } @empty {
-        <p>No technologies available.</p>
+        <p class="empty-state">Technologies will be displayed here.</p>
       }
     }
   </nav>

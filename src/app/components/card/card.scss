@@ -10,7 +10,7 @@
   /* Box Model */
   width: 100%;
   max-width: 400px;
-  padding: var(--space-md);
+  padding: var(--space-lg);
 
   /* Typography */
   text-align: center;
@@ -37,9 +37,10 @@
 /* Enhanced blur for dark theme */
 body.dark-theme .container {
   backdrop-filter: blur(20px);
-  
+  border: 1px solid var(--glass-border);
+
   &:hover {
-    backdrop-filter: blur(28px);
+    backdrop-filter: blur(24px);
   }
 }
 
@@ -49,7 +50,7 @@ body.dark-theme .container {
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-lg);
 }
 
 /* Card title with gradient effect */
@@ -122,9 +123,10 @@ body.dark-theme .container {
     border-color: var(--accent-color);
   }
 
-  &:focus {
-    outline: 2px solid var(--accent-color);
-    outline-offset: 2px;
+  &:focus,
+  &:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 3px;
   }
 }
 
