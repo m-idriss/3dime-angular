@@ -99,6 +99,17 @@ body.glass-theme {
   --text-menu: #1a1a1a;
 }
 
+body.bg-white {
+    --text-bg : #000000;
+    --text-bg-alt : #1a1a1a;
+}
+
+body.bg-black,
+ body.bg-video{
+    --text-bg : #ffffff;
+    --text-bg-alt : #333333;
+}
+
 /* Glass theme with white background - adjust text for readability */
 body.glass-theme.bg-white {
   --text-primary: #1a1a1a;
