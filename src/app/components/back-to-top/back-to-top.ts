@@ -1,5 +1,5 @@
 import { Component, HostListener, signal } from '@angular/core';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { AppTooltipDirective } from '../../shared/directives';
 
 import { SCROLL_CONFIG } from '../../constants/app.constants';
 
@@ -10,7 +10,7 @@ import { SCROLL_CONFIG } from '../../constants/app.constants';
 @Component({
   selector: 'app-back-to-top',
   standalone: true,
-  imports: [NgbTooltipModule],
+  imports: [AppTooltipDirective],
   templateUrl: './back-to-top.html',
   styleUrl: './back-to-top.scss',
 })

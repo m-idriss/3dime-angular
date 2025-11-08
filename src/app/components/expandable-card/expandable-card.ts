@@ -1,5 +1,6 @@
 import { Component, Input, signal, HostBinding, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { AppTooltipDirective } from '../../shared/directives';
 
 /**
  * Expandable card component that can display in compact icon mode or full expanded mode.
@@ -8,7 +9,7 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-expandable-card',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, AppTooltipDirective],
   templateUrl: './expandable-card.html',
   styleUrl: './expandable-card.scss',
 })
