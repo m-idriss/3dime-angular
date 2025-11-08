@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, signal, OnInit, PLATFORM_ID, inject, ViewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs/operators';
@@ -19,6 +19,7 @@ import { TechStack } from './components/tech-stack/tech-stack';
 import { PWA_CONFIG } from './constants/pwa.constants';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ToastService } from './services/toast.service';
+import { AppTooltipDirective } from './shared/directives';
 
 @Component({
   selector: 'app-root',
@@ -38,8 +39,10 @@ import { ToastService } from './services/toast.service';
     TechStack,
     LayoutModule,
     NgbToastModule,
+    AppTooltipDirective,
   ],
   templateUrl: './app.html',
+  styleUrl: './app.scss',
 })
 export class App implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
@@ -48,6 +51,28 @@ export class App implements OnInit {
 
   protected readonly title = signal('3dime-angular');
   private deferredPrompt: BeforeInstallPromptEvent | null = null;
+
+  // ViewChild references to all expandable cards
+  @ViewChild('techStackCard', { read: ExpandableCard }) techStackCard!: ExpandableCard;
+  @ViewChild('experienceCard', { read: ExpandableCard }) experienceCard!: ExpandableCard;
+  @ViewChild('educationCard', { read: ExpandableCard }) educationCard!: ExpandableCard;
+  @ViewChild('githubCard', { read: ExpandableCard }) githubCard!: ExpandableCard;
+  @ViewChild('hobbiesCard', { read: ExpandableCard }) hobbiesCard!: ExpandableCard;
+  @ViewChild('stuffCard', { read: ExpandableCard }) stuffCard!: ExpandableCard;
+
+  /**
+   * Check if all cards are currently expanded
+   */
+  allExpanded(): boolean {
+    return (
+      this.techStackCard?.isExpanded() &&
+      this.experienceCard?.isExpanded() &&
+      this.educationCard?.isExpanded() &&
+      this.githubCard?.isExpanded() &&
+      this.hobbiesCard?.isExpanded() &&
+      this.stuffCard?.isExpanded()
+    );
+  }
 
   ngOnInit(): void {
     // Check for service worker updates
@@ -75,6 +100,30 @@ export class App implements OnInit {
         console.log('PWA was installed');
         this.deferredPrompt = null;
       });
+    }
+  }
+
+  /**
+   * Toggle all expandable cards between expanded and collapsed states
+   */
+  toggleAllCards(): void {
+    const shouldExpand = !this.allExpanded();
+    
+    // Expand or collapse all cards
+    if (shouldExpand) {
+      this.techStackCard?.expand();
+      this.experienceCard?.expand();
+      this.educationCard?.expand();
+      this.githubCard?.expand();
+      this.hobbiesCard?.expand();
+      this.stuffCard?.expand();
+    } else {
+      this.techStackCard?.collapse();
+      this.experienceCard?.collapse();
+      this.educationCard?.collapse();
+      this.githubCard?.collapse();
+      this.hobbiesCard?.collapse();
+      this.stuffCard?.collapse();
     }
   }
 }
