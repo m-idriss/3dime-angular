@@ -84,7 +84,7 @@ describe('CalendarView', () => {
   });
 
   it('should have calendar options configured', () => {
-    const options = component.calendarOptions();
+    const options = (component as any).calendarOptions();
     
     expect(options.editable).toBe(true);
     expect(options.selectable).toBe(true);
