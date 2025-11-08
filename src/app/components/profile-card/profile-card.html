@@ -7,7 +7,14 @@
     </div>
   } @else {
     <header class="profile-header">
-      <img [src]="avatar" alt="Profile avatar" class="logo" />
+      <a
+        [href]="mainUrl"
+        rel="noopener noreferrer"
+        aria-label="3dime official website"
+        class="logo-link"
+      >
+        <img [src]="avatar" alt="Profile avatar" class="logo" />
+      </a>
 
       <nav class="burger-menu" [class.active]="menuOpen" aria-label="Profile options">
         <button
