@@ -17,7 +17,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  margin-top: 70px;
+  margin-top: 0;
 
   /* Box Model */
   //width: 100%;
@@ -213,7 +213,6 @@ body.dark-theme .expanded-card {
   .icon-tile {
     //min-height: 70px;
     width: 100%;
-    margin-top: 0px;
 
     /* Hide icon on mobile */
     i.icon-display {
