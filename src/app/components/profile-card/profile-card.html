@@ -12,6 +12,8 @@
         rel="noopener noreferrer"
         aria-label="3dime official website"
         class="logo-link"
+        appTooltip="3dime Profile"
+        appTooltipPlacement="bottom"
       >
         <img [src]="avatar" alt="Profile avatar" class="logo" />
       </a>
@@ -24,6 +26,8 @@
           aria-label="Open profile menu"
           [attr.aria-expanded]="menuOpen"
           aria-haspopup="true"
+          appTooltip="Settings"
+          appTooltipPlacement="left"
         >
           @if (isAuthenticated && currentUser) {
             <img

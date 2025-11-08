@@ -1041,3 +1041,11 @@ body.font-large h3 {
 body.font-large h4 {
   font-size: 1.5rem;
 }
+
+/* ========================
+   Tooltip Z-Index Override
+   ======================== */
+/* Ensure tooltips appear above all other content, including dropdowns */
+::ng-deep .tooltip {
+  z-index: 10500 !important;
+}
