@@ -358,8 +358,17 @@
         </div>
       </section>
 
-      <!-- Download Button -->
+      <!-- Action Buttons -->
       <nav class="actions" aria-label="Calendar actions">
+        <button
+          class="action-button calendar-view btn btn-primary"
+          (click)="openCalendarView()"
+          aria-label="Open interactive calendar view"
+          appTooltip="View and edit events in an interactive calendar"
+          appTooltipPlacement="top"
+        >
+          📅 View Calendar
+        </button>
         <button
           class="action-button download btn btn-success"
           (click)="downloadIcs()"
@@ -380,5 +389,14 @@
         </button>
       </nav>
     }
+
+    <!-- Calendar View Modal -->
+    <app-calendar-view
+      [events]="extractedEvents()"
+      [visible]="isCalendarViewVisible()"
+      (visibleChange)="handleCalendarVisibilityChange($event)"
+      (eventsChange)="handleCalendarEventsChange($event)"
+      (exportIcs)="handleCalendarExport()"
+    />
   }
 </app-card>

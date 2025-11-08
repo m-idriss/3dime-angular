@@ -176,6 +176,15 @@
     transform: translateY(-2px);
   }
 
+  /* Calendar view button variant */
+  &.calendar-view {
+    background: linear-gradient(135deg, var(--accent-color), #6366f1);
+    
+    &:hover {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+    }
+  }
+
   /* Download button variant */
   &.download {
     background: var(--accent-color);

@@ -8,6 +8,7 @@ import { AppTooltipDirective } from '../../shared/directives';
 import { ConverterService, FileData } from '../../services/converter';
 import { ToastService } from '../../services/toast.service';
 import { Card } from '../card/card';
+import { CalendarView } from '../calendar-view';
 import { AuthAwareComponent } from '../base/auth-aware.component';
 import { CalendarEvent, BatchFile, BatchFileStatus } from '../../models';
 import { FILE_UPLOAD_CONSTRAINTS } from '../../constants';
@@ -15,7 +16,7 @@ import { getMonthDay } from '../../utils';
 
 @Component({
   selector: 'app-converter',
-  imports: [Card, FormsModule, CommonModule, NgbAccordionModule, NgbCollapseModule, AppTooltipDirective, NgbPopoverModule, NgbProgressbarModule],
+  imports: [Card, CalendarView, FormsModule, CommonModule, NgbAccordionModule, NgbCollapseModule, AppTooltipDirective, NgbPopoverModule, NgbProgressbarModule],
   templateUrl: './converter.html',
   styleUrl: './converter.scss',
 })
@@ -28,6 +29,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
   protected readonly isBatchDetailsCollapsed = signal(false);
+  protected readonly isCalendarViewVisible = signal(false); // Calendar view visibility
 
   // Computed values for batch processing
   protected readonly batchProgress = computed(() => {
@@ -696,5 +698,35 @@ export class Converter extends AuthAwareComponent implements OnInit {
     return ics.trim();
   }
 
+  // ⚡ Calendar View Methods
 
+  /**
+   * Open interactive calendar view
+   */
+  protected openCalendarView(): void {
+    this.isCalendarViewVisible.set(true);
+  }
+
+  /**
+   * Handle calendar view visibility change
+   */
+  protected handleCalendarVisibilityChange(visible: boolean): void {
+    this.isCalendarViewVisible.set(visible);
+  }
+
+  /**
+   * Handle events change from calendar view (drag & drop, resize)
+   */
+  protected handleCalendarEventsChange(updatedEvents: CalendarEvent[]): void {
+    this.extractedEvents.set(updatedEvents);
+    // Regenerate ICS content with updated events
+    this.regenerateIcsContent();
+  }
+
+  /**
+   * Handle export from calendar view
+   */
+  protected handleCalendarExport(): void {
+    this.downloadIcs();
+  }
 }
