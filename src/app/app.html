@@ -28,6 +28,18 @@
   }
 </div>
 
+<!-- Expand/Collapse All Button -->
+<button
+  class="expand-all-btn"
+  (click)="toggleAllCards()"
+  [attr.aria-label]="allExpanded() ? 'Collapse all cards' : 'Expand all cards'"
+  [appTooltip]="allExpanded() ? 'Collapse all cards' : 'Expand all cards'"
+  appTooltipPlacement="left"
+  type="button"
+>
+  <i [class]="allExpanded() ? 'fa fa-compress' : 'fa fa-expand'" aria-hidden="true"></i>
+</button>
+
 <main class="cards-container" aria-label="Main content" id="main-content">
   <!-- Left column - secondary cards (Tech Stack, Experience, Education) -->
   <div class="left-column">
