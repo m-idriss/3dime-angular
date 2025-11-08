@@ -156,7 +156,7 @@ export class GithubService {
    * @returns Observable of GitHub release data (returns empty object on timeout/error)
    */
   getLatestRelease(): Observable<GithubRelease> {
-    const url = `${environment.apiUrl}?target=release`;
+    const url = 'https://api.github.com/repos/m-idriss/3dime-angular/releases/latest';
     return this.http.get<GithubRelease>(url).pipe(
       timeout(API_TIMEOUT_MS),
       catchError((err) => {
