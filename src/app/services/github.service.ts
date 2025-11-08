@@ -44,6 +44,16 @@ export interface CommitData {
 }
 
 /**
+ * GitHub release interface
+ */
+export interface GithubRelease {
+  tag_name: string;
+  html_url: string;
+  name?: string;
+  published_at?: string;
+}
+
+/**
  * Service for fetching GitHub profile data and commit activity.
  * Uses caching with shareReplay to prevent duplicate API calls.
  *
@@ -136,5 +146,24 @@ export class GithubService {
    */
   refreshCommits(): void {
     this.commits$ = undefined;
+  }
+
+  /**
+   * Get latest release from GitHub repository.
+   * Fetches via backend API proxy to avoid CORS issues.
+   * Includes timeout to prevent hanging in restrictive network environments.
+   *
+   * @returns Observable of GitHub release data (returns empty object on timeout/error)
+   */
+  getLatestRelease(): Observable<GithubRelease> {
+    const url = 'https://api.github.com/repos/m-idriss/3dime-angular/releases/latest';
+    return this.http.get<GithubRelease>(url).pipe(
+      timeout(API_TIMEOUT_MS),
+      catchError((err) => {
+        console.warn('Release API call failed or timed out:', err.message || err);
+        return of({} as GithubRelease);
+      }),
+      shareReplay(1),
+    );
   }
 }
