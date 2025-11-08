@@ -150,13 +150,13 @@ export class GithubService {
 
   /**
    * Get latest release from GitHub repository.
-   * Fetches directly from GitHub API to get version information.
+   * Fetches via backend API proxy to avoid CORS issues.
    * Includes timeout to prevent hanging in restrictive network environments.
    *
    * @returns Observable of GitHub release data (returns empty object on timeout/error)
    */
   getLatestRelease(): Observable<GithubRelease> {
-    const url = 'https://api.github.com/repos/m-idriss/3dime-angular/releases/latest';
+    const url = `${environment.apiUrl}?target=release`;
     return this.http.get<GithubRelease>(url).pipe(
       timeout(API_TIMEOUT_MS),
       catchError((err) => {
