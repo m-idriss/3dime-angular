@@ -148,111 +148,210 @@
   overflow: auto;
 }
 
-/* FullCalendar Customization */
+/* Schedule-X Calendar Customization */
 ::ng-deep {
-  .fc {
-    /* Typography */
-    font-family: inherit;
-    font-size: 0.875rem;
-    
+  .sx__calendar-wrapper {
     /* Layout - ensure calendar takes full height */
     height: 100% !important;
-
-    /* Theme Colors */
-    --fc-border-color: var(--glass-border);
-    --fc-button-bg-color: var(--accent-color);
-    --fc-button-border-color: var(--accent-color);
-    --fc-button-hover-bg-color: #2563eb;
-    --fc-button-hover-border-color: #2563eb;
-    --fc-button-active-bg-color: #1d4ed8;
-    --fc-button-active-border-color: #1d4ed8;
-    --fc-event-bg-color: var(--accent-color);
-    --fc-event-border-color: var(--accent-color);
-    --fc-today-bg-color: rgba(59, 130, 246, 0.1);
+    font-family: inherit;
   }
 
-  .fc-theme-standard {
-    td,
-    th {
-      border-color: var(--glass-border);
+  /* Month Grid View */
+  .sx__month-grid-wrapper {
+    background: var(--primary-bg);
+    border-radius: var(--radius-md);
+  }
+
+  .sx__month-grid-day {
+    border-color: var(--glass-border);
+    
+    &:hover {
+      background: var(--glass-bg);
     }
   }
 
-  .fc-col-header-cell {
-    /* Typography */
-    font-weight: 600;
-    color: var(--text-primary);
-
-    /* Visual */
-    background: var(--glass-bg);
+  .sx__month-grid-day--is-today {
+    background: rgba(59, 130, 246, 0.1);
   }
 
-  .fc-daygrid-day-number {
-    /* Typography */
+  .sx__month-grid-day__header-date {
     color: var(--text-primary);
     font-weight: 500;
   }
 
-  .fc-day-today .fc-daygrid-day-number {
-    /* Visual */
+  .sx__month-grid-day--is-today .sx__month-grid-day__header-date {
     background: var(--accent-color);
     color: white;
     border-radius: var(--radius-sm);
     padding: 0.25rem 0.5rem;
   }
 
-  .fc-event {
-    /* Visual */
-    border-radius: var(--radius-sm);
-    padding: 2px 4px;
-    cursor: move;
-
-    /* Typography */
-    font-size: 0.75rem;
-    font-weight: 500;
-
-    /* Hover */
-    &:hover {
-      opacity: 0.9;
-    }
+  /* Week View */
+  .sx__week-grid-wrapper,
+  .sx__time-grid-wrapper {
+    background: var(--primary-bg);
+    border-radius: var(--radius-md);
   }
 
-  .fc-event-title {
-    /* Typography */
-    font-weight: 600;
+  .sx__time-grid-day {
+    border-color: var(--glass-border);
   }
 
-  .fc-timegrid-event {
-    /* Visual */
-    border-radius: var(--radius-sm);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  /* Header */
+  .sx__calendar-header {
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+    padding: var(--space-md);
   }
 
-  .fc-button {
-    /* Typography */
-    font-weight: 500;
-    text-transform: capitalize;
-
-    /* Visual */
-    border-radius: var(--radius-sm);
-    transition: all var(--t-fast);
-  }
-
-  .fc-toolbar-title {
-    /* Typography */
+  .sx__calendar-header-content__title {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-primary);
   }
 
-  .fc-daygrid-day-frame {
-    /* Visual */
+  .sx__week-grid-day__header {
+    background: var(--glass-bg);
+    border-color: var(--glass-border);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* Events */
+  .sx__event {
+    background: var(--accent-color);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--accent-color);
+    cursor: move;
+    transition: opacity var(--t-fast);
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .sx__event-title {
+    font-weight: 600;
+    font-size: 0.75rem;
+  }
+
+  .sx__month-grid-event {
+    background: var(--accent-color);
+    border-radius: var(--radius-sm);
+    padding: 2px 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .sx__time-grid-event {
+    border-radius: var(--radius-sm);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Buttons */
+  .sx__button {
+    background: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--radius-sm);
+    color: white;
+    font-weight: 500;
+    transition: all var(--t-fast);
+
+    &:hover {
+      background: #2563eb;
+      border-color: #2563eb;
+    }
+
+    &:active {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+  }
+
+  .sx__button--is-active {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+  }
+
+  .sx__button--secondary {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+
+    &:hover {
+      background: var(--glass-bg-hover);
+    }
+  }
+
+  /* View switcher */
+  .sx__view-selection-button {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all var(--t-fast);
+
+    &:hover {
+      background: var(--glass-bg-hover);
+    }
+
+    &.sx__is-selected {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: white;
+    }
+  }
+
+  /* Today marker in time grid */
+  .sx__time-grid-day--is-today {
+    background: rgba(59, 130, 246, 0.05);
+  }
+
+  /* Date picker */
+  .sx__date-picker {
+    background: var(--primary-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  .sx__date-picker-day {
+    color: var(--text-primary);
+
+    &:hover {
+      background: var(--glass-bg-hover);
+    }
+  }
+
+  .sx__date-picker-day--is-today {
+    background: var(--accent-color);
+    color: white;
+  }
+
+  /* Loading and empty states */
+  .sx__calendar-loading,
+  .sx__calendar-empty {
+    color: var(--text-secondary);
+  }
+
+  /* Scrollbar customization */
+  .sx__time-grid-scroll-container::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .sx__time-grid-scroll-container::-webkit-scrollbar-track {
     background: var(--primary-bg);
   }
 
-  .fc-daygrid-day-events {
-    /* Box Model */
-    margin-top: 0.25rem;
+  .sx__time-grid-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: var(--radius-sm);
+
+    &:hover {
+      background: var(--text-secondary);
+    }
   }
 }
 

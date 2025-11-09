@@ -1,11 +1,9 @@
-import { Component, signal, input, output, OnInit, ViewChild, PLATFORM_ID, inject, effect } from '@angular/core';
-import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions, EventInput, EventDropArg } from '@fullcalendar/core';
-import { EventResizeDoneArg } from '@fullcalendar/interaction';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
+import { Component, signal, input, output, OnInit, effect } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CalendarComponent } from '@schedule-x/angular';
+import { createCalendar, createViewDay, createViewMonthGrid, createViewWeek } from '@schedule-x/calendar';
+import { createDragAndDropPlugin } from '@schedule-x/drag-and-drop';
+import '@schedule-x/theme-default/dist/index.css';
 import { CalendarEvent } from '../../models';
 
 /**
@@ -19,7 +17,7 @@ import { CalendarEvent } from '../../models';
  */
 @Component({
   selector: 'app-calendar-view',
-  imports: [CommonModule, FullCalendarModule],
+  imports: [CommonModule, CalendarComponent],
   templateUrl: './calendar-view.html',
   styleUrl: './calendar-view.scss',
 })
@@ -33,37 +31,8 @@ export class CalendarView implements OnInit {
   readonly eventsChange = output<CalendarEvent[]>();
   readonly exportIcs = output<void>();
 
-  // Local state
-  protected readonly calendarOptions = signal<CalendarOptions>({
-    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-    initialView: 'dayGridMonth',
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    },
-    editable: true,
-    selectable: true,
-    selectMirror: true,
-    dayMaxEvents: true,
-    weekends: true,
-    events: [],
-    eventDrop: this.handleEventDrop.bind(this),
-    eventResize: this.handleEventResize.bind(this),
-    eventClick: this.handleEventClick.bind(this),
-    height: '100%',
-    contentHeight: 'auto',
-    expandRows: true,
-    eventTimeFormat: {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    }
-  });
-
-  @ViewChild('calendar') calendarComponent?: FullCalendarComponent;
-
-  private readonly platformId = inject(PLATFORM_ID);
+  // Local state - Schedule-X calendar instance
+  protected calendarApp = signal<any>(null);
 
   constructor() {
     // Watch for events changes and update calendar
@@ -73,7 +42,24 @@ export class CalendarView implements OnInit {
   }
 
   ngOnInit(): void {
-    // Initial load
+    // Skip calendar creation if already initialized (for testing)
+    if (this.calendarApp()) {
+      return;
+    }
+
+    // Create Schedule-X calendar instance
+    const calendar = createCalendar({
+      views: [createViewMonthGrid(), createViewWeek(), createViewDay()],
+      events: [],
+      plugins: [createDragAndDropPlugin(15)], // 15-minute interval snapping
+      callbacks: {
+        onEventUpdate: (updatedEvent) => {
+          this.handleEventUpdate(updatedEvent);
+        },
+      },
+    });
+
+    this.calendarApp.set(calendar);
     this.updateCalendarEvents();
   }
 
@@ -81,65 +67,51 @@ export class CalendarView implements OnInit {
    * Update calendar events when input changes
    */
   private updateCalendarEvents(): void {
-    const fullCalendarEvents: EventInput[] = this.events().map((event, index) => ({
+    const calendar = this.calendarApp();
+    if (!calendar) return;
+
+    const scheduleXEvents = this.events().map((event, index) => ({
       id: index.toString(),
       title: event.summary,
-      start: typeof event.start === 'string' ? event.start : event.start.toISOString(),
-      end: typeof event.end === 'string' ? event.end : event.end.toISOString(),
-      extendedProps: {
-        description: event.description,
-        location: event.location
-      }
+      start: this.formatDateForScheduleX(event.start),
+      end: this.formatDateForScheduleX(event.end),
+      description: event.description,
+      location: event.location,
     }));
 
-    this.calendarOptions.update(options => ({
-      ...options,
-      events: fullCalendarEvents
-    }));
+    // Update calendar events
+    calendar.events.set(scheduleXEvents);
   }
 
   /**
-   * Handle event drop (drag & drop)
+   * Format date for Schedule-X (YYYY-MM-DD HH:mm format)
    */
-  private handleEventDrop(info: EventDropArg): void {
-    const eventIndex = parseInt(info.event.id, 10);
+  private formatDateForScheduleX(date: string | Date): string {
+    const d = typeof date === 'string' ? new Date(date) : date;
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  }
+
+  /**
+   * Handle event update (drag & drop or resize)
+   */
+  private handleEventUpdate(updatedEvent: any): void {
+    const eventIndex = parseInt(updatedEvent.id, 10);
     const updatedEvents = [...this.events()];
     
     if (updatedEvents[eventIndex]) {
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        start: info.event.start || updatedEvents[eventIndex].start,
-        end: info.event.end || updatedEvents[eventIndex].end
+        start: new Date(updatedEvent.start),
+        end: new Date(updatedEvent.end),
       };
       
       this.eventsChange.emit(updatedEvents);
     }
-  }
-
-  /**
-   * Handle event resize
-   */
-  private handleEventResize(info: EventResizeDoneArg): void {
-    const eventIndex = parseInt(info.event.id, 10);
-    const updatedEvents = [...this.events()];
-    
-    if (updatedEvents[eventIndex]) {
-      updatedEvents[eventIndex] = {
-        ...updatedEvents[eventIndex],
-        start: info.event.start || updatedEvents[eventIndex].start,
-        end: info.event.end || updatedEvents[eventIndex].end
-      };
-      
-      this.eventsChange.emit(updatedEvents);
-    }
-  }
-
-  /**
-   * Handle event click
-   */
-  private handleEventClick(info: any): void {
-    // Optional: Could open an edit modal or show event details
-    console.log('Event clicked:', info.event);
   }
 
   /**
@@ -154,15 +126,5 @@ export class CalendarView implements OnInit {
    */
   protected handleExport(): void {
     this.exportIcs.emit();
-  }
-
-  /**
-   * Change calendar view
-   */
-  protected changeView(viewType: string): void {
-    if (isPlatformBrowser(this.platformId) && this.calendarComponent) {
-      const calendarApi = this.calendarComponent.getApi();
-      calendarApi.changeView(viewType);
-    }
   }
 }

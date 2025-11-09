@@ -21,10 +21,9 @@
         </div>
         
         <div class="calendar-container">
-          <full-calendar
-            #calendar
-            [options]="calendarOptions()"
-          ></full-calendar>
+          @if (calendarApp()) {
+            <sx-calendar [calendarApp]="calendarApp()"></sx-calendar>
+          }
         </div>
       </div>
 
