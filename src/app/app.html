@@ -158,3 +158,12 @@
 <app-back-to-top></app-back-to-top>
 
 <app-footer></app-footer>
+
+<!-- Calendar View Modal - At app root level for full viewport access -->
+<app-calendar-view
+  [events]="calendarStateService.events()"
+  [visible]="calendarStateService.isVisible()"
+  (visibleChange)="handleCalendarVisibilityChange($event)"
+  (eventsChange)="handleCalendarEventsChange($event)"
+  (exportIcs)="handleCalendarExport()"
+/>
