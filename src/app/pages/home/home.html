@@ -1,0 +1,56 @@
+<!-- Toast Container for Global Messages -->
+<div
+  class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
+  style="z-index: 12000;"
+>
+  <!-- Success Toast -->
+  @if (toastService.successMessage()) {
+    <ngb-toast
+      [autohide]="true"
+      [delay]="5000"
+      (hidden)="toastService.clearSuccess()"
+      class="bg-success text-white"
+    >
+      {{ toastService.successMessage() }}
+    </ngb-toast>
+  }
+
+  <!-- Error Toast -->
+  @if (toastService.errorMessage()) {
+    <ngb-toast
+      [autohide]="true"
+      [delay]="5000"
+      (hidden)="toastService.clearError()"
+      class="bg-danger text-white"
+    >
+      {{ toastService.errorMessage() }}
+    </ngb-toast>
+  }
+</div>
+
+<main class="home-page" aria-label="Main content">
+  <div class="home-container">
+    <div class="hero-section">
+      <h1 class="hero-title">
+        <span class="hero-icon">📅</span>
+        Calendar Converter App
+      </h1>
+      <p class="hero-description">
+        Upload or snap your appointments, and AI turns them into calendar-ready events.
+      </p>
+    </div>
+
+    <div class="converter-card">
+      <app-converter></app-converter>
+    </div>
+  </div>
+</main>
+
+<!-- Calendar View Modal -->
+<app-calendar-view
+  [events]="calendarStateService.events()"
+  [visible]="calendarStateService.isVisible()"
+  (visibleChange)="handleCalendarVisibilityChange($event)"
+  (eventsChange)="handleCalendarEventsChange($event)"
+  (exportIcs)="handleCalendarExport()"
+/>
