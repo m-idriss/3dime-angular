@@ -37,7 +37,7 @@ export class ThemeService {
   private readonly config: ThemeConfig = {
     THEME_MODES: ['dark', 'white', 'glass'],
     DEFAULT_THEME: 'white',
-    BACKGROUND_MODES: ['black', 'white', 'video'],
+    BACKGROUND_MODES: ['black', 'white'],
     DEFAULT_BACKGROUND: 'white',
     FONT_SIZES: ['normal', 'large', 'small'],
     DEFAULT_FONT_SIZE: 'small',
@@ -49,7 +49,6 @@ export class ThemeService {
     BACKGROUND_DISPLAY_NAMES: {
       black: 'Black Background',
       white: 'White Background',
-      video: 'Video Background',
     },
     FONT_SIZE_DISPLAY_NAMES: {
       normal: 'Normal',
@@ -72,12 +71,6 @@ export class ThemeService {
     this.applyTheme(this.currentTheme);
     this.applyBackground(this.currentBackground);
     this.applyFontSize(this.currentFontSize);
-
-    // Initialize video height adjustment if video background is active
-    if (this.currentBackground === 'video') {
-      // Use setTimeout to ensure DOM is ready
-      setTimeout(() => this.adjustVideoHeight(), 0);
-    }
   }
 
   getCurrentTheme(): string {
@@ -169,9 +162,6 @@ export class ThemeService {
         case 'white':
           this.updateThemeColor('#ffffff');
           break;
-        case 'video':
-          this.updateThemeColor('#1a1a2e');
-          break;
         default:
           this.updateThemeColor('#000000');
       }
@@ -185,20 +175,6 @@ export class ThemeService {
         bgElement.style.background = '#ffffff';
         body.classList.add('bg-white');
         this.updateThemeColor('#ffffff');
-        break;
-
-      case 'video':
-        bgElement.innerHTML = `
-          <video autoplay muted loop playsinline preload="none"
-                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 100dvh; min-width: 100vw; object-fit: cover; z-index: -1;"
-                 aria-hidden="true">
-            <source src="assets/background.mp4" type="video/mp4">
-          </video>
-        `;
-        bgElement.style.background = '#1a1a2e';
-        body.classList.add('bg-video');
-        this.updateThemeColor('#1a1a2e');
-        this.adjustVideoHeight();
         break;
 
       default: // 'black' and any other cases
@@ -220,24 +196,6 @@ export class ThemeService {
 
     // Add new font size class
     body.classList.add(`font-${fontSize}`);
-  }
-
-  private adjustVideoHeight(): void {
-    // Adjust video height for iOS Safari viewport issues
-    const video = document.querySelector('.bg video') as HTMLVideoElement;
-    if (video) {
-      const setVideoHeight = () => {
-        // Use window.innerHeight for the actual visible height
-        video.style.minHeight = `${window.innerHeight}px`;
-      };
-
-      // Set initial height
-      setVideoHeight();
-
-      // Update on resize and orientation change
-      window.addEventListener('resize', setVideoHeight);
-      window.addEventListener('orientationchange', setVideoHeight);
-    }
   }
 
   private updateThemeColor(color: string): void {
