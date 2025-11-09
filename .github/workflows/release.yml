@@ -39,7 +39,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0  # Fetch all history for changelog generation
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
@@ -59,24 +59,20 @@ jobs:
       - name: Determine current version
         id: current_version
         run: |
-          # Try to get version from git tags first (source of truth for releases)
-          # Use version sorting to get the latest tag regardless of branch history
           CURRENT_VERSION=$( (git tag --sort=-v:refname | head -1) 2>/dev/null || echo "")
 
           if [ -n "$CURRENT_VERSION" ]; then
-            CURRENT_VERSION=${CURRENT_VERSION#v}  # Remove 'v' prefix if present
-            echo "source=git_tag" >> $GITHUB_OUTPUT
+            CURRENT_VERSION=${CURRENT_VERSION#v}
+            echo "source=git_tag" >> "$GITHUB_OUTPUT"
           elif [ -f "package.json" ]; then
-            # Fallback to package.json if no tags exist
             CURRENT_VERSION=$(node -p "require('./package.json').version")
-            echo "source=package.json" >> $GITHUB_OUTPUT
+            echo "source=package.json" >> "$GITHUB_OUTPUT"
           else
-            # Final fallback
             CURRENT_VERSION="0.0.0"
-            echo "source=default" >> $GITHUB_OUTPUT
+            echo "source=default" >> "$GITHUB_OUTPUT"
           fi
 
-          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
           echo "Current version: $CURRENT_VERSION"
 
       - name: Calculate new version
@@ -86,13 +82,11 @@ jobs:
           VERSION_TYPE="${{ inputs.version_type }}"
           CUSTOM_VERSION="${{ inputs.custom_version }}"
 
-          # Parse current version
           IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
           MAJOR="${VERSION_PARTS[0]:-0}"
           MINOR="${VERSION_PARTS[1]:-0}"
           PATCH="${VERSION_PARTS[2]:-0}"
 
-          # Calculate new version based on type
           if [ "$VERSION_TYPE" = "custom" ]; then
             if [ -z "$CUSTOM_VERSION" ]; then
               echo "Error: Custom version not provided"
@@ -116,14 +110,13 @@ jobs:
             exit 1
           fi
 
-          # Validate new version format
           if ! [[ "$NEW_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Error: Invalid version format: $NEW_VERSION"
             exit 1
           fi
 
-          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "tag=v$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$NEW_VERSION" >> "$GITHUB_OUTPUT"
           echo "New version: $NEW_VERSION"
           echo "New tag: v$NEW_VERSION"
 
@@ -139,16 +132,12 @@ jobs:
       - name: Update package.json version
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
-
-          # Update version in package.json
           npm version "$NEW_VERSION" --no-git-tag-version --allow-same-version
-
           echo "Updated package.json to version $NEW_VERSION"
 
       - name: Commit version bump
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
-
           git add package.json package-lock.json
           git commit -m "chore: bump version to $NEW_VERSION" || echo "No changes to commit"
 
@@ -160,17 +149,14 @@ jobs:
         run: |
           TAG="${{ steps.new_version.outputs.tag }}"
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
-
           git tag -a "$TAG" -m "Release $NEW_VERSION"
           echo "Created tag: $TAG"
 
       - name: Push changes and tag
         run: |
           TAG="${{ steps.new_version.outputs.tag }}"
-
           git push origin HEAD:main
           git push origin "$TAG"
-
           echo "Pushed changes and tag to repository"
 
       - name: Generate changelog
@@ -180,48 +166,45 @@ jobs:
           PREV_TAG=$(git describe --tags --abbrev=0 "$TAG^" 2>/dev/null || echo "")
 
           if [ -z "$PREV_TAG" ]; then
-            echo "## What's New in $TAG" > CHANGELOG.md
-            echo "" >> CHANGELOG.md
-            echo "This is the first release! 🎉" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-            echo "### All Commits" >> CHANGELOG.md
-            git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
+            {
+              echo "## What's New in $TAG"
+              echo ""
+              echo "This is the first release! 🎉"
+              echo ""
+              echo "### All Commits"
+              git log --pretty=format:"- %s (%h)"
+            } > CHANGELOG.md
           else
-            echo "## What's New in $TAG" > CHANGELOG.md
-            echo "" >> CHANGELOG.md
-            echo "### Changes since $PREV_TAG" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-
-            # Group commits by type
-            echo "#### 🚀 Features" >> CHANGELOG.md
-            git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^feat" >> CHANGELOG.md || echo "- No new features" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-
-            echo "#### 🐛 Bug Fixes" >> CHANGELOG.md
-            git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^fix" >> CHANGELOG.md || echo "- No bug fixes" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-
-            echo "#### 📝 Documentation" >> CHANGELOG.md
-            git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^docs" >> CHANGELOG.md || echo "- No documentation changes" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-
-            echo "#### 🔧 Chores & Other Changes" >> CHANGELOG.md
-            git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^chore\|^refactor\|^style\|^test\|^perf" >> CHANGELOG.md || echo "- No other changes" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-
-            echo "#### 📦 All Commits" >> CHANGELOG.md
-            git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" >> CHANGELOG.md
+            {
+              echo "## What's New in $TAG"
+              echo ""
+              echo "### Changes since $PREV_TAG"
+              echo ""
+              echo "#### 🚀 Features"
+              git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^feat" || echo "- No new features"
+              echo ""
+              echo "#### 🐛 Bug Fixes"
+              git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^fix" || echo "- No bug fixes"
+              echo ""
+              echo "#### 📝 Documentation"
+              git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^docs" || echo "- No documentation changes"
+              echo ""
+              echo "#### 🔧 Chores & Other Changes"
+              git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^chore\|^refactor\|^style\|^test\|^perf" || echo "- No other changes"
+              echo ""
+              echo "#### 📦 All Commits"
+              git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)"
+            } > CHANGELOG.md
           fi
 
-          # Output for GitHub release
           cat CHANGELOG.md
 
-          # Set output for release creation (escape for GitHub Actions)
+          # Safe multi-line output for GitHub Actions
           {
-            echo 'changelog<<__CHANGELOG__DELIMITER__'
-            cat CHANGELOG.md
-            echo __CHANGELOG__DELIMITER__
-          } >> $GITHUB_OUTPUT
+            echo "changelog<<__CHANGELOG__DELIMITER__"
+            sed -e 's/\r$//' CHANGELOG.md
+            echo "__CHANGELOG__DELIMITER__"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
@@ -244,11 +227,11 @@ jobs:
 
       - name: Summary
         run: |
-          echo "## ✅ Release Created Successfully!" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: ${{ steps.new_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Tag**: ${{ steps.new_version.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Pre-release**: ${{ inputs.prerelease }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Build artifacts**: ${{ inputs.include_build_artifacts }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🔗 [View Release](https://github.com/${{ github.repository }}/releases/tag/${{ steps.new_version.outputs.tag }})" >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ Release Created Successfully!" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Version**: ${{ steps.new_version.outputs.version }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Tag**: ${{ steps.new_version.outputs.tag }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Pre-release**: ${{ inputs.prerelease }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Build artifacts**: ${{ inputs.include_build_artifacts }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "🔗 [View Release](https://github.com/${{ github.repository }}/releases/tag/${{ steps.new_version.outputs.tag }})" >> "$GITHUB_STEP_SUMMARY"
