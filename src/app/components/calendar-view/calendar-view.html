@@ -1,0 +1,50 @@
+<!-- Calendar View Modal Overlay -->
+@if (visible()) {
+  <div class="calendar-modal-overlay" (click)="close()" role="dialog" aria-modal="true" aria-labelledby="calendar-modal-title">
+    <div class="calendar-modal-content" (click)="$event.stopPropagation()">
+      <!-- Header -->
+      <div class="calendar-modal-header">
+        <h2 id="calendar-modal-title" class="calendar-modal-title">📅 Interactive Calendar View</h2>
+        <button
+          class="close-button"
+          (click)="close()"
+          aria-label="Close calendar view"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Calendar Body -->
+      <div class="calendar-modal-body">
+        <div class="calendar-instructions">
+          <p>✨ Drag events to reschedule • Resize to adjust duration • Click for details</p>
+        </div>
+        
+        <div class="calendar-container">
+          <full-calendar
+            #calendar
+            [options]="calendarOptions()"
+          ></full-calendar>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="calendar-modal-footer">
+        <button
+          class="action-btn export-btn"
+          (click)="handleExport()"
+          aria-label="Export calendar events to ICS file"
+        >
+          💾 Export Updated ICS
+        </button>
+        <button
+          class="action-btn close-btn"
+          (click)="close()"
+          aria-label="Close calendar view"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+}

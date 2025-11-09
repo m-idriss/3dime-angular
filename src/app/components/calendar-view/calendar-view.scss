@@ -1,0 +1,419 @@
+/* ========================
+   Calendar View Modal Styles
+   ======================== */
+
+/* Modal Overlay */
+.calendar-modal-overlay {
+  /* Positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Box Model */
+  padding: 0.5rem;
+
+  /* Visual */
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+
+  /* Animation */
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Modal Content */
+.calendar-modal-content {
+  /* Box Model */
+  width: 100%;
+  max-width: 95vw;
+  height: 98vh;
+  max-height: 98vh;
+  padding: 0;
+
+  /* Visual */
+  background: var(--primary-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card-hover), 0 20px 60px rgba(0, 0, 0, 0.5);
+
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  /* Animation */
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Modal Header */
+.calendar-modal-header {
+  /* Box Model */
+  padding: var(--space-md) var(--space-lg);
+
+  /* Visual */
+  background: var(--glass-bg);
+  border-bottom: 1px solid var(--glass-border);
+
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.calendar-modal-title {
+  /* Typography */
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.close-button {
+  /* Box Model */
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  /* Typography */
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--text-secondary);
+
+  /* Visual */
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+
+  /* Misc */
+  cursor: pointer;
+  transition: all var(--t-fast);
+
+  /* Hover */
+  &:hover {
+    background: var(--glass-bg-hover);
+    color: var(--badge-color);
+  }
+}
+
+/* Modal Body */
+.calendar-modal-body {
+  /* Box Model */
+  padding: var(--space-sm) var(--space-md);
+
+  /* Layout */
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-height: 0;
+}
+
+.calendar-instructions {
+  /* Box Model */
+  padding: var(--space-sm) var(--space-md);
+
+  /* Typography */
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-align: center;
+
+  /* Visual */
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+
+  p {
+    margin: 0;
+  }
+}
+
+.calendar-container {
+  /* Layout */
+  flex: 1;
+  min-height: 600px;
+  height: 100%;
+
+  /* Visual */
+  background: var(--primary-bg);
+  border-radius: var(--radius-md);
+  overflow: auto;
+}
+
+/* FullCalendar Customization */
+::ng-deep {
+  .fc {
+    /* Typography */
+    font-family: inherit;
+    font-size: 0.875rem;
+    
+    /* Layout - ensure calendar takes full height */
+    height: 100% !important;
+
+    /* Theme Colors */
+    --fc-border-color: var(--glass-border);
+    --fc-button-bg-color: var(--accent-color);
+    --fc-button-border-color: var(--accent-color);
+    --fc-button-hover-bg-color: #2563eb;
+    --fc-button-hover-border-color: #2563eb;
+    --fc-button-active-bg-color: #1d4ed8;
+    --fc-button-active-border-color: #1d4ed8;
+    --fc-event-bg-color: var(--accent-color);
+    --fc-event-border-color: var(--accent-color);
+    --fc-today-bg-color: rgba(59, 130, 246, 0.1);
+  }
+
+  .fc-theme-standard {
+    td,
+    th {
+      border-color: var(--glass-border);
+    }
+  }
+
+  .fc-col-header-cell {
+    /* Typography */
+    font-weight: 600;
+    color: var(--text-primary);
+
+    /* Visual */
+    background: var(--glass-bg);
+  }
+
+  .fc-daygrid-day-number {
+    /* Typography */
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .fc-day-today .fc-daygrid-day-number {
+    /* Visual */
+    background: var(--accent-color);
+    color: white;
+    border-radius: var(--radius-sm);
+    padding: 0.25rem 0.5rem;
+  }
+
+  .fc-event {
+    /* Visual */
+    border-radius: var(--radius-sm);
+    padding: 2px 4px;
+    cursor: move;
+
+    /* Typography */
+    font-size: 0.75rem;
+    font-weight: 500;
+
+    /* Hover */
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .fc-event-title {
+    /* Typography */
+    font-weight: 600;
+  }
+
+  .fc-timegrid-event {
+    /* Visual */
+    border-radius: var(--radius-sm);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .fc-button {
+    /* Typography */
+    font-weight: 500;
+    text-transform: capitalize;
+
+    /* Visual */
+    border-radius: var(--radius-sm);
+    transition: all var(--t-fast);
+  }
+
+  .fc-toolbar-title {
+    /* Typography */
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .fc-daygrid-day-frame {
+    /* Visual */
+    background: var(--primary-bg);
+  }
+
+  .fc-daygrid-day-events {
+    /* Box Model */
+    margin-top: 0.25rem;
+  }
+}
+
+/* Modal Footer */
+.calendar-modal-footer {
+  /* Box Model */
+  padding: var(--space-md) var(--space-lg);
+
+  /* Visual */
+  background: var(--glass-bg);
+  border-top: 1px solid var(--glass-border);
+
+  /* Layout */
+  display: flex;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.action-btn {
+  /* Box Model */
+  flex: 1;
+  padding: 0.75rem 1.25rem;
+
+  /* Typography */
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+
+  /* Visual */
+  border: none;
+  border-radius: var(--radius-md);
+
+  /* Misc */
+  cursor: pointer;
+  transition: all var(--t-fast);
+
+  /* Hover */
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+  }
+}
+
+.export-btn {
+  background: var(--accent-color);
+
+  &:hover {
+    background: #2563eb;
+  }
+}
+
+.close-btn {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+
+  &:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(0);
+  }
+}
+
+/* ========================
+   Animations
+   ======================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ========================
+   Responsive Styles
+   ======================== */
+@media (max-width: 768px) {
+  .calendar-modal-overlay {
+    padding: 0.25rem;
+  }
+
+  .calendar-modal-content {
+    max-width: 100vw;
+    height: 99vh;
+    max-height: 99vh;
+    border-radius: var(--radius-sm);
+  }
+
+  .calendar-modal-header {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .calendar-modal-title {
+    font-size: 1rem;
+  }
+
+  .calendar-modal-body {
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .calendar-container {
+    min-height: 500px;
+  }
+
+  .calendar-modal-footer {
+    padding: var(--space-sm) var(--space-md);
+    flex-direction: column;
+  }
+
+  ::ng-deep {
+    .fc-toolbar {
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .fc-toolbar-chunk {
+      margin: 0 !important;
+    }
+
+    .fc-button {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+    }
+
+    .fc-toolbar-title {
+      font-size: 1rem;
+    }
+  }
+}
+
+/* ========================
+   Accessibility
+   ======================== */
+.close-button:focus,
+.action-btn:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* ========================
+   Print Styles
+   ======================== */
+@media print {
+  .calendar-modal-overlay {
+    background: white;
+  }
+
+  .calendar-modal-header,
+  .calendar-modal-footer {
+    display: none;
+  }
+}

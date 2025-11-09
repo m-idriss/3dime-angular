@@ -188,6 +188,19 @@
 
     <!-- Extracted Events - Apple Calendar Style with Editing -->
     @if (extractedEvents().length > 0) {
+      <!-- Primary Action Button - Prominent Position -->
+      <div class="primary-actions">
+        <button
+          class="action-button calendar-view btn btn-primary"
+          (click)="openCalendarView()"
+          aria-label="Open interactive calendar view"
+          appTooltip="View and edit events in an interactive calendar"
+          appTooltipPlacement="top"
+        >
+          📅 View Calendar
+        </button>
+      </div>
+
       <section class="events-list" aria-labelledby="events-heading">
         <h3 id="events-heading" class="sr-only">Extracted Calendar Events</h3>
         <div ngbAccordion class="events-accordion">
@@ -358,8 +371,17 @@
         </div>
       </section>
 
-      <!-- Download Button -->
+      <!-- Action Buttons -->
       <nav class="actions" aria-label="Calendar actions">
+        <button
+          class="action-button calendar-view btn btn-primary"
+          (click)="openCalendarView()"
+          aria-label="Open interactive calendar view"
+          appTooltip="View and edit events in an interactive calendar"
+          appTooltipPlacement="top"
+        >
+          📅 View Calendar
+        </button>
         <button
           class="action-button download btn btn-success"
           (click)="downloadIcs()"
@@ -382,3 +404,12 @@
     }
   }
 </app-card>
+
+<!-- Calendar View Modal - Outside card for full-width display -->
+<app-calendar-view
+  [events]="extractedEvents()"
+  [visible]="isCalendarViewVisible()"
+  (visibleChange)="handleCalendarVisibilityChange($event)"
+  (eventsChange)="handleCalendarEventsChange($event)"
+  (exportIcs)="handleCalendarExport()"
+/>
