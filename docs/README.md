@@ -336,6 +336,8 @@ Going deeper into the architecture:
 - **Services Documented**: 3
 - **API Endpoints**: 5
 - **Firebase Functions**: 5
+- **Tests**: 61 (all passing)
+- **Angular Version**: 20.3.10
 
 ---
 
@@ -381,5 +383,5 @@ When updating documentation:
 
 ---
 
-_Last Updated: October 2025_  
-_Documentation Version: 1.0.0_
+_Last Updated: November 2025_  
+_Documentation Version: 1.1.0_

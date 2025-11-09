@@ -25,7 +25,7 @@ This is an Angular 20+ personal portfolio website showcasing professional experi
 ### Prerequisites and Setup
 - Install Node.js 20+ (Functions require Node 22 but work with 20)
 - Chrome/Chromium browser for testing
-- **NEVER CANCEL any build or test commands** - builds take 8+ seconds, tests take 12+ seconds
+- **NEVER CANCEL any build or test commands** - builds take ~14 seconds, tests execute in < 1 second
 
 ### Bootstrap the Repository
 ```bash
@@ -39,10 +39,10 @@ cd ..
 
 ### Build Process
 ```bash
-# Development build - takes ~8 seconds, NEVER CANCEL. Set timeout to 30+ seconds.
+# Development build - takes ~14 seconds, NEVER CANCEL. Set timeout to 30+ seconds.
 npm run build
 
-# Production build - takes ~8.5 seconds, NEVER CANCEL. Set timeout to 30+ seconds.
+# Production build - takes ~14 seconds, NEVER CANCEL. Set timeout to 30+ seconds.
 npm run build -- --configuration=production
 
 # Build Firebase Functions - takes ~6 seconds, NEVER CANCEL. Set timeout to 20+ seconds.
@@ -50,7 +50,8 @@ cd functions && npm run build
 ```
 
 **Expected Build Warnings (NORMAL):**
-- No warnings expected - budgets have been adjusted to match optimized production build
+- Bundle size warning: 2.04 MB exceeds 1.80 MB budget by 239.71 kB (tracked for optimization)
+- Converter styles warning: 13.38 kB exceeds 13.00 kB budget (acceptable)
 - CommonJS dependencies may cause optimization warnings - non-breaking
 
 ### Development Server
@@ -64,7 +65,7 @@ The application will be available at `http://localhost:4200/` with hot reload en
 
 ### Testing
 ```bash
-# Run tests with headless Chrome - takes ~12 seconds, NEVER CANCEL. Set timeout to 30+ seconds.
+# Run tests with headless Chrome - tests execute in < 1 second, NEVER CANCEL. Set timeout to 30+ seconds for build.
 CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false
 
 # Run tests in watch mode (interactive development)
@@ -72,8 +73,9 @@ npm test
 ```
 
 **Expected Test Behavior:**
-- All 31 tests pass successfully ✅
+- All 61 tests pass successfully ✅
 - Tests build and execute in headless Chrome
+- Test execution is very fast (< 1 second)
 - Test providers properly configured (HttpClient, SwUpdate mocked)
 
 ### Validation Steps
@@ -83,7 +85,7 @@ Always run these steps after making changes:
    ```bash
    npm run build
    ```
-   - Should complete in ~8 seconds with warnings (normal)
+   - Should complete in ~14 seconds with warnings (normal)
    - Check `dist/3dime-angular/` directory is created
 
 2. **Application Functionality:**
@@ -99,7 +101,7 @@ Always run these steps after making changes:
    ```bash
    CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false
    ```
-   - Should show "31 SUCCESS" with all tests passing
+   - Should show "61 SUCCESS" with all tests passing in < 1 second
 
 ### Code Formatting
 ```bash
@@ -142,10 +144,10 @@ src/
 ## Technology Stack
 
 ### Frontend
-- **Angular 20.2.2** with standalone components
-- **TypeScript 5.9+** for type safety
+- **Angular 20.3.10** with standalone components
+- **TypeScript 5.9.3** for type safety
 - **SCSS** for styling with modern CSS features and custom properties
-- **RxJS** for reactive programming
+- **RxJS 7.8.2** for reactive programming
 - **Glassmorphism** UI design with space theme
 
 ### Styling & Design

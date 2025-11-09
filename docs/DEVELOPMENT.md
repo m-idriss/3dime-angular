@@ -53,7 +53,7 @@
    npm run build
    ```
 
-   _Note: Takes ~8 seconds, never cancel builds_
+   _Note: Takes ~14 seconds, never cancel builds_
 
 ### Development Server
 
@@ -94,8 +94,8 @@ The application runs at `http://localhost:4200/` with hot reload enabled.
 4. **Make changes and test frequently**:
 
    ```bash
-   npm run build        # Validate build (8+ seconds)
-   npm test             # Run tests (12+ seconds)
+   npm run build        # Validate build (~14 seconds)
+   npm test             # Run tests (< 1 second in headless mode)
    ```
 
 5. **Commit changes**:
@@ -118,7 +118,7 @@ The application runs at `http://localhost:4200/` with hot reload enabled.
 npm run build
 ```
 
-- Takes ~8 seconds, set timeout to 30+ seconds
+- Takes ~14 seconds, set timeout to 30+ seconds
 - Outputs to `dist/3dime-angular/`
 - Includes source maps for debugging
 
@@ -128,14 +128,15 @@ npm run build
 npm run build -- --configuration=production
 ```
 
-- Takes ~8.5 seconds, set timeout to 30+ seconds
+- Takes ~14 seconds, set timeout to 30+ seconds
 - Optimized bundles with minification
 - Tree-shaking and dead code elimination
 
 #### Expected Build Warnings (NORMAL)
 
-- No warnings expected - budgets adjusted to match optimized build
-- CommonJS dependencies warnings - non-breaking
+- Bundle size warnings may appear (2.04 MB raw exceeds 1.80 MB budget by 239.71 kB)
+- Converter styles may slightly exceed budget (13.38 kB vs 13.00 kB budget)
+- These warnings are tracked and acceptable for the current feature set
 
 ### Testing
 
@@ -146,8 +147,8 @@ npm run build -- --configuration=production
 CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false
 ```
 
-- Takes ~12 seconds, set timeout to 30+ seconds
-- Expected: Some tests may fail due to HttpClient setup (normal)
+- Takes < 1 second to execute tests, set timeout to 30+ seconds for build
+- All tests pass successfully
 
 #### Watch Mode (Interactive)
 
@@ -160,8 +161,9 @@ npm test
 
 #### Expected Test Behavior
 
-- 7 total tests with 2 expected failures related to dependency injection
-- Tests build successfully in headless Chrome
+- **61 total tests** - all passing ✅
+- Tests build and execute in headless Chrome
+- Test execution is very fast (< 1 second)
 
 ### Code Formatting
 
@@ -612,9 +614,9 @@ test(components): add unit tests for ProfileCard
 
 ### Bundle Size
 
-- **Raw Size**: 1.23MB (optimized and minified)
-- **Transferred**: ~316KB (gzipped over network)
-- **Status**: Within budget limits
+- **Raw Size**: 2.04 MB (optimized and minified)
+- **Transferred**: 475.15 KB (gzipped over network)
+- **Status**: Slightly exceeds budget (tracked for optimization)
 
 ### Optimization Techniques
 
