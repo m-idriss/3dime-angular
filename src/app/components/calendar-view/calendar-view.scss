@@ -157,11 +157,11 @@
   height: auto;
   max-height: calc(90vh - var(--calendar-header-footer-height));
 
-  /* Visual - Enhanced dark theme with better readability */
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.98), rgba(45, 55, 72, 0.98));
+  /* Visual - Lighter background for better cell visibility */
+  background: linear-gradient(135deg, rgba(51, 65, 85, 0.95), rgba(71, 85, 105, 0.95));
   border-radius: var(--radius-md);
-  border: 1px solid rgba(var(--gradient-blue), 0.3);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(var(--gradient-blue), 0.4);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
   overflow: auto;
 }
 
@@ -191,28 +191,36 @@
   .fc-theme-standard {
     td,
     th {
-      border-color: rgba(var(--gradient-blue), 0.15);
+      border-color: rgba(var(--gradient-blue), 0.25);
+      border-width: 1px;
     }
   }
 
   .fc-col-header-cell {
-    /* Typography - Enhanced for readability */
-    font-weight: 700;
-    font-size: 0.9rem;
+    /* Typography - Very bold and clear */
+    font-weight: 800;
+    font-size: 0.95rem;
     color: white;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    padding: 0.75rem 0.5rem;
 
-    /* Visual - Enhanced header with stronger gradient */
-    background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.25), rgba(var(--gradient-indigo), 0.18));
-    border-bottom: 2px solid rgba(var(--gradient-blue), 0.4) !important;
+    /* Visual - Strong gradient for clear header distinction */
+    background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.35), rgba(var(--gradient-indigo), 0.28));
+    border-bottom: 3px solid rgba(var(--gradient-blue), 0.5) !important;
   }
 
   .fc-daygrid-day-number {
-    /* Typography - Increased size and weight for better readability */
-    color: rgba(255, 255, 255, 0.95);
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    /* Typography - Very prominent for maximum readability */
+    color: rgba(255, 255, 255, 1);
+    font-size: 1rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .fc-day-other .fc-daygrid-day-number {
+    /* Dimmed for days from other months */
+    color: rgba(255, 255, 255, 0.4);
   }
 
   .fc-day-today .fc-daygrid-day-number {
@@ -294,13 +302,19 @@
   }
 
   .fc-daygrid-day-frame {
-    /* Visual - Enhanced background for better cell distinction */
-    background: rgba(var(--gradient-blue), 0.04);
+    /* Visual - Much more visible cell backgrounds */
+    background: rgba(255, 255, 255, 0.03);
+    min-height: 80px;
     
     &:hover {
-      background: rgba(var(--gradient-blue), 0.08);
-      border-color: rgba(var(--gradient-blue), 0.35);
+      background: rgba(var(--gradient-blue), 0.12);
+      border-color: rgba(var(--gradient-blue), 0.45);
     }
+  }
+  
+  .fc-day-other .fc-daygrid-day-frame {
+    /* Slightly darker background for days from other months */
+    background: rgba(0, 0, 0, 0.15);
   }
 
   .fc-daygrid-day-events {
