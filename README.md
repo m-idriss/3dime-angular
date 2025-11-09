@@ -377,6 +377,38 @@ The project includes automated deployment via GitHub Actions:
    - Build production version
    - Deploy via FTP to your server
 
+### Creating Releases
+
+The project includes an automated release workflow that creates tags and GitHub releases without needing the CLI:
+
+**Via GitHub Actions (Recommended)**:
+
+1. Navigate to **Actions** → **🏷️ Create Tag and Release** in your GitHub repository
+2. Click **Run workflow** and configure:
+   - **Version bump type**: Choose `patch` (0.0.x), `minor` (0.x.0), `major` (x.0.0), or `custom`
+   - **Custom version**: If you selected "custom", enter version like `1.2.3`
+   - **Pre-release**: Check if this is a pre-release (beta, alpha, etc.)
+   - **Include build artifacts**: Check to attach compiled build files to the release
+3. Click **Run workflow** to create the release
+
+**What the workflow does**:
+- ✅ Auto-detects current version from `package.json` or git tags
+- ✅ Calculates and validates new version number
+- ✅ Updates `package.json` with new version
+- ✅ Creates annotated git tag (e.g., `v1.2.3`)
+- ✅ Generates changelog with commit categorization
+- ✅ Creates GitHub release with release notes
+- ✅ Optionally builds and attaches artifacts
+- ✅ Pushes changes to main branch
+
+**Version Bump Examples**:
+- `patch`: 1.0.0 → 1.0.1 (bug fixes, small changes)
+- `minor`: 1.0.0 → 1.1.0 (new features, backwards compatible)
+- `major`: 1.0.0 → 2.0.0 (breaking changes)
+- `custom`: Specify any version like 2.5.0
+
+📚 **For detailed instructions, examples, and troubleshooting, see [RELEASE_GUIDE.md](RELEASE_GUIDE.md)**
+
 ### Manual Deployment
 
 #### Static Hosts (Netlify, Vercel)
