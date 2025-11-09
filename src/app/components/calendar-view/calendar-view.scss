@@ -60,7 +60,7 @@
   padding: var(--space-md) var(--space-lg);
 
   /* Visual - Enhanced glassmorphism */
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.05));
+  background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.1), rgba(var(--gradient-indigo), 0.05));
   border-bottom: 1px solid var(--glass-border);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -107,7 +107,7 @@
     background: var(--glass-bg-hover);
     color: var(--badge-color);
     border-color: var(--badge-color);
-
+    
     @media (prefers-reduced-motion: no-preference) {
       transform: rotate(90deg);
     }
@@ -138,8 +138,8 @@
   text-align: center;
 
   /* Visual - Enhanced glassmorphism */
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(99, 102, 241, 0.08));
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.08), rgba(var(--gradient-indigo), 0.08));
+  border: 1px solid rgba(var(--gradient-blue), 0.2);
   border-radius: var(--radius-md);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -155,7 +155,7 @@
   flex: 1;
   min-height: 500px;
   height: auto;
-  max-height: calc(90vh - 250px);
+  max-height: calc(90vh - var(--calendar-header-footer-height));
 
   /* Visual */
   background: var(--primary-bg);
@@ -177,13 +177,13 @@
     --fc-border-color: var(--glass-border);
     --fc-button-bg-color: var(--accent-color);
     --fc-button-border-color: var(--accent-color);
-    --fc-button-hover-bg-color: #2563eb;
-    --fc-button-hover-border-color: #2563eb;
-    --fc-button-active-bg-color: #1d4ed8;
-    --fc-button-active-border-color: #1d4ed8;
+    --fc-button-hover-bg-color: var(--color-blue-600);
+    --fc-button-hover-border-color: var(--color-blue-600);
+    --fc-button-active-bg-color: var(--color-blue-700);
+    --fc-button-active-border-color: var(--color-blue-700);
     --fc-event-bg-color: var(--accent-color);
     --fc-event-border-color: var(--accent-color);
-    --fc-today-bg-color: rgba(59, 130, 246, 0.1);
+    --fc-today-bg-color: rgba(var(--gradient-blue), 0.1);
   }
 
   .fc-theme-standard {
@@ -261,9 +261,11 @@
       font-weight: 700;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       
-      &:hover {
-        transform: scale(1.1);
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+      @media (prefers-reduced-motion: no-preference) {
+        &:hover {
+          transform: scale(1.1);
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+        }
       }
     }
   }
@@ -292,7 +294,7 @@
   padding: var(--space-md) var(--space-lg);
 
   /* Visual - Enhanced glassmorphism */
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(99, 102, 241, 0.1));
+  background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.05), rgba(var(--gradient-indigo), 0.1));
   border-top: 1px solid var(--glass-border);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -329,12 +331,12 @@
 }
 
 .export-btn {
-  background: linear-gradient(135deg, var(--accent-color), #6366f1);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, var(--accent-color), var(--color-indigo-500));
+  box-shadow: 0 2px 8px rgba(var(--gradient-blue), 0.3);
 
   &:hover {
-    background: linear-gradient(135deg, #2563eb, #4f46e5);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, var(--color-blue-600), var(--color-indigo-600));
+    box-shadow: 0 4px 12px rgba(var(--gradient-blue), 0.4);
   }
 }
 
@@ -404,7 +406,7 @@
 
   .calendar-container {
     min-height: 400px;
-    max-height: calc(95vh - 220px);
+    max-height: calc(95vh - var(--calendar-header-footer-height-mobile));
   }
 
   .calendar-modal-footer {
