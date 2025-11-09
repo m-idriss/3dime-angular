@@ -161,7 +161,9 @@ jobs:
 
       - name: Generate changelog
         id: changelog
+        shell: bash
         run: |
+          set -e
           TAG="${{ steps.new_version.outputs.tag }}"
           PREV_TAG=$(git describe --tags --abbrev=0 "$TAG^" 2>/dev/null || echo "")
 
@@ -197,14 +199,13 @@ jobs:
             } > CHANGELOG.md
           fi
 
+          echo "---- CHANGELOG.md ----"
           cat CHANGELOG.md
+          echo "----------------------"
 
-          # Safe multi-line output for GitHub Actions
-          {
-            echo "changelog<<__CHANGELOG__DELIMITER__"
-            sed -e 's/\r$//' CHANGELOG.md
-            echo "__CHANGELOG__DELIMITER__"
-          } >> "$GITHUB_OUTPUT"
+          # ✅ Safely export multi-line changelog output (no delimiter issues)
+          CHANGELOG=$(awk '{printf "%s\\n", $0}' CHANGELOG.md)
+          echo "changelog=$CHANGELOG" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
