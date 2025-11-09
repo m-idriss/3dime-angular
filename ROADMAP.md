@@ -1,10 +1,10 @@
 # 3dime-angular Portfolio - Project Roadmap
 
-> **Personal Portfolio Website for Idriss** - A modern Angular 20+ application showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design.
+> **Personal Portfolio Website for Idriss** - A modern Angular 20.3+ application showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design.
 
 ![Current Portfolio](https://github.com/user-attachments/assets/3a35c572-1e43-4b25-9bf6-12a5a804eaac)
 
-## 🎉 Recent Achievements (Q4 2025)
+## 🎉 Recent Achievements (2025)
 
 ### Major Features Delivered
 - ✅ **PWA Implementation** - Full Progressive Web App support
@@ -30,31 +30,35 @@
 ## 📋 Current State Analysis
 
 ### ✅ What's Working Well
-- **Modern Angular 20.3** architecture with standalone components
+- **Modern Angular 20.3.10** architecture with standalone components
 - **Progressive Web App** with full PWA support and installability
 - **Beautiful space-themed UI** with glassmorphism effects
 - **Responsive design** with mobile-first approach
-- **Comprehensive sections**: Profile, About, Tech Stack, GitHub Activity, Experience, Education, Calendar Converter, Stuff, Hobbies, Contact
-- **Clean component structure** with proper separation of concerns
+- **Comprehensive sections**: Profile, About, Tech Stack, GitHub Activity, Experience, Education, Calendar Converter, Stuff, Hobbies, Contact, Footer
+- **Clean component structure** with proper separation of concerns and reusable components
 - **SCSS styling** with CSS custom properties and modern features
-- **Build system** working efficiently (~10s build time)
+- **Build system** working efficiently (~13s build time)
 - **Firebase integration** for Authentication and Functions
+- **Advanced UI components**: Skeleton loaders, expandable cards, calendar view, back-to-top button
 
 ### 🔧 Technical Stack
-- **Frontend**: Angular 20.3.1, TypeScript 5.9+, SCSS
-- **Build**: Angular CLI with esbuild bundler
+- **Frontend**: Angular 20.3.10, TypeScript 5.9.3, SCSS
+- **Build**: Angular CLI 20.3.9 with esbuild bundler
 - **Backend**: Firebase Functions, Firebase Authentication
 - **PWA**: Angular Service Worker with caching
 - **AI Integration**: OpenAI GPT-4 Vision API
 - **Styling**: Modern CSS with custom properties, glassmorphism effects
-- **Dependencies**: RxJS 7.8+, Firebase 11.10, PDF.js 5.4, cal-heatmap 4.2
+- **Dependencies**: RxJS 7.8+, Firebase 12.5, PDF.js 5.4, cal-heatmap 4.2, ical.js 2.2
 - **Testing**: Jasmine + Karma, Bruno API collection
+- **UI Libraries**: Bootstrap 5.3.8, Angular CDK 20.2, FullCalendar 6.1
+
+---
 
 ---
 
 ## 🗓️ Roadmap Timeline
 
-## Phase 1: Foundation & Content Enhancement (Q4 2025 - Completed)
+## Phase 1: Foundation & Content Enhancement (2025 - Completed ✅)
 
 ### ✅ Completed Goals
 
@@ -98,112 +102,241 @@
 - [x] **Code formatting** - Prettier configuration in package.json
 - [x] **Bruno API collection** - API testing with Bruno CLI
 
-### 🎯 Remaining Short-term Goals (1-2 months)
+### 🎯 Short-term Goals (Q1 2026 - Next 3 months)
 
-#### Technical Improvements
-- [ ] **Calendar Converter enhancements**
-  - [x] Batch processing of multiple files ✅ (Completed Oct 2025)
-  - [x] Event editing before download
-  - [ ] Multiple calendar format support (Google, Outlook)
-  - [ ] OCR for handwritten calendar entries
-- [x] **Image optimization** ✅ (Completed Oct 2025)
-  - [x] Implement lazy loading for images
-  - [ ] Add image compression pipeline
-  - [ ] Optimize image formats (WebP, AVIF)
-- [x] **SEO enhancements** ✅ (Completed Oct 2025)
-  - [x] Add meta tags and structured data
-  - [x] Implement proper heading hierarchy
-- [x] **Accessibility improvements** ✅ (Completed Oct 2025)
-  - [x] Audit and fix color contrast ratios
-  - [x] Enhance keyboard navigation
-  - [x] Add ARIA labels where missing
-  - [ ] Test with screen readers
-- [x] **Security enhancements** - Basic implementation
-  - [x] Firebase Authentication for sensitive features
-  - [x] Environment variable management
-  - [ ] Content Security Policy (CSP) headers
-  - [ ] Rate limiting on API endpoints
+#### Calendar Converter Enhancements
+- [ ] **Export format support**
+  - [ ] Google Calendar import format
+  - [ ] Outlook/Microsoft 365 format
+  - [ ] Apple Calendar format
+  - [ ] Multiple format download options
+- [ ] **OCR integration**
+  - [ ] Handwritten calendar entries support
+  - [ ] Support for scanned documents
+  - [ ] Multi-language OCR capabilities
+- [ ] **Batch processing improvements**
+  - [ ] Progress tracking per file
+  - [ ] Error recovery and retry logic
+  - [ ] Parallel processing optimization
+
+#### Image & Media Optimization
+- [ ] **Advanced image handling**
+  - [ ] WebP and AVIF format support
+  - [ ] Automatic image compression pipeline
+  - [ ] Responsive image srcset implementation
+  - [ ] Image CDN integration (Cloudflare/Cloudinary)
+- [ ] **Video content support**
+  - [ ] Video showcase section for projects
+  - [ ] Lazy loading for video content
+  - [ ] Thumbnail generation
+
+#### Security Hardening
+- [ ] **Enhanced security measures**
+  - [ ] Content Security Policy (CSP) headers implementation
+  - [ ] Rate limiting on Firebase Functions
   - [ ] HTTPS enforcement in production
-  - 
+  - [ ] Security headers (HSTS, X-Frame-Options)
+  - [ ] Input validation and sanitization review
+  - [ ] Dependency vulnerability scanning automation
+
 #### Development Experience
-- [x] **Testing infrastructure**
-  - [x] Fix current test failures (HttpClient provider setup)
+- [ ] **Testing expansion**
+  - [ ] Increase test coverage to >80%
   - [ ] Add component integration tests
-  - [ ] Set up E2E testing framework
-- [x] **Code quality** ✅ (Completed Oct 2025)
-  - [x] Set up ESLint configuration
+  - [ ] Set up E2E testing with Playwright/Cypress
+  - [ ] Visual regression testing
+- [ ] **Code quality automation**
   - [ ] Implement pre-commit hooks with Husky
+  - [ ] Automatic code formatting on save
+  - [ ] Commit message linting
+  - [ ] PR quality checks automation
 
-## Phase 2: Feature Enhancement & Interactivity (Q1-Q2 2026)
+#### Accessibility Excellence
+- [ ] **WCAG 2.1 Level AA Compliance**
+  - [ ] Complete accessibility audit with axe DevTools
+  - [ ] Screen reader testing (NVDA, JAWS, VoiceOver)
+  - [ ] Keyboard navigation improvements
+  - [ ] Focus management optimization
+  - [ ] Color contrast ratio verification for all components
 
-### 🚀 Medium-term Goals (3-6 months)
+## Phase 2: Feature Enhancement & Interactivity (Q2-Q3 2026)
 
-#### New Features
-- [ ] **Dynamic content management**
+### 🚀 Medium-term Goals (3-6 months from now)
+
+#### Content Management & Internationalization
+- [ ] **CMS Integration**
+  - [ ] Headless CMS integration (Strapi, Sanity, or Contentful)
   - [ ] JSON-based content configuration
-  - [ ] Easy content updates without code changes
-  - [ ] Multi-language support preparation
-- [x] **Enhanced GitHub integration** - Partially implemented
-  - [x] GitHub API integration with profile service
-  - [x] Contribution statistics with cal-heatmap
-  - [ ] Repository showcase with descriptions
-  - [ ] Recent commits feed with detailed information
-- [ ] **Contact enhancement**
-  - [x] Social media integration (already in profile card)
-  - [ ] Calendar booking integration
+  - [ ] Easy content updates without code deployment
+  - [ ] Content versioning and rollback
+- [ ] **Internationalization (i18n)**
+  - [ ] Multi-language support setup (@angular/localize)
+  - [ ] English and French language support
+  - [ ] Language switcher component
+  - [ ] RTL support preparation
+  - [ ] Locale-based date/time formatting
 
-#### User Experience
-- [ ] **Advanced animations**
-  - [ ] Scroll-triggered animations
-  - [ ] Micro-interactions for better UX
-  - [x] Loading states and transitions (basic implementation)
-- [ ] **Theme system**
-  - [ ] Dark/light mode toggle
-  - [ ] Multiple color schemes
-  - [ ] User preference persistence
-- [ ] **Navigation improvements**
-  - [ ] Smooth scrolling between sections
-  - [ ] Section highlighting on scroll
-  - [x] Back-to-top button (already implemented)
-  - [ ] Mobile-friendly navigation menu
+#### Enhanced Integrations
+- [ ] **Advanced GitHub features**
+  - [ ] Repository showcase with live stats
+  - [ ] Recent commits feed with commit details
+  - [ ] Pull request activity visualization
+  - [ ] GitHub Actions workflow status display
+  - [ ] Code statistics and language breakdown
+- [ ] **Professional networking**
+  - [ ] LinkedIn API integration for live experience updates
+  - [ ] Twitter/X feed integration
+  - [ ] Dev.to/Medium blog post aggregation
+  - [ ] Calendly/Cal.com booking integration
+- [ ] **Analytics & Insights**
+  - [ ] Visitor analytics (privacy-focused with Plausible or Umami)
+  - [ ] Portfolio performance metrics
+  - [ ] Popular sections tracking
+  - [ ] Geographic visitor distribution
 
-#### Technical Architecture
-- [ ] **State management**
-  - [ ] Implement Angular signals for reactive state
-  - [ ] Component communication optimization
-- [x] **PWA features** - Fully implemented
-  - [x] Service worker implementation with ngsw-config.json
-  - [x] Offline functionality with caching
-  - [x] App manifest and installability
-  - [x] Share target and app shortcuts
-- [x] **API integration layer** - Implemented
-  - [x] HTTP client with Firebase integration
-  - [x] Error handling and retry logic
-  - [x] Caching strategies with shareReplay
+#### User Experience & Interaction
+- [ ] **Advanced animations and transitions**
+  - [ ] GSAP or Framer Motion integration
+  - [ ] Scroll-triggered animations (Intersection Observer API)
+  - [ ] Page transition animations
+  - [ ] Parallax scrolling effects
+  - [ ] Interactive particle system improvements
+  - [ ] Enhanced micro-interactions
+- [ ] **Theme system evolution**
+  - [ ] Dark/light mode toggle with smooth transition
+  - [ ] Multiple color scheme presets (Space, Ocean, Forest, Sunset)
+  - [ ] User preference persistence in localStorage
+  - [ ] System preference detection (prefers-color-scheme)
+  - [ ] Custom theme builder for visitors
+- [ ] **Navigation & UX improvements**
+  - [ ] Smooth scrolling between sections with easing
+  - [ ] Active section highlighting in navigation
+  - [ ] Sticky navigation header
+  - [ ] Mobile-friendly hamburger menu
+  - [ ] Breadcrumb navigation for complex sections
+  - [ ] Quick jump navigation sidebar
+  - [ ] Search functionality for content
 
-## Phase 3: Advanced Features & Optimization (Q3-Q4 2026)
+#### Technical Architecture & State Management
+- [ ] **Advanced state management**
+  - [ ] Migrate to Angular Signals throughout the app
+  - [ ] Implement RxJS interop for Signal/Observable integration
+  - [ ] Component communication with Signal-based services
+  - [ ] Global state management with Signal Store (NgRx SignalStore)
+  - [ ] Undo/redo functionality for converter
+- [ ] **PWA enhancements** (Current: Fully implemented ✅)
+  - [ ] Push notification support
+  - [ ] Background sync for offline actions
+  - [ ] Periodic background sync
+  - [ ] Web Share API Level 2 features
+  - [ ] Advanced caching strategies (network-first, cache-first hybrid)
+  - [ ] PWA install prompt customization
+- [ ] **API layer improvements**
+  - [ ] GraphQL integration consideration
+  - [ ] Real-time data with Firebase Realtime Database or Firestore
+  - [ ] API request batching
+  - [ ] Optimistic updates for better UX
+  - [ ] Advanced error handling with retry strategies
 
-### 🔮 Long-term Goals (6-12 months)
+## Phase 3: Advanced Features & Innovation (Q4 2026 - Q1 2027)
 
-#### Advanced Features
-- [ ] **Interactive resume**
-  - [ ] PDF download functionality
-  - [ ] Multiple resume formats
-  - [ ] Customizable templates
+### 🔮 Long-term Goals (6-12 months from now)
 
-#### Technical Excellence
-- [x] **Performance optimization** - Core optimizations completed
-  - [x] Caching strategies with service worker
-  - [ ] Image optimization pipeline
-  - [ ] Critical CSS inlining
-  - [ ] Further bundle optimization and code splitting
-- [ ] **Monitoring and observability**
-  - [ ] Error tracking integration (Sentry or similar)
-  - [ ] Performance monitoring (Web Vitals tracking)
-  - [ ] User behavior analytics
+#### AI & Machine Learning Integration
+- [ ] **AI-powered features**
+  - [ ] AI chatbot for portfolio Q&A (LangChain + OpenAI)
+  - [ ] Personalized content recommendations
+  - [ ] Intelligent search with semantic understanding
+  - [ ] Resume analyzer with suggestions
+  - [ ] Skills gap analysis tool
+  - [ ] Project recommendation based on visitor interests
+- [ ] **Computer Vision enhancements**
+  - [ ] Advanced calendar extraction with custom ML model
+  - [ ] Document classification and categorization
+  - [ ] Image tagging and organization
+
+#### Interactive Portfolio Features
+- [ ] **Resume & CV management**
+  - [ ] Interactive digital resume viewer
+  - [ ] PDF export with multiple templates
+  - [ ] LaTeX resume generation
+  - [ ] Version control for different resume variants
+  - [ ] ATS-optimized resume checker
+  - [ ] Resume sharing with analytics
+- [ ] **Project showcase evolution**
+  - [ ] Interactive project demos
+  - [ ] Live code playground integration (StackBlitz)
+  - [ ] Project comparison tool
+  - [ ] Technology radar chart
+  - [ ] Skills proficiency visualization
+- [ ] **Testimonials & Recommendations**
+  - [ ] LinkedIn recommendations import
+  - [ ] Testimonial submission form
+  - [ ] Video testimonials support
+  - [ ] Recommendation showcase slider
+
+#### Performance & Optimization Excellence
+- [ ] **Advanced performance optimization**
+  - [ ] Server-Side Rendering (SSR) with Angular Universal
+  - [ ] Static Site Generation (SSG) for content pages
+  - [ ] Route-level code splitting
+  - [ ] Component lazy loading optimization
+  - [ ] Critical CSS extraction and inlining
+  - [ ] Resource hints (preload, prefetch, preconnect)
+  - [ ] Bundle size analysis and optimization (< 400KB target)
+  - [ ] Tree-shaking optimization
+  - [ ] Web Worker for heavy computations
+- [ ] **Monitoring, observability & analytics**
+  - [ ] Error tracking with Sentry
+  - [ ] Real User Monitoring (RUM)
+  - [ ] Core Web Vitals tracking and reporting
+  - [ ] Performance budget enforcement
+  - [ ] User behavior analytics (privacy-focused)
   - [ ] Service worker update monitoring
+  - [ ] Firebase Performance Monitoring
+  - [ ] Custom performance dashboards
+  - [ ] A/B testing infrastructure
 
-## Phase 4: Deployment & Maintenance (Ongoing)
+## Phase 4: Community & Ecosystem (2027+)
+
+### 🌟 Future Vision & Innovation
+
+#### Open Source & Community
+- [ ] **Component library extraction**
+  - [ ] Extract reusable components into standalone library
+  - [ ] Publish @3dime/angular-components to npm
+  - [ ] Create Storybook documentation
+  - [ ] Component playground and demo site
+  - [ ] Community contributions and plugins
+- [ ] **Portfolio template marketplace**
+  - [ ] Multiple portfolio themes
+  - [ ] Theme builder tool
+  - [ ] One-click deployment solutions
+  - [ ] Template customization wizard
+- [ ] **Developer tools & CLI**
+  - [ ] 3dime CLI for scaffolding portfolios
+  - [ ] Migration tools for portfolio updates
+  - [ ] Portfolio generator with AI assistance
+
+#### Advanced Integrations
+- [ ] **Blockchain & Web3**
+  - [ ] Wallet connection (MetaMask, WalletConnect)
+  - [ ] NFT portfolio showcase
+  - [ ] Decentralized identity verification
+  - [ ] Smart contract integration for portfolio credentials
+- [ ] **AR/VR experiments**
+  - [ ] 3D portfolio experience with Three.js
+  - [ ] WebXR for immersive portfolio viewing
+  - [ ] Virtual office/showroom
+- [ ] **Voice & Audio**
+  - [ ] Voice navigation and control
+  - [ ] Audio portfolio tour
+  - [ ] Podcast integration
+  - [ ] Text-to-speech for accessibility
+
+---
+
+## Phase 5: Deployment & Maintenance (Ongoing)
 
 ### 🌐 Deployment Strategy
 
@@ -223,65 +356,114 @@
 
 #### Maintenance & Updates
 - [x] **Technical maintenance** - Actively maintained
-  - [x] Angular 20.3 (latest version)
+  - [x] Angular 20.3.10 (latest version)
   - [x] Regular dependency updates
   - [x] Security vulnerability monitoring
-  - [ ] Quarterly Angular version updates
-  - [ ] Automated dependency updates (Dependabot)
+  - [ ] Quarterly Angular version updates (staying on latest)
+  - [ ] Automated dependency updates (Renovate or Dependabot)
+  - [ ] Automated security scanning
+  - [ ] Breaking change migration guides
+  - [ ] Deprecation warnings monitoring
 
 ---
 
 ## 🎨 Design System Evolution
 
-### Visual Design
-- [x] **Component library** - Base components implemented
+### Visual Design & Component System
+- [x] **Component library** - Foundation established ✅
   - [x] Base component class for shared functionality
   - [x] Card component for reusable glassmorphism cards
+  - [x] Expandable card for collapsible content
+  - [x] Skeleton loader for loading states
   - [x] Back-to-top button component
-  - [ ] Standardized component variants
+  - [x] Calendar view component with FullCalendar
   - [x] Design system documentation (DESIGN_SYSTEM.md)
-- [x] **Advanced UI patterns** - Core patterns implemented
-  - [x] Custom loading states
+  - [ ] Button component with variants (primary, secondary, ghost)
+  - [ ] Input component library (text, textarea, select, checkbox)
+  - [ ] Modal/Dialog component system
+  - [ ] Toast/Snackbar notification system enhancement
+  - [ ] Tooltip component
+  - [ ] Badge and chip components
+  - [ ] Avatar component with image fallbacks
+  - [ ] Progress bar and spinner variants
+  - [ ] Tab navigation component
+  - [ ] Accordion component
+  - [ ] Pagination component
+- [x] **Advanced UI patterns** - Core patterns implemented ✅
+  - [x] Custom loading states with skeleton loaders
   - [x] Glassmorphism effects with backdrop-filter
   - [x] Space-themed background with gradients
-  - [ ] Interactive particle systems (enhancement)
-- [x] **Responsive enhancements** - Mobile-first implementation
+  - [x] Footer component with links
+  - [ ] Interactive particle systems enhancement
+  - [ ] Animated background effects (shooting stars, nebula)
+  - [ ] Cursor effects and trails
+  - [ ] Data visualization components (charts, graphs)
+  - [ ] Timeline component for experience/education
+  - [ ] Masonry grid layout for project showcase
+- [x] **Responsive design** - Mobile-first implementation ✅
   - [x] Mobile-optimized layout
   - [x] Responsive breakpoints for all components
-  - [ ] Better tablet experience (optimization)
-  - [ ] Ultra-wide screen optimization
-  - [ ] Mobile gesture support
+  - [ ] Tablet experience optimization (768-1024px)
+  - [ ] Ultra-wide screen optimization (>1920px)
+  - [ ] Mobile gesture support (swipe, pinch-to-zoom)
+  - [ ] Touch-friendly UI elements
+  - [ ] Responsive images with srcset
+  - [ ] Orientation change handling
 
-### Accessibility & Inclusive Design
-- [ ] **WCAG 2.1 AA compliance**
-  - [ ] Complete accessibility audit
-  - [ ] Keyboard navigation optimization
-  - [ ] Screen reader compatibility
+### Accessibility & Inclusive Design Excellence
+- [ ] **WCAG 2.1 Level AA compliance** (Target: 100%)
+  - [ ] Complete accessibility audit with automated tools
+  - [ ] Manual accessibility testing across all components
+  - [ ] Keyboard navigation optimization and focus management
+  - [ ] Screen reader compatibility (NVDA, JAWS, VoiceOver)
+  - [ ] Semantic HTML validation
+  - [ ] ARIA labels and roles verification
+  - [ ] Form accessibility (labels, error messages, validation)
+  - [ ] Skip navigation links
+  - [ ] Focus trap for modals and dialogs
 - [ ] **Inclusive design practices**
-  - [ ] Color blindness considerations
-  - [ ] Reduced motion preferences
+  - [ ] Color blindness testing (Deuteranopia, Protanopia, Tritanopia)
+  - [ ] Color contrast ratio validation (minimum 4.5:1 for text)
+  - [ ] Reduced motion preferences (prefers-reduced-motion)
   - [ ] High contrast mode support
+  - [ ] Large text mode support
+  - [ ] Dyslexia-friendly font options
+  - [ ] Right-to-left (RTL) language support
+  - [ ] Alternative text for all images
+  - [ ] Captions and transcripts for video content
 
 ---
 
 ## 📊 Success Metrics
 
-### Technical Metrics
+### Technical Metrics (Updated January 2026)
 - **Performance**: 
-  - Current bundle size: 1.24 MB raw / 318.24 KB gzipped ✅
-  - Target Lighthouse score: >90 across all categories
-  - Build time: ~10 seconds ✅
+  - Current bundle size: 2.04 MB raw / 475.15 KB transferred ⚠️ (needs optimization)
+  - Target bundle size: <1.8 MB raw / <400 KB transferred
+  - Current build time: ~13 seconds ✅
+  - Target Lighthouse score: >90 across all categories (to be measured)
+  - First Contentful Paint target: <1.5s
+  - Time to Interactive target: <3.5s
 - **PWA Metrics**:
   - Installability: Working on iOS, Android, Desktop ✅
   - Service worker: Active with caching strategies ✅
   - Offline support: Basic functionality implemented ✅
+  - Target: Push notification support (planned)
 - **Accessibility**: 
-  - Target WCAG 2.1 AA compliance score: >95%
+  - Target WCAG 2.1 AA compliance score: >95% (audit needed)
   - Semantic HTML with ARIA labels ✅
+  - Keyboard navigation: Implemented ✅
+  - Screen reader compatibility: To be tested
 - **Code Quality**: 
-  - TypeScript strict mode enabled ✅
-  - Prettier formatting configured ✅
-  - Target test coverage: >80% (currently improving)
+  - TypeScript strict mode: Enabled ✅
+  - Prettier formatting: Configured ✅
+  - ESLint: Configured ✅
+  - Current test coverage: ~30% (estimated)
+  - Target test coverage: >80%
+- **SEO Metrics**:
+  - Meta tags and Open Graph: Implemented ✅
+  - Structured data (JSON-LD): Implemented ✅
+  - Target: Google PageSpeed >90 (to be measured)
 
 ### Business Metrics
 - **Engagement**: 
@@ -311,13 +493,23 @@
 - **Testing**: Component tests, integration tests, E2E coverage
 - **Git**: Conventional commits, feature branch workflow
 
-### Performance Targets
-- **First Contentful Paint**: <1.5s (target)
-- **Largest Contentful Paint**: <2.5s (target)
-- **Total Bundle Size**: 318.24 KB gzipped (current) ✅
-  - Stretch goal: <300KB through further optimization
-- **Core Web Vitals**: All metrics in "Good" range (target)
-- **Build Time**: ~10 seconds ✅
+### Performance Targets & Budget
+- **Loading Performance**:
+  - First Contentful Paint (FCP): <1.5s (target)
+  - Largest Contentful Paint (LCP): <2.5s (target)
+  - Time to Interactive (TTI): <3.5s (target)
+  - First Input Delay (FID): <100ms (target)
+  - Cumulative Layout Shift (CLS): <0.1 (target)
+- **Bundle Size Budget**:
+  - Current: 2.04 MB raw / 475.15 KB transferred ⚠️
+  - Target: <1.8 MB raw / <400 KB transferred
+  - Stretch goal: <1.5 MB raw / <350 KB transferred
+  - Component CSS budget: Individual files <15 KB
+- **Build Performance**:
+  - Current build time: ~13 seconds ✅
+  - Target: <15 seconds for production builds
+  - Development rebuild: <2 seconds (incremental)
+- **Core Web Vitals**: All metrics in "Good" range per Google standards
 
 ### Browser Support
 - **Modern browsers**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
@@ -336,33 +528,116 @@ This is a personal portfolio project, but the roadmap serves as a guide for:
 
 ---
 
-## 📝 Notes
+## 🎁 Bonus: Repository Enhancement Proposals
 
-- **Last Updated**: October 2025 (Revised for Q4 2025)
-- **Next Review**: Quarterly (January 2026)
-- **Version**: 2.2.0
-- **Maintainer**: Idriss (@m-idriss)
-- **Major Updates in v2.2.0** (October 29, 2025):
-  - ✅ **SEO Enhancements**: Comprehensive meta tags (Open Graph, Twitter Card), structured data (JSON-LD), canonical URLs
-  - ✅ **Heading Hierarchy**: Proper h1-h3 structure for better SEO and accessibility
-  - ✅ **Image Optimization**: Lazy loading implementation with loading="lazy" attribute
-  - ✅ **Accessibility**: Enhanced keyboard navigation with proper ARIA roles and tabindex
-  - ✅ **ESLint Setup**: Configured ESLint with Angular and accessibility rules for code quality
-- **Major Updates in v2.1.0**:
-  - ✅ Batch processing for Calendar Converter with per-file progress tracking
-  - ✅ Individual file error handling and retry capability
-  - ✅ Sequential processing to avoid API rate limits
-  - ✅ Real-time progress indicators and status tracking
-  - ✅ Enhanced user experience with detailed batch statistics
-- **Major Updates in v2.0.0**:
-  - ✅ PWA fully implemented with service worker, installability, and share target
-  - ✅ Calendar Converter feature with Firebase Auth and AI processing
-  - ✅ Angular 20.3 update with modern standalone components
-  - ✅ Comprehensive documentation suite (PWA, Converter, Firebase Auth)
-  - ✅ CI/CD with GitHub Actions for automated deployments
-  - 🔄 Adjusted timelines to reflect Q4 2025 current state
-  - 🔄 Reorganized phases based on completed work
+### Infrastructure & DevOps
+- [ ] **Containerization**
+  - [ ] Docker setup for consistent development environment
+  - [ ] Docker Compose for full stack local development
+  - [ ] Kubernetes deployment configurations
+- [ ] **CI/CD enhancements**
+  - [ ] Multi-stage deployment (dev, staging, production)
+  - [ ] Automated testing in CI pipeline
+  - [ ] Visual regression testing in CI
+  - [ ] Automated lighthouse audits
+  - [ ] Bundle size monitoring and alerts
+  - [ ] Dependency update automation with auto-merge
+
+### Code Quality & Standards
+- [ ] **Advanced tooling**
+  - [ ] Commitlint for commit message standards
+  - [ ] Conventional changelog generation
+  - [ ] Code complexity analysis (SonarQube)
+  - [ ] Duplicate code detection
+  - [ ] Import cost analysis in IDE
+- [ ] **Documentation automation**
+  - [ ] API documentation with Compodoc
+  - [ ] Automated changelog generation
+  - [ ] Architecture diagrams automation
+  - [ ] Component usage examples
+
+### Developer Experience
+- [ ] **Development tools**
+  - [ ] VS Code workspace settings
+  - [ ] Recommended extensions list
+  - [ ] Debug configurations
+  - [ ] Code snippets library
+  - [ ] Local HTTPS development setup
+- [ ] **Contribution tools**
+  - [ ] Issue templates for bugs/features
+  - [ ] Pull request templates with checklists
+  - [ ] Contributing guidelines enhancement
+  - [ ] Architecture decision records (ADR)
+
+### Performance Monitoring
+- [ ] **Real-time monitoring**
+  - [ ] Firebase Performance Monitoring setup
+  - [ ] Custom performance metrics
+  - [ ] Error rate tracking
+  - [ ] API response time monitoring
+- [ ] **User analytics (privacy-focused)**
+  - [ ] Plausible or Umami analytics
+  - [ ] User journey mapping
+  - [ ] Feature usage tracking
+  - [ ] Conversion funnel analysis
 
 ---
 
-*This roadmap is a living document that evolves with the project's needs and goals. Regular reviews ensure alignment with career objectives and technical best practices.*
+## 📝 Roadmap Maintenance Notes
+
+- **Last Updated**: January 2026 (Major revision - v3.0.0)
+- **Next Review**: Quarterly (April 2026)
+- **Version**: 3.0.0
+- **Maintainer**: Idriss (@m-idriss)
+- **Repository Version**: 1.3.0
+
+### Changelog for Roadmap v3.0.0 (January 2026)
+- ✨ **Complete roadmap restructure** with 5 phases extending to 2027+
+- 📊 **Updated metrics** with actual bundle sizes (2.04 MB / 475.15 KB)
+- 🎯 **Enhanced goals** with specific, measurable targets
+- 🤖 **AI/ML integration** proposals for future innovation
+- 🌍 **Internationalization** planning for global reach
+- 🔐 **Security hardening** comprehensive checklist
+- ♿ **Accessibility excellence** detailed audit plan
+- 📱 **Mobile-first** enhancements and PWA evolution
+- 🧪 **Testing expansion** to achieve >80% coverage
+- 🚀 **Performance budget** enforcement and monitoring
+- 🎨 **Theme system** evolution with multiple presets
+- 🔗 **Integration proposals** (LinkedIn, blogs, analytics)
+- 📦 **Component library** extraction and npm publishing
+- 🌟 **Community features** and open source initiatives
+- 🔮 **Future tech** exploration (Web3, AR/VR, Voice)
+
+### Major Updates Summary
+- **v2.2.0** (October 2025): SEO, accessibility, ESLint setup
+- **v2.1.0** (October 2025): Batch processing for converter
+- **v2.0.0** (2025): PWA implementation, Calendar Converter, Angular 20.3
+- **v1.0.0** (2024): Initial portfolio launch
+
+### Review Schedule
+- **Monthly**: Progress tracking and quick wins
+- **Quarterly**: Major milestone review and priority adjustment
+- **Annually**: Strategic planning and technology evaluation
+
+---
+
+## 🤝 Contributing to the Roadmap
+
+This roadmap is a strategic planning document that welcomes community input:
+
+### How to Contribute
+1. **Suggest features**: Open an issue with the `enhancement` label
+2. **Vote on proposals**: React to issues with 👍/👎
+3. **Share expertise**: Comment with implementation ideas
+4. **Update progress**: Submit PRs to mark completed items
+
+### Prioritization Criteria
+- **User value**: Impact on portfolio visitors
+- **Technical feasibility**: Effort vs. benefit analysis  
+- **Strategic alignment**: Career goals and skill development
+- **Innovation factor**: Showcase of cutting-edge technology
+- **Maintenance burden**: Long-term sustainability
+
+---
+
+*This roadmap is a living document that evolves with the project's needs, emerging technologies, and career goals. Regular reviews ensure alignment with industry trends, user needs, and personal development objectives.*
