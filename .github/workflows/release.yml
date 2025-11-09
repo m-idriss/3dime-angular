@@ -34,7 +34,7 @@ on:
 jobs:
   create-release:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -62,7 +62,7 @@ jobs:
           # Try to get version from git tags first (source of truth for releases)
           # Use version sorting to get the latest tag regardless of branch history
           CURRENT_VERSION=$( (git tag --sort=-v:refname | head -1) 2>/dev/null || echo "")
-          
+
           if [ -n "$CURRENT_VERSION" ]; then
             CURRENT_VERSION=${CURRENT_VERSION#v}  # Remove 'v' prefix if present
             echo "source=git_tag" >> $GITHUB_OUTPUT
@@ -75,7 +75,7 @@ jobs:
             CURRENT_VERSION="0.0.0"
             echo "source=default" >> $GITHUB_OUTPUT
           fi
-          
+
           echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
           echo "Current version: $CURRENT_VERSION"
 
@@ -85,13 +85,13 @@ jobs:
           CURRENT_VERSION="${{ steps.current_version.outputs.version }}"
           VERSION_TYPE="${{ inputs.version_type }}"
           CUSTOM_VERSION="${{ inputs.custom_version }}"
-          
+
           # Parse current version
           IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT_VERSION"
           MAJOR="${VERSION_PARTS[0]:-0}"
           MINOR="${VERSION_PARTS[1]:-0}"
           PATCH="${VERSION_PARTS[2]:-0}"
-          
+
           # Calculate new version based on type
           if [ "$VERSION_TYPE" = "custom" ]; then
             if [ -z "$CUSTOM_VERSION" ]; then
@@ -115,13 +115,13 @@ jobs:
             echo "Error: Invalid version type"
             exit 1
           fi
-          
+
           # Validate new version format
           if ! [[ "$NEW_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Error: Invalid version format: $NEW_VERSION"
             exit 1
           fi
-          
+
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "tag=v$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "New version: $NEW_VERSION"
@@ -139,16 +139,16 @@ jobs:
       - name: Update package.json version
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
-          
+
           # Update version in package.json
           npm version "$NEW_VERSION" --no-git-tag-version --allow-same-version
-          
+
           echo "Updated package.json to version $NEW_VERSION"
 
       - name: Commit version bump
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
-          
+
           git add package.json package-lock.json
           git commit -m "chore: bump version to $NEW_VERSION" || echo "No changes to commit"
 
@@ -160,17 +160,17 @@ jobs:
         run: |
           TAG="${{ steps.new_version.outputs.tag }}"
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
-          
+
           git tag -a "$TAG" -m "Release $NEW_VERSION"
           echo "Created tag: $TAG"
 
       - name: Push changes and tag
         run: |
           TAG="${{ steps.new_version.outputs.tag }}"
-          
+
           git push origin HEAD:main
           git push origin "$TAG"
-          
+
           echo "Pushed changes and tag to repository"
 
       - name: Generate changelog
@@ -178,7 +178,7 @@ jobs:
         run: |
           TAG="${{ steps.new_version.outputs.tag }}"
           PREV_TAG=$(git describe --tags --abbrev=0 "$TAG^" 2>/dev/null || echo "")
-          
+
           if [ -z "$PREV_TAG" ]; then
             echo "## What's New in $TAG" > CHANGELOG.md
             echo "" >> CHANGELOG.md
@@ -191,36 +191,36 @@ jobs:
             echo "" >> CHANGELOG.md
             echo "### Changes since $PREV_TAG" >> CHANGELOG.md
             echo "" >> CHANGELOG.md
-            
+
             # Group commits by type
             echo "#### 🚀 Features" >> CHANGELOG.md
             git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^feat" >> CHANGELOG.md || echo "- No new features" >> CHANGELOG.md
             echo "" >> CHANGELOG.md
-            
+
             echo "#### 🐛 Bug Fixes" >> CHANGELOG.md
             git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^fix" >> CHANGELOG.md || echo "- No bug fixes" >> CHANGELOG.md
             echo "" >> CHANGELOG.md
-            
+
             echo "#### 📝 Documentation" >> CHANGELOG.md
             git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^docs" >> CHANGELOG.md || echo "- No documentation changes" >> CHANGELOG.md
             echo "" >> CHANGELOG.md
-            
+
             echo "#### 🔧 Chores & Other Changes" >> CHANGELOG.md
             git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^chore\|^refactor\|^style\|^test\|^perf" >> CHANGELOG.md || echo "- No other changes" >> CHANGELOG.md
             echo "" >> CHANGELOG.md
-            
+
             echo "#### 📦 All Commits" >> CHANGELOG.md
             git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" >> CHANGELOG.md
           fi
-          
+
           # Output for GitHub release
           cat CHANGELOG.md
-          
+
           # Set output for release creation (escape for GitHub Actions)
           {
-            echo 'changelog<<CHANGELOG_EOF'
+            echo 'changelog<<__CHANGELOG__DELIMITER__'
             cat CHANGELOG.md
-            echo CHANGELOG_EOF
+            echo __CHANGELOG__DELIMITER__
           } >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
