@@ -63,6 +63,7 @@ export class CalendarView implements OnInit {
     height: '100%',
     contentHeight: 'auto',
     expandRows: true,
+    scrollTime: '06:00:00', // Start day view at 6am (daylight hours)
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',

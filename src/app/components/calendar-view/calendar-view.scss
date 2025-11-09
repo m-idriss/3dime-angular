@@ -130,23 +130,25 @@
 
 .calendar-instructions {
   /* Box Model */
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-md) var(--space-lg);
 
-  /* Typography */
-  font-size: 0.85rem;
-  color: var(--text-primary);
+  /* Typography - Much more visible */
+  font-size: 0.95rem;
+  color: white;
   text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 
-  /* Visual - Enhanced glassmorphism */
-  background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.08), rgba(var(--gradient-indigo), 0.08));
-  border: 1px solid rgba(var(--gradient-blue), 0.2);
+  /* Visual - Strong contrast for readability */
+  background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.25), rgba(var(--gradient-indigo), 0.2));
+  border: 2px solid rgba(var(--gradient-blue), 0.4);
   border-radius: var(--radius-md);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 
   p {
     margin: 0;
-    font-weight: 500;
+    font-weight: 600;
   }
 }
 
@@ -260,45 +262,83 @@
   }
 
   .fc-button {
-    /* Typography */
-    font-weight: 600;
+    /* Typography - Enhanced readability */
+    font-weight: 700;
+    font-size: 0.9rem;
     text-transform: capitalize;
+    color: white !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 
-    /* Visual */
+    /* Visual - Much better contrast */
+    background: rgba(var(--gradient-blue), 0.4) !important;
+    border: 2px solid rgba(var(--gradient-blue), 0.6) !important;
     border-radius: var(--radius-sm);
     transition: all var(--t-fast);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    padding: 0.5rem 1rem;
+    
+    &:hover {
+      background: rgba(var(--gradient-blue), 0.6) !important;
+      border-color: rgba(var(--gradient-blue), 0.8) !important;
+      box-shadow: 0 3px 8px rgba(var(--gradient-blue), 0.5);
+      
+      @media (prefers-reduced-motion: no-preference) {
+        transform: translateY(-1px);
+      }
+    }
+    
+    &.fc-button-active {
+      background: linear-gradient(135deg, var(--accent-color), var(--color-indigo-500)) !important;
+      border-color: rgba(var(--gradient-blue), 0.8) !important;
+      box-shadow: 0 2px 8px rgba(var(--gradient-blue), 0.5), 0 0 12px rgba(var(--gradient-blue), 0.3);
+    }
     
     /* Make arrows more visible with prominent styling */
     &.fc-prev-button,
     &.fc-next-button {
-      font-size: 1.25rem;
-      padding: 0.5rem 0.875rem;
+      font-size: 1.4rem;
+      padding: 0.5rem 1rem;
       font-weight: 700;
       background: linear-gradient(135deg, var(--accent-color), var(--color-indigo-500)) !important;
-      border: 2px solid rgba(var(--gradient-blue), 0.5) !important;
-      box-shadow: 0 2px 8px rgba(var(--gradient-blue), 0.4), 0 0 12px rgba(var(--gradient-blue), 0.2);
+      border: 2px solid rgba(var(--gradient-blue), 0.6) !important;
+      box-shadow: 0 3px 10px rgba(var(--gradient-blue), 0.5), 0 0 15px rgba(var(--gradient-blue), 0.3);
       color: white !important;
       
       &:hover {
         background: linear-gradient(135deg, var(--color-blue-600), var(--color-indigo-600)) !important;
-        border-color: rgba(var(--gradient-blue), 0.8) !important;
-        box-shadow: 0 4px 12px rgba(var(--gradient-blue), 0.5), 0 0 20px rgba(var(--gradient-blue), 0.3);
+        border-color: rgba(var(--gradient-blue), 0.9) !important;
+        box-shadow: 0 4px 14px rgba(var(--gradient-blue), 0.6), 0 0 22px rgba(var(--gradient-blue), 0.4);
         
         @media (prefers-reduced-motion: no-preference) {
           transform: scale(1.1);
         }
       }
     }
+    
+    &.fc-today-button {
+      background: rgba(var(--gradient-indigo), 0.5) !important;
+      border-color: rgba(var(--gradient-indigo), 0.7) !important;
+      
+      &:hover {
+        background: rgba(var(--gradient-indigo), 0.7) !important;
+        border-color: rgba(var(--gradient-indigo), 0.9) !important;
+      }
+    }
   }
 
   .fc-toolbar-title {
-    /* Typography - Enhanced for better readability */
-    font-size: 1.35rem;
-    font-weight: 700;
+    /* Typography - Maximum readability with strong contrast */
+    font-size: 1.5rem;
+    font-weight: 800;
     color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 15px rgba(var(--gradient-blue), 0.5);
-    letter-spacing: 0.02em;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8), 
+                 0 0 20px rgba(var(--gradient-blue), 0.6),
+                 0 4px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.03em;
+    background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.2), rgba(var(--gradient-indigo), 0.15));
+    padding: 0.5rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(var(--gradient-blue), 0.4);
   }
 
   .fc-daygrid-day-frame {
