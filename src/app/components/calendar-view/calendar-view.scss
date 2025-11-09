@@ -157,11 +157,11 @@
   height: auto;
   max-height: calc(90vh - var(--calendar-header-footer-height));
 
-  /* Visual - Enhanced dark theme matching site */
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+  /* Visual - Enhanced dark theme with better readability */
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.98), rgba(45, 55, 72, 0.98));
   border-radius: var(--radius-md);
-  border: 1px solid rgba(var(--gradient-blue), 0.2);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(var(--gradient-blue), 0.3);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
   overflow: auto;
 }
 
@@ -191,26 +191,28 @@
   .fc-theme-standard {
     td,
     th {
-      border-color: var(--glass-border);
+      border-color: rgba(var(--gradient-blue), 0.15);
     }
   }
 
   .fc-col-header-cell {
-    /* Typography */
-    font-weight: 600;
+    /* Typography - Enhanced for readability */
+    font-weight: 700;
+    font-size: 0.9rem;
     color: white;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 
-    /* Visual - Enhanced header with gradient */
-    background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.15), rgba(var(--gradient-indigo), 0.1));
-    border-bottom: 2px solid rgba(var(--gradient-blue), 0.3) !important;
+    /* Visual - Enhanced header with stronger gradient */
+    background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.25), rgba(var(--gradient-indigo), 0.18));
+    border-bottom: 2px solid rgba(var(--gradient-blue), 0.4) !important;
   }
 
   .fc-daygrid-day-number {
-    /* Typography */
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    /* Typography - Increased size and weight for better readability */
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   }
 
   .fc-day-today .fc-daygrid-day-number {
@@ -227,9 +229,10 @@
     padding: 2px 4px;
     cursor: move;
 
-    /* Typography */
-    font-size: 0.75rem;
-    font-weight: 500;
+    /* Typography - Enhanced readability */
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
     /* Hover */
     &:hover {
@@ -238,8 +241,8 @@
   }
 
   .fc-event-title {
-    /* Typography */
-    font-weight: 600;
+    /* Typography - Bolder for better visibility */
+    font-weight: 700;
   }
 
   .fc-timegrid-event {
@@ -282,20 +285,21 @@
   }
 
   .fc-toolbar-title {
-    /* Typography */
-    font-size: 1.25rem;
-    font-weight: 600;
+    /* Typography - Enhanced for better readability */
+    font-size: 1.35rem;
+    font-weight: 700;
     color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 12px rgba(var(--gradient-blue), 0.4);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 15px rgba(var(--gradient-blue), 0.5);
+    letter-spacing: 0.02em;
   }
 
   .fc-daygrid-day-frame {
-    /* Visual - Subtle glassmorphism for day cells */
-    background: rgba(var(--gradient-blue), 0.02);
+    /* Visual - Enhanced background for better cell distinction */
+    background: rgba(var(--gradient-blue), 0.04);
     
     &:hover {
-      background: rgba(var(--gradient-blue), 0.05);
-      border-color: rgba(var(--gradient-blue), 0.3);
+      background: rgba(var(--gradient-blue), 0.08);
+      border-color: rgba(var(--gradient-blue), 0.35);
     }
   }
 
