@@ -37,7 +37,7 @@
 - **Comprehensive sections**: Profile, About, Tech Stack, GitHub Activity, Experience, Education, Calendar Converter, Stuff, Hobbies, Contact, Footer
 - **Clean component structure** with proper separation of concerns and reusable components
 - **SCSS styling** with CSS custom properties and modern features
-- **Build system** working efficiently (~13s build time)
+- **Build system** working efficiently (~14s build time)
 - **Firebase integration** for Authentication and Functions
 - **Advanced UI components**: Skeleton loaders, expandable cards, calendar view, back-to-top button
 
@@ -79,7 +79,7 @@
   - [x] Native Fetch API for HTTP requests
   - [x] Immutable state updates for better change detection
   - [x] Optimized template tracking with Angular 20 @for control flow
-  - [x] Bundle optimized to 1.24 MB raw / 318.24 KB gzipped
+  - [x] Bundle optimized to 2.04 MB raw / 475.15 KB transferred
 - [x] **Angular 20.3 update** - Latest Angular version with modern features
 - [x] **PWA implementation** - Full Progressive Web App support
   - [x] Service worker with caching strategies
@@ -440,7 +440,7 @@
 - **Performance**: 
   - Current bundle size: 2.04 MB raw / 475.15 KB transferred ⚠️ (needs optimization)
   - Target bundle size: <1.8 MB raw / <400 KB transferred
-  - Current build time: ~13 seconds ✅
+  - Current build time: ~14 seconds ✅
   - Target Lighthouse score: >90 across all categories (to be measured)
   - First Contentful Paint target: <1.5s
   - Time to Interactive target: <3.5s
@@ -506,7 +506,7 @@
   - Stretch goal: <1.5 MB raw / <350 KB transferred
   - Component CSS budget: Individual files <15 KB
 - **Build Performance**:
-  - Current build time: ~13 seconds ✅
+  - Current build time: ~14 seconds ✅
   - Target: <15 seconds for production builds
   - Development rebuild: <2 seconds (incremental)
 - **Core Web Vitals**: All metrics in "Good" range per Google standards
