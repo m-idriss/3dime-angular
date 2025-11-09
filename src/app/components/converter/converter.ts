@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, PLATFORM_ID, computed, inject } from '@angular/core';
+import { Component, signal, OnInit, PLATFORM_ID, computed, inject, effect } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import ICAL from '../../libs/ical-wrapper'; // ⚡ Wrapper to ensure parse() exists
@@ -7,8 +7,8 @@ import { AppTooltipDirective } from '../../shared/directives';
 
 import { ConverterService, FileData } from '../../services/converter';
 import { ToastService } from '../../services/toast.service';
+import { CalendarStateService } from '../../services/calendar-state.service';
 import { Card } from '../card/card';
-import { CalendarView } from '../calendar-view';
 import { AuthAwareComponent } from '../base/auth-aware.component';
 import { CalendarEvent, BatchFile, BatchFileStatus } from '../../models';
 import { FILE_UPLOAD_CONSTRAINTS } from '../../constants';
@@ -16,7 +16,7 @@ import { getMonthDay } from '../../utils';
 
 @Component({
   selector: 'app-converter',
-  imports: [Card, CalendarView, FormsModule, CommonModule, NgbAccordionModule, NgbCollapseModule, AppTooltipDirective, NgbPopoverModule, NgbProgressbarModule],
+  imports: [Card, FormsModule, CommonModule, NgbAccordionModule, NgbCollapseModule, AppTooltipDirective, NgbPopoverModule, NgbProgressbarModule],
   templateUrl: './converter.html',
   styleUrl: './converter.scss',
 })
@@ -29,7 +29,24 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
   protected readonly isBatchDetailsCollapsed = signal(false);
-  protected readonly isCalendarViewVisible = signal(false); // Calendar view visibility
+
+  constructor() {
+    super();
+    // Watch for calendar state changes and update local events
+    effect(() => {
+      const calendarEvents = this.calendarStateService.events();
+      // Only update if calendar was modified (has events and is different from current)
+      if (calendarEvents.length > 0 && calendarEvents !== this.extractedEvents()) {
+        this.extractedEvents.set(calendarEvents);
+        this.regenerateIcsContent();
+      }
+    });
+
+    // Listen for export requests from calendar
+    this.calendarStateService.exportRequested$.subscribe(() => {
+      this.downloadIcs();
+    });
+  }
 
   // Computed values for batch processing
   protected readonly batchProgress = computed(() => {
@@ -57,6 +74,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
 
   private readonly converterService = inject(ConverterService);
   private readonly toastService = inject(ToastService);
+  private readonly calendarStateService = inject(CalendarStateService);
   private readonly platformId = inject(PLATFORM_ID);
 
   private readonly acceptedTypes = FILE_UPLOAD_CONSTRAINTS.ACCEPTED_TYPES;
@@ -704,29 +722,6 @@ export class Converter extends AuthAwareComponent implements OnInit {
    * Open interactive calendar view
    */
   protected openCalendarView(): void {
-    this.isCalendarViewVisible.set(true);
-  }
-
-  /**
-   * Handle calendar view visibility change
-   */
-  protected handleCalendarVisibilityChange(visible: boolean): void {
-    this.isCalendarViewVisible.set(visible);
-  }
-
-  /**
-   * Handle events change from calendar view (drag & drop, resize)
-   */
-  protected handleCalendarEventsChange(updatedEvents: CalendarEvent[]): void {
-    this.extractedEvents.set(updatedEvents);
-    // Regenerate ICS content with updated events
-    this.regenerateIcsContent();
-  }
-
-  /**
-   * Handle export from calendar view
-   */
-  protected handleCalendarExport(): void {
-    this.downloadIcs();
+    this.calendarStateService.showCalendar(this.extractedEvents());
   }
 }
