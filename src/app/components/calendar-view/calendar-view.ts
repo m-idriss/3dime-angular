@@ -30,8 +30,8 @@ export class CalendarView implements OnInit {
   readonly eventsChange = output<CalendarEvent[]>();
   readonly exportIcs = output<void>();
 
-  // Local state - Schedule-X calendar instance
-  protected calendarApp = signal<any>(null);
+  // Schedule-X calendar instance
+  calendarApp: any;
 
   constructor() {
     // Watch for events changes and update calendar
@@ -41,24 +41,21 @@ export class CalendarView implements OnInit {
   }
 
   ngOnInit(): void {
-    // Skip calendar creation if already initialized (for testing)
-    if (this.calendarApp()) {
-      return;
-    }
-
-    // Create Schedule-X calendar instance without selectedDate (let it use today by default)
-    const calendar = createCalendar({
-      views: [createViewMonthGrid(), createViewWeek(), createViewDay()],
-      events: [],
-      plugins: [createDragAndDropPlugin(15)], // 15-minute interval snapping
-      callbacks: {
-        onEventUpdate: (updatedEvent) => {
-          this.handleEventUpdate(updatedEvent);
+    // Create calendar instance on init (allows testing with mocks)
+    if (!this.calendarApp) {
+      this.calendarApp = createCalendar({
+        views: [createViewMonthGrid(), createViewWeek(), createViewDay()],
+        events: [],
+        plugins: [createDragAndDropPlugin(15)], // 15-minute interval snapping
+        callbacks: {
+          onEventUpdate: (updatedEvent) => {
+            this.handleEventUpdate(updatedEvent);
+          },
         },
-      },
-    });
-
-    this.calendarApp.set(calendar);
+      });
+    }
+    
+    // Initial calendar events update
     this.updateCalendarEvents();
   }
 
@@ -66,8 +63,7 @@ export class CalendarView implements OnInit {
    * Update calendar events when input changes
    */
   private updateCalendarEvents(): void {
-    const calendar = this.calendarApp();
-    if (!calendar) return;
+    if (!this.calendarApp) return;
 
     const scheduleXEvents = this.events().map((event, index) => {
       const startDate = typeof event.start === 'string' ? new Date(event.start) : event.start;
@@ -84,7 +80,7 @@ export class CalendarView implements OnInit {
     });
 
     // Update calendar events
-    calendar.events.set(scheduleXEvents);
+    this.calendarApp.events.set(scheduleXEvents);
   }
 
   /**

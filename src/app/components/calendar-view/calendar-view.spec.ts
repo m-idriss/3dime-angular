@@ -33,7 +33,7 @@ describe('CalendarView', () => {
     component = fixture.componentInstance;
     
     // Mock calendar instance to avoid Temporal API issues in tests
-    (component as any).calendarApp.set({
+    (component as any).calendarApp = {
       events: { 
         set: jasmine.createSpy('set'),
         get: () => []
@@ -42,7 +42,7 @@ describe('CalendarView', () => {
         views: [{ name: 'month' }, { name: 'week' }, { name: 'day' }]
       },
       render: jasmine.createSpy('render')
-    });
+    };
     
     // Set required inputs
     fixture.componentRef.setInput('events', mockEvents);
@@ -96,11 +96,11 @@ describe('CalendarView', () => {
   });
 
   it('should initialize Schedule-X calendar instance', () => {
-    expect((component as any).calendarApp()).toBeTruthy();
+    expect((component as any).calendarApp).toBeTruthy();
   });
 
   it('should have calendar with views configured', () => {
-    const calendar = (component as any).calendarApp();
+    const calendar = (component as any).calendarApp;
     expect(calendar).toBeTruthy();
     expect(calendar.config.views).toBeDefined();
     expect(calendar.config.views.length).toBeGreaterThan(0);
