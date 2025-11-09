@@ -24,6 +24,31 @@ describe('Converter', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should reset state when resetState is called', () => {
+    // Setup initial state
+    component['files'].set([new File(['test'], 'test.jpg', { type: 'image/jpeg' })]);
+    component['extractedEvents'].set([
+      {
+        summary: 'Test Event',
+        start: new Date('2025-01-15T10:00:00'),
+        end: new Date('2025-01-15T11:00:00'),
+      },
+    ]);
+    component['icsContent'].set('BEGIN:VCALENDAR\nEND:VCALENDAR');
+    component['isProcessing'].set(true);
+    component['isBatchMode'].set(true);
+
+    // Call resetState
+    component['resetState']();
+
+    // Verify all state is cleared
+    expect(component['files']().length).toBe(0);
+    expect(component['extractedEvents']().length).toBe(0);
+    expect(component['icsContent']()).toBeNull();
+    expect(component['isProcessing']()).toBe(false);
+    expect(component['isBatchMode']()).toBe(false);
+  });
+
   describe('Event Editing', () => {
     beforeEach(() => {
       // Setup test events

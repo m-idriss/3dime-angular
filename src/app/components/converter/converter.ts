@@ -495,6 +495,9 @@ export class Converter extends AuthAwareComponent implements OnInit {
     this.toastService.clearAll();
     this.extractedEvents.set([]);
     this.icsContent.set(null);
+    // Reset calendar state service to prevent effect from restoring old events
+    this.calendarStateService.hideCalendar();
+    this.calendarStateService.updateEvents([]);
   }
 
   /**
