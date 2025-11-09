@@ -42,6 +42,15 @@ export class CalendarView implements OnInit {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
+    buttonText: {
+      prev: '◄',
+      next: '►',
+      today: 'Today',
+      month: 'Month',
+      week: 'Week',
+      day: 'Day'
+    },
+    buttonIcons: false,
     editable: true,
     selectable: true,
     selectMirror: true,
@@ -54,6 +63,7 @@ export class CalendarView implements OnInit {
     height: '100%',
     contentHeight: 'auto',
     expandRows: true,
+    scrollTime: '06:00:00', // Start day view at 6am (daylight hours)
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
