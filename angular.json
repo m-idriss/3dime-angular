@@ -34,7 +34,8 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@schedule-x/theme-default/dist/index.css"
             ]
           },
           "configurations": {
@@ -118,7 +119,8 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@schedule-x/theme-default/dist/index.css"
             ]
           }
         },

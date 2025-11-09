@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { CalendarComponent } from '@schedule-x/angular';
 import { createCalendar, createViewDay, createViewMonthGrid, createViewWeek } from '@schedule-x/calendar';
 import { createDragAndDropPlugin } from '@schedule-x/drag-and-drop';
-import '@schedule-x/theme-default/dist/index.css';
 import { CalendarEvent } from '../../models';
 
 /**
@@ -47,7 +46,7 @@ export class CalendarView implements OnInit {
       return;
     }
 
-    // Create Schedule-X calendar instance
+    // Create Schedule-X calendar instance without selectedDate (let it use today by default)
     const calendar = createCalendar({
       views: [createViewMonthGrid(), createViewWeek(), createViewDay()],
       events: [],
@@ -70,29 +69,34 @@ export class CalendarView implements OnInit {
     const calendar = this.calendarApp();
     if (!calendar) return;
 
-    const scheduleXEvents = this.events().map((event, index) => ({
-      id: index.toString(),
-      title: event.summary,
-      start: this.formatDateForScheduleX(event.start),
-      end: this.formatDateForScheduleX(event.end),
-      description: event.description,
-      location: event.location,
-    }));
+    const scheduleXEvents = this.events().map((event, index) => {
+      const startDate = typeof event.start === 'string' ? new Date(event.start) : event.start;
+      const endDate = typeof event.end === 'string' ? new Date(event.end) : event.end;
+      
+      return {
+        id: index.toString(),
+        title: event.summary,
+        start: this.formatDateTimeForScheduleX(startDate),
+        end: this.formatDateTimeForScheduleX(endDate),
+        description: event.description,
+        location: event.location,
+      };
+    });
 
     // Update calendar events
     calendar.events.set(scheduleXEvents);
   }
 
   /**
-   * Format date for Schedule-X (YYYY-MM-DD HH:mm format)
+   * Format date/time for Schedule-X using Temporal API
+   * Returns ISO string format: YYYY-MM-DD HH:mm for timed events
    */
-  private formatDateForScheduleX(date: string | Date): string {
-    const d = typeof date === 'string' ? new Date(date) : date;
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    const hours = String(d.getHours()).padStart(2, '0');
-    const minutes = String(d.getMinutes()).padStart(2, '0');
+  private formatDateTimeForScheduleX(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   }
 
