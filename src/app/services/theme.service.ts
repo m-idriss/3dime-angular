@@ -36,9 +36,9 @@ export interface ThemeConfig {
 export class ThemeService {
   private readonly config: ThemeConfig = {
     THEME_MODES: ['dark', 'white', 'glass'],
-    DEFAULT_THEME: 'glass',
+    DEFAULT_THEME: 'white',
     BACKGROUND_MODES: ['black', 'white', 'video'],
-    DEFAULT_BACKGROUND: 'video',
+    DEFAULT_BACKGROUND: 'white',
     FONT_SIZES: ['normal', 'large', 'small'],
     DEFAULT_FONT_SIZE: 'small',
     THEME_DISPLAY_NAMES: {
