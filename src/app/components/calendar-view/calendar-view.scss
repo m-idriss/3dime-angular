@@ -107,7 +107,10 @@
     background: var(--glass-bg-hover);
     color: var(--badge-color);
     border-color: var(--badge-color);
-    transform: rotate(90deg);
+
+    @media (prefers-reduced-motion: no-preference) {
+      transform: rotate(90deg);
+    }
   }
 }
 
