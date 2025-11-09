@@ -407,6 +407,8 @@ The project includes an automated release workflow that creates tags and GitHub 
 - `major`: 1.0.0 → 2.0.0 (breaking changes)
 - `custom`: Specify any version like 2.5.0
 
+📚 **For detailed instructions, examples, and troubleshooting, see [RELEASE_GUIDE.md](RELEASE_GUIDE.md)**
+
 ### Manual Deployment
 
 #### Static Hosts (Netlify, Vercel)
