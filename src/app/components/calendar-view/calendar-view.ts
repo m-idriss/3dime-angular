@@ -42,6 +42,15 @@ export class CalendarView implements OnInit {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
+    buttonText: {
+      prev: '◄',
+      next: '►',
+      today: 'Today',
+      month: 'Month',
+      week: 'Week',
+      day: 'Day'
+    },
+    buttonIcons: false,
     editable: true,
     selectable: true,
     selectMirror: true,
