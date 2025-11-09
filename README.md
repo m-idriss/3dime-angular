@@ -9,7 +9,7 @@
 *A sophisticated Angular 20+ application showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design*
 
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-3dime.com-00D4AA?style=for-the-badge)](https://3dime.com)
-[![Angular](https://img.shields.io/badge/Angular-20.2-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
+[![Angular](https://img.shields.io/badge/Angular-20.3-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-9C27B0?style=for-the-badge)](public/assets/manifest.json)
@@ -20,7 +20,7 @@
 
 ## 🎯 Overview
 
-3dime-angular is a modern, high-performance personal portfolio application built with Angular 20+ and designed to showcase your professional journey in an elegant, engaging way. Featuring a stunning space-themed design with glassmorphism effects, this application creates a memorable digital presence that stands out.
+3dime-angular is a modern, high-performance personal portfolio application built with Angular 20.3+ and designed to showcase your professional journey in an elegant, engaging way. Featuring a stunning space-themed design with glassmorphism effects, this application creates a memorable digital presence that stands out.
 
 **Architecture**: Modern Angular standalone components with TypeScript strict mode, SCSS styling with CSS custom properties, and Progressive Web App capabilities.
 
@@ -35,7 +35,7 @@ Perfect for developers, designers, and professionals who want a fast, beautiful,
 - **Smooth Animations** - Subtle micro-interactions and fluid transitions
 
 ### ⚡ **Performance & Technology**
-- **Angular 20+** - Latest Angular with standalone components and modern features
+- **Angular 20.3+** - Latest Angular with standalone components and modern features
 - **TypeScript 5.9+** - Type-safe development with strict mode
 - **Progressive Web App (PWA)** - Installable, works offline, app-like experience
 - **Optimized Build** - Production-ready with tree-shaking and lazy loading
@@ -68,10 +68,10 @@ Perfect for developers, designers, and professionals who want a fast, beautiful,
 <td align="center">
 
 **Frontend Core**
-- Angular 20.2+
-- TypeScript 5.9+
-- RxJS 7.8+
-- Zone.js 0.15+
+- Angular 20.3.10
+- TypeScript 5.9.3
+- RxJS 7.8.2
+- Zone.js 0.15.1
 - Standalone Components
 
 </td>
@@ -100,7 +100,7 @@ Perfect for developers, designers, and professionals who want a fast, beautiful,
 <td align="center">
 
 **Build & Tools**
-- Angular CLI 20.2+
+- Angular CLI 20.3.9
 - esbuild Bundler
 - TypeScript Compiler
 - Karma + Jasmine Testing
@@ -181,7 +181,7 @@ npm run build -- --configuration=production
 # Output location: dist/3dime-angular/
 ```
 
-The build process takes ~8-10 seconds and generates optimized, production-ready static files.
+The build process takes ~14 seconds and generates optimized, production-ready static files.
 
 ## ⚙️ Configuration
 
@@ -500,8 +500,8 @@ npm test
 ```
 
 **Expected Behavior**:
-- Tests build successfully in ~12 seconds
-- Some tests may show expected failures related to HttpClient setup (this is normal for current test configuration)
+- Tests build and execute in under 1 second
+- All 61 tests pass successfully ✅
 
 ### API Testing with Bruno
 
@@ -599,9 +599,9 @@ src/app/
 
 ### Key Technologies
 
-- **Angular 20+**: Standalone components with modern Angular features
-- **TypeScript 5.9+**: Strict mode for enhanced type safety and code quality
-- **RxJS 7.8+**: Reactive programming for data streams and async operations
+- **Angular 20.3.10**: Standalone components with modern Angular features
+- **TypeScript 5.9.3**: Strict mode for enhanced type safety and code quality
+- **RxJS 7.8.2**: Reactive programming for data streams and async operations
 - **SCSS**: Advanced styling with CSS custom properties and mixins
 - **Glassmorphism**: Modern UI design with frosted glass effects and backdrop filters
 
@@ -621,7 +621,7 @@ For detailed component documentation, see [docs/COMPONENTS.md](./docs/COMPONENTS
 
 The application is optimized for performance:
 
-- **Bundle Size**: Production build ~1.23MB raw (316KB transferred) with tree-shaking
+- **Bundle Size**: Production build 2.04 MB raw (475.15 KB transferred) with tree-shaking
 - **Code Splitting**: Lazy loading for optimal initial load time
 - **Asset Optimization**: Compressed images and efficient resource loading
 - **Build Configuration**: Production builds include minification and optimization
@@ -688,8 +688,9 @@ See [docs/API.md](./docs/API.md) for detailed API documentation.
 
 ## 📊 Performance Metrics
 
-- ⚡ **Build Time**: ~8-10 seconds for production build
-- 📦 **Bundle Size**: 1.23MB raw / 316KB transferred (optimized and minified)
+- ⚡ **Build Time**: ~14 seconds for production build
+- 📦 **Bundle Size**: 2.04 MB raw / 475.15 KB transferred (optimized and minified)
+- 🧪 **Tests**: 61 tests all passing in < 1 second
 - 🚀 **Load Time**: < 3 seconds on 3G networks
 - 📱 **Mobile Optimized**: Responsive design with mobile-first approach
 - ♿ **Accessible**: Semantic HTML with ARIA labels
