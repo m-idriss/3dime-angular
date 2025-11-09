@@ -212,9 +212,9 @@ jobs:
           
           # Set output for release creation (escape for GitHub Actions)
           {
-            echo 'changelog<<EOF'
+            echo 'changelog<<CHANGELOG_EOF'
             cat CHANGELOG.md
-            echo EOF
+            echo CHANGELOG_EOF
           } >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
