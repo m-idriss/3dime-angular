@@ -1,14 +1,30 @@
 .home-page {
   min-height: 90vh;
+  padding-top: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .home-container {
-  max-width: 900px;
+  max-width: 100%;
   width: 100%;
   padding: 2rem;
+
+  // Desktop: wider container to accommodate side-by-side layout
+  @media (min-width: 1200px) {
+    max-width: 1600px;
+  }
+
+  // Tablet: medium width
+  @media (min-width: 769px) and (max-width: 1199px) {
+    max-width: 900px;
+  }
+
+  // Mobile: full width with padding
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 }
 
 .hero-section {
@@ -72,6 +88,79 @@
   }
 }
 
+/* ========================
+   Content Layout - Side-by-side on Desktop
+   ======================== */
+.content-layout {
+  display: grid;
+  gap: var(--space-lg);
+
+  // Default: Center converter (no calendar)
+  @media (min-width: 1200px) {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  // Desktop: Side-by-side layout when calendar is visible
+  &.has-calendar {
+    // Intermediate desktop: favor converter, calendar gets less space
+    @media (min-width: 1200px) and (max-width: 1499px) {
+      grid-template-columns: 1.3fr 0.7fr;
+      justify-items: stretch;
+      align-items: start;
+
+      .converter-card {
+        max-width: none;
+      }
+    }
+    
+    // Large desktop: equal split
+    @media (min-width: 1500px) {
+      grid-template-columns: 1fr 1fr;
+      justify-items: stretch;
+      align-items: start;
+
+      .converter-card {
+        max-width: none;
+      }
+    }
+  }
+
+  // Tablet and below: Stack vertically
+  @media (max-width: 1199px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.converter-card {
+  width: 100%;
+  
+  // Centered when no calendar (only on desktop)
+  @media (min-width: 1200px) {
+    .content-layout:not(.has-calendar) & {
+      max-width: 900px;
+    }
+  }
+}
+
+.calendar-card {
+  // Will take full width on mobile/tablet, half width on desktop
+  width: 100%;
+  min-height: 600px;
+
+  @media (min-width: 1200px) {
+    // Sticky positioning on desktop so calendar stays visible while scrolling
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+  }
+}
+
+
+
+/* ========================
+   Mobile Responsive Styles
+   ======================== */
 @media (max-width: 768px) {
 
   .home-container {

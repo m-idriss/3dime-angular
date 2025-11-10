@@ -40,17 +40,37 @@
       </p>
     </div>
 
-    <div class="converter-card">
-      <app-converter></app-converter>
+    <!-- Desktop: Side-by-side layout when events exist, centered when no events -->
+    <div class="content-layout" [class.has-calendar]="calendarStateService.isVisible() && isDesktop()">
+      <div class="converter-card">
+        <app-converter></app-converter>
+      </div>
+
+      <!-- Desktop inline calendar view (only when visible and desktop) -->
+      @if (calendarStateService.isVisible() && isDesktop()) {
+        <div class="calendar-card">
+          <app-calendar-view
+            [events]="calendarStateService.events()"
+            [visible]="calendarStateService.isVisible()"
+            [inline]="true"
+            (visibleChange)="handleCalendarVisibilityChange($event)"
+            (eventsChange)="handleCalendarEventsChange($event)"
+            (exportIcs)="handleCalendarExport()"
+          />
+        </div>
+      }
     </div>
   </div>
 </main>
 
-<!-- Calendar View Modal -->
-<app-calendar-view
-  [events]="calendarStateService.events()"
-  [visible]="calendarStateService.isVisible()"
-  (visibleChange)="handleCalendarVisibilityChange($event)"
-  (eventsChange)="handleCalendarEventsChange($event)"
-  (exportIcs)="handleCalendarExport()"
-/>
+<!-- Single calendar instance with responsive inline mode -->
+@if (calendarStateService.isVisible() && !isDesktop()) {
+  <app-calendar-view
+    [events]="calendarStateService.events()"
+    [visible]="calendarStateService.isVisible()"
+    [inline]="false"
+    (visibleChange)="handleCalendarVisibilityChange($event)"
+    (eventsChange)="handleCalendarEventsChange($event)"
+    (exportIcs)="handleCalendarExport()"
+  />
+}

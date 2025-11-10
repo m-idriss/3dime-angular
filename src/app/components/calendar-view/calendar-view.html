@@ -1,23 +1,68 @@
-<!-- Calendar View Modal Overlay -->
+<!-- Calendar View - Support both inline and modal modes -->
 @if (visible()) {
-  <div class="calendar-modal-overlay" (click)="close()" (keydown.escape)="close()" role="dialog" aria-modal="true" aria-labelledby="calendar-modal-title" tabindex="-1">
-    <div class="calendar-modal-content" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" role="document">
+  <!-- Modal mode (default for mobile/tablet) -->
+  @if (!inline()) {
+    <div class="calendar-modal-overlay" (click)="close()" role="dialog" aria-modal="true" aria-labelledby="calendar-modal-title" tabindex="-1">
+      <div class="calendar-modal-content" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" role="document">
+        <!-- Header -->
+        <div class="calendar-modal-header">
+          <h2 id="calendar-modal-title" class="calendar-modal-title">📅 Interactive Calendar View</h2>
+          <button
+            class="close-button"
+            (click)="close()"
+            aria-label="Close calendar view"
+          >
+            ✕
+          </button>
+        </div>
+
+        <!-- Calendar Body -->
+        <div class="calendar-modal-body">
+          <div class="calendar-instructions">
+            <p>✨ Drag events to reschedule • Resize to adjust duration • Click for details</p>
+          </div>
+          
+          <div class="calendar-container">
+            <full-calendar
+              #calendar
+              [options]="calendarOptions()"
+            ></full-calendar>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="calendar-modal-footer">
+          <button
+            class="action-btn export-btn"
+            (click)="handleExport()"
+            aria-label="Export calendar events to ICS file"
+          >
+            💾 Export Updated ICS
+          </button>
+          <button
+            class="action-btn close-btn"
+            (click)="close()"
+            aria-label="Close calendar view"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Inline mode (desktop side-by-side) -->
+  @if (inline()) {
+    <div class="calendar-inline-container" role="region" aria-labelledby="calendar-inline-title">
       <!-- Header -->
-      <div class="calendar-modal-header">
-        <h2 id="calendar-modal-title" class="calendar-modal-title">📅 Interactive Calendar View</h2>
-        <button
-          class="close-button"
-          (click)="close()"
-          aria-label="Close calendar view"
-        >
-          ✕
-        </button>
+      <div class="calendar-inline-header">
+        <h2 id="calendar-inline-title" class="calendar-inline-title">📅 Calendar View</h2>
       </div>
 
       <!-- Calendar Body -->
-      <div class="calendar-modal-body">
+      <div class="calendar-inline-body">
         <div class="calendar-instructions">
-          <p>✨ Drag events to reschedule • Resize to adjust duration • Click for details</p>
+          <p>✨ Drag events to reschedule • Resize to adjust duration</p>
         </div>
         
         <div class="calendar-container">
@@ -29,22 +74,15 @@
       </div>
 
       <!-- Footer Actions -->
-      <div class="calendar-modal-footer">
+      <div class="calendar-inline-footer">
         <button
           class="action-btn export-btn"
           (click)="handleExport()"
           aria-label="Export calendar events to ICS file"
         >
-          💾 Export Updated ICS
-        </button>
-        <button
-          class="action-btn close-btn"
-          (click)="close()"
-          aria-label="Close calendar view"
-        >
-          Close
+          💾 Export ICS
         </button>
       </div>
     </div>
-  </div>
+  }
 }
