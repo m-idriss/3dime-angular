@@ -1,5 +1,6 @@
 .home-page {
   min-height: 90vh;
+  padding-top: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,24 +94,24 @@
 .content-layout {
   display: grid;
   gap: var(--space-lg);
-  
+
   // Default: Center converter (no calendar)
   @media (min-width: 1200px) {
     grid-template-columns: 1fr;
     justify-items: center;
-    
+
     .converter-card {
       max-width: 900px;
     }
   }
-  
+
   // Desktop: Side-by-side layout when calendar is visible
   &.has-calendar {
     @media (min-width: 1200px) {
       grid-template-columns: 1fr 1fr;
       justify-items: stretch;
       align-items: start;
-      
+
       .converter-card {
         max-width: none;
       }
@@ -132,7 +133,7 @@
   // Will take full width on mobile/tablet, half width on desktop
   width: 100%;
   min-height: 600px;
-  
+
   @media (min-width: 1200px) {
     // Sticky positioning on desktop so calendar stays visible while scrolling
     position: sticky;
@@ -146,7 +147,7 @@
    ======================== */
 .desktop-only {
   display: none;
-  
+
   @media (min-width: 1200px) {
     display: block;
   }
@@ -154,7 +155,7 @@
 
 .mobile-tablet-only {
   display: block;
-  
+
   @media (min-width: 1200px) {
     display: none;
   }
