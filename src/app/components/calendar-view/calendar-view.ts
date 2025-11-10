@@ -146,10 +146,12 @@ export class CalendarView implements OnInit {
 
   /**
    * Handle event click
+   * Currently unused but kept for future feature implementation
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private handleEventClick(info: EventClickArg): void {
     // Optional: Could open an edit modal or show event details
-    console.log('Event clicked:', info.event);
+    // Currently no action on event click
   }
 
   /**
