@@ -1,0 +1,5 @@
+# Netlify and static host redirect rules for SPA routing
+# This file redirects all requests to index.html to support client-side routing
+
+# Redirect all routes to index.html (SPA fallback)
+/*    /index.html   200
