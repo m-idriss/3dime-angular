@@ -119,8 +119,7 @@ body.bg-white {
     --text-bg-alt : #1a1a1a;
 }
 
-body.bg-black,
- body.bg-video{
+body.bg-black {
     --text-bg : #ffffff;
     --text-bg-alt : #333333;
 }
@@ -326,10 +325,6 @@ body.bg-black .bg {
 
 body.bg-white .bg {
   background: #ffffff;
-}
-
-body.bg-video .bg {
-  background: #1a1a2e;
 }
 
 /* ========================

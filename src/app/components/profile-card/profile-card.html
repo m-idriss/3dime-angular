@@ -74,25 +74,6 @@
             <div class="dropdown-separator" role="separator"></div>
 
             <button
-              class="dropdown-item video-bg-toggle"
-              role="menuitem"
-              (click)="toggleVideoBg()"
-              [appTooltip]="'Change background'"
-              appTooltipPlacement="left"
-            >
-              <i
-                class="fas"
-                [class.fa-circle]="currentBackground === 'black'"
-                [class.fa-circle-notch]="currentBackground === 'white'"
-                [class.fa-play]="currentBackground === 'video'"
-                aria-hidden="true"
-              ></i>
-              <span>{{ backgroundDisplayName }}</span>
-            </button>
-
-            <div class="dropdown-separator" role="separator"></div>
-
-            <button
               class="dropdown-item font-size-toggle"
               role="menuitem"
               (click)="changeFontSize()"
