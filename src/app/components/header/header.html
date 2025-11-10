@@ -72,6 +72,24 @@
             <div class="dropdown-separator" role="separator"></div>
 
             <button
+              class="dropdown-item background-toggle"
+              role="menuitem"
+              (click)="toggleBackground()"
+              [appTooltip]="'Toggle background'"
+              appTooltipPlacement="left"
+            >
+              <i
+                class="fas"
+                [class.fa-adjust]="currentBackground === 'black'"
+                [class.fa-circle]="currentBackground === 'white'"
+                aria-hidden="true"
+              ></i>
+              <span>{{ backgroundDisplayName }}</span>
+            </button>
+
+            <div class="dropdown-separator" role="separator"></div>
+
+            <button
               class="dropdown-item font-size-toggle"
               role="menuitem"
               (click)="changeFontSize()"
