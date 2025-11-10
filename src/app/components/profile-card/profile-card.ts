@@ -1,6 +1,5 @@
 import {
   Component,
-  HostListener,
   OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -8,9 +7,7 @@ import {
 } from '@angular/core';
 import { AppTooltipDirective } from '../../shared/directives';
 
-import { ThemeService } from '../../services/theme.service';
 import { GithubService, SocialLink, GithubUser } from '../../services/github.service';
-import { AuthAwareComponent } from '../base/auth-aware.component';
 import { SkeletonLoader } from '../skeleton-loader/skeleton-loader';
 import {
   SOCIAL_ICON_MAP,
@@ -26,12 +23,10 @@ import {
   styleUrl: './profile-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileCard extends AuthAwareComponent implements OnInit {
-  private readonly themeService = inject(ThemeService);
+export class ProfileCard implements OnInit {
   private readonly githubService = inject(GithubService);
   private readonly cdr = inject(ChangeDetectorRef);
 
-  menuOpen = false;
   socialLinks: SocialLink[] = [];
   profileData: GithubUser | null = null;
   isLoading = true;
@@ -98,75 +93,5 @@ export class ProfileCard extends AuthAwareComponent implements OnInit {
     }
 
     return `fa fa-brands fa-${iconName}`;
-  }
-
-  toggleMenu(): void {
-    this.menuOpen = !this.menuOpen;
-  }
-
-  closeMenu(): void {
-    this.menuOpen = false;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event) {
-    const target = event.target as HTMLElement;
-    const burgerMenu = target.closest('.burger-menu');
-    if (!burgerMenu && this.menuOpen) {
-      this.closeMenu();
-    }
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape' && this.menuOpen) {
-      this.closeMenu();
-    }
-  }
-
-  cycleTheme() {
-    this.themeService.cycleTheme();
-  }
-
-  toggleVideoBg() {
-    this.themeService.toggleBackground();
-  }
-
-  changeFontSize() {
-    this.themeService.cycleFontSize();
-  }
-
-  get currentTheme(): string {
-    return this.themeService.getCurrentTheme();
-  }
-
-  get currentBackground(): string {
-    return this.themeService.getCurrentBackground();
-  }
-
-  get currentFontSize(): string {
-    return this.themeService.getCurrentFontSize();
-  }
-
-  get themeDisplayName(): string {
-    return this.themeService.getThemeDisplayName(this.currentTheme);
-  }
-
-  get backgroundDisplayName(): string {
-    return this.themeService.getBackgroundDisplayName(this.currentBackground);
-  }
-
-  get fontSizeDisplayName(): string {
-    return this.themeService.getFontSizeDisplayName(this.currentFontSize);
-  }
-
-  async signOut(): Promise<void> {
-    try {
-      await this.authService.signOutUser();
-      this.menuOpen = false;
-      this.cdr.markForCheck();
-    } catch (error) {
-      console.error('Sign out error:', error);
-    }
   }
 }

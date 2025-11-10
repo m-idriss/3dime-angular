@@ -100,6 +100,188 @@
   }
 }
 
+/* Burger Menu - Settings dropdown trigger */
+.burger-menu {
+  position: relative;
+}
+
+/* Burger Button - Menu toggle button */
+.burger-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+
+    i {
+      color: var(--primary-color, #6366f1);
+      transform: rotate(180deg);
+    }
+  }
+
+  i {
+    color: var(--text-primary, #e0e0e0);
+    font-size: 18px;
+    transition: transform 0.3s ease;
+  }
+
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+}
+
+/* Dropdown Menu - Settings menu popup */
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 10001;
+  transform-origin: top right;
+  min-width: 240px;
+  background: rgba(20, 20, 40, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: dropdownSlideIn 0.2s ease-out;
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Dropdown Item - Individual menu items */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  text-align: left;
+  color: var(--text-primary, #e0e0e0);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--primary-color, #6366f1);
+
+    i {
+      transform: scale(1.1);
+    }
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--primary-color, #6366f1);
+    outline-offset: -2px;
+  }
+
+  i {
+    width: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  &.sign-out {
+    &.btn-danger {
+      color: #fff;
+      background-color: #ef4444;
+      border-color: #ef4444;
+
+      &:hover {
+        color: #fff;
+        background-color: #dc2626;
+        border-color: #b91c1c;
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba(239, 68, 68, 0.5);
+      }
+    }
+
+    &:hover {
+      color: #ef4444;
+    }
+  }
+}
+
+/* Dropdown Separator - Divider line */
+.dropdown-separator {
+  height: 1px;
+  margin: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* User Info in Dropdown - Authenticated user details */
+.user-info {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  gap: 0.75rem;
+
+  .user-details {
+    flex: 1;
+    min-width: 0;
+
+    .user-name {
+      margin-bottom: 0.25rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary, #e0e0e0);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .user-email {
+      font-size: 0.8rem;
+      color: var(--text-secondary, #b0b0b0);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .app-header {
     padding: 0.75rem 1rem;
@@ -124,5 +306,9 @@
     i {
       font-size: 1.1rem;
     }
+  }
+
+  .profile-dropdown {
+    min-width: 200px;
   }
 }
