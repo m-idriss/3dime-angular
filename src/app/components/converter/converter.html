@@ -188,8 +188,8 @@
 
     <!-- Extracted Events - Apple Calendar Style with Editing -->
     @if (extractedEvents().length > 0) {
-      <!-- Primary Action Button - Prominent Position -->
-      <div class="primary-actions">
+      <!-- Primary Action Button - Prominent Position (Mobile/Tablet only) -->
+      <div class="primary-actions mobile-tablet-calendar-button">
         <button
           class="action-button calendar-view btn btn-primary"
           (click)="openCalendarView()"
