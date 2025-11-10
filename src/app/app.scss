@@ -2,4 +2,20 @@
    App Component Styles
    ======================== */
 
-/* Minimal app component styles - routing is handled by pages */
+/* App layout - ensure footer stays at bottom */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Make the routed content area grow to push footer to bottom */
+app-header {
+  flex-shrink: 0;
+}
+
+app-footer {
+  flex-shrink: 0;
+  margin-top: auto;
+}
