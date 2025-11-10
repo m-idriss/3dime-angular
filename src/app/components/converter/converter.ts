@@ -416,8 +416,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
       this.toastService.clearError();
     }
     
-    // Automatically show calendar view when events are extracted
-    if (allEvents.length > 0) {
+    // Automatically show calendar view when events are extracted (desktop only)
+    if (allEvents.length > 0 && isPlatformBrowser(this.platformId) && window.innerWidth >= 1200) {
       this.openCalendarView();
     }
   }
@@ -480,8 +480,10 @@ export class Converter extends AuthAwareComponent implements OnInit {
       this.toastService.showSuccess(`Successfully extracted ${events.length} event(s) from your file!`);
       this.toastService.clearError();
       
-      // Automatically show calendar view when events are extracted
-      this.openCalendarView();
+      // Automatically show calendar view when events are extracted (desktop only)
+      if (isPlatformBrowser(this.platformId) && window.innerWidth >= 1200) {
+        this.openCalendarView();
+      }
     } catch (error) {
       console.error('Failed to parse repaired ICS:', error);
       this.toastService.showError('Failed to parse generated ICS file (even after repair).');

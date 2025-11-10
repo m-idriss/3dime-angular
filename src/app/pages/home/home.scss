@@ -99,15 +99,23 @@
   @media (min-width: 1200px) {
     grid-template-columns: 1fr;
     justify-items: center;
-
-    .converter-card {
-      max-width: 900px;
-    }
   }
 
   // Desktop: Side-by-side layout when calendar is visible
   &.has-calendar {
-    @media (min-width: 1200px) {
+    // Intermediate desktop: favor converter, calendar gets less space
+    @media (min-width: 1200px) and (max-width: 1499px) {
+      grid-template-columns: 1.3fr 0.7fr;
+      justify-items: stretch;
+      align-items: start;
+
+      .converter-card {
+        max-width: none;
+      }
+    }
+    
+    // Large desktop: equal split
+    @media (min-width: 1500px) {
       grid-template-columns: 1fr 1fr;
       justify-items: stretch;
       align-items: start;
@@ -125,8 +133,14 @@
 }
 
 .converter-card {
-  // Will take full width on mobile/tablet, half width on desktop
   width: 100%;
+  
+  // Centered when no calendar (only on desktop)
+  @media (min-width: 1200px) {
+    .content-layout:not(.has-calendar) & {
+      max-width: 900px;
+    }
+  }
 }
 
 .calendar-card {
@@ -142,24 +156,7 @@
   }
 }
 
-/* ========================
-   Responsive Visibility
-   ======================== */
-.desktop-only {
-  display: none;
 
-  @media (min-width: 1200px) {
-    display: block;
-  }
-}
-
-.mobile-tablet-only {
-  display: block;
-
-  @media (min-width: 1200px) {
-    display: none;
-  }
-}
 
 /* ========================
    Mobile Responsive Styles

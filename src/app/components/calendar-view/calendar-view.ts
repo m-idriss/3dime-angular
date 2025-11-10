@@ -1,4 +1,4 @@
-import { Component, signal, input, output, OnInit, ViewChild, PLATFORM_ID, inject, effect } from '@angular/core';
+import { Component, signal, input, output, OnInit, ViewChild, PLATFORM_ID, inject, effect, HostListener } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput, EventDropArg, EventClickArg } from '@fullcalendar/core';
@@ -160,6 +160,17 @@ export class CalendarView implements OnInit {
    */
   protected close(): void {
     this.visibleChange.emit(false);
+  }
+
+  /**
+   * Handle escape key to close modal (only in modal mode)
+   */
+  @HostListener('document:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && !this.inline() && this.visible()) {
+      this.close();
+      event.preventDefault();
+    }
   }
 
   /**
