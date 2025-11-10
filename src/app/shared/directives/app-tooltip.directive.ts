@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit } from '@angular/core';
+import { Directive, Input, OnInit, inject } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 /**
@@ -25,13 +25,13 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
   ],
 })
 export class AppTooltipDirective implements OnInit {
+  private readonly ngbTooltip = inject(NgbTooltip);
+
   /**
    * Tooltip placement (top, bottom, left, right)
    * Default: 'top'
    */
   @Input() appTooltipPlacement: 'top' | 'bottom' | 'left' | 'right' | 'auto' = 'top';
-
-  constructor(private ngbTooltip: NgbTooltip) {}
 
   ngOnInit(): void {
     // Apply default configuration

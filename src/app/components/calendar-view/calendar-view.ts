@@ -1,7 +1,7 @@
 import { Component, signal, input, output, OnInit, ViewChild, PLATFORM_ID, inject, effect } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions, EventInput, EventDropArg } from '@fullcalendar/core';
+import { CalendarOptions, EventInput, EventDropArg, EventClickArg } from '@fullcalendar/core';
 import { EventResizeDoneArg } from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -146,10 +146,12 @@ export class CalendarView implements OnInit {
 
   /**
    * Handle event click
+   * Currently unused but kept for future feature implementation
    */
-  private handleEventClick(info: any): void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private handleEventClick(info: EventClickArg): void {
     // Optional: Could open an edit modal or show event details
-    console.log('Event clicked:', info.event);
+    // Currently no action on event click
   }
 
   /**

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CalendarView } from './calendar-view';
-import { signal } from '@angular/core';
 import { CalendarEvent } from '../../models';
 
 describe('CalendarView', () => {
@@ -84,7 +83,7 @@ describe('CalendarView', () => {
   });
 
   it('should have calendar options configured', () => {
-    const options = (component as any).calendarOptions();
+    const options = component['calendarOptions']();
     
     expect(options.editable).toBe(true);
     expect(options.selectable).toBe(true);
