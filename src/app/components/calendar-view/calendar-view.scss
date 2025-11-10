@@ -535,16 +535,22 @@
 
   /* Visual - Glassmorphism matching converter style */
   background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+  border: 0.2px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--t-fast);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 
   /* Layout */
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+
+  /* Hover effect matching converter events list */
+  &:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  }
 }
 
 .calendar-inline-header {
