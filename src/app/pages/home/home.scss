@@ -94,10 +94,27 @@
   display: grid;
   gap: var(--space-lg);
   
-  // Desktop: Side-by-side layout with calendar on the right
+  // Default: Center converter (no calendar)
   @media (min-width: 1200px) {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    
+    .converter-card {
+      max-width: 900px;
+    }
+  }
+  
+  // Desktop: Side-by-side layout when calendar is visible
+  &.has-calendar {
+    @media (min-width: 1200px) {
+      grid-template-columns: 1fr 1fr;
+      justify-items: stretch;
+      align-items: start;
+      
+      .converter-card {
+        max-width: none;
+      }
+    }
   }
 
   // Tablet and below: Stack vertically

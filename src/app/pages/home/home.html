@@ -40,23 +40,25 @@
       </p>
     </div>
 
-    <!-- Desktop: Side-by-side layout, Mobile: Stack vertically -->
-    <div class="content-layout">
+    <!-- Desktop: Side-by-side layout when events exist, centered when no events -->
+    <div class="content-layout" [class.has-calendar]="calendarStateService.isVisible()">
       <div class="converter-card">
         <app-converter></app-converter>
       </div>
 
       <!-- Desktop inline calendar view (hidden on mobile) -->
-      <div class="calendar-card desktop-only">
-        <app-calendar-view
-          [events]="calendarStateService.events()"
-          [visible]="calendarStateService.isVisible()"
-          [inline]="true"
-          (visibleChange)="handleCalendarVisibilityChange($event)"
-          (eventsChange)="handleCalendarEventsChange($event)"
-          (exportIcs)="handleCalendarExport()"
-        />
-      </div>
+      @if (calendarStateService.isVisible()) {
+        <div class="calendar-card desktop-only">
+          <app-calendar-view
+            [events]="calendarStateService.events()"
+            [visible]="calendarStateService.isVisible()"
+            [inline]="true"
+            (visibleChange)="handleCalendarVisibilityChange($event)"
+            (eventsChange)="handleCalendarEventsChange($event)"
+            (exportIcs)="handleCalendarExport()"
+          />
+        </div>
+      }
     </div>
   </div>
 </main>
