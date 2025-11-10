@@ -40,17 +40,35 @@
       </p>
     </div>
 
-    <div class="converter-card">
-      <app-converter></app-converter>
+    <!-- Desktop: Side-by-side layout, Mobile: Stack vertically -->
+    <div class="content-layout">
+      <div class="converter-card">
+        <app-converter></app-converter>
+      </div>
+
+      <!-- Desktop inline calendar view (hidden on mobile) -->
+      <div class="calendar-card desktop-only">
+        <app-calendar-view
+          [events]="calendarStateService.events()"
+          [visible]="calendarStateService.isVisible()"
+          [inline]="true"
+          (visibleChange)="handleCalendarVisibilityChange($event)"
+          (eventsChange)="handleCalendarEventsChange($event)"
+          (exportIcs)="handleCalendarExport()"
+        />
+      </div>
     </div>
   </div>
 </main>
 
-<!-- Calendar View Modal -->
-<app-calendar-view
-  [events]="calendarStateService.events()"
-  [visible]="calendarStateService.isVisible()"
-  (visibleChange)="handleCalendarVisibilityChange($event)"
-  (eventsChange)="handleCalendarEventsChange($event)"
-  (exportIcs)="handleCalendarExport()"
-/>
+<!-- Calendar View Modal (for mobile/tablet) -->
+<div class="mobile-tablet-only">
+  <app-calendar-view
+    [events]="calendarStateService.events()"
+    [visible]="calendarStateService.isVisible()"
+    [inline]="false"
+    (visibleChange)="handleCalendarVisibilityChange($event)"
+    (eventsChange)="handleCalendarEventsChange($event)"
+    (exportIcs)="handleCalendarExport()"
+  />
+</div>

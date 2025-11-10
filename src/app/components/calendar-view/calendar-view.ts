@@ -27,6 +27,7 @@ export class CalendarView implements OnInit {
   // Inputs
   readonly events = input.required<CalendarEvent[]>();
   readonly visible = input.required<boolean>();
+  readonly inline = input<boolean>(false); // New: inline mode for desktop side-by-side layout
 
   // Outputs
   readonly visibleChange = output<boolean>();
