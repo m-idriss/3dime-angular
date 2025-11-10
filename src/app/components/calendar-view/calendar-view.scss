@@ -526,6 +526,83 @@
 }
 
 /* ========================
+   Inline Calendar Styles (Desktop Side-by-Side)
+   ======================== */
+.calendar-inline-container {
+  /* Box Model */
+  height: 100%;
+  padding: 0;
+
+  /* Visual - Glassmorphism matching converter style */
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.calendar-inline-header {
+  /* Box Model */
+  padding: var(--space-md) var(--space-lg);
+
+  /* Visual - Enhanced glassmorphism */
+  background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.1), rgba(var(--gradient-indigo), 0.05));
+  border-bottom: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* Layout */
+  flex-shrink: 0;
+}
+
+.calendar-inline-title {
+  /* Typography */
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.calendar-inline-body {
+  /* Box Model */
+  padding: var(--space-sm) var(--space-md);
+
+  /* Layout */
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-height: 0;
+}
+
+.calendar-inline-footer {
+  /* Box Model */
+  padding: var(--space-md) var(--space-lg);
+
+  /* Visual - Enhanced glassmorphism */
+  background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.05), rgba(var(--gradient-indigo), 0.1));
+  border-top: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* Layout */
+  display: flex;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+
+  .action-btn {
+    width: 100%;
+  }
+}
+
+/* ========================
    Print Styles
    ======================== */
 @media print {
