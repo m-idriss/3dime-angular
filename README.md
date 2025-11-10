@@ -443,16 +443,20 @@ npm run build -- --configuration=production --base-href=/
 
 ### Server Configuration for SPA Routing
 
-For Angular's client-side routing to work correctly, configure your server to redirect all requests to `index.html`:
+For Angular's client-side routing to work correctly, the server must redirect all requests to `index.html`.
 
-**Nginx**:
+**✅ Apache Hosting** - A `.htaccess` file is **included automatically** in the build output at `dist/3dime-angular/browser/.htaccess`. No additional configuration needed!
+
+**✅ Netlify/Static Hosts** - A `_redirects` file is **included automatically** in the build output at `dist/3dime-angular/browser/_redirects`. No additional configuration needed!
+
+**Nginx** - Add this to your server configuration:
 ```nginx
 location / {
     try_files $uri $uri/ /index.html;
 }
 ```
 
-**Apache** (`.htaccess`):
+**Manual Apache Configuration** (if `.htaccess` doesn't work):
 ```apache
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f

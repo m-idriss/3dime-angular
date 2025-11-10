@@ -1,0 +1,31 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Redirect to https if not already using it (optional, uncomment if needed)
+  # RewriteCond %{HTTPS} off
+  # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  
+  # If an existing asset or directory is requested, serve it as-is
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  
+  # Otherwise, redirect all requests to index.html to support Angular routing
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Security Headers (optional but recommended)
+<IfModule mod_headers.c>
+  # Prevent clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+  
+  # XSS Protection
+  Header always set X-XSS-Protection "1; mode=block"
+  
+  # Prevent MIME type sniffing
+  Header always set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# Enable gzip compression (optional but recommended for performance)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
