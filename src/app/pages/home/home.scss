@@ -1,6 +1,6 @@
 .home-page {
-  min-height: 100vh;
-  padding-top: 100px;
+  min-height: 90vh;
+  //padding-top: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,17 +42,6 @@
   margin: 0 auto;
 }
 
-.converter-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1.5rem;
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  animation: fadeInUp 0.8s ease-out 0.2s backwards;
-}
-
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -85,23 +74,16 @@
 }
 
 @media (max-width: 768px) {
-  .home-page {
-    padding-top: 80px;
-  }
 
   .home-container {
     padding: 1rem;
   }
 
-  .hero-section {
-    margin-bottom: var(--space-lg);
-  }
 
   .hero-title {
     font-size: 1.75rem;
     flex-direction: column;
     gap: 0.5rem;
-    margin-bottom: var(--space-sm);
   }
 
   .hero-icon {
