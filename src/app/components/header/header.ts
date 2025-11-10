@@ -51,6 +51,10 @@ export class Header extends AuthAwareComponent {
     this.themeService.cycleTheme();
   }
 
+  toggleBackground() {
+    this.themeService.toggleBackground();
+  }
+
   changeFontSize() {
     this.themeService.cycleFontSize();
   }
@@ -59,12 +63,20 @@ export class Header extends AuthAwareComponent {
     return this.themeService.getCurrentTheme();
   }
 
+  get currentBackground(): string {
+    return this.themeService.getCurrentBackground();
+  }
+
   get currentFontSize(): string {
     return this.themeService.getCurrentFontSize();
   }
 
   get themeDisplayName(): string {
     return this.themeService.getThemeDisplayName(this.currentTheme);
+  }
+
+  get backgroundDisplayName(): string {
+    return this.themeService.getBackgroundDisplayName(this.currentBackground);
   }
 
   get fontSizeDisplayName(): string {
