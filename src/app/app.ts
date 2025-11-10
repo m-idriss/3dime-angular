@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { RouterOutlet } from '@angular/router';
 
 import { Header } from './components/header/header';
+import { Footer } from './components/footer/footer';
 import { PWA_CONFIG } from './constants/pwa.constants';
 
 @Component({
@@ -13,6 +14,7 @@ import { PWA_CONFIG } from './constants/pwa.constants';
   imports: [
     RouterOutlet,
     Header,
+    Footer,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
