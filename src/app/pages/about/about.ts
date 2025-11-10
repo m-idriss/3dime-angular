@@ -5,7 +5,6 @@ import { BackToTop } from '../../components/back-to-top/back-to-top';
 import { Education } from '../../components/education/education';
 import { ExpandableCard } from '../../components/expandable-card/expandable-card';
 import { Experience } from '../../components/experience/experience';
-import { Footer } from '../../components/footer/footer';
 import { GithubActivity } from '../../components/github-activity/github-activity';
 import { Hobbies } from '../../components/hobbies/hobbies';
 import { ProfileCard } from '../../components/profile-card/profile-card';
@@ -22,7 +21,6 @@ import { AppTooltipDirective } from '../../shared/directives';
     Education,
     ExpandableCard,
     Experience,
-    Footer,
     GithubActivity,
     Hobbies,
     ProfileCard,
