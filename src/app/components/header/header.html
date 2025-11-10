@@ -14,6 +14,91 @@
         <i class="fa fa-user" aria-hidden="true"></i>
         <span>About Me</span>
       </a>
+      
+      <!-- Burger Menu -->
+      <div class="burger-menu" [class.active]="menuOpen" aria-label="Settings menu">
+        <button
+          class="burger-button"
+          [class.active]="menuOpen"
+          (click)="toggleMenu()"
+          aria-label="Open settings menu"
+          [attr.aria-expanded]="menuOpen"
+          aria-haspopup="true"
+          appTooltip="Settings"
+          appTooltipPlacement="bottom"
+        >
+          @if (isAuthenticated && currentUser) {
+            <img
+              [src]="currentUser.photoURL"
+              [alt]="currentUser.displayName || 'User avatar'"
+              class="user-avatar"
+            />
+          } @else {
+            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+          }
+        </button>
+
+        <!-- Dropdown menu -->
+        @if (menuOpen) {
+          <div class="profile-dropdown" role="menu" aria-label="Settings">
+            @if (isAuthenticated && currentUser) {
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">{{ currentUser.displayName }}</div>
+                  <div class="user-email">{{ currentUser.email }}</div>
+                </div>
+              </div>
+
+              <div class="dropdown-separator" role="separator"></div>
+            }
+
+            <button
+              class="dropdown-item theme-toggle"
+              role="menuitem"
+              (click)="cycleTheme()"
+              [appTooltip]="'Switch theme'"
+              appTooltipPlacement="left"
+            >
+              <i
+                class="fas"
+                [class.fa-moon]="currentTheme === 'dark'"
+                [class.fa-sun]="currentTheme === 'white'"
+                [class.fa-gem]="currentTheme === 'glass'"
+                aria-hidden="true"
+              ></i>
+              <span>{{ themeDisplayName }}</span>
+            </button>
+
+            <div class="dropdown-separator" role="separator"></div>
+
+            <button
+              class="dropdown-item font-size-toggle"
+              role="menuitem"
+              (click)="changeFontSize()"
+              [appTooltip]="'Adjust font size'"
+              appTooltipPlacement="left"
+            >
+              <i class="fas fa-text-height" aria-hidden="true"></i>
+              <span>Font Size: {{ fontSizeDisplayName }}</span>
+            </button>
+
+            @if (isAuthenticated) {
+              <div class="dropdown-separator" role="separator"></div>
+
+              <button
+                class="dropdown-item sign-out btn btn-danger"
+                role="menuitem"
+                (click)="signOut()"
+                [appTooltip]="'Sign out of your account'"
+                appTooltipPlacement="left"
+              >
+                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                <span>Sign Out</span>
+              </button>
+            }
+          </div>
+        }
+      </div>
     </nav>
   </div>
 </header>
