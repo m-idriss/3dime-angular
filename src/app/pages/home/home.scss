@@ -1,6 +1,5 @@
 .home-page {
-  min-height: 100vh;
-  padding-top: 100px;
+  min-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,7 +13,7 @@
 
 .hero-section {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: var(--space-lg);
   animation: fadeInDown 0.8s ease-out;
 }
 
@@ -40,17 +39,6 @@
   line-height: 1.6;
   max-width: 600px;
   margin: 0 auto;
-}
-
-.converter-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1.5rem;
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  animation: fadeInUp 0.8s ease-out 0.2s backwards;
 }
 
 @keyframes fadeInDown {
@@ -85,17 +73,11 @@
 }
 
 @media (max-width: 768px) {
-  .home-page {
-    padding-top: 80px;
-  }
 
   .home-container {
     padding: 1rem;
   }
 
-  .hero-section {
-    margin-bottom: 2rem;
-  }
 
   .hero-title {
     font-size: 1.75rem;
