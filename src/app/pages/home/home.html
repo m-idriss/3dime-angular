@@ -28,17 +28,32 @@
   }
 </div>
 
-<main class="home-page" aria-label="Main content">
+<main class="home-page" aria-label="Main content" id="main-content" role="main">
   <div class="home-container">
-    <div class="hero-section">
-      <h1 class="hero-title">
-        <span class="hero-icon">📅</span>
-        Calendar Converter App
+    <article class="hero-section" itemscope itemtype="https://schema.org/WebApplication">
+      <h1 class="hero-title" itemprop="name">
+        <span class="hero-icon" aria-hidden="true">📅</span>
+        Free AI Calendar Converter - Transform Images & PDFs to Calendar Events
       </h1>
-      <p class="hero-description">
-        Upload or snap your appointments, and AI turns them into calendar-ready events.
+      <p class="hero-description" itemprop="description">
+        Instantly convert appointment screenshots, event flyers, and schedules into ICS calendar files. 
+        AI-powered with GPT-4 Vision OCR technology. Works with Google Calendar, Outlook, Apple Calendar. 
+        No signup required - completely free!
       </p>
-    </div>
+      
+      <!-- Key Features for SEO -->
+      <div class="hero-features" style="display: none;" itemprop="featureList">
+        <ul>
+          <li>Convert images (JPG, PNG) and PDF files to calendar events</li>
+          <li>AI-powered event extraction with GPT-4 Vision</li>
+          <li>Batch processing - upload multiple files at once</li>
+          <li>Edit events before downloading</li>
+          <li>Export to ICS format (Google Calendar, Outlook, Apple Calendar compatible)</li>
+          <li>Free unlimited conversions - no signup required</li>
+          <li>Secure and privacy-focused processing</li>
+        </ul>
+      </div>
+    </article>
 
     <!-- Desktop: Side-by-side layout when events exist, centered when no events -->
     <div class="content-layout" [class.has-calendar]="calendarStateService.isVisible() && isDesktop()">
