@@ -174,28 +174,57 @@ jobs:
               echo "This is the first release! 🎉"
               echo ""
               echo "### All Commits"
-              git log --pretty=format:"- %s (%h)"
+              echo ""
+              git log --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))"
             } > CHANGELOG.md
           else
+            # Generate changelog with proper formatting
             {
               echo "## What's New in $TAG"
               echo ""
               echo "### Changes since $PREV_TAG"
               echo ""
-              echo "#### 🚀 Features"
-              git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^feat" || echo "- No new features"
-              echo ""
-              echo "#### 🐛 Bug Fixes"
-              git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^fix" || echo "- No bug fixes"
-              echo ""
-              echo "#### 📝 Documentation"
-              git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^docs" || echo "- No documentation changes"
-              echo ""
-              echo "#### 🔧 Chores & Other Changes"
-              git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)" --grep="^chore\|^refactor\|^style\|^test\|^perf" || echo "- No other changes"
-              echo ""
+              
+              # Features
+              FEATURES=$(git log "$PREV_TAG..$TAG" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --grep="^feat" 2>/dev/null)
+              if [ -n "$FEATURES" ]; then
+                echo "#### 🚀 Features"
+                echo ""
+                echo "$FEATURES"
+                echo ""
+              fi
+              
+              # Bug Fixes
+              FIXES=$(git log "$PREV_TAG..$TAG" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --grep="^fix" 2>/dev/null)
+              if [ -n "$FIXES" ]; then
+                echo "#### 🐛 Bug Fixes"
+                echo ""
+                echo "$FIXES"
+                echo ""
+              fi
+              
+              # Documentation
+              DOCS=$(git log "$PREV_TAG..$TAG" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --grep="^docs" 2>/dev/null)
+              if [ -n "$DOCS" ]; then
+                echo "#### 📝 Documentation"
+                echo ""
+                echo "$DOCS"
+                echo ""
+              fi
+              
+              # Chores & Other Changes
+              CHORES=$(git log "$PREV_TAG..$TAG" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --grep="^chore\|^refactor\|^style\|^test\|^perf" 2>/dev/null)
+              if [ -n "$CHORES" ]; then
+                echo "#### 🔧 Chores & Other Changes"
+                echo ""
+                echo "$CHORES"
+                echo ""
+              fi
+              
+              # All Commits
               echo "#### 📦 All Commits"
-              git log "$PREV_TAG..$TAG" --pretty=format:"- %s (%h)"
+              echo ""
+              git log "$PREV_TAG..$TAG" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))"
             } > CHANGELOG.md
           fi
 
@@ -203,9 +232,12 @@ jobs:
           cat CHANGELOG.md
           echo "----------------------"
 
-          # ✅ Safely export multi-line changelog output (no delimiter issues)
-          CHANGELOG=$(awk '{printf "%s\\n", $0}' CHANGELOG.md)
-          echo "changelog=$CHANGELOG" >> "$GITHUB_OUTPUT"
+          # ✅ Safely export multi-line changelog output using heredoc syntax
+          {
+            echo 'changelog<<EOF'
+            cat CHANGELOG.md
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
