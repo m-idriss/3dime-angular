@@ -193,6 +193,75 @@ export class TrackingService {
       domain,
     });
   }
+
+  /**
+   * Get aggregated statistics from the tracking database
+   * @returns Promise with total file count and event count, or null if tracking disabled
+   */
+  async getStatistics(): Promise<{ fileCount: number; eventCount: number } | null> {
+    // Return null if tracking is disabled
+    if (!this.isEnabled || !this.notion || !this.trackingDbId) {
+      log("Statistics unavailable - tracking is disabled");
+      return null;
+    }
+
+    try {
+      // Query all successful conversion entries from Notion
+      const response = await this.notion.databases.query({
+        database_id: this.trackingDbId,
+        filter: {
+          and: [
+            {
+              property: "Action",
+              title: {
+                equals: "conversion",
+              },
+            },
+            {
+              property: "Status",
+              select: {
+                equals: "Success",
+              },
+            },
+          ],
+        },
+      });
+
+      // Aggregate file count and event count
+      let totalFileCount = 0;
+      let totalEventCount = 0;
+
+      response.results.forEach((page: any) => {
+        const properties = page.properties;
+
+        // Extract file count
+        if (properties["File Count"]?.number !== undefined) {
+          totalFileCount += properties["File Count"].number;
+        }
+
+        // Extract event count
+        if (properties["Event Count"]?.number !== undefined) {
+          totalEventCount += properties["Event Count"].number;
+        }
+      });
+
+      log("Statistics retrieved successfully", {
+        fileCount: totalFileCount,
+        eventCount: totalEventCount,
+        entryCount: response.results.length,
+      });
+
+      return {
+        fileCount: totalFileCount,
+        eventCount: totalEventCount,
+      };
+    } catch (error: any) {
+      log("Failed to retrieve statistics from Notion", {
+        error: error.message,
+      });
+      return null;
+    }
+  }
 }
 
 /**

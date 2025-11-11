@@ -6,6 +6,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
+import { Stats } from './components/stats/stats';
 import { PWA_CONFIG } from './constants/pwa.constants';
 
 @Component({
@@ -15,6 +16,7 @@ import { PWA_CONFIG } from './constants/pwa.constants';
     RouterOutlet,
     Header,
     Footer,
+    Stats,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
