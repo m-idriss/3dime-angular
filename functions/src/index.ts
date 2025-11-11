@@ -7,6 +7,7 @@ export { githubCommits } from "./proxies/githubCommits";
 export { githubSocial } from "./proxies/githubSocial";
 export { notionFunction } from "./proxies/notion";
 export { converterFunction } from "./proxies/converter";
+export { statisticsFunction } from "./proxies/statistics";
 
 setGlobalOptions({ maxInstances: 10 });
 
@@ -68,6 +69,7 @@ export const proxyApi = onRequest((req, res) => {
             commit: `${localBaseUrl}/githubCommits`,
             notion: `${localBaseUrl}/notionFunction`,
             converter: `${localBaseUrl}/converterFunction`,
+            statistics: `${localBaseUrl}/statisticsFunction`,
           }
         : {
             profile: "https://githubsocial-fuajdt22nq-uc.a.run.app",
@@ -75,6 +77,7 @@ export const proxyApi = onRequest((req, res) => {
             commit: "https://githubcommits-fuajdt22nq-uc.a.run.app",
             notion: "https://notionfunction-fuajdt22nq-uc.a.run.app",
             converter: "https://converterfunction-fuajdt22nq-uc.a.run.app",
+            statistics: "https://statisticsfunction-fuajdt22nq-uc.a.run.app",
         };
 
       if (!targets[target]) {
