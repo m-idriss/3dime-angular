@@ -234,7 +234,7 @@ jobs:
 
           # ✅ Safely export multi-line changelog output using heredoc syntax
           {
-            echo 'changelog<<EOF'
+            echo "changelog<<EOF"
             cat CHANGELOG.md
             echo EOF
           } >> "$GITHUB_OUTPUT"
