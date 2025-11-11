@@ -14,19 +14,6 @@
   <!-- Left column - secondary cards (Tech Stack, Experience, Education) -->
   <div class="left-column">
     <app-expandable-card
-      #techStackCard
-      icon="fa-code"
-      title="Tech Stack"
-      ariaLabel="View technology stack"
-      [childHasCollapseButton]="true"
-    >
-      <app-tech-stack
-        [showCollapseButton]="!techStackCard.alwaysExpanded"
-        (collapseClicked)="techStackCard.toggleExpanded()"
-      ></app-tech-stack>
-    </app-expandable-card>
-
-    <app-expandable-card
       #experienceCard
       icon="fa-briefcase"
       title="Experience"
@@ -71,23 +58,30 @@
     >
       <app-about></app-about>
     </app-expandable-card>
-  </div>
 
-  <!-- Right column - remaining secondary cards -->
-  <div class="right-column">
     <app-expandable-card
       #githubCard
       icon="fa-solid fa-chart-line"
       title="GitHub"
       ariaLabel="View GitHub activity"
-      [childHasCollapseButton]="true"
+      [alwaysExpanded]="true"
     >
-      <app-github-activity
-        [showCollapseButton]="!githubCard.alwaysExpanded"
-        (collapseClicked)="githubCard.toggleExpanded()"
-      ></app-github-activity>
+      <app-github-activity></app-github-activity>
     </app-expandable-card>
 
+    <app-expandable-card
+      #techStackCard
+      icon="fa-code"
+      title="Tech Stack"
+      ariaLabel="View technology stack"
+      [alwaysExpanded]="true"
+    >
+      <app-tech-stack></app-tech-stack>
+    </app-expandable-card>
+  </div>
+
+  <!-- Right column - remaining secondary cards -->
+  <div class="right-column">
     <app-expandable-card
       #hobbiesCard
       icon="fa-heart"

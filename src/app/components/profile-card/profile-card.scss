@@ -99,10 +99,10 @@ body.dark-theme .container {
 .logo-link {
   /* Positioning */
   display: block;
-  
+
   /* Typography */
   text-decoration: none;
-  
+
   /* Focus state */
   &:focus-visible {
     outline: 3px solid var(--accent-color);
@@ -118,8 +118,8 @@ body.dark-theme .container {
   display: block;
 
   /* Box Model */
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
   padding: var(--space-sm);
 
   /* Typography */

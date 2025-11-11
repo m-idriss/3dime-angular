@@ -58,14 +58,14 @@
   /* Gradient Colors */
   --gradient-blue: 59, 130, 246;
   --gradient-indigo: 99, 102, 241;
-  
+
   /* Gradient Color Shades */
   --color-blue-500: #3b82f6;
   --color-blue-600: #2563eb;
   --color-blue-700: #1d4ed8;
   --color-indigo-500: #6366f1;
   --color-indigo-600: #4f46e5;
-  
+
   /* Layout Constants */
   --calendar-header-footer-height: 250px;
   --calendar-header-footer-height-mobile: 220px;
@@ -425,7 +425,7 @@ body.dark-theme .link {
 /* Small chip variant for inline tags */
 .chip-little {
   display: inline-block;
-  margin: var(--space-xs);
+  margin: 0 var(--space-xs);
   padding: calc(var(--space-xs) * 0.75) var(--space-sm);
   font-size: calc(var(--font-size-base) * 0.875);
   font-weight: var(--fw-normal);
