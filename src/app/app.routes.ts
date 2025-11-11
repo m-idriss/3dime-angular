@@ -6,12 +6,12 @@ export const routes: Routes = [
   {
     path: '',
     component: Home,
-    title: '3dime - Calendar Converter'
+    title: 'Calendar Converter | 3dime'
   },
   {
     path: 'me',
     component: About,
-    title: '3dime - About Me'
+    title: 'About Me | 3dime'
   },
   {
     path: '**',
