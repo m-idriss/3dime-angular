@@ -102,11 +102,17 @@ export const converterFunction = onRequest(
       
       // Extract domain from request origin for tracking
       const origin = req.headers.origin || req.headers.referer || "unknown";
-      let domain = "unknown";
+      let domain;
       try {
         const url = new URL(origin);
         const hostname = url.hostname;
-        if (hostname === "localhost" || hostname.startsWith("127.") || hostname.startsWith("192.168.")) {
+        if (
+          hostname === "localhost" ||
+          hostname.startsWith("127.") ||
+          hostname.startsWith("10.") ||
+          hostname.startsWith("192.168.") ||
+          /^172\.(1[6-9]|2[0-9]|3[01])\./.test(hostname)
+        ) {
           domain = "local";
         } else if (hostname === "3dime.com" || hostname === "www.3dime.com") {
           domain = "production";
@@ -286,7 +292,7 @@ export const converterFunction = onRequest(
         const duration = Date.now() - startTime;
         const eventCount = countEvents(icsContent);
         // Track successful conversion
-        trackingService.logConversion(anonymousUserId, fileCount, eventCount, duration, domain)
+        trackingService.logConversion(anonymousUserId, fileCount, domain, eventCount, duration)
           .catch((err) => console.error("Tracking error:", err));
 
         return res.status(200).json({ success: true, icsContent });

@@ -169,7 +169,7 @@ You can create Notion views to analyze your data:
 2. **Error Rate**: Formula property: `Error Count / Total Count * 100`
 3. **Usage by Date**: Timeline view grouped by Timestamp
 4. **Usage by Domain**: Group by Domain to see local vs production traffic
-   - "local" = localhost and private IP addresses
+   - "local" = localhost (127.x.x.x), 10.x.x.x, 192.168.x.x, and 172.16-31.x.x addresses
    - "production" = 3dime.com and www.3dime.com
    - Other values = actual hostname for other sources
 5. **Average Processing Time**: Average of Duration (ms) property
