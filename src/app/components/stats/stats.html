@@ -3,11 +3,7 @@
     <!-- Loading State -->
     @if (loading()) {
       <div class="stats-skeleton">
-        <div class="skeleton-title"></div>
-        <div class="skeleton-counters">
-          <div class="skeleton-counter"></div>
-          <div class="skeleton-counter"></div>
-        </div>
+        <div class="skeleton-text"></div>
       </div>
     }
 
@@ -18,36 +14,10 @@
           <span class="stats-icon" aria-hidden="true">📊</span>
           Powering Your Productivity
         </h2>
-        
-        <div class="stats-grid">
-          <div class="stat-card" role="article">
-            <div class="stat-number" [attr.aria-label]="'Total files processed: ' + formatNumber(displayFileCount())">
-              {{ formatNumber(displayFileCount()) }}
-            </div>
-            <div class="stat-label">Files Processed</div>
-            <div class="stat-icon-wrapper">
-              <span class="stat-emoji" aria-hidden="true">📄</span>
-            </div>
-          </div>
-
-          <div class="stat-card" role="article">
-            <div class="stat-number" [attr.aria-label]="'Total events generated: ' + formatNumber(displayEventCount())">
-              {{ formatNumber(displayEventCount()) }}
-            </div>
-            <div class="stat-label">Events Generated</div>
-            <div class="stat-icon-wrapper">
-              <span class="stat-emoji" aria-hidden="true">📅</span>
-            </div>
-          </div>
-        </div>
 
         <p class="stats-tagline">
           Over <strong>{{ formatNumber(displayEventCount()) }} events</strong> generated from 
           <strong>{{ formatNumber(displayFileCount()) }} files</strong> — and counting!
-        </p>
-
-        <p class="stats-cta">
-          Join thousands turning images into calendar events. Start converting for free today! ✨
         </p>
       </div>
     }
