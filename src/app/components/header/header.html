@@ -55,36 +55,17 @@
             <button
               class="dropdown-item theme-toggle"
               role="menuitem"
-              (click)="cycleTheme()"
-              [appTooltip]="'Switch theme'"
+              (click)="toggleTheme()"
+              [appTooltip]="'Toggle theme'"
               appTooltipPlacement="left"
             >
               <i
                 class="fas"
                 [class.fa-moon]="currentTheme === 'dark'"
-                [class.fa-sun]="currentTheme === 'white'"
-                [class.fa-gem]="currentTheme === 'glass'"
+                [class.fa-sun]="currentTheme === 'light'"
                 aria-hidden="true"
               ></i>
               <span>{{ themeDisplayName }}</span>
-            </button>
-
-            <div class="dropdown-separator" role="separator"></div>
-
-            <button
-              class="dropdown-item background-toggle"
-              role="menuitem"
-              (click)="toggleBackground()"
-              [appTooltip]="'Toggle background'"
-              appTooltipPlacement="left"
-            >
-              <i
-                class="fas"
-                [class.fa-adjust]="currentBackground === 'black'"
-                [class.fa-circle]="currentBackground === 'white'"
-                aria-hidden="true"
-              ></i>
-              <span>{{ backgroundDisplayName }}</span>
             </button>
 
             <div class="dropdown-separator" role="separator"></div>

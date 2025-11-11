@@ -71,6 +71,22 @@
   --calendar-header-footer-height-mobile: 220px;
 }
 
+/* Light theme */
+body.light-theme,
+body.white-theme {
+  --primary-bg: rgba(255, 255, 255, 0.95);
+  --primary-bg-hover: rgba(255, 255, 255, 1);
+  --glass-bg: rgba(0, 0, 0, 0.1);
+  --glass-bg-hover: rgba(0, 0, 0, 0.2);
+  --glass-border: rgba(0, 0, 0, 0.15);
+  --text-primary: #1a1a1a;
+  --text-secondary: rgba(26, 26, 26, 0.8);
+  --menu-bg: rgba(255, 255, 255, 0.95);
+  --text-menu: #1a1a1a;
+  --text-bg: #000000;
+  --text-bg-alt: #1a1a1a;
+}
+
 /* Dark theme */
 body.dark-theme {
   --primary-bg: rgba(0, 0, 0, 0.95);
@@ -82,70 +98,23 @@ body.dark-theme {
   --text-secondary: rgba(255, 255, 255, 0.9);
   --menu-bg: rgba(0, 0, 0, 0.95);
   --text-menu: #fff;
+  --text-bg: #ffffff;
+  --text-bg-alt: #333333;
 
   /* Enhanced shadows for dark theme depth */
   --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255, 255, 255, 0.1);
   --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 2px rgba(59, 130, 246, 0.4);
 }
 
-/* Light theme */
-body.white-theme {
-  --primary-bg: rgba(255, 255, 255, 0.95);
-  --primary-bg-hover: rgba(255, 255, 255, 1);
-  --glass-bg: rgba(0, 0, 0, 0.1);
-  --glass-bg-hover: rgba(0, 0, 0, 0.2);
-  --glass-border: rgba(0, 0, 0, 0.15);
-  --text-primary: #1a1a1a;
-  --text-secondary: rgba(26, 26, 26, 0.8);
-  --menu-bg: rgba(255, 255, 255, 0.95);
-  --text-menu: #1a1a1a;
-}
-
-/* Glass theme */
-body.glass-theme {
-  --primary-bg: rgba(155, 155, 155, 0.1);
-  --primary-bg-hover: rgba(155, 155, 155, 0.25);
-  --glass-bg: rgba(155, 155, 155, 0.1);
-  --glass-bg-hover: rgba(155, 155, 155, 0.25);
-  --glass-border: rgba(155, 155, 155, 0.2);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.9);
-  --menu-bg: rgba(255, 255, 255, 1);
-  --text-menu: #1a1a1a;
-}
-
+/* Background color variables (kept for compatibility) */
 body.bg-white {
-    --text-bg : #000000;
-    --text-bg-alt : #1a1a1a;
+  --text-bg: #000000;
+  --text-bg-alt: #1a1a1a;
 }
 
 body.bg-black {
-    --text-bg : #ffffff;
-    --text-bg-alt : #333333;
-}
-
-/* Dark theme with white background - adjust text for readability */
-body.dark-theme.bg-white {
-  --text-primary: #1a1a1a;
-  --text-secondary: rgba(26, 26, 26, 0.8);
-  --menu-bg: rgba(255, 255, 255, 0.95);
-  --text-menu: #1a1a1a;
-}
-
-/* Glass theme with white background - adjust text for readability */
-body.glass-theme.bg-white {
-  --text-primary: #1a1a1a;
-  --text-secondary: rgba(26, 26, 26, 0.8);
-  --glass-bg: rgba(0, 0, 0, 0.1);
-  --glass-bg-hover: rgba(0, 0, 0, 0.2);
-  --glass-border: rgba(255, 255, 255, 0.95);
-  --menu-bg: rgba(255, 255, 255, 0.8);
-  --text-menu: #1a1a1a;
-}
-
-body.glass-theme.bg-black {
-  --menu-bg: rgba(0, 0, 0, 0.95);
-  --text-menu: #fff;
+  --text-bg: #ffffff;
+  --text-bg-alt: #333333;
 }
 
 /* Font size options */
@@ -327,12 +296,15 @@ textarea:focus,
 }
 
 /* Fallback background colors for different modes */
-body.bg-black .bg {
-  background: #000000;
+body.bg-black .bg,
+body.dark-theme .bg {
+  background: #000000 !important;
 }
 
-body.bg-white .bg {
-  background: #ffffff;
+body.bg-white .bg,
+body.light-theme .bg,
+body.white-theme .bg {
+  background: #ffffff !important;
 }
 
 /* ========================
