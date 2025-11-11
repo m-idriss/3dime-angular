@@ -1,6 +1,7 @@
 import { onRequest } from "firebase-functions/v2/https";
 import cors from "cors";
 import { GoogleAuth } from "google-auth-library";
+import { getTrackingService } from "../services/tracking";
 
 // Whitelist of allowed origins for CORS
 const allowedOrigins = [
@@ -96,15 +97,22 @@ export const converterFunction = onRequest(
   },
   (req, res) => {
     return corsHandler(req, res, async () => {
+      const startTime = Date.now();
+      const trackingService = getTrackingService();
+      
       try {
         if (req.method !== "POST") {
           return res.status(405).json({ error: "Use POST." });
         }
 
-        const { files, timeZone, currentDate } = req.body;
+        const { files, timeZone, currentDate, userId } = req.body;
         if (!files?.length) {
           return res.status(400).json({ error: "No files provided" });
         }
+
+        // Use provided userId or generate anonymous one
+        const anonymousUserId = userId || "anonymous";
+        const fileCount = files.length;
 
         const tz = timeZone || "UTC";
         const today = currentDate || new Date().toISOString().split("T")[0];
@@ -216,6 +224,15 @@ export const converterFunction = onRequest(
         }
 
         if (icsContent.toLowerCase() === "null") {
+          const duration = Date.now() - startTime;
+          // Track as error (no events found)
+          trackingService.logConversionError(
+            anonymousUserId,
+            fileCount,
+            "No events found in images",
+            duration
+          ).catch((err) => console.error("Tracking error:", err));
+          
           return res.status(200).json({
             success: false,
             error: "No events found in images",
@@ -227,6 +244,15 @@ export const converterFunction = onRequest(
         icsContent = icsContent.replace(/```(?:ics)?\s*[\r\n]|```/gi, "").trim();
 
         if (!isValidIcs(icsContent)) {
+          const duration = Date.now() - startTime;
+          // Track failed conversion (invalid ICS)
+          trackingService.logConversionError(
+            anonymousUserId,
+            fileCount,
+            "Generated ICS is invalid",
+            duration
+          ).catch((err) => console.error("Tracking error:", err));
+          
           return res.status(200).json({
             success: false,
             error: "Generated ICS is invalid",
@@ -234,9 +260,24 @@ export const converterFunction = onRequest(
           });
         }
 
+        const duration = Date.now() - startTime;
+        // Track successful conversion
+        trackingService.logConversion(anonymousUserId, fileCount, duration)
+          .catch((err) => console.error("Tracking error:", err));
+
         return res.status(200).json({ success: true, icsContent });
       } catch (err: any) {
         console.error("Converter error:", err);
+        const duration = Date.now() - startTime;
+        
+        // Track error
+        trackingService.logConversionError(
+          req.body.userId || "anonymous",
+          req.body.files?.length || 0,
+          err.message || "Internal error",
+          duration
+        ).catch((trackErr) => console.error("Tracking error:", trackErr));
+        
         return res.status(500).json({ error: "Internal error", message: err.message });
       }
     });
