@@ -157,7 +157,7 @@ export class TrackingService {
   /**
    * Log a successful conversion event
    */
-  async logConversion(userId: string, fileCount: number, eventCount?: number, duration?: number, domain?: string): Promise<void> {
+  async logConversion(userId: string, fileCount: number, domain?: string, eventCount?: number, duration?: number): Promise<void> {
     return this.logEvent({
       action: "conversion",
       userId,
