@@ -100,6 +100,24 @@ export const converterFunction = onRequest(
       const startTime = Date.now();
       const trackingService = getTrackingService();
       
+      // Extract domain from request origin for tracking
+      const origin = req.headers.origin || req.headers.referer || "unknown";
+      let domain = "unknown";
+      try {
+        const url = new URL(origin);
+        const hostname = url.hostname;
+        if (hostname === "localhost" || hostname.startsWith("127.") || hostname.startsWith("192.168.")) {
+          domain = "local";
+        } else if (hostname === "3dime.com" || hostname === "www.3dime.com") {
+          domain = "production";
+        } else {
+          domain = hostname;
+        }
+      } catch {
+        // If URL parsing fails, use the origin as-is
+        domain = origin;
+      }
+      
       try {
         if (req.method !== "POST") {
           return res.status(405).json({ error: "Use POST." });
@@ -230,7 +248,9 @@ export const converterFunction = onRequest(
             anonymousUserId,
             fileCount,
             "No events found in images",
-            duration
+            0, // eventCount
+            duration,
+            domain
           ).catch((err) => console.error("Tracking error:", err));
           
           return res.status(200).json({
@@ -245,12 +265,15 @@ export const converterFunction = onRequest(
 
         if (!isValidIcs(icsContent)) {
           const duration = Date.now() - startTime;
+          const eventCount = countEvents(icsContent); // Count events even if invalid
           // Track failed conversion (invalid ICS)
           trackingService.logConversionError(
             anonymousUserId,
             fileCount,
             "Generated ICS is invalid",
-            duration
+            eventCount,
+            duration,
+            domain
           ).catch((err) => console.error("Tracking error:", err));
           
           return res.status(200).json({
@@ -261,8 +284,9 @@ export const converterFunction = onRequest(
         }
 
         const duration = Date.now() - startTime;
+        const eventCount = countEvents(icsContent);
         // Track successful conversion
-        trackingService.logConversion(anonymousUserId, fileCount, duration)
+        trackingService.logConversion(anonymousUserId, fileCount, eventCount, duration, domain)
           .catch((err) => console.error("Tracking error:", err));
 
         return res.status(200).json({ success: true, icsContent });
@@ -275,7 +299,9 @@ export const converterFunction = onRequest(
           req.body.userId || "anonymous",
           req.body.files?.length || 0,
           err.message || "Internal error",
-          duration
+          0, // eventCount unknown in error case
+          duration,
+          domain
         ).catch((trackErr) => console.error("Tracking error:", trackErr));
         
         return res.status(500).json({ error: "Internal error", message: err.message });
@@ -292,4 +318,12 @@ function isValidIcs(ics: string): boolean {
     ics.includes("BEGIN:VEVENT") &&
     ics.endsWith("END:VCALENDAR")
   );
+}
+
+/**
+ * Count the number of calendar events (VEVENT blocks) in ICS content
+ */
+function countEvents(ics: string): number {
+  const matches = ics.match(/BEGIN:VEVENT/g);
+  return matches ? matches.length : 0;
 }
