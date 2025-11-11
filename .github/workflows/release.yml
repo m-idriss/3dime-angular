@@ -184,43 +184,43 @@ jobs:
               echo ""
               echo "### Changes since $PREV_TAG"
               echo ""
-              
+
               # Features
               FEATURES=$(git log "$PREV_TAG..$TAG" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --grep="^feat" 2>/dev/null)
               if [ -n "$FEATURES" ]; then
-                echo "#### 🚀 Features"
+              echo "#### 🚀 Features"
                 echo ""
                 echo "$FEATURES"
-                echo ""
+              echo ""
               fi
-              
+
               # Bug Fixes
               FIXES=$(git log "$PREV_TAG..$TAG" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --grep="^fix" 2>/dev/null)
               if [ -n "$FIXES" ]; then
-                echo "#### 🐛 Bug Fixes"
+              echo "#### 🐛 Bug Fixes"
                 echo ""
                 echo "$FIXES"
-                echo ""
+              echo ""
               fi
-              
+
               # Documentation
               DOCS=$(git log "$PREV_TAG..$TAG" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --grep="^docs" 2>/dev/null)
               if [ -n "$DOCS" ]; then
-                echo "#### 📝 Documentation"
+              echo "#### 📝 Documentation"
                 echo ""
                 echo "$DOCS"
-                echo ""
+              echo ""
               fi
-              
+
               # Chores & Other Changes
               CHORES=$(git log "$PREV_TAG..$TAG" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --grep="^chore\|^refactor\|^style\|^test\|^perf" 2>/dev/null)
               if [ -n "$CHORES" ]; then
-                echo "#### 🔧 Chores & Other Changes"
-                echo ""
+              echo "#### 🔧 Chores & Other Changes"
+              echo ""
                 echo "$CHORES"
                 echo ""
               fi
-              
+
               # All Commits
               echo "#### 📦 All Commits"
               echo ""
@@ -232,12 +232,9 @@ jobs:
           cat CHANGELOG.md
           echo "----------------------"
 
-          # ✅ Safely export multi-line changelog output using heredoc syntax
-          {
-            echo "changelog<<EOF"
-            cat CHANGELOG.md
-            echo EOF
-          } >> "$GITHUB_OUTPUT"
+          # ✅ Safely export multi-line changelog output (no delimiter issues)
+          CHANGELOG=$(awk '{printf "%s\\n", $0}' CHANGELOG.md)
+          echo "changelog=$CHANGELOG" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
