@@ -2,6 +2,12 @@ import { Client } from "@notionhq/client";
 import { log } from "firebase-functions/logger";
 
 /**
+ * Maximum length for error messages stored in Notion.
+ * Notion has limits on rich text field lengths, so we truncate long error messages.
+ */
+const MAX_ERROR_MESSAGE_LENGTH = 2000;
+
+/**
  * Usage tracking entry interface
  */
 export interface UsageTrackingEntry {
@@ -105,7 +111,7 @@ export class TrackingService {
               rich_text: [
                 {
                   text: {
-                    content: entry.errorMessage.substring(0, 2000), // Limit to 2000 chars
+                    content: entry.errorMessage.substring(0, MAX_ERROR_MESSAGE_LENGTH),
                   },
                 },
               ],
