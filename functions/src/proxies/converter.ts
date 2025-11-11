@@ -100,6 +100,12 @@ export const converterFunction = onRequest(
       const startTime = Date.now();
       const trackingService = getTrackingService();
       
+      // Extract domain from request origin for tracking
+      const origin = req.headers.origin || req.headers.referer || "unknown";
+      const domain = origin.includes("localhost") ? "local" : 
+                     origin.includes("3dime.com") ? "production" : 
+                     origin;
+      
       try {
         if (req.method !== "POST") {
           return res.status(405).json({ error: "Use POST." });
@@ -230,7 +236,8 @@ export const converterFunction = onRequest(
             anonymousUserId,
             fileCount,
             "No events found in images",
-            duration
+            duration,
+            domain
           ).catch((err) => console.error("Tracking error:", err));
           
           return res.status(200).json({
@@ -250,7 +257,8 @@ export const converterFunction = onRequest(
             anonymousUserId,
             fileCount,
             "Generated ICS is invalid",
-            duration
+            duration,
+            domain
           ).catch((err) => console.error("Tracking error:", err));
           
           return res.status(200).json({
@@ -262,7 +270,7 @@ export const converterFunction = onRequest(
 
         const duration = Date.now() - startTime;
         // Track successful conversion
-        trackingService.logConversion(anonymousUserId, fileCount, duration)
+        trackingService.logConversion(anonymousUserId, fileCount, duration, domain)
           .catch((err) => console.error("Tracking error:", err));
 
         return res.status(200).json({ success: true, icsContent });
@@ -275,7 +283,8 @@ export const converterFunction = onRequest(
           req.body.userId || "anonymous",
           req.body.files?.length || 0,
           err.message || "Internal error",
-          duration
+          duration,
+          domain
         ).catch((trackErr) => console.error("Tracking error:", trackErr));
         
         return res.status(500).json({ error: "Internal error", message: err.message });

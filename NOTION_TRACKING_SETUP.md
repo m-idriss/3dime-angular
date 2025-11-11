@@ -8,7 +8,8 @@ The usage tracking system logs conversion events to a Notion database, allowing 
 - Number of conversions performed
 - Timestamp of each conversion
 - Success/failure status
-- Number of files processed
+- Domain origin (local vs production) for environment tracking
+- Number of files processed (calendar events extracted)
 - Processing duration (optional)
 
 ## Prerequisites
@@ -41,7 +42,8 @@ The usage tracking system logs conversion events to a Notion database, allowing 
    | `User ID` | Text | Anonymous user identifier (generated client-side) |
    | `Timestamp` | Date | When the action occurred |
    | `Status` | Select | Success or Error |
-   | `File Count` | Number | Number of files processed |
+   | `Domain` | Text | Origin domain (local, production, or full URL) |
+   | `File Count` | Number | Number of files processed (events extracted) |
    | `Duration (ms)` | Number | Processing time in milliseconds (optional) |
    | `Error Message` | Text | Error details if status is Error |
 
@@ -140,7 +142,8 @@ interface UsageTrackingEntry {
   "User ID": string;        // Anonymous ID (e.g., UUID)
   Timestamp: Date;          // ISO 8601 timestamp
   Status: "Success" | "Error";
-  "File Count": number;     // Number of files processed
+  Domain?: string;          // "local", "production", or full URL
+  "File Count": number;     // Number of files processed (events extracted)
   "Duration (ms)"?: number; // Optional processing time
   "Error Message"?: string; // Optional error details
 }
@@ -150,10 +153,10 @@ interface UsageTrackingEntry {
 
 After a successful conversion, you'll see entries like:
 
-| Action | User ID | Timestamp | Status | File Count | Duration (ms) | Error Message |
-|--------|---------|-----------|--------|------------|---------------|---------------|
-| conversion | abc123-def456 | 2025-11-11 12:00:00 | ✅ Success | 3 | 1250 | - |
-| conversion | xyz789-uvw012 | 2025-11-11 12:05:00 | ❌ Error | 1 | - | Invalid file format |
+| Action | User ID | Timestamp | Status | Domain | File Count | Duration (ms) | Error Message |
+|--------|---------|-----------|--------|--------|------------|---------------|---------------|
+| conversion | abc123-def456 | 2025-11-11 12:00:00 | ✅ Success | production | 3 | 1250 | - |
+| conversion | xyz789-uvw012 | 2025-11-11 12:05:00 | ❌ Error | local | 1 | - | Invalid file format |
 
 ## Monitoring and Analytics
 
@@ -162,7 +165,9 @@ You can create Notion views to analyze your data:
 1. **Total Conversions**: Count view filtered by Status = Success
 2. **Error Rate**: Formula property: `Error Count / Total Count * 100`
 3. **Usage by Date**: Timeline view grouped by Timestamp
-4. **Average Processing Time**: Average of Duration (ms) property
+4. **Usage by Domain**: Group by Domain to see local vs production traffic
+5. **Average Processing Time**: Average of Duration (ms) property
+6. **Events Extracted**: Sum of File Count property for total calendar events created
 
 ## Privacy Notes
 
