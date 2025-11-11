@@ -150,7 +150,7 @@ You can create Notion views to analyze your data:
 
 ## Privacy Notes
 
-- The tracking system generates **anonymous user IDs** using a hash of browser fingerprint
+- The tracking system generates **anonymous user IDs** using the current timestamp and a random value (e.g., `anon_<timestamp>_<random>`)
 - **No personal information** (email, name, IP address) is collected
 - User IDs are **not linked to authentication** accounts
 - Data is stored **only in your private Notion workspace**
