@@ -132,15 +132,15 @@
   /* Box Model */
   padding: var(--space-md) var(--space-lg);
 
-  /* Typography - Much more visible */
+  /* Typography - Highly visible and readable */
   font-size: 0.95rem;
-  color: white;
+  color: var(--text-primary);
   text-align: center;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 
-  /* Visual - Strong contrast for readability */
-  background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.25), rgba(var(--gradient-indigo), 0.2));
-  border: 2px solid rgba(var(--gradient-blue), 0.4);
+  /* Visual - Neutral theme for consistency */
+  background: var(--glass-bg-hover);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -159,10 +159,10 @@
   height: auto;
   max-height: calc(90vh - var(--calendar-header-footer-height));
 
-  /* Visual - Lighter background for better cell visibility */
-  background: linear-gradient(135deg, rgba(51, 65, 85, 0.95), rgba(71, 85, 105, 0.95));
+  /* Visual - Matching converter theme */
+  background: var(--glass-bg);
   border-radius: var(--radius-md);
-  border: 1px solid rgba(var(--gradient-blue), 0.4);
+  border: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
   overflow: auto;
 }
@@ -193,7 +193,7 @@
   .fc-theme-standard {
     td,
     th {
-      border-color: rgba(var(--gradient-blue), 0.25);
+      border-color: var(--glass-border);
       border-width: 1px;
     }
   }
@@ -202,13 +202,13 @@
     /* Typography - Very bold and clear */
     font-weight: 800;
     font-size: 0.95rem;
-    color: white;
+    color: var(--text-primary);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     padding: 0.75rem 0.5rem;
 
-    /* Visual - Strong gradient for clear header distinction */
-    background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.35), rgba(var(--gradient-indigo), 0.28));
-    border-bottom: 3px solid rgba(var(--gradient-blue), 0.5) !important;
+    /* Visual - Neutral background matching theme */
+    background: var(--glass-bg-hover);
+    border-bottom: 1px solid var(--glass-border) !important;
   }
 
   .fc-daygrid-day-number {
@@ -266,21 +266,21 @@
     font-weight: 700;
     font-size: 0.9rem;
     text-transform: capitalize;
-    color: white !important;
+    color: var(--text-primary) !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 
-    /* Visual - Much better contrast */
-    background: rgba(var(--gradient-blue), 0.4) !important;
-    border: 2px solid rgba(var(--gradient-blue), 0.6) !important;
+    /* Visual - Neutral theme matching converter */
+    background: var(--glass-bg-hover) !important;
+    border: 1px solid var(--glass-border) !important;
     border-radius: var(--radius-sm);
     transition: all var(--t-fast);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     padding: 0.5rem 1rem;
     
     &:hover {
-      background: rgba(var(--gradient-blue), 0.6) !important;
-      border-color: rgba(var(--gradient-blue), 0.8) !important;
-      box-shadow: 0 3px 8px rgba(var(--gradient-blue), 0.5);
+      background: var(--glass-bg) !important;
+      border-color: var(--accent-color) !important;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
       
       @media (prefers-reduced-motion: no-preference) {
         transform: translateY(-1px);
@@ -288,27 +288,20 @@
     }
     
     &.fc-button-active {
-      background: linear-gradient(135deg, var(--accent-color), var(--color-indigo-500)) !important;
-      border-color: rgba(var(--gradient-blue), 0.8) !important;
-      box-shadow: 0 2px 8px rgba(var(--gradient-blue), 0.5), 0 0 12px rgba(var(--gradient-blue), 0.3);
+      background: var(--accent-color) !important;
+      border-color: var(--accent-color) !important;
+      color: white !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     }
     
-    /* Make arrows more visible with prominent styling */
+    /* Make arrows visible with neutral styling */
     &.fc-prev-button,
     &.fc-next-button {
       font-size: 1.4rem;
       padding: 0.5rem 1rem;
       font-weight: 700;
-      background: linear-gradient(135deg, var(--accent-color), var(--color-indigo-500)) !important;
-      border: 2px solid rgba(var(--gradient-blue), 0.6) !important;
-      box-shadow: 0 3px 10px rgba(var(--gradient-blue), 0.5), 0 0 15px rgba(var(--gradient-blue), 0.3);
-      color: white !important;
       
       &:hover {
-        background: linear-gradient(135deg, var(--color-blue-600), var(--color-indigo-600)) !important;
-        border-color: rgba(var(--gradient-blue), 0.9) !important;
-        box-shadow: 0 4px 14px rgba(var(--gradient-blue), 0.6), 0 0 22px rgba(var(--gradient-blue), 0.4);
-        
         @media (prefers-reduced-motion: no-preference) {
           transform: scale(1.1);
         }
@@ -316,39 +309,36 @@
     }
     
     &.fc-today-button {
-      background: rgba(var(--gradient-indigo), 0.5) !important;
-      border-color: rgba(var(--gradient-indigo), 0.7) !important;
-      
       &:hover {
-        background: rgba(var(--gradient-indigo), 0.7) !important;
-        border-color: rgba(var(--gradient-indigo), 0.9) !important;
+        background: var(--accent-color) !important;
+        border-color: var(--accent-color) !important;
+        color: white !important;
       }
     }
   }
 
   .fc-toolbar-title {
-    /* Typography - Maximum readability with strong contrast */
+    /* Typography - Always readable with strong contrast */
     font-size: 1.5rem;
     font-weight: 800;
-    color: white;
+    color: var(--text-primary);
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8), 
-                 0 0 20px rgba(var(--gradient-blue), 0.6),
                  0 4px 8px rgba(0, 0, 0, 0.5);
     letter-spacing: 0.03em;
-    background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.2), rgba(var(--gradient-indigo), 0.15));
+    background: var(--glass-bg-hover);
     padding: 0.5rem 1.5rem;
     border-radius: var(--radius-md);
-    border: 1px solid rgba(var(--gradient-blue), 0.4);
+    border: 1px solid var(--glass-border);
   }
 
   .fc-daygrid-day-frame {
-    /* Visual - Much more visible cell backgrounds */
+    /* Visual - Neutral cell backgrounds matching theme */
     background: rgba(255, 255, 255, 0.03);
     min-height: 80px;
     
     &:hover {
-      background: rgba(var(--gradient-blue), 0.12);
-      border-color: rgba(var(--gradient-blue), 0.45);
+      background: var(--glass-bg-hover);
+      border-color: var(--accent-color);
     }
   }
   
@@ -533,40 +523,45 @@
   height: 100%;
   padding: 0;
 
-  /* Visual - Glassmorphism matching converter style */
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+  /* Visual - Matching converter card style */
+  background: var(--primary-bg);
+  border: 0.2px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--t-fast);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 
   /* Layout */
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+
+  /* Hover effect matching converter events list */
+  &:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  }
 }
 
 .calendar-inline-header {
   /* Box Model */
   padding: var(--space-md) var(--space-lg);
 
-  /* Visual - Enhanced glassmorphism */
-  background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.1), rgba(var(--gradient-indigo), 0.05));
+  /* Visual - Matching converter style */
+  background: transparent;
   border-bottom: 1px solid var(--glass-border);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 
   /* Layout */
   flex-shrink: 0;
 }
 
 .calendar-inline-title {
-  /* Typography */
+  /* Typography - Enhanced readability */
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
   margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .calendar-inline-body {
@@ -586,11 +581,9 @@
   /* Box Model */
   padding: var(--space-md) var(--space-lg);
 
-  /* Visual - Enhanced glassmorphism */
-  background: linear-gradient(135deg, rgba(var(--gradient-blue), 0.05), rgba(var(--gradient-indigo), 0.1));
+  /* Visual - Matching converter style */
+  background: transparent;
   border-top: 1px solid var(--glass-border);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 
   /* Layout */
   display: flex;
