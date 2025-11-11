@@ -124,6 +124,14 @@ body.bg-black {
     --text-bg-alt : #333333;
 }
 
+/* Dark theme with white background - adjust text for readability */
+body.dark-theme.bg-white {
+  --text-primary: #1a1a1a;
+  --text-secondary: rgba(26, 26, 26, 0.8);
+  --menu-bg: rgba(255, 255, 255, 0.95);
+  --text-menu: #1a1a1a;
+}
+
 /* Glass theme with white background - adjust text for readability */
 body.glass-theme.bg-white {
   --text-primary: #1a1a1a;
