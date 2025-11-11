@@ -17,12 +17,12 @@ export class Stats implements OnInit {
   private readonly statsService = inject(StatsService);
 
   // Signals for reactive state
-  protected readonly loading = signal(true);
-  protected readonly fileCount = signal(0);
-  protected readonly eventCount = signal(0);
-  protected readonly displayFileCount = signal(0);
-  protected readonly displayEventCount = signal(0);
-  protected readonly hasError = signal(false);
+  readonly loading = signal(true);
+  readonly fileCount = signal(0);
+  readonly eventCount = signal(0);
+  readonly displayFileCount = signal(0);
+  readonly displayEventCount = signal(0);
+  readonly hasError = signal(false);
 
   ngOnInit(): void {
     this.loadStatistics();
@@ -74,7 +74,7 @@ export class Stats implements OnInit {
   /**
    * Format number with thousand separators
    */
-  protected formatNumber(num: number): string {
+  formatNumber(num: number): string {
     return num.toLocaleString();
   }
 }
