@@ -248,6 +248,7 @@ export const converterFunction = onRequest(
             anonymousUserId,
             fileCount,
             "No events found in images",
+            0, // eventCount
             duration,
             domain
           ).catch((err) => console.error("Tracking error:", err));
@@ -264,11 +265,13 @@ export const converterFunction = onRequest(
 
         if (!isValidIcs(icsContent)) {
           const duration = Date.now() - startTime;
+          const eventCount = countEvents(icsContent); // Count events even if invalid
           // Track failed conversion (invalid ICS)
           trackingService.logConversionError(
             anonymousUserId,
             fileCount,
             "Generated ICS is invalid",
+            eventCount,
             duration,
             domain
           ).catch((err) => console.error("Tracking error:", err));
@@ -281,8 +284,9 @@ export const converterFunction = onRequest(
         }
 
         const duration = Date.now() - startTime;
+        const eventCount = countEvents(icsContent);
         // Track successful conversion
-        trackingService.logConversion(anonymousUserId, fileCount, duration, domain)
+        trackingService.logConversion(anonymousUserId, fileCount, eventCount, duration, domain)
           .catch((err) => console.error("Tracking error:", err));
 
         return res.status(200).json({ success: true, icsContent });
@@ -295,6 +299,7 @@ export const converterFunction = onRequest(
           req.body.userId || "anonymous",
           req.body.files?.length || 0,
           err.message || "Internal error",
+          0, // eventCount unknown in error case
           duration,
           domain
         ).catch((trackErr) => console.error("Tracking error:", trackErr));
@@ -313,4 +318,12 @@ function isValidIcs(ics: string): boolean {
     ics.includes("BEGIN:VEVENT") &&
     ics.endsWith("END:VCALENDAR")
   );
+}
+
+/**
+ * Count the number of calendar events (VEVENT blocks) in ICS content
+ */
+function countEvents(ics: string): number {
+  const matches = ics.match(/BEGIN:VEVENT/g);
+  return matches ? matches.length : 0;
 }

@@ -17,6 +17,7 @@ export interface UsageTrackingEntry {
   status: "Success" | "Error";
   domain?: string;
   fileCount?: number;
+  eventCount?: number;
   duration?: number;
   errorMessage?: string;
 }
@@ -112,6 +113,12 @@ export class TrackingService {
               number: entry.fileCount,
             },
           }),
+          // Event Count (optional)
+          ...(entry.eventCount !== undefined && {
+            "Event Count": {
+              number: entry.eventCount,
+            },
+          }),
           // Duration (optional)
           ...(entry.duration !== undefined && {
             "Duration (ms)": {
@@ -150,13 +157,14 @@ export class TrackingService {
   /**
    * Log a successful conversion event
    */
-  async logConversion(userId: string, fileCount: number, duration?: number, domain?: string): Promise<void> {
+  async logConversion(userId: string, fileCount: number, eventCount?: number, duration?: number, domain?: string): Promise<void> {
     return this.logEvent({
       action: "conversion",
       userId,
       timestamp: new Date(),
       status: "Success",
       fileCount,
+      eventCount,
       duration,
       domain,
     });
@@ -169,6 +177,7 @@ export class TrackingService {
     userId: string,
     fileCount: number,
     errorMessage: string,
+    eventCount?: number,
     duration?: number,
     domain?: string
   ): Promise<void> {
@@ -178,6 +187,7 @@ export class TrackingService {
       timestamp: new Date(),
       status: "Error",
       fileCount,
+      eventCount,
       errorMessage,
       duration,
       domain,
