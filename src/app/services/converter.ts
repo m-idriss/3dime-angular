@@ -101,7 +101,19 @@ export class ConverterService {
    */
   private generateAnonymousId(): string {
     const timestamp = Date.now().toString(36);
-    const randomPart = Math.random().toString(36).substring(2, 15);
+    let randomPart: string;
+    if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+      // generate 8 random bytes and encode as base36 string for compactness
+      const array = new Uint32Array(2); // 2 * 4 bytes = 8 bytes
+      window.crypto.getRandomValues(array);
+      randomPart = Array.from(array)
+        .map(num => num.toString(36))
+        .join('')
+        .substring(0, 13);
+    } else {
+      // fallback - should not happen in modern browsers
+      randomPart = Math.random().toString(36).substring(2, 15);
+    }
     return `anon_${timestamp}_${randomPart}`;
   }
 
