@@ -75,7 +75,7 @@ describe('Stats', () => {
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('.stats-content')).toBeTruthy();
     expect(compiled.querySelector('.stats-title')).toBeTruthy();
-    expect(compiled.querySelector('.stats-grid')).toBeTruthy();
+    expect(compiled.querySelector('.stats-tagline')).toBeTruthy();
   });
 
   it('should display error state when error occurs', () => {

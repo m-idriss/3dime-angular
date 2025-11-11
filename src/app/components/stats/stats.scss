@@ -1,12 +1,12 @@
 /* ========================
    Stats Section Styles
-   Modern glassmorphism design with animations
+   Compact, elegant glassmorphism design
    ======================== */
 
 .stats-section {
   /* Positioning & Layout */
   width: 100%;
-  margin: 4rem auto 2rem;
+  margin: 2rem auto 1.5rem;
   padding: 0 var(--space-lg);
 
   /* Visual */
@@ -15,9 +15,9 @@
 
 .stats-container {
   /* Layout */
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 1.5rem 2rem;
 
   /* Glassmorphism effect */
   background: var(--primary-bg);
@@ -32,7 +32,6 @@
   &:hover {
     background: var(--primary-bg-hover);
     box-shadow: var(--shadow-card-hover);
-    transform: translateY(-2px);
   }
 }
 
@@ -43,11 +42,11 @@
 
 .stats-title {
   /* Typography */
-  font-size: 2.25rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 2rem;
-  line-height: 1.2;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
 
   /* Animation */
   animation: fadeInUp 0.6s ease-out;
@@ -56,109 +55,25 @@
 .stats-icon {
   display: inline-block;
   margin-right: 0.5rem;
-  font-size: 2.5rem;
-  animation: bounce 2s infinite;
-}
-
-/* Stats Grid */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0;
-  animation: fadeInUp 0.8s ease-out;
-}
-
-/* Individual Stat Card */
-.stat-card {
-  /* Layout */
-  position: relative;
-  padding: 2rem 1.5rem;
-  min-height: 180px;
-
-  /* Glassmorphism */
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-md);
-
-  /* Transitions */
-  transition: all 0.3s ease;
-  overflow: hidden;
-
-  &:hover {
-    background: var(--glass-bg-hover);
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: var(--shadow-glow);
-  }
-
-  &:hover .stat-emoji {
-    transform: scale(1.2) rotate(10deg);
-  }
-}
-
-.stat-number {
-  /* Typography */
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: var(--accent-color);
-  line-height: 1;
-  margin-bottom: 0.5rem;
-
-  /* Effect */
-  text-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-  animation: countUp 2s ease-out;
-}
-
-.stat-label {
-  /* Typography */
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.stat-icon-wrapper {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  opacity: 0.15;
-}
-
-.stat-emoji {
-  font-size: 4rem;
-  display: inline-block;
-  transition: all 0.3s ease;
+  font-size: 1.5rem;
 }
 
 /* Stats Tagline */
 .stats-tagline {
   /* Typography */
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   color: var(--text-primary);
-  margin: 2rem 0 1rem;
-  line-height: 1.6;
+  margin: 0;
+  line-height: 1.5;
+  text-align: center;
 
   /* Animation */
-  animation: fadeInUp 1s ease-out;
+  animation: fadeInUp 0.8s ease-out;
 
   strong {
     color: var(--accent-color);
-    font-weight: 700;
+    font-weight: 600;
   }
-}
-
-/* Call to Action */
-.stats-cta {
-  /* Typography */
-  font-size: 1.125rem;
-  color: var(--text-secondary);
-  margin-top: 1rem;
-  font-weight: 500;
-
-  /* Animation */
-  animation: fadeInUp 1.2s ease-out;
 }
 
 /* Loading Skeleton */
@@ -167,25 +82,10 @@
   animation: pulse 1.5s ease-in-out infinite;
 }
 
-.skeleton-title {
-  width: 60%;
-  height: 2.5rem;
-  margin: 0 auto 2rem;
-  background: linear-gradient(90deg, var(--glass-bg) 25%, var(--glass-bg-hover) 50%, var(--glass-bg) 75%);
-  background-size: 200% 100%;
-  border-radius: var(--radius-md);
-  animation: shimmer 1.5s infinite;
-}
-
-.skeleton-counters {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0;
-}
-
-.skeleton-counter {
-  height: 180px;
+.skeleton-text {
+  width: 80%;
+  height: 1.5rem;
+  margin: 0 auto;
   background: linear-gradient(90deg, var(--glass-bg) 25%, var(--glass-bg-hover) 50%, var(--glass-bg) 75%);
   background-size: 200% 100%;
   border-radius: var(--radius-md);
@@ -195,13 +95,14 @@
 /* Error State */
 .stats-error {
   text-align: center;
-  padding: 2rem;
+  padding: 0.5rem;
   color: var(--text-secondary);
+  font-size: 0.875rem;
 
   .error-icon {
-    font-size: 3rem;
-    display: block;
-    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    display: inline-block;
+    margin-right: 0.25rem;
   }
 }
 
@@ -217,26 +118,6 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
   }
 }
 
@@ -263,64 +144,44 @@
    ======================== */
 
 @media (max-width: 768px) {
+  .stats-section {
+    margin: 1.5rem auto 1rem;
+  }
+
   .stats-container {
-    padding: 2rem 1.5rem;
+    padding: 1.25rem 1.5rem;
   }
 
   .stats-title {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
   }
 
   .stats-icon {
-    font-size: 2rem;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .stat-card {
-    min-height: 160px;
-    padding: 1.5rem 1rem;
-  }
-
-  .stat-number {
-    font-size: 2.75rem;
-  }
-
-  .stat-emoji {
-    font-size: 3rem;
-  }
-
-  .stats-tagline {
     font-size: 1.25rem;
   }
 
-  .stats-cta {
+  .stats-tagline {
     font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .stats-section {
-    margin: 3rem auto 1.5rem;
+    margin: 1rem auto 0.75rem;
+    padding: 0 var(--space-md);
   }
 
   .stats-container {
-    padding: 1.5rem 1rem;
+    padding: 1rem;
   }
 
   .stats-title {
-    font-size: 1.5rem;
-  }
-
-  .stat-number {
-    font-size: 2.25rem;
+    font-size: 1.125rem;
   }
 
   .stats-tagline {
-    font-size: 1.125rem;
+    font-size: 0.9375rem;
   }
 }
 
@@ -334,12 +195,6 @@ body.dark-theme {
 
     &:hover {
       backdrop-filter: blur(24px);
-    }
-  }
-
-  .stat-card {
-    &:hover {
-      box-shadow: var(--shadow-glow-strong);
     }
   }
 }
