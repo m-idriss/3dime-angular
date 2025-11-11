@@ -99,6 +99,12 @@ Automatically categorizes commits since last release:
 - 📝 **Documentation**: Commits with `docs:` prefix
 - 🔧 **Chores**: Commits with `chore:`, `refactor:`, etc.
 
+**New in v2.0.3+**: The changelog now includes:
+- ✅ Proper line breaks (no more `\n` characters)
+- ✅ Clickable commit links for easy navigation
+- ✅ Clean sections - empty categories are hidden
+- ✅ Professional markdown formatting
+
 ### 8. Create GitHub Release
 - Publishes release with auto-generated notes
 - Links to tag
@@ -287,6 +293,32 @@ perf: optimize bundle size
 ```
 
 This helps the workflow categorize commits in the changelog.
+
+**Example changelog output:**
+
+```markdown
+## What's New in v2.1.0
+
+### Changes since v2.0.0
+
+#### 🚀 Features
+
+- feat: add calendar converter component ([abc1234](https://github.com/owner/repo/commit/abc1234))
+- feat: implement dark mode toggle ([def5678](https://github.com/owner/repo/commit/def5678))
+
+#### 🐛 Bug Fixes
+
+- fix: resolve profile image loading issue ([ghi9012](https://github.com/owner/repo/commit/ghi9012))
+
+#### 📦 All Commits
+
+- feat: add calendar converter component ([abc1234](https://github.com/owner/repo/commit/abc1234))
+- feat: implement dark mode toggle ([def5678](https://github.com/owner/repo/commit/def5678))
+- fix: resolve profile image loading issue ([ghi9012](https://github.com/owner/repo/commit/ghi9012))
+- chore: update dependencies ([jkl3456](https://github.com/owner/repo/commit/jkl3456))
+```
+
+Note: Empty sections (like Documentation or Chores in this example) are automatically hidden.
 
 ### Release Frequency
 
