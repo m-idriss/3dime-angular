@@ -104,13 +104,29 @@ NOTION_TRACKING_DB_ID=your_tracking_database_id
 
 ## Step 6: Deploy and Test
 
-1. **Deploy functions** (if using Firebase):
+1. **Set environment variables in Firebase**:
+   
+   The tracking variables are set as regular environment variables (not secrets). You can set them using:
+   
+   ```bash
+   firebase functions:config:set \
+     notion.tracking_token="secret_your_tracking_integration_token" \
+     notion.tracking_db_id="your_tracking_database_id"
+   ```
+   
+   Or by creating a `.env` file in the `functions/` directory with:
+   ```bash
+   NOTION_TRACKING_TOKEN=secret_your_tracking_integration_token
+   NOTION_TRACKING_DB_ID=your_tracking_database_id
+   ```
+
+2. **Deploy functions** (if using Firebase):
    ```bash
    cd functions
    npm run deploy
    ```
 
-2. **Test the tracking**:
+3. **Test the tracking**:
    - Convert an image using the converter feature
    - Check your Notion database - a new entry should appear within seconds
 
