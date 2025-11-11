@@ -124,6 +124,14 @@ body.bg-black {
     --text-bg-alt : #333333;
 }
 
+/* Dark theme with white background - adjust text for readability */
+body.dark-theme.bg-white {
+  --text-primary: #1a1a1a;
+  --text-secondary: rgba(26, 26, 26, 0.8);
+  --menu-bg: rgba(255, 255, 255, 0.95);
+  --text-menu: #1a1a1a;
+}
+
 /* Glass theme with white background - adjust text for readability */
 body.glass-theme.bg-white {
   --text-primary: #1a1a1a;
@@ -453,7 +461,7 @@ body.dark-theme .link {
   /* Positioning */
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
 
   /* Box Model */
   width: 100%;
@@ -472,6 +480,7 @@ body.dark-theme .link {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-lg);
+  justify-items: center;
 
   /* Box Model */
   width: 100%;
@@ -489,6 +498,7 @@ body.dark-theme .link {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-lg);
+  justify-items: center;
 
   /* Box Model */
   width: 100%;
@@ -552,6 +562,7 @@ body.dark-theme .link {
     /* Left column in first grid cell, right-aligned */
     grid-column: 1;
     justify-self: end;
+    justify-items: stretch;
     width: auto;
     max-width: 350px;
     order: 1;
@@ -560,6 +571,7 @@ body.dark-theme .link {
   .primary-column {
     /* Center column in middle grid cell, always centered */
     grid-column: 2;
+    align-items: stretch;
     width: 400px;
     order: 2;
   }
@@ -568,6 +580,7 @@ body.dark-theme .link {
     /* Right column in third grid cell, left-aligned */
     grid-column: 3;
     justify-self: start;
+    justify-items: stretch;
     width: auto;
     max-width: 350px;
     order: 3;
