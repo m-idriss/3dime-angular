@@ -102,9 +102,21 @@ export const converterFunction = onRequest(
       
       // Extract domain from request origin for tracking
       const origin = req.headers.origin || req.headers.referer || "unknown";
-      const domain = origin.includes("localhost") ? "local" : 
-                     origin.includes("3dime.com") ? "production" : 
-                     origin;
+      let domain = "unknown";
+      try {
+        const url = new URL(origin);
+        const hostname = url.hostname;
+        if (hostname === "localhost" || hostname.startsWith("127.") || hostname.startsWith("192.168.")) {
+          domain = "local";
+        } else if (hostname === "3dime.com" || hostname === "www.3dime.com") {
+          domain = "production";
+        } else {
+          domain = hostname;
+        }
+      } catch {
+        // If URL parsing fails, use the origin as-is
+        domain = origin;
+      }
       
       try {
         if (req.method !== "POST") {
