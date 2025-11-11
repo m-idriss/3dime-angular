@@ -1,0 +1,231 @@
+# Notion Usage Tracking Setup Guide
+
+This guide explains how to set up a Notion database for tracking converter usage in the 3dime-angular application.
+
+## Overview
+
+The usage tracking system logs conversion events to a Notion database, allowing you to monitor:
+- Number of conversions performed
+- Timestamp of each conversion
+- Success/failure status
+- Number of files processed
+- Processing duration (optional)
+
+## Prerequisites
+
+- A Notion account (free or paid)
+- Access to create databases in your Notion workspace
+- A Notion integration with API access
+
+## Step 1: Create a Notion Integration
+
+1. Go to [Notion Integrations](https://www.notion.so/my-integrations)
+2. Click **"+ New integration"**
+3. Fill in the details:
+   - **Name**: `3dime Usage Tracker` (or any name you prefer)
+   - **Logo**: Optional
+   - **Associated workspace**: Select your workspace
+4. Click **"Submit"**
+5. Copy the **Internal Integration Token** (starts with `secret_`)
+   - Save this token securely - you'll need it for the `NOTION_TRACKING_TOKEN` environment variable
+
+## Step 2: Create the Tracking Database
+
+1. Create a new **Database** in Notion (full page or inline)
+2. Name it: **"Converter Usage Tracking"** (or any name you prefer)
+3. Add the following properties (columns):
+
+   | Property Name | Property Type | Description |
+   |--------------|---------------|-------------|
+   | `Action` | Title | The type of action (e.g., "conversion") |
+   | `User ID` | Text | Anonymous user identifier (generated client-side) |
+   | `Timestamp` | Date | When the action occurred |
+   | `Status` | Select | Success or Error |
+   | `File Count` | Number | Number of files processed |
+   | `Duration (ms)` | Number | Processing time in milliseconds (optional) |
+   | `Error Message` | Text | Error details if status is Error |
+
+4. Configure the **Status** select property with two options:
+   - ✅ **Success** (green)
+   - ❌ **Error** (red)
+
+## Step 3: Share Database with Integration
+
+1. Open your **Converter Usage Tracking** database
+2. Click **Share** (top right corner)
+3. Click **"Add connections"** or **"Add integration"**
+4. Select your integration (`3dime Usage Tracker`)
+5. Click **"Confirm"**
+
+## Step 4: Get the Database ID
+
+The database ID is in the URL of your database page:
+
+```
+https://www.notion.so/{workspace}/{database_id}?v={view_id}
+```
+
+Example:
+```
+https://www.notion.so/myworkspace/a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6?v=...
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                         This is the database ID
+```
+
+Copy the database ID (32 characters, alphanumeric).
+
+## Step 5: Configure Environment Variables
+
+### For Firebase Functions
+
+Create or update `/functions/.env`:
+
+```bash
+# Existing Notion variables (for content)
+NOTION_TOKEN=secret_your_existing_token
+NOTION_DATASOURCE_ID=your_existing_datasource_id
+
+# NEW: Usage tracking variables
+NOTION_TRACKING_TOKEN=secret_your_tracking_integration_token
+NOTION_TRACKING_DB_ID=your_tracking_database_id
+```
+
+> **Note**: You can use the same `NOTION_TOKEN` for both content and tracking, or create separate integrations for better security and access control.
+
+### For Local Development
+
+Update `/.env.example` to include:
+
+```bash
+# Usage Tracking (Optional)
+NOTION_TRACKING_TOKEN=secret_your_tracking_token
+NOTION_TRACKING_DB_ID=your_tracking_database_id
+```
+
+## Step 6: Deploy and Test
+
+1. **Set environment variables in Firebase**:
+   
+   The tracking variables are set as regular environment variables (not secrets). You can set them using:
+   
+   ```bash
+   firebase functions:config:set \
+     notion.tracking_token="secret_your_tracking_integration_token" \
+     notion.tracking_db_id="your_tracking_database_id"
+   ```
+   
+   Or by creating a `.env` file in the `functions/` directory with:
+   ```bash
+   NOTION_TRACKING_TOKEN=secret_your_tracking_integration_token
+   NOTION_TRACKING_DB_ID=your_tracking_database_id
+   ```
+
+2. **Deploy functions** (if using Firebase):
+   ```bash
+   cd functions
+   npm run deploy
+   ```
+
+3. **Test the tracking**:
+   - Convert an image using the converter feature
+   - Check your Notion database - a new entry should appear within seconds
+
+## Database Schema
+
+Here's the complete schema for reference:
+
+```typescript
+interface UsageTrackingEntry {
+  Action: string;           // "conversion"
+  "User ID": string;        // Anonymous ID (e.g., UUID)
+  Timestamp: Date;          // ISO 8601 timestamp
+  Status: "Success" | "Error";
+  "File Count": number;     // Number of files processed
+  "Duration (ms)"?: number; // Optional processing time
+  "Error Message"?: string; // Optional error details
+}
+```
+
+## Example Entry
+
+After a successful conversion, you'll see entries like:
+
+| Action | User ID | Timestamp | Status | File Count | Duration (ms) | Error Message |
+|--------|---------|-----------|--------|------------|---------------|---------------|
+| conversion | abc123-def456 | 2025-11-11 12:00:00 | ✅ Success | 3 | 1250 | - |
+| conversion | xyz789-uvw012 | 2025-11-11 12:05:00 | ❌ Error | 1 | - | Invalid file format |
+
+## Monitoring and Analytics
+
+You can create Notion views to analyze your data:
+
+1. **Total Conversions**: Count view filtered by Status = Success
+2. **Error Rate**: Formula property: `Error Count / Total Count * 100`
+3. **Usage by Date**: Timeline view grouped by Timestamp
+4. **Average Processing Time**: Average of Duration (ms) property
+
+## Privacy Notes
+
+- The tracking system generates **anonymous user IDs** using the current timestamp and a random value (e.g., `anon_<timestamp>_<random>`)
+- **No personal information** (email, name, IP address) is collected
+- User IDs are **not linked to authentication** accounts
+- Data is stored **only in your private Notion workspace**
+
+## Troubleshooting
+
+### Entries not appearing in Notion
+
+1. **Check integration permissions**: Ensure the database is shared with your integration
+2. **Verify environment variables**: Confirm `NOTION_TRACKING_TOKEN` and `NOTION_TRACKING_DB_ID` are set correctly
+3. **Check function logs**: Look for errors in Firebase Functions logs
+4. **Test API connection**: Use Notion's API to manually create a test entry
+
+### Error: "object not found"
+
+- The database ID is incorrect, or
+- The integration doesn't have access to the database
+
+### Tracking is disabled
+
+- If `NOTION_TRACKING_DB_ID` is not set, tracking is automatically disabled (feature is optional)
+
+## Optional: Rate Limiting
+
+If you have high traffic, consider implementing rate limiting:
+
+1. Add a **buffer/batching mechanism** (send data every 30-60 seconds)
+2. Use **Firestore** as an intermediate cache
+3. Implement **Notion API rate limits** (≈ 3 requests/sec)
+
+Example implementation in `converter.ts`:
+
+```typescript
+// Batch tracking entries
+const trackingQueue: UsageEntry[] = [];
+
+setInterval(() => {
+  if (trackingQueue.length > 0) {
+    batchLogToNotion(trackingQueue);
+    trackingQueue.length = 0;
+  }
+}, 60000); // Every 60 seconds
+```
+
+## Security Best Practices
+
+1. **Never commit** `.env` files with real tokens
+2. **Use Firebase Secrets Manager** for production tokens
+3. **Create separate integrations** for development and production
+4. **Regularly rotate** integration tokens
+5. **Monitor API usage** in Notion settings
+
+## Support
+
+For issues with this setup, check:
+- [Notion API Documentation](https://developers.notion.com/)
+- [Firebase Functions Documentation](https://firebase.google.com/docs/functions)
+- Project GitHub Issues
+
+---
+
+**Last Updated**: 2025-11-11

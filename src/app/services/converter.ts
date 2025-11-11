@@ -13,6 +13,7 @@ export interface ConversionRequest {
   files: FileData[];
   timeZone?: string;
   currentDate?: string;
+  userId?: string;
 }
 
 /**
@@ -54,11 +55,66 @@ export interface ConversionResponse {
 export class ConverterService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
+  private userId: string;
 
   constructor() {
     // Configure PDF.js worker - using unpkg.com which has better version availability
     // unpkg.com automatically resolves to the closest matching version
     pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+    
+    // Generate or retrieve anonymous user ID for tracking
+    this.userId = this.getOrCreateUserId();
+  }
+
+  /**
+   * Get or create anonymous user ID for usage tracking
+   * Stored in localStorage for consistency across sessions
+   */
+  private getOrCreateUserId(): string {
+    const STORAGE_KEY = '3dime_user_id';
+    
+    // Try to get existing ID from localStorage
+    try {
+      const existingId = localStorage.getItem(STORAGE_KEY);
+      if (existingId) {
+        return existingId;
+      }
+    } catch (e) {
+      // localStorage might not be available (SSR, private mode, etc.)
+    }
+
+    // Generate new anonymous ID
+    const newId = this.generateAnonymousId();
+    
+    // Try to store it
+    try {
+      localStorage.setItem(STORAGE_KEY, newId);
+    } catch (e) {
+      // Ignore storage errors
+    }
+
+    return newId;
+  }
+
+  /**
+   * Generate anonymous user ID using timestamp and random values
+   */
+  private generateAnonymousId(): string {
+    const timestamp = Date.now().toString(36);
+    let randomPart: string;
+    if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+      // generate 8 random bytes and encode as base36 string for compactness
+      const array = new Uint32Array(2); // 2 * 4 bytes = 8 bytes
+      window.crypto.getRandomValues(array);
+      randomPart = Array.from(array)
+        .map(num => num.toString(36))
+        .join('')
+        .substring(0, 13);
+    } else {
+      // fallback - should not happen in modern browsers
+      randomPart = Math.random().toString(36).substring(2, 15);
+    }
+    return `anon_${timestamp}_${randomPart}`;
   }
 
   /**
@@ -79,6 +135,7 @@ export class ConverterService {
       files,
       timeZone: tz,
       currentDate: today,
+      userId: this.userId,
     };
 
     return this.http.post<ConversionResponse>(`${this.baseUrl}?target=converter`, request);
