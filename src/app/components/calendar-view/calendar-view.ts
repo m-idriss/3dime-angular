@@ -10,7 +10,7 @@ import { CalendarEvent } from '../../models';
 
 /**
  * Interactive calendar view component for visualizing and editing events
- * 
+ *
  * Features:
  * - Monthly and weekly grid views
  * - Drag & drop to move events
@@ -61,7 +61,7 @@ export class CalendarView implements OnInit {
     eventDrop: this.handleEventDrop.bind(this),
     eventResize: this.handleEventResize.bind(this),
     eventClick: this.handleEventClick.bind(this),
-    height: '100%',
+    height: '80%',
     contentHeight: 'auto',
     expandRows: true,
     scrollTime: '06:00:00', // Start day view at 6am (daylight hours)
@@ -115,14 +115,14 @@ export class CalendarView implements OnInit {
   private handleEventDrop(info: EventDropArg): void {
     const eventIndex = parseInt(info.event.id, 10);
     const updatedEvents = [...this.events()];
-    
+
     if (updatedEvents[eventIndex]) {
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
         start: info.event.start || updatedEvents[eventIndex].start,
         end: info.event.end || updatedEvents[eventIndex].end
       };
-      
+
       this.eventsChange.emit(updatedEvents);
     }
   }
@@ -133,14 +133,14 @@ export class CalendarView implements OnInit {
   private handleEventResize(info: EventResizeDoneArg): void {
     const eventIndex = parseInt(info.event.id, 10);
     const updatedEvents = [...this.events()];
-    
+
     if (updatedEvents[eventIndex]) {
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
         start: info.event.start || updatedEvents[eventIndex].start,
         end: info.event.end || updatedEvents[eventIndex].end
       };
-      
+
       this.eventsChange.emit(updatedEvents);
     }
   }
