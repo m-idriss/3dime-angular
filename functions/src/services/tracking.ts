@@ -207,8 +207,8 @@ export class TrackingService {
 
     try {
       // Query all successful conversion entries from Notion
-      const response = await this.notion.databases.query({
-        database_id: this.trackingDbId,
+      const response = await this.notion.dataSources.query({
+        data_source_id: this.trackingDbId,
         filter: {
           and: [
             {
