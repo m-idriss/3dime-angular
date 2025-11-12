@@ -19,11 +19,6 @@
   margin: 0 auto;
   padding: 1.5rem 2rem;
 
-  /* Glassmorphism effect */
-  background: var(--primary-bg);
-  backdrop-filter: blur(16px);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
 
   /* Transitions */
   transition: all 0.3s ease;
