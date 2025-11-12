@@ -10,7 +10,7 @@
   /* Box Model */
   width: 100%;
   max-width: 400px;
-  padding: var(--space-lg);
+  padding: var(--space-md);
 
   /* Typography */
   text-align: center;
@@ -50,7 +50,7 @@ body.dark-theme .container {
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-sm);
 }
 
 /* Card title with gradient effect */
