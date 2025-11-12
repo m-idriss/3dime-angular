@@ -1,7 +1,6 @@
 import { setGlobalOptions } from "firebase-functions";
 import { onRequest } from "firebase-functions/https";
 import cors from "cors";
-import fetch from "node-fetch";
 import { log } from "firebase-functions/logger";
 export { githubCommits } from "./proxies/githubCommits";
 export { githubSocial } from "./proxies/githubSocial";

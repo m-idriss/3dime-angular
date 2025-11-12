@@ -1,5 +1,4 @@
 import { onRequest } from "firebase-functions/v2/https";
-import fetch from "node-fetch";
 import cors from "cors";
 
 // Whitelist of allowed origins for CORS
@@ -17,7 +16,7 @@ const corsHandler = cors({
       callback(null, true);
       return;
     }
-    
+
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
