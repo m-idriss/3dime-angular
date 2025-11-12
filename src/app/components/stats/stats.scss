@@ -13,22 +13,6 @@
   position: relative;
 }
 
-.stats-container {
-  /* Layout */
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1.5rem 2rem;
-
-
-  /* Transitions */
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: var(--primary-bg-hover);
-    box-shadow: var(--shadow-card-hover);
-  }
-}
-
 /* Stats Content */
 .stats-content {
   text-align: center;
