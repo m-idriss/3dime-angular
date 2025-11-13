@@ -20,6 +20,7 @@ export interface UsageTrackingEntry {
   eventCount?: number;
   duration?: number;
   errorMessage?: string;
+  assignedUserId?: string;
 }
 
 /**
@@ -30,15 +31,20 @@ export class TrackingService {
   private trackingDbId?: string;
   private isEnabled: boolean;
   private notionToken?: string;
+  private assignedUserId?: string;
 
   constructor() {
     this.trackingDbId = process.env.NOTION_TRACKING_DB_ID;
     this.notionToken = process.env.NOTION_TRACKING_TOKEN;
+    this.assignedUserId = process.env.NOTION_USER_ID;
     this.isEnabled = !!(this.trackingDbId && this.notionToken);
 
     if (this.isEnabled && this.notionToken) {
       this.notion = new Client({ auth: this.notionToken });
-      log("Usage tracking ENABLED", { databaseId: this.trackingDbId });
+      log("Usage tracking ENABLED", { 
+        databaseId: this.trackingDbId,
+        assignedUserId: this.assignedUserId ? "configured" : "not configured"
+      });
     } else {
       log("Usage tracking DISABLED (missing token or database ID)");
     }
@@ -69,6 +75,20 @@ export class TrackingService {
         properties["Error Message"] = this.createRichTextProperty(
           entry.errorMessage.substring(0, MAX_ERROR_MESSAGE_LENGTH)
         );
+      }
+
+      // Add Assigned property with mention if userId is configured
+      const assignedUserId = entry.assignedUserId || this.assignedUserId;
+      if (assignedUserId) {
+        properties["Assigned"] = {
+          rich_text: [{
+            type: "mention",
+            mention: {
+              type: "user",
+              user: { id: assignedUserId }
+            }
+          }]
+        };
       }
 
       await this.notion.pages.create({
