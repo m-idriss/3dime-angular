@@ -48,6 +48,7 @@ The usage tracking system logs conversion events to a Notion database, allowing 
    | `Event Count` | Number | Number of calendar events extracted |
    | `Duration (ms)` | Number | Processing time in milliseconds (optional) |
    | `Error Message` | Text | Error details if status is Error |
+   | `Assigned` | Text | User mention for notifications (auto-populated) |
 
 4. Configure the **Status** select property with two options:
    - ✅ **Success** (green)
@@ -78,7 +79,32 @@ https://www.notion.so/myworkspace/a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6?v=...
 
 Copy the database ID (32 characters, alphanumeric).
 
-## Step 5: Configure Environment Variables
+## Step 5: Get Your Notion User ID (Optional - For Mentions)
+
+To receive notifications when new conversion entries are created, you can configure auto-mentions by getting your Notion User ID:
+
+1. **Using the Notion API Explorer**:
+   - Go to your workspace settings
+   - Click on **"Connections"** or **"Integrations"**
+   - Use the Notion API to list users: `GET https://api.notion.com/v1/users`
+   - Find your user object and copy the `id` field
+
+2. **Alternative Method - Using Integration**:
+   ```bash
+   curl -X GET 'https://api.notion.com/v1/users' \
+     -H 'Authorization: Bearer YOUR_INTEGRATION_TOKEN' \
+     -H 'Notion-Version: 2022-06-28'
+   ```
+   - Look for your name in the response
+   - Copy the `id` field from your user object (format: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
+
+3. **Using Notion Pages**:
+   - Create a test page and mention yourself using `@yourname`
+   - Open the page source/API and find the mention block to extract your user ID
+
+> **Note**: The User ID is a UUID format string (e.g., `12345678-1234-1234-1234-123456789abc`). This enables Notion to send you real-time notifications when new entries are created.
+
+## Step 6: Configure Environment Variables
 
 ### For Firebase Functions
 
@@ -92,9 +118,13 @@ NOTION_DATASOURCE_ID=your_existing_datasource_id
 # NEW: Usage tracking variables
 NOTION_TRACKING_TOKEN=secret_your_tracking_integration_token
 NOTION_TRACKING_DB_ID=your_tracking_database_id
+
+# Optional: User ID for auto-mentions and notifications
+NOTION_USER_ID=your_notion_user_id
 ```
 
 > **Note**: You can use the same `NOTION_TOKEN` for both content and tracking, or create separate integrations for better security and access control.
+> **Tip**: Setting `NOTION_USER_ID` enables automatic mentions in the "Assigned" column, triggering real-time notifications when new conversion entries are created.
 
 ### For Local Development
 
@@ -104,9 +134,10 @@ Update `/.env.example` to include:
 # Usage Tracking (Optional)
 NOTION_TRACKING_TOKEN=secret_your_tracking_token
 NOTION_TRACKING_DB_ID=your_tracking_database_id
+NOTION_USER_ID=your_notion_user_id
 ```
 
-## Step 6: Deploy and Test
+## Step 7: Deploy and Test
 
 1. **Set environment variables in Firebase**:
    
@@ -115,13 +146,15 @@ NOTION_TRACKING_DB_ID=your_tracking_database_id
    ```bash
    firebase functions:config:set \
      notion.tracking_token="secret_your_tracking_integration_token" \
-     notion.tracking_db_id="your_tracking_database_id"
+     notion.tracking_db_id="your_tracking_database_id" \
+     notion.user_id="your_notion_user_id"
    ```
    
    Or by creating a `.env` file in the `functions/` directory with:
    ```bash
    NOTION_TRACKING_TOKEN=secret_your_tracking_integration_token
    NOTION_TRACKING_DB_ID=your_tracking_database_id
+   NOTION_USER_ID=your_notion_user_id
    ```
 
 2. **Deploy functions** (if using Firebase):
@@ -149,6 +182,7 @@ interface UsageTrackingEntry {
   "Event Count"?: number;   // Number of calendar events extracted
   "Duration (ms)"?: number; // Optional processing time
   "Error Message"?: string; // Optional error details
+  Assigned?: string;        // User mention for notifications (auto-populated)
 }
 ```
 
@@ -156,10 +190,10 @@ interface UsageTrackingEntry {
 
 After a successful conversion, you'll see entries like:
 
-| Action | User ID | Timestamp | Status | Domain | File Count | Event Count | Duration (ms) | Error Message |
-|--------|---------|-----------|--------|--------|------------|-------------|---------------|---------------|
-| conversion | abc123-def456 | 2025-11-11 12:00:00 | ✅ Success | production | 2 | 5 | 1250 | - |
-| conversion | xyz789-uvw012 | 2025-11-11 12:05:00 | ❌ Error | local | 1 | 0 | - | Invalid file format |
+| Action | User ID | Timestamp | Status | Domain | File Count | Event Count | Duration (ms) | Error Message | Assigned |
+|--------|---------|-----------|--------|--------|------------|-------------|---------------|---------------|----------|
+| conversion | abc123-def456 | 2025-11-11 12:00:00 | ✅ Success | production | 2 | 5 | 1250 | - | @Admin |
+| conversion | xyz789-uvw012 | 2025-11-11 12:05:00 | ❌ Error | local | 1 | 0 | - | Invalid file format | @Admin |
 
 ## Monitoring and Analytics
 
@@ -176,6 +210,7 @@ You can create Notion views to analyze your data:
 6. **Total Files Processed**: Sum of File Count property
 7. **Total Events Created**: Sum of Event Count property for marketing metrics
 8. **Events per File**: Formula property: `Event Count / File Count` (average efficiency)
+9. **Real-time Notifications**: If `NOTION_USER_ID` is configured, the "Assigned" column will automatically mention you, triggering instant notifications for each new conversion entry
 
 ## Privacy Notes
 
