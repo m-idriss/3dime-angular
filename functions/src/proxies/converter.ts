@@ -99,31 +99,35 @@ export const converterFunction = onRequest(
     return corsHandler(req, res, async () => {
       const startTime = Date.now();
       const trackingService = getTrackingService();
-      
+
       // Extract domain from request origin for tracking
-      const origin = req.headers.origin || req.headers.referer || "unknown";
-      let domain;
-      try {
-        const url = new URL(origin);
-        const hostname = url.hostname;
-        if (
-          hostname === "localhost" ||
-          hostname.startsWith("127.") ||
-          hostname.startsWith("10.") ||
-          hostname.startsWith("192.168.") ||
-          /^172\.(1[6-9]|2[0-9]|3[01])\./.test(hostname)
-        ) {
-          domain = "local";
-        } else if (hostname === "3dime.com" || hostname === "www.3dime.com") {
-          domain = "production";
-        } else {
-          domain = hostname;
+      const originHeader = req.headers.origin || req.headers.referer;
+      let domain: string;
+
+      if (originHeader) {
+        try {
+          const url = new URL(originHeader);
+          const hostname = url.hostname;
+          if (
+            hostname === "localhost" ||
+            hostname.startsWith("127.") ||
+            hostname.startsWith("10.") ||
+            hostname.startsWith("192.168.") ||
+            /^172\.(1[6-9]|2[0-9]|3[01])\./.test(hostname)
+          ) {
+            domain = "local";
+          } else if (hostname === "3dime.com" || hostname === "www.3dime.com") {
+            domain = "production";
+          } else {
+            domain = hostname;
+          }
+        } catch {
+          domain = "invalid-url";
         }
-      } catch {
-        // If URL parsing fails, use the origin as-is
-        domain = origin;
+      } else {
+        domain = "unknown";
       }
-      
+
       try {
         if (req.method !== "POST") {
           return res.status(405).json({ error: "Use POST." });
@@ -258,7 +262,7 @@ export const converterFunction = onRequest(
             duration,
             domain
           ).catch((err) => console.error("Tracking error:", err));
-          
+
           return res.status(200).json({
             success: false,
             error: "No events found in images",
@@ -281,7 +285,7 @@ export const converterFunction = onRequest(
             duration,
             domain
           ).catch((err) => console.error("Tracking error:", err));
-          
+
           return res.status(200).json({
             success: false,
             error: "Generated ICS is invalid",
@@ -299,7 +303,7 @@ export const converterFunction = onRequest(
       } catch (err: any) {
         console.error("Converter error:", err);
         const duration = Date.now() - startTime;
-        
+
         // Track error
         trackingService.logConversionError(
           req.body.userId || "anonymous",
@@ -309,7 +313,7 @@ export const converterFunction = onRequest(
           duration,
           domain
         ).catch((trackErr) => console.error("Tracking error:", trackErr));
-        
+
         return res.status(500).json({ error: "Internal error", message: err.message });
       }
     });
