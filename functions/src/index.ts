@@ -91,7 +91,10 @@ export const proxyApi = onRequest((req, res) => {
 
       const response = await fetch(url, {
         method: req.method,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Origin": req.headers.origin || "",
+        },
         body: ["POST", "PUT", "PATCH"].includes(req.method)
           ? JSON.stringify(req.body)
           : undefined,
