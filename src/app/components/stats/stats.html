@@ -19,6 +19,11 @@
           Over <strong>{{ formatNumber(displayEventCount()) }} events</strong> generated from 
           <strong>{{ formatNumber(displayFileCount()) }} files</strong> — and counting!
         </p>
+        
+        <p class="stats-time-saved">
+          That's <strong>~{{ formatNumber(timeSavedHours()) }} hours saved</strong> — the equivalent of 
+          <strong>{{ formatNumber(timeSavedWorkdays()) }} full workdays</strong> of manual scheduling!
+        </p>
       </div>
     }
 

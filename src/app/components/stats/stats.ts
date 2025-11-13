@@ -23,6 +23,8 @@ export class Stats implements OnInit {
   readonly displayFileCount = signal(0);
   readonly displayEventCount = signal(0);
   readonly hasError = signal(false);
+  readonly timeSavedHours = signal(0);
+  readonly timeSavedWorkdays = signal(0);
 
   ngOnInit(): void {
     this.loadStatistics();
@@ -41,6 +43,15 @@ export class Stats implements OnInit {
         // Animate the counters
         this.animateCounter(stats.fileCount, this.displayFileCount);
         this.animateCounter(stats.eventCount, this.displayEventCount);
+
+        // Calculate time saved metrics
+        this.calculateTimeSaved(stats.eventCount);
+
+        // Animate time saved counters
+        this.animateCounter(this.timeSavedHours(), this.timeSavedHours);
+        this.animateCounter(this.timeSavedWorkdays(), this.timeSavedWorkdays);
+
+
       },
       error: (err) => {
         console.error('Failed to load statistics:', err);
@@ -69,6 +80,19 @@ export class Stats implements OnInit {
         signal.set(Math.floor(current));
       }
     }, stepDuration);
+  }
+
+  /**
+   * Calculate time saved based on event count
+   * Formula: eventCount × 25 seconds per event
+   */
+  private calculateTimeSaved(eventCount: number): void {
+    const timeSavedSeconds = eventCount * 25;
+    const hours = Math.round(timeSavedSeconds / 3600);
+    const workdays = Math.round(hours / 8);
+
+    this.timeSavedHours.set(hours);
+    this.timeSavedWorkdays.set(workdays);
   }
 
   /**
