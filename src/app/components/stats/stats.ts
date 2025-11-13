@@ -43,9 +43,15 @@ export class Stats implements OnInit {
         // Animate the counters
         this.animateCounter(stats.fileCount, this.displayFileCount);
         this.animateCounter(stats.eventCount, this.displayEventCount);
-        
+
         // Calculate time saved metrics
         this.calculateTimeSaved(stats.eventCount);
+
+        // Animate time saved counters
+        this.animateCounter(this.timeSavedHours(), this.timeSavedHours);
+        this.animateCounter(this.timeSavedWorkdays(), this.timeSavedWorkdays);
+
+
       },
       error: (err) => {
         console.error('Failed to load statistics:', err);
@@ -84,7 +90,7 @@ export class Stats implements OnInit {
     const timeSavedSeconds = eventCount * 25;
     const hours = Math.round(timeSavedSeconds / 3600);
     const workdays = Math.round(hours / 8);
-    
+
     this.timeSavedHours.set(hours);
     this.timeSavedWorkdays.set(workdays);
   }
