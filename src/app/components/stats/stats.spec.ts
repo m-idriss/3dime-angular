@@ -97,4 +97,48 @@ describe('Stats', () => {
     const section = compiled.querySelector('.stats-section');
     expect(section.getAttribute('aria-label')).toBe('Platform Statistics');
   });
+
+  it('should calculate time saved in hours correctly', () => {
+    const mockStats: Statistics = { fileCount: 1000, eventCount: 28099 };
+    statsService.getStatistics.and.returnValue(of(mockStats));
+
+    fixture.detectChanges();
+
+    // 28099 * 25 = 702475 seconds
+    // 702475 / 3600 = 195.13 hours (rounded to 195)
+    expect(component.timeSavedHours()).toBe(195);
+  });
+
+  it('should calculate time saved in workdays correctly', () => {
+    const mockStats: Statistics = { fileCount: 1000, eventCount: 28099 };
+    statsService.getStatistics.and.returnValue(of(mockStats));
+
+    fixture.detectChanges();
+
+    // 195 hours / 8 = 24.37 workdays (rounded to 24)
+    expect(component.timeSavedWorkdays()).toBe(24);
+  });
+
+  it('should display time saved information', () => {
+    const mockStats: Statistics = { fileCount: 2052, eventCount: 28099 };
+    statsService.getStatistics.and.returnValue(of(mockStats));
+
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement;
+    const timeSavedElement = compiled.querySelector('.stats-time-saved');
+    expect(timeSavedElement).toBeTruthy();
+    expect(timeSavedElement.textContent).toContain('hours saved');
+    expect(timeSavedElement.textContent).toContain('full workdays');
+  });
+
+  it('should handle zero events correctly', () => {
+    const mockStats: Statistics = { fileCount: 0, eventCount: 0 };
+    statsService.getStatistics.and.returnValue(of(mockStats));
+
+    fixture.detectChanges();
+
+    expect(component.timeSavedHours()).toBe(0);
+    expect(component.timeSavedWorkdays()).toBe(0);
+  });
 });

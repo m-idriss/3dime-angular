@@ -54,6 +54,24 @@
   }
 }
 
+/* Time Saved Line */
+.stats-time-saved {
+  /* Typography */
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin: 0.75rem 0 0;
+  line-height: 1.5;
+  text-align: center;
+
+  /* Animation */
+  animation: fadeInUp 1s ease-out;
+
+  strong {
+    color: var(--accent-color);
+    font-weight: 600;
+  }
+}
+
 /* Loading Skeleton */
 .stats-skeleton {
   text-align: center;
@@ -142,6 +160,10 @@
   .stats-tagline {
     font-size: 1rem;
   }
+  
+  .stats-time-saved {
+    font-size: 0.9375rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -160,6 +182,10 @@
 
   .stats-tagline {
     font-size: 0.9375rem;
+  }
+  
+  .stats-time-saved {
+    font-size: 0.875rem;
   }
 }
 
