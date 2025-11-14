@@ -179,7 +179,7 @@
   /* Calendar view button variant */
   &.calendar-view {
     background: linear-gradient(135deg, var(--accent-color), #6366f1);
-    
+
     &:hover {
       background: linear-gradient(135deg, #2563eb, #4f46e5);
     }
@@ -279,7 +279,7 @@
     margin-top: 0;
     font-size: 1rem;
     padding: 0.875rem 1.5rem;
-    
+
     /* Add slight animation to draw attention */
     animation: pulse-glow 2s ease-in-out infinite;
   }
@@ -723,7 +723,7 @@
       margin-top: var(--space-md);
       font-size: 1.1rem;
       font-weight: 500;
-      line-height: 1.5;
+      line-height: 1.2;
       color: var(--text-primary);
       opacity: 0.9;
     }
