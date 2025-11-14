@@ -179,7 +179,7 @@
   /* Calendar view button variant */
   &.calendar-view {
     background: linear-gradient(135deg, var(--accent-color), #6366f1);
-    
+
     &:hover {
       background: linear-gradient(135deg, #2563eb, #4f46e5);
     }
@@ -279,7 +279,7 @@
     margin-top: 0;
     font-size: 1rem;
     padding: 0.875rem 1.5rem;
-    
+
     /* Add slight animation to draw attention */
     animation: pulse-glow 2s ease-in-out infinite;
   }
@@ -719,52 +719,19 @@
   .auth-message {
     margin-bottom: var(--space-sm);
 
-    p {
-      margin-bottom: var(--space-md);
-      font-size: 0.95rem;
+    .auth-text {
+      margin-top: var(--space-md);
+      font-size: 1.1rem;
+      font-weight: 500;
       line-height: 1.2;
       color: var(--text-primary);
+      opacity: 0.9;
     }
 
     .supported-formats {
       margin-top: var(--space-md);
       font-size: 0.85rem;
       color: var(--text-secondary);
-    }
-  }
-
-  /* Sign in button */
-  .sign-in-button {
-    /* Box Model */
-    width: 100%;
-    max-width: 400px;
-    padding: var(--space-md) var(--space-lg);
-
-    /* Typography */
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-
-    /* Visual */
-    background: linear-gradient(135deg, #4285f4, #3367d6);
-    border: none;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-card);
-
-    /* Misc */
-    cursor: pointer;
-    transition: all var(--t-medium);
-
-    /* Hover state */
-    &:hover {
-      background: linear-gradient(135deg, #3367d6, #2451b3);
-      box-shadow: var(--shadow-card-hover), 0 0 15px rgba(66, 133, 244, 0.4);
-      transform: translateY(-2px);
-    }
-
-    /* Active state */
-    &:active {
-      transform: translateY(0);
     }
   }
 }
@@ -800,17 +767,6 @@
     font-size: 0.875rem;
     color: var(--text-secondary);
   }
-}
-
-/* ========================
-   Focus Indicators & Accessibility
-   ======================== */
-.sign-in-button:focus,
-.sign-in-button:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-  transition: all var(--t-fast);
 }
 
 /* ========================
@@ -985,7 +941,8 @@
    Reduced Motion Support
    ======================== */
 @media (prefers-reduced-motion: reduce) {
-  .sign-in-button:hover {
-    transform: none !important;
+  * {
+    animation: none !important;
+    transition: none !important;
   }
 }

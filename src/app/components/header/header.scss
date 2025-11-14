@@ -89,6 +89,40 @@
   }
 }
 
+/* Sign In Button */
+.sign-in-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  i {
+    font-size: 1rem;
+  }
+
+  span {
+    font-size: 0.95rem;
+  }
+}
+
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
@@ -296,6 +330,19 @@
   }
 
   .nav-link {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+
+    span {
+      display: none;
+    }
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+
+  .sign-in-button {
     padding: 0.4rem 0.75rem;
     font-size: 0.9rem;
 

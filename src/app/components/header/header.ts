@@ -80,4 +80,13 @@ export class Header extends AuthAwareComponent {
       console.error('Sign out error:', error);
     }
   }
+
+  async signIn(): Promise<void> {
+    try {
+      await this.authService.signInWithGoogle();
+      this.cdr.markForCheck();
+    } catch (error) {
+      console.error('Sign in error:', error);
+    }
+  }
 }
