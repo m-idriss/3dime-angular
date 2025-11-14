@@ -12,18 +12,28 @@
     </a>
     <span class="footer-separator" aria-hidden="true">•</span>
     @for (link of footerLinks; track link.url; let isLast = $last) {
-    <a
-    [href]="link.url"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="footer-link"
-    [attr.aria-label]="link.label"
-    >
-        {{ link.label }}
-      </a>
-    @if (!isLast) {
-    <span class="footer-separator" aria-hidden="true">•</span>
-    }
+      @if (link.isInternal) {
+        <a
+          [routerLink]="link.url"
+          class="footer-link"
+          [attr.aria-label]="link.label"
+        >
+          {{ link.label }}
+        </a>
+      } @else {
+        <a
+          [href]="link.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-link"
+          [attr.aria-label]="link.label"
+        >
+          {{ link.label }}
+        </a>
+      }
+      @if (!isLast) {
+        <span class="footer-separator" aria-hidden="true">•</span>
+      }
     }
   </div>
 </footer>
