@@ -201,15 +201,8 @@ bru run bruno-collections/3dime-api
 
 ### 📅 AI Calendar Converter
 
-<img src="public/assets/images/converter.png" alt="Calendar Converter Feature" width="800" />
-
-*Transform images and PDFs into calendar events with AI-powered extraction*
-
-### 🖥️ Portfolio View - Desktop
-
 ![3dime-angular Desktop Screenshot](public/assets/screenshots/desktopPage1920x1080.jpeg)
-
-*Space-themed design with glassmorphism effects and professional portfolio sections*
+*Transform images and PDFs into calendar events with AI-powered extraction*
 
 ### 📱 Mobile Experience
 
