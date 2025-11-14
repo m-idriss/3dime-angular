@@ -160,7 +160,7 @@ firebase deploy --only hosting
 ## 🧪 Testing
 
 ```bash
-# Run unit tests (61 tests, all passing ✅)
+# Run unit tests (61 tests)
 npm test
 
 # Run in headless mode (CI)
