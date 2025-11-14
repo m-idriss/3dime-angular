@@ -6,8 +6,8 @@
 .stats-section {
   /* Positioning & Layout */
   width: 100%;
-  margin: 2rem auto 1.5rem;
-  padding: 0 var(--space-lg);
+  margin: 1rem auto;
+  padding: 0 ;
 
   /* Visual */
   position: relative;
@@ -141,11 +141,7 @@
 
 @media (max-width: 768px) {
   .stats-section {
-    margin: 1.5rem auto 1rem;
-  }
-
-  .stats-container {
-    padding: 1.25rem 1.5rem;
+    margin: 1rem auto;
   }
 
   .stats-title {
@@ -160,7 +156,7 @@
   .stats-tagline {
     font-size: 1rem;
   }
-  
+
   .stats-time-saved {
     font-size: 0.9375rem;
   }
@@ -168,8 +164,7 @@
 
 @media (max-width: 480px) {
   .stats-section {
-    margin: 1rem auto 0.75rem;
-    padding: 0 var(--space-md);
+    margin: 1rem;
   }
 
   .stats-container {
@@ -183,7 +178,7 @@
   .stats-tagline {
     font-size: 0.9375rem;
   }
-  
+
   .stats-time-saved {
     font-size: 0.875rem;
   }
