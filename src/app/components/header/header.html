@@ -9,6 +9,20 @@
         <span>Home</span>
       </a>
 
+      <!-- Sign In Button (when not authenticated) -->
+      @if (!isAuthenticated && !isAuthLoading) {
+        <button
+          class="sign-in-button"
+          (click)="signIn()"
+          aria-label="Sign in with Google"
+          appTooltip="Sign in with Google"
+          appTooltipPlacement="bottom"
+        >
+          <i class="fab fa-google" aria-hidden="true"></i>
+          <span>Sign In</span>
+        </button>
+      }
+
       <!-- Burger Menu -->
       <div class="burger-menu" [class.active]="menuOpen" aria-label="Settings menu">
         <button
