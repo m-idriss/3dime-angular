@@ -36,7 +36,8 @@
 | Document                                   | Topics Covered                                                 |
 | ------------------------------------------ | -------------------------------------------------------------- |
 | [README.md](../README.md)                  | Quick start, basic commands, project overview                  |
-| [Development Guidelines](./DEVELOPMENT.md) | Prerequisites, installation, development server, build process |
+| [Installation Guide](./INSTALLATION.md)    | Complete setup, dependencies, configuration, troubleshooting    |
+| [Development Guidelines](./DEVELOPMENT.md) | Prerequisites, workflow, best practices                        |
 
 ### Code & Architecture
 
@@ -49,16 +50,23 @@
 
 ### Features & Functionality
 
-| Document                       | Topics Covered                                                     |
-| ------------------------------ | ------------------------------------------------------------------ |
-| [PWA Documentation](./PWA.md)  | Progressive Web App features, installation, service worker, caching |
-| [Calendar Converter](./CONVERTER.md) | AI-powered conversion, file upload, event editing, ICS generation |
+| Document                             | Topics Covered                                                     |
+| ------------------------------------ | ------------------------------------------------------------------ |
+| [Calendar Converter](./CONVERTER.md) | AI-powered conversion, file upload, event editing, ICS generation, batch processing |
+| [PWA Documentation](./PWA.md)        | Progressive Web App features, installation, service worker, caching |
 
 ### Design & Styling
 
 | Document                            | Topics Covered                                                        |
 | ----------------------------------- | --------------------------------------------------------------------- |
 | [Design System](./DESIGN_SYSTEM.md) | Colors, typography, spacing, glassmorphism, animations, accessibility |
+
+### Deployment & Operations
+
+| Document                           | Topics Covered                                                   |
+| ---------------------------------- | ---------------------------------------------------------------- |
+| [Deployment Guide](./DEPLOYMENT.md) | Production builds, hosting options, server config, CI/CD, releases |
+| [Testing Guide](./TESTING.md)      | Unit tests, API tests, manual testing, CI, debugging             |
 
 ### Contributing
 
@@ -75,6 +83,7 @@
 
 Essential reading for frontend development:
 
+- [Installation Guide](./INSTALLATION.md) - Setup and configuration
 - [Component Documentation](./COMPONENTS.md) - Learn component structure
 - [Design System](./DESIGN_SYSTEM.md) - Understand styling patterns
 - [Development Guidelines](./DEVELOPMENT.md) - Follow best practices
@@ -83,10 +92,11 @@ Essential reading for frontend development:
 
 Essential reading for backend/API work:
 
+- [Installation Guide](./INSTALLATION.md) - Firebase setup
 - [Firebase Functions](../functions/README.md) - Backend implementation and deployment
 - [API Documentation](./API.md) - Firebase Functions and endpoints
 - [Services Documentation](./SERVICES.md) - Data layer integration
-- [Development Guidelines](./DEVELOPMENT.md) - Testing and deployment
+- [Deployment Guide](./DEPLOYMENT.md) - Deploy functions and hosting
 
 ### Designer
 
@@ -101,8 +111,10 @@ Essential reading for design work:
 Essential reading for first-time contributors:
 
 1. [Contributing Guidelines](../CONTRIBUTING.md) - Start here
-2. [Development Guidelines](./DEVELOPMENT.md) - Setup and workflow
-3. [Component Documentation](./COMPONENTS.md) or [API Documentation](./API.md) - Depending on contribution area
+2. [Installation Guide](./INSTALLATION.md) - Setup your environment
+3. [Development Guidelines](./DEVELOPMENT.md) - Workflow and standards
+4. [Testing Guide](./TESTING.md) - Write and run tests
+5. [Component Documentation](./COMPONENTS.md) or [API Documentation](./API.md) - Depending on contribution area
 
 ---
 
@@ -112,21 +124,61 @@ Essential reading for first-time contributors:
 
 ```
 ✓ Project description and features
+✓ Calendar Converter highlight
 ✓ Quick start guide
-✓ Basic Angular CLI commands
-✓ Architecture overview
+✓ Technology stack overview
+✓ Screenshots
 ✓ Links to all documentation
+```
+
+### Installation Guide
+
+```
+✓ Prerequisites and required software
+✓ Step-by-step installation
+✓ Development server setup
+✓ Content and styling customization
+✓ Firebase and API integration
+✓ PWA configuration
+✓ Troubleshooting common issues
 ```
 
 ### Development Guidelines
 
 ```
-✓ Prerequisites and initial setup
 ✓ Daily development workflow
 ✓ Build and test processes
 ✓ Code standards (TypeScript, Angular, SCSS)
 ✓ Git workflow and commit conventions
 ✓ Performance guidelines
+```
+
+### Deployment Guide
+
+```
+✓ Production build process
+✓ Deployment options (Netlify, Vercel, Firebase, etc.)
+✓ Automatic deployment with GitHub Actions
+✓ Manual deployment instructions
+✓ Server configuration for SPA routing
+✓ Environment configuration
+✓ Creating releases
+✓ Post-deployment checklist
+✓ Troubleshooting deployment issues
+```
+
+### Testing Guide
+
+```
+✓ Unit testing with Karma and Jasmine
+✓ API testing with Bruno
+✓ Manual testing checklists
+✓ Writing test cases
+✓ Test best practices
+✓ Debugging tests
+✓ Performance testing
+✓ Security testing
+✓ CI/CD testing
 ```
 
 ### Component Documentation
@@ -267,14 +319,14 @@ Essential reading for first-time contributors:
 
 | Question                         | Document                                      | Section              |
 | -------------------------------- | --------------------------------------------- | -------------------- |
-| ...set up the project?           | [Development Guidelines](./DEVELOPMENT.md)    | Getting Started      |
+| ...set up the project?           | [Installation Guide](./INSTALLATION.md)       | Installation Steps   |
 | ...create a new component?       | [Component Documentation](./COMPONENTS.md)    | Component Guidelines |
 | ...use the theme service?        | [Services Documentation](./SERVICES.md)       | ThemeService         |
 | ...understand the design system? | [Design System](./DESIGN_SYSTEM.md)           | Overview             |
 | ...call the API?                 | [API Documentation](./API.md)                 | API Endpoints        |
 | ...contribute code?              | [Contributing Guidelines](../CONTRIBUTING.md) | Making Changes       |
-| ...run tests?                    | [Development Guidelines](./DEVELOPMENT.md)    | Testing              |
-| ...deploy the app?               | [API Documentation](./API.md)                 | Deployment           |
+| ...run tests?                    | [Testing Guide](./TESTING.md)                 | Running Tests        |
+| ...deploy the app?               | [Deployment Guide](./DEPLOYMENT.md)           | Deployment Options   |
 
 ### "I want to learn about...?"
 
@@ -300,7 +352,7 @@ Essential reading for first-time contributors:
 If you're new to the project, follow this path:
 
 1. **Start**: [README.md](../README.md) - Understand what the project is
-2. **Setup**: [Development Guidelines](./DEVELOPMENT.md) - Get your environment ready
+2. **Setup**: [Installation Guide](./INSTALLATION.md) - Get your environment ready
 3. **Explore**: [Component Documentation](./COMPONENTS.md) - See how components work
 4. **Style**: [Design System](./DESIGN_SYSTEM.md) - Learn the design patterns
 
@@ -317,21 +369,22 @@ Ready to make changes? Continue with:
 Going deeper into the architecture:
 
 8. **API**: [API Documentation](./API.md) - Master backend integration
-9. **Optimize**: [Development Guidelines](./DEVELOPMENT.md) - Performance section
-10. **Plan**: [Project Roadmap](../ROADMAP.md) - Contribute to future features
+9. **Deploy**: [Deployment Guide](./DEPLOYMENT.md) - Production deployment
+10. **Test**: [Testing Guide](./TESTING.md) - Advanced testing strategies
+11. **Plan**: [Project Roadmap](../ROADMAP.md) - Contribute to future features
 
 ---
 
 ## 📊 Documentation Statistics
 
-- **Total Documents**: 12 
+- **Total Documents**: 15
   - Main README: 1
   - Functions README: 1
   - Bruno README: 1
-  - Docs folder: 9
-- **Total Pages**: ~70+ pages of documentation
-- **Topics Covered**: 120+
-- **Code Examples**: 100+
+  - Docs folder: 12
+- **Total Pages**: ~100+ pages of documentation
+- **Topics Covered**: 150+
+- **Code Examples**: 120+
 - **Components Documented**: 9
 - **Services Documented**: 3
 - **API Endpoints**: 5
