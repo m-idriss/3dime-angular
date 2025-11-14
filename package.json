@@ -1,6 +1,6 @@
 {
   "name": "3dime-angular",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
