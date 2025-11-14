@@ -124,7 +124,7 @@ Essential reading for first-time contributors:
 
 ```
 ✓ Project description and features
-✓ Calendar Converter highlight
+✓ Calendar Converter featured prominently
 ✓ Quick start guide
 ✓ Technology stack overview
 ✓ Screenshots
