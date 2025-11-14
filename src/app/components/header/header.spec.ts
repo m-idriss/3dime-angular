@@ -31,6 +31,6 @@ describe('Header', () => {
   it('should render navigation links', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const navLinks = compiled.querySelectorAll('.nav-link');
-    expect(navLinks.length).toBe(2);
+    expect(navLinks.length).toBe(1);
   });
 });

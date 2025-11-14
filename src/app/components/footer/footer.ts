@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { GithubService } from '../../services/github.service';
 
 /**
@@ -7,6 +8,7 @@ import { GithubService } from '../../services/github.service';
 export interface FooterLink {
   label: string;
   url: string;
+  isInternal?: boolean;
 }
 
 /**
@@ -16,7 +18,7 @@ export interface FooterLink {
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
@@ -31,6 +33,7 @@ export class Footer implements OnInit {
   authorProfile = 'https://github.com/m-idriss';
 
   footerLinks: FooterLink[] = [
+    { label: 'About Me', url: '/me', isInternal: true },
     { label: 'Repository', url: this.githubRepo },
     { label: 'Issues', url: `${this.githubRepo}/issues` },
     { label: 'Docs', url: `${this.githubRepo}/blob/main/README.md` },
