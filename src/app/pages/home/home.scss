@@ -53,7 +53,7 @@
   color: var(--text-secondary, #b0b0b0);
   line-height: 1.6;
   max-width: 100%;
-  margin: 0 auto;
+  margin: 1rem auto;
 }
 
 @keyframes fadeInDown {
@@ -92,7 +92,6 @@
    ======================== */
 .content-layout {
   display: grid;
-  gap: var(--space-lg);
 
   // Default: Center converter (no calendar)
   @media (min-width: 1200px) {
@@ -179,10 +178,6 @@
 
   .hero-description {
     font-size: 1rem;
-  }
-
-  .converter-card {
-    padding: 1.5rem;
   }
 
   span {
