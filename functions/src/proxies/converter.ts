@@ -157,12 +157,14 @@ export const converterFunction = onRequest(
           ).catch((err) => console.error("Tracking error:", err));
 
           return res.status(429).json({ 
-            error: "Quota exceeded. Upgrade or wait for reset.",
-            quota: {
-              limit: quotaCheck.limit,
-              remaining: quotaCheck.remaining,
-              plan: quotaCheck.plan
-            }
+            error: "You've reached your daily conversion limit. Please try again tomorrow or contact us to upgrade your plan.",
+            message: "Daily limit reached",
+            details: {
+              dailyLimit: quotaCheck.limit,
+              used: quotaCheck.limit - quotaCheck.remaining,
+              resetsAt: "midnight UTC"
+            },
+            contact: "contact@3dime.com"
           });
         }
 
