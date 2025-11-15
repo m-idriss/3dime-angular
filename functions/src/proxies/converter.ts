@@ -91,7 +91,7 @@ function prepareImageForGemini(file: ImageFile) {
 
 export const converterFunction = onRequest(
   {
-    secrets: ["SERVICE_ACCOUNT_JSON"],
+    secrets: ["SERVICE_ACCOUNT_JSON", "NOTION_QUOTA_TOKEN", "NOTION_QUOTA_DB_ID"],
     maxInstances: 10,
     timeoutSeconds: 60,
     memory: "256MiB",
