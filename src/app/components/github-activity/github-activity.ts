@@ -35,7 +35,7 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
   private readonly breakpointObserver = inject(BreakpointObserver);
 
   @ViewChild('heatmapContainer', { static: false }) container!: ElementRef;
-  
+
   /**
    * Whether to show collapse button in the card header
    */
@@ -134,7 +134,7 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
         range: this.months,
         scale: {
           opacity: {
-            baseColor: '#016b26',
+            baseColor: '#764ba2',
             type: 'linear',
             domain: [-1, 15],
           },
