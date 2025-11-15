@@ -1,5 +1,10 @@
 import { onRequest } from "firebase-functions/v2/https";
 import cors from "cors";
+import { CacheManager, simpleHash } from "../utils/cache";
+import { initializeFirebaseAdmin } from "../utils/firebase-admin";
+
+// Initialize Firebase Admin SDK
+initializeFirebaseAdmin();
 
 // Whitelist of allowed origins for CORS
 const allowedOrigins = [
@@ -31,48 +36,66 @@ export interface CommitData {
   value: number;
 }
 
+// Cache configuration: 1 hour TTL, 5 minute force cooldown
+const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+const FORCE_COOLDOWN = 5 * 60 * 1000; // 5 minutes
+
 export const githubCommits = onRequest(
   { secrets: ["GITHUB_TOKEN"] },
   (req, res) => {
-    return corsHandler(req, res, () => {
-      const token = process.env.GITHUB_TOKEN;
-      if (!token) {
-        return res.status(500).json({ error: "GitHub token not configured" });
-      }
+    return corsHandler(req, res, async () => {
+      try {
+        const token = process.env.GITHUB_TOKEN;
+        if (!token) {
+          return res.status(500).json({ error: "GitHub token not configured" });
+        }
 
-      const months = parseInt((req.query.months as string) ?? "12", 10);
-      const cutoff = new Date();
-      cutoff.setMonth(cutoff.getMonth() - months);
+        const months = parseInt((req.query.months as string) ?? "12", 10);
+        const forceRefresh = req.query.force === "true";
 
-      const query = `
-        query {
-          user(login: "m-idriss") {
-            contributionsCollection {
-              contributionCalendar {
-                weeks {
-                  contributionDays {
-                    contributionCount
-                    date
+        // Create cache manager with dynamic key based on months parameter
+        const cache = new CacheManager<CommitData[]>({
+          collection: "github-cache",
+          key: `commits-${months}`,
+          ttl: CACHE_TTL,
+          forceCooldown: FORCE_COOLDOWN,
+        });
+
+        // Fetch function for GitHub API
+        const fetchCommits = async (): Promise<CommitData[]> => {
+          const cutoff = new Date();
+          cutoff.setMonth(cutoff.getMonth() - months);
+
+          const query = `
+            query {
+              user(login: "m-idriss") {
+                contributionsCollection {
+                  contributionCalendar {
+                    weeks {
+                      contributionDays {
+                        contributionCount
+                        date
+                      }
+                    }
                   }
                 }
               }
             }
-          }
-        }
-      `;
+          `;
 
-      return fetch("https://api.github.com/graphql", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ query }),
-      })
-        .then((response) => response.json())
-        .then((data: any) => {
+          const response = await fetch("https://api.github.com/graphql", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ query }),
+          });
+
+          const data: any = await response.json();
+
           if (data.errors) {
-            return res.status(500).json({ error: data.errors });
+            throw new Error(JSON.stringify(data.errors));
           }
 
           const weeks = data.data.user.contributionsCollection.contributionCalendar.weeks;
@@ -85,12 +108,17 @@ export const githubCommits = onRequest(
               .filter((d: any) => d.date >= cutoff.getTime())
           );
 
-          return res.status(200).json(commits);
-        })
-        .catch((err) => {
-          console.error("GitHub proxy error:", err);
-          return res.status(500).json({ error: err.message });
-        });
+          return commits;
+        };
+
+        // Get data from cache or fetch fresh
+        const commits = await cache.get(fetchCommits, simpleHash, forceRefresh);
+
+        return res.status(200).json(commits);
+      } catch (err: any) {
+        console.error("GitHub commits proxy error:", err);
+        return res.status(500).json({ error: err.message });
+      }
     });
   }
 );
