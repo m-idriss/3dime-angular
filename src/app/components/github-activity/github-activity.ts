@@ -56,7 +56,7 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.breakpointSub = this.breakpointObserver
-      .observe(['(max-width: 1068px)'])
+      .observe(['(max-width: 450px)'])
       .subscribe((result: { matches: boolean }) => {
         this.months = result.matches
           ? Math.max(1, GITHUB_ACTIVITY_CONFIG.DEFAULT_MONTHS - 1)
