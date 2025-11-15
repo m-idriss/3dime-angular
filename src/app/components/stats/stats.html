@@ -1,11 +1,5 @@
 <section class="stats-section" aria-label="Platform Statistics">
   <div class="stats-container">
-    <!-- Loading State -->
-    @if (loading()) {
-      <div class="stats-skeleton">
-        <div class="skeleton-text"></div>
-      </div>
-    }
 
     <!-- Stats Content -->
     @if (!loading() && !hasError()) {
