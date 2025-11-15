@@ -44,11 +44,13 @@ functions/
 │   │   ├── cache.ts          # Unified caching utility (CacheManager)
 │   │   └── firebase-admin.ts # Firebase Admin initialization
 │   └── services/
-│       └── tracking.ts       # Statistics tracking service
+│       ├── tracking.ts       # Statistics tracking service
+│       └── quota.ts          # User quota management service
 ├── package.json              # Dependencies and scripts
 ├── tsconfig.json             # TypeScript configuration
 ├── README.md                 # This file
 ├── CACHING.md                # Backend caching documentation
+├── QUOTA.md                  # User quota system documentation
 └── ARCHITECTURE.md           # System architecture and flow diagrams
 ```
 
@@ -101,13 +103,14 @@ Fetches portfolio data from Notion database.
 
 ### 5. Converter Function (`converterFunction`)
 
-Converts images/PDFs to ICS calendar files using Google Gemini AI.
+Converts images/PDFs to ICS calendar files using Google Gemini AI with quota management.
 
 **Endpoint**: `/converterFunction`  
 **Method**: POST  
 **Body**: JSON with image file data
 ```json
 {
+  "userId": "user@example.com",
   "files": [
     {
       "dataUrl": "data:image/jpeg;base64,/9j/4AAQ..."
@@ -118,11 +121,35 @@ Converts images/PDFs to ICS calendar files using Google Gemini AI.
 }
 ```
 
+**Response (Success - 200 OK)**:
+```json
+{
+  "success": true,
+  "icsContent": "BEGIN:VCALENDAR..."
+}
+```
+
+**Response (Quota Exceeded - 429)**:
+```json
+{
+  "error": "Quota exceeded. Upgrade or wait for reset.",
+  "quota": {
+    "limit": 3,
+    "remaining": 0,
+    "plan": "free"
+  }
+}
+```
+
 **Environment Variables Required**:
 - `SERVICE_ACCOUNT_JSON` - Google Cloud service account JSON for Gemini API authentication
+- `NOTION_QUOTA_TOKEN` - Notion API token for quota management (optional)
+- `NOTION_QUOTA_DB_ID` - Notion database ID for quota storage (optional)
 
 **Configuration**:
-The converter uses **Google Gemini 1.5 Pro** for AI-powered calendar extraction. See [Gemini API Configuration](#gemini-api-configuration) for setup details.
+- The converter uses **Google Gemini 1.5 Pro** for AI-powered calendar extraction. See [Gemini API Configuration](#gemini-api-configuration) for setup details.
+- **Quota System**: Limits conversions per user per day to prevent abuse. See [QUOTA.md](./QUOTA.md) for complete documentation.
+- If quota system is not configured, all requests are allowed by default.
 
 ## Development
 
@@ -179,6 +206,10 @@ firebase functions:secrets:set GITHUB_TOKEN
 # Notion API credentials
 firebase functions:secrets:set NOTION_TOKEN
 firebase functions:secrets:set NOTION_DATASOURCE_ID
+
+# Notion quota system (optional)
+firebase functions:secrets:set NOTION_QUOTA_TOKEN
+firebase functions:secrets:set NOTION_QUOTA_DB_ID
 
 # Google Cloud service account for Gemini API
 firebase functions:secrets:set SERVICE_ACCOUNT_JSON
@@ -492,6 +523,7 @@ npm install
 
 For more information, see:
 - **[CACHING.md](./CACHING.md)** - Backend caching system documentation
+- **[QUOTA.md](./QUOTA.md)** - User quota management system documentation
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** - System architecture and flow diagrams
 - **[API Documentation](../docs/API.md)** (from repository root: `docs/API.md`) - Detailed API endpoint documentation
 - **[Main README](../README.md)** (from repository root: `README.md`) - Project overview
