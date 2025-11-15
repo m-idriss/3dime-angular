@@ -2,24 +2,24 @@
   <div class="stats-container">
 
     <!-- Stats Content -->
-    @if (!loading() && !hasError()) {
       <div class="stats-content">
         <h2 class="stats-title">
           <span class="stats-icon" aria-hidden="true">📊</span>
           Powering Your Productivity
         </h2>
-
+        @if (!loading() && !hasError()) {
         <p class="stats-tagline">
           Over <strong>{{ formatNumber(displayEventCount()) }} events</strong> generated from
-          <strong>{{ formatNumber(displayFileCount()) }} images</strong> — and counting!
+          <strong>{{ formatNumber(displayFileCount()) }} images</strong>!
         </p>
 
         <p class="stats-time-saved">
-          That's <strong>~{{ formatNumber(timeSavedHours()) }} hours saved</strong> — the equivalent of
-          <strong>{{ formatNumber(timeSavedWorkdays()) }} full workdays</strong> of manual scheduling!
+          That's <strong>~{{ formatNumber(timeSavedHours()) }} hours saved</strong><br>
+          Or <strong>{{ formatNumber(timeSavedWorkdays()) }} full workdays</strong> of manual scheduling!
         </p>
+        }
       </div>
-    }
+
 
     <!-- Error State -->
     @if (!loading() && hasError()) {
