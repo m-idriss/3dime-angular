@@ -422,9 +422,8 @@ body.dark-theme .link {
   width: 100%;
   max-width: clamp(300px, 95%, 1600px);
   margin: 0 auto;
-  padding: var(--space-lg);
+  padding: 0 var(--space-lg);
   padding-top: var(--space-xl);
-  padding-bottom: calc(var(--space-xl) + env(safe-area-inset-bottom));
   gap: var(--space-xl);
 }
 
