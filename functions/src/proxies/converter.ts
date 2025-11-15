@@ -2,6 +2,7 @@ import { onRequest } from "firebase-functions/v2/https";
 import cors from "cors";
 import { GoogleAuth } from "google-auth-library";
 import { getTrackingService } from "../services/tracking";
+import { getQuotaService } from "../services/quota";
 
 // Whitelist of allowed origins for CORS
 const allowedOrigins = [
@@ -99,6 +100,7 @@ export const converterFunction = onRequest(
     return corsHandler(req, res, async () => {
       const startTime = Date.now();
       const trackingService = getTrackingService();
+      const quotaService = getQuotaService();
 
       // Extract domain from request origin for tracking
       const originHeader = req.headers.origin || req.headers.referer;
@@ -141,6 +143,28 @@ export const converterFunction = onRequest(
         // Use provided userId or generate anonymous one
         const anonymousUserId = userId || "anonymous";
         const fileCount = files.length;
+
+        // Check quota before processing
+        const quotaCheck = await quotaService.checkQuota(anonymousUserId);
+        if (!quotaCheck.allowed) {
+          // Log quota exceeded event
+          trackingService.logQuotaExceeded(
+            anonymousUserId,
+            quotaCheck.limit - quotaCheck.remaining,
+            quotaCheck.limit,
+            quotaCheck.plan,
+            domain
+          ).catch((err) => console.error("Tracking error:", err));
+
+          return res.status(429).json({ 
+            error: "Quota exceeded. Upgrade or wait for reset.",
+            quota: {
+              limit: quotaCheck.limit,
+              remaining: quotaCheck.remaining,
+              plan: quotaCheck.plan
+            }
+          });
+        }
 
         const tz = timeZone || "UTC";
         const today = currentDate || new Date().toISOString().split("T")[0];
@@ -295,6 +319,11 @@ export const converterFunction = onRequest(
 
         const duration = Date.now() - startTime;
         const eventCount = countEvents(icsContent);
+        
+        // Increment quota usage for successful conversion
+        quotaService.incrementUsage(anonymousUserId)
+          .catch((err) => console.error("Quota increment error:", err));
+        
         // Track successful conversion
         trackingService.logConversion(anonymousUserId, fileCount, domain, eventCount, duration)
           .catch((err) => console.error("Tracking error:", err));
