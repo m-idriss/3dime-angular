@@ -118,6 +118,8 @@ Update content in component files under `src/app/components/`.
 
 **[📖 Complete Setup Guide →](docs/FIREBASE_AUTH_SETUP.md)**
 
+**[📖 Firebase Emulator Setup →](EMULATOR_SETUP.md)** - Configure local development environment
+
 ### PWA Features
 
 - 📱 Installable on mobile and desktop
