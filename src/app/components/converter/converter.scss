@@ -17,26 +17,26 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   font-size: 0.875rem;
-  
+
   .quota-info {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    
+
     .quota-icon {
       font-size: 1.25rem;
     }
-    
+
     .quota-text {
       color: var(--text-primary);
-      
+
       strong {
         color: var(--accent-color);
         font-weight: 600;
       }
     }
   }
-  
+
   .help-link {
     .help-button {
       display: inline-flex;
@@ -50,7 +50,7 @@
       text-decoration: none;
       font-size: 0.875rem;
       transition: all var(--t-fast);
-      
+
       &:hover {
         background: var(--accent-color);
         color: white;
@@ -58,15 +58,15 @@
       }
     }
   }
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 0.75rem;
     align-items: stretch;
-    
+
     .help-link {
       text-align: center;
-      
+
       .help-button {
         justify-content: center;
         width: 100%;
@@ -82,7 +82,8 @@
   /* Positioning */
   text-align: center;
 
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  background: linear-gradient(135deg, #667eea 50%, #764ba2 100%);
 
   /* Box Model */
   padding: 1rem;

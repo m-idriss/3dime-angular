@@ -27,8 +27,10 @@
 
   <!-- Converter UI (only shown when authenticated) -->
   @if (!isAuthLoading && isAuthenticated) {
-    <!-- Quota Status Bar -->
-    @if (quotaEnabled() && quotaLimit() !== null && quotaRemaining() !== null) {
+  @let quotaLimitVal = quotaLimit();
+  @let quotaRemainingVal = quotaRemaining();
+  <!-- Quota Status Bar -->
+  @if (quotaEnabled() && quotaLimitVal !== null && quotaRemainingVal !== null && quotaRemainingVal <= 1) {
       <div class="quota-status-bar" role="status" aria-live="polite">
         <div class="quota-info">
           <span class="quota-icon">🎫</span>
@@ -37,7 +39,7 @@
           </span>
         </div>
         <div class="help-link">
-          <a href="mailto:contact@3dime.com" class="help-button" 
+          <a href="mailto:contact@3dime.com" class="help-button"
              appTooltip="Need more conversions? Contact us to upgrade your plan"
              appTooltipPlacement="left">
             ❓ Help
