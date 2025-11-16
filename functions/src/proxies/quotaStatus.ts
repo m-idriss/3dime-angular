@@ -41,12 +41,15 @@ export const quotaStatusFunction = onRequest(
         // Get userId from request body (POST) or query (GET)
         const userId = req.method === "POST" ? req.body?.userId : req.query.userId as string;
         
+        console.log('QuotaStatus request - userId:', userId); // Debug log
+        
         if (!userId) {
           return res.status(400).json({ error: "userId is required" });
         }
 
         // Get quota status for the user
         const quotaStatus = await quotaService.getQuotaStatus(userId);
+        console.log('QuotaStatus result for', userId, ':', quotaStatus); // Debug log
 
         if (!quotaStatus) {
           // If quota service is disabled or user not found, return default values

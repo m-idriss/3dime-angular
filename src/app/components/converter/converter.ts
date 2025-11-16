@@ -94,8 +94,12 @@ export class Converter extends AuthAwareComponent implements OnInit {
    * Fetch current quota status for the user
    */
   private fetchQuotaStatus(): void {
+    const userId = this.converterService.getUserId();
+    console.log('Fetching quota for userId:', userId); // Debug log
+    
     this.converterService.getQuotaStatus().subscribe({
       next: (response) => {
+        console.log('Quota response:', response); // Debug log
         if (response.success && response.quota) {
           this.quotaRemaining.set(response.quota.remaining);
           this.quotaLimit.set(response.quota.limit);
