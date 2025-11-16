@@ -50,37 +50,45 @@ export const proxyApi = onRequest((req, res) => {
 
       const isEmulator = process.env.FUNCTIONS_EMULATOR === "true";
 
-      const localBaseUrl = req.protocol + "://" + req.get("host") + "/image-to-ics/us-central1";
+      // In emulator mode, proxyApi should not be used to prevent infinite loops.
+      // The emulator exposes all functions directly at their own endpoints.
+      // Frontend should call them directly: http://localhost:5001/{project}/{region}/{functionName}
+      if (isEmulator) {
+        log("proxyApi called in emulator mode - this creates unnecessary overhead", {
+          target: target,
+          recommendation: "Call functions directly in development mode"
+        });
+        return res.status(501).json({ 
+          error: "proxyApi is not available in emulator mode to prevent infinite loops",
+          message: "In development, call individual functions directly",
+          target: target,
+          example: `http://localhost:5001/image-to-ics/us-central1/${target}Function`,
+          availableFunctions: {
+            "profile": "githubSocial",
+            "social": "githubSocial?target=social",
+            "commit": "githubCommits",
+            "notion": "notionFunction",
+            "converter": "converterFunction",
+            "statistics": "statisticsFunction",
+            "quotaStatus": "quotaStatusFunction"
+          }
+        });
+      }
 
       log("Proxying request", {
         target: target,
-        URL: localBaseUrl,
         method: req.method,
-        headers: req.headers,
-        emulator: isEmulator,
-        GCP_PROJECT: process.env.GCP_PROJECT,
-        GCLOUD_PROJECT: process.env.GCLOUD_PROJECT,
       });
 
-      const targets: Record<string, string> = isEmulator
-        ? {
-            profile: `${localBaseUrl}/githubSocial`,
-            social: `${localBaseUrl}/githubSocial?target=social`,
-            commit: `${localBaseUrl}/githubCommits`,
-            notion: `${localBaseUrl}/notionFunction`,
-            converter: `${localBaseUrl}/converterFunction`,
-            statistics: `${localBaseUrl}/statisticsFunction`,
-            quotaStatus: `${localBaseUrl}/quotaStatusFunction`,
-          }
-        : {
-            profile: "https://githubsocial-fuajdt22nq-uc.a.run.app",
-            social: "https://githubsocial-fuajdt22nq-uc.a.run.app?target=social",
-            commit: "https://githubcommits-fuajdt22nq-uc.a.run.app",
-            notion: "https://notionfunction-fuajdt22nq-uc.a.run.app",
-            converter: "https://converterfunction-fuajdt22nq-uc.a.run.app",
-            statistics: "https://statisticsfunction-fuajdt22nq-uc.a.run.app",
-            quotaStatus: "https://quotastatusfunction-fuajdt22nq-uc.a.run.app",
-        };
+      const targets: Record<string, string> = {
+        profile: "https://githubsocial-fuajdt22nq-uc.a.run.app",
+        social: "https://githubsocial-fuajdt22nq-uc.a.run.app?target=social",
+        commit: "https://githubcommits-fuajdt22nq-uc.a.run.app",
+        notion: "https://notionfunction-fuajdt22nq-uc.a.run.app",
+        converter: "https://converterfunction-fuajdt22nq-uc.a.run.app",
+        statistics: "https://statisticsfunction-fuajdt22nq-uc.a.run.app",
+        quotaStatus: "https://quotastatusfunction-fuajdt22nq-uc.a.run.app",
+      };
 
       if (!targets[target]) {
         return res.status(400).json({ error: "Invalid target" });
