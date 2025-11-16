@@ -393,7 +393,7 @@
   @let quotaLimitVal = quotaLimit();
   @let quotaRemainingVal = quotaRemaining();
   <!-- Quota Status Bar with Progress -->
-  @if (quotaEnabled() && quotaLimitVal !== null && quotaRemainingVal !== null) {
+  @if (!isQuotaLoading() && quotaEnabled() && quotaLimitVal !== null && quotaRemainingVal !== null && quotaLimitVal > 0) {
   <div class="quota-status-bar" role="status" aria-live="polite">
     <ngb-progressbar
       [value]="100 - (quotaRemainingVal / quotaLimitVal) * 100"

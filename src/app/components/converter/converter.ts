@@ -32,6 +32,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly quotaRemaining = signal<number | null>(null);
   protected readonly quotaLimit = signal<number | null>(null);
   protected readonly quotaEnabled = signal<boolean>(false);
+  protected readonly isQuotaLoading = signal<boolean>(false);
 
   constructor() {
     super();
@@ -48,8 +49,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
     // Watch for auth state changes and refresh quota
     effect(() => {
       const isAuth = this.isAuthenticated;
-      // Refresh quota when authentication state changes
-      if (isPlatformBrowser(this.platformId)) {
+      // Only refresh quota when user becomes authenticated and on browser
+      if (isAuth && isPlatformBrowser(this.platformId)) {
         this.fetchQuotaStatus();
       }
     });
@@ -95,7 +96,11 @@ export class Converter extends AuthAwareComponent implements OnInit {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.handleSharedFiles();
-      this.fetchQuotaStatus();
+      // Only fetch quota if authenticated (auth effect will handle it)
+      // This prevents duplicate calls when component initializes
+      if (this.isAuthenticated) {
+        this.fetchQuotaStatus();
+      }
     }
   }
 
@@ -103,6 +108,12 @@ export class Converter extends AuthAwareComponent implements OnInit {
    * Fetch current quota status for the user
    */
   private fetchQuotaStatus(): void {
+    // Prevent duplicate calls if already loading
+    if (this.isQuotaLoading()) {
+      return;
+    }
+
+    this.isQuotaLoading.set(true);
     const userId = this.converterService.getUserId();
 
     this.converterService.getQuotaStatus().subscribe({
@@ -111,11 +122,17 @@ export class Converter extends AuthAwareComponent implements OnInit {
           this.quotaRemaining.set(response.quota.remaining);
           this.quotaLimit.set(response.quota.limit);
           this.quotaEnabled.set(response.enabled);
+        } else {
+          // Hide quota bar if response is not successful
+          this.quotaEnabled.set(false);
         }
+        this.isQuotaLoading.set(false);
       },
       error: (error) => {
         console.error('Failed to fetch quota status:', error);
-        // Don't show error to user, just use default values
+        // Hide quota bar on error instead of showing partial/incorrect data
+        this.quotaEnabled.set(false);
+        this.isQuotaLoading.set(false);
       }
     });
   }
@@ -472,6 +489,9 @@ export class Converter extends AuthAwareComponent implements OnInit {
       );
       this.toastService.clearError();
     }
+
+    // Refresh quota status after batch conversion completes
+    this.fetchQuotaStatus();
 
     // Automatically show calendar view when events are extracted (desktop only)
     if (allEvents.length > 0 && isPlatformBrowser(this.platformId) && window.innerWidth >= 1200) {
