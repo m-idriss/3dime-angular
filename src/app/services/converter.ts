@@ -96,7 +96,13 @@ export class ConverterService {
     // Watch for auth state changes and update userId accordingly
     effect(() => {
       const user = this.authService.currentUser();
-      const newUserId = this.determineUserId();
+      // Use the user from the signal instead of calling determineUserId again
+      const newUserId = user && user.email 
+        ? user.email 
+        : user && user.uid 
+          ? user.uid 
+          : this.getOrCreateAnonymousId();
+      
       if (newUserId !== this.userId) {
         this.userId = newUserId;
       }
