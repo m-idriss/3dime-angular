@@ -1,6 +1,6 @@
-import { Component, inject, signal, PLATFORM_ID, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, signal, PLATFORM_ID, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbToastModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -12,14 +12,17 @@ import { CalendarEvent } from '../../models';
 
 @Component({
   selector: 'app-home',
-  imports: [Converter, CalendarView, NgbToastModule],
+  imports: [Converter, CalendarView, NgbToastModule, NgbProgressbarModule, NgbTooltipModule],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class Home implements OnInit, OnDestroy {
+export class Home implements OnInit, AfterViewInit, OnDestroy {
   public readonly toastService = inject(ToastService);
   public readonly calendarStateService = inject(CalendarStateService);
   private readonly platformId = inject(PLATFORM_ID);
+
+  @ViewChild(Converter) converterComponent?: Converter;
+  protected readonly converterReady = signal(false);
 
   protected readonly isDesktop = signal(false);
   private resizeSubscription?: Subscription;
@@ -36,6 +39,14 @@ export class Home implements OnInit, OnDestroy {
           this.updateDesktopStatus();
         });
     }
+  }
+
+  ngAfterViewInit(): void {
+    // Mark converter as ready after view initialization
+    // This prevents ExpressionChangedAfterItHasBeenCheckedError
+    Promise.resolve().then(() => {
+      this.converterReady.set(true);
+    });
   }
 
   ngOnDestroy(): void {

@@ -77,6 +77,38 @@
         </div>
       }
     </div>
+
+    <!-- Quota Status Bar - Outside converter container -->
+    @if (converterReady() && converterComponent) {
+      @let quotaLimitVal = converterComponent.quotaLimit();
+      @let quotaRemainingVal = converterComponent.quotaRemaining();
+      @let planTypeVal = (converterComponent.planType() ?? '').toUpperCase();
+      @if (
+        !converterComponent.isQuotaLoading() &&
+        converterComponent.quotaEnabled() &&
+        quotaLimitVal !== null &&
+        quotaRemainingVal !== null &&
+        quotaLimitVal > 0
+      ) {
+        <div class="quota-status-bar" role="status" aria-live="polite">
+          <ngb-progressbar
+            [value]="100 - (quotaRemainingVal / quotaLimitVal) * 100"
+            [type]="
+              quotaRemainingVal >= quotaLimitVal / 2
+                ? 'success'
+                : quotaRemainingVal >= quotaLimitVal / 3
+                  ? 'warning'
+                  : 'danger'
+            "
+            [showValue]="true"
+            [striped]="true"
+            [animated]="true"
+            height="20px"
+            ngbTooltip="{{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} used this month. [{{ planTypeVal }} account]"
+          ></ngb-progressbar>
+        </div>
+      }
+    }
   </div>
 </main>
 
