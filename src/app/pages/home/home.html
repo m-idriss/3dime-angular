@@ -21,6 +21,8 @@
       [autohide]="true"
       [delay]="5000"
       (hidden)="toastService.clearError()"
+      (hide)="toastService.clearError()"
+      header="Error"
       class="bg-danger text-white"
     >
       {{ toastService.errorMessage() }}
