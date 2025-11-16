@@ -45,6 +45,15 @@ export class Converter extends AuthAwareComponent implements OnInit {
       }
     });
 
+    // Watch for auth state changes and refresh quota
+    effect(() => {
+      const isAuth = this.isAuthenticated;
+      // Refresh quota when authentication state changes
+      if (isPlatformBrowser(this.platformId)) {
+        this.fetchQuotaStatus();
+      }
+    });
+
     // Listen for export requests from calendar
     this.calendarStateService.exportRequested$.subscribe(() => {
       this.downloadIcs();
