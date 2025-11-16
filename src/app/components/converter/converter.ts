@@ -16,6 +16,7 @@ import {
   NgbCollapseModule,
   NgbPopoverModule,
   NgbProgressbarModule,
+  NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { AppTooltipDirective } from '../../shared/directives';
 
@@ -39,6 +40,7 @@ import { getMonthDay } from '../../utils';
     AppTooltipDirective,
     NgbPopoverModule,
     NgbProgressbarModule,
+    NgbTooltipModule
   ],
   templateUrl: './converter.html',
   styleUrl: './converter.scss',

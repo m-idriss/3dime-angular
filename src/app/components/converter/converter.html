@@ -446,13 +446,13 @@
                 ? 'warning'
                 : 'danger'
           "
-          [showValue]="false"
+          [showValue]="true"
           [striped]="true"
           [animated]="true"
           height="20px"
-        >
-          {{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} this month
-        </ngb-progressbar>
+          ngbTooltip="{{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} used this month"
+          placement="bottom"
+        ></ngb-progressbar>
       </div>
     }
   }
