@@ -144,11 +144,8 @@ export const converterFunction = onRequest(
         const anonymousUserId = userId || "anonymous";
         const fileCount = files.length;
 
-        console.log('Converter request - received userId:', userId, 'using:', anonymousUserId); // Debug log
-
         // Check quota before processing
         const quotaCheck = await quotaService.checkQuota(anonymousUserId);
-        console.log('Quota check for', anonymousUserId, ':', quotaCheck); // Debug log
         if (!quotaCheck.allowed) {
           // Log quota exceeded event
           trackingService.logQuotaExceeded(
