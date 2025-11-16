@@ -14,25 +14,21 @@
 </button>
 
 <!-- Expanded card view (inline, not modal) -->
-<article
-  *ngIf="isExpanded()"
-  class="expanded-card"
-  [attr.aria-labelledby]="'card-title-' + title"
->
+<article *ngIf="isExpanded()" class="expanded-card" [attr.aria-labelledby]="'card-title-' + title">
   @if (!alwaysExpanded && !childHasCollapseButton) {
-  <div class="card-header">
-    <button
-      class="collapse-btn"
-      (click)="toggleExpanded()"
-      [attr.aria-label]="'Collapse ' + title"
-      [attr.aria-expanded]="true"
-      [appTooltip]="'Collapse ' + title"
-      appTooltipPlacement="top"
-      type="button"
-    >
-      <i class="fa fa-minus" aria-hidden="true"></i>
-    </button>
-  </div>
+    <div class="card-header">
+      <button
+        class="collapse-btn"
+        (click)="toggleExpanded()"
+        [attr.aria-label]="'Collapse ' + title"
+        [attr.aria-expanded]="true"
+        [appTooltip]="'Collapse ' + title"
+        appTooltipPlacement="top"
+        type="button"
+      >
+        <i class="fa fa-minus" aria-hidden="true"></i>
+      </button>
+    </div>
   }
   <div class="card-content">
     <ng-content></ng-content>

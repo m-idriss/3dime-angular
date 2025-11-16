@@ -1,4 +1,15 @@
-import { Component, signal, input, output, OnInit, ViewChild, PLATFORM_ID, inject, effect, HostListener } from '@angular/core';
+import {
+  Component,
+  signal,
+  input,
+  output,
+  OnInit,
+  ViewChild,
+  PLATFORM_ID,
+  inject,
+  effect,
+  HostListener,
+} from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput, EventDropArg, EventClickArg } from '@fullcalendar/core';
@@ -41,7 +52,7 @@ export class CalendarView implements OnInit {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      right: 'dayGridMonth,timeGridWeek,timeGridDay',
     },
     buttonText: {
       prev: '◄',
@@ -49,7 +60,7 @@ export class CalendarView implements OnInit {
       today: 'Today',
       month: 'Month',
       week: 'Week',
-      day: 'Day'
+      day: 'Day',
     },
     buttonIcons: false,
     editable: true,
@@ -68,8 +79,8 @@ export class CalendarView implements OnInit {
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
-      hour12: false
-    }
+      hour12: false,
+    },
   });
 
   @ViewChild('calendar') calendarComponent?: FullCalendarComponent;
@@ -99,13 +110,13 @@ export class CalendarView implements OnInit {
       end: typeof event.end === 'string' ? event.end : event.end.toISOString(),
       extendedProps: {
         description: event.description,
-        location: event.location
-      }
+        location: event.location,
+      },
     }));
 
-    this.calendarOptions.update(options => ({
+    this.calendarOptions.update((options) => ({
       ...options,
-      events: fullCalendarEvents
+      events: fullCalendarEvents,
     }));
   }
 
@@ -120,7 +131,7 @@ export class CalendarView implements OnInit {
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
         start: info.event.start || updatedEvents[eventIndex].start,
-        end: info.event.end || updatedEvents[eventIndex].end
+        end: info.event.end || updatedEvents[eventIndex].end,
       };
 
       this.eventsChange.emit(updatedEvents);
@@ -138,7 +149,7 @@ export class CalendarView implements OnInit {
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
         start: info.event.start || updatedEvents[eventIndex].start,
-        end: info.event.end || updatedEvents[eventIndex].end
+        end: info.event.end || updatedEvents[eventIndex].end,
       };
 
       this.eventsChange.emit(updatedEvents);

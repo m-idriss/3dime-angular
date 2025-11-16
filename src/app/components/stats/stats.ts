@@ -50,14 +50,12 @@ export class Stats implements OnInit {
         // Animate time saved counters
         this.animateCounter(this.timeSavedHours(), this.timeSavedHours);
         this.animateCounter(this.timeSavedWorkdays(), this.timeSavedWorkdays);
-
-
       },
       error: (err) => {
         console.error('Failed to load statistics:', err);
         this.hasError.set(true);
         this.loading.set(false);
-      }
+      },
     });
   }
 

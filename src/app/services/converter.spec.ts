@@ -12,7 +12,7 @@ describe('ConverterService', () => {
   beforeEach(() => {
     // Clear localStorage before each test
     localStorage.clear();
-    
+
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     });
@@ -33,7 +33,7 @@ describe('ConverterService', () => {
     const userId = (service as unknown as { userId: string }).userId;
     expect(userId).toBeTruthy();
     expect(userId).toContain('anon_');
-    
+
     // Check localStorage was updated
     const storedId = localStorage.getItem('3dime_user_id');
     expect(storedId).toBe(userId);
@@ -43,7 +43,7 @@ describe('ConverterService', () => {
     // Clear existing service and set a userId in localStorage
     const existingId = 'anon_test_12345';
     localStorage.setItem('3dime_user_id', existingId);
-    
+
     // Create new TestBed configuration with fresh service
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
@@ -51,13 +51,13 @@ describe('ConverterService', () => {
     });
     const newService = TestBed.inject(ConverterService);
     const userId = (newService as unknown as { userId: string }).userId;
-    
+
     expect(userId).toBe(existingId);
   });
 
   it('should include userId in conversion requests', () => {
     const testFiles: FileData[] = [
-      { dataUrl: 'data:image/png;base64,test', name: 'test.png', type: 'image/png' }
+      { dataUrl: 'data:image/png;base64,test', name: 'test.png', type: 'image/png' },
     ];
 
     service.convertToIcs(testFiles).subscribe();

@@ -25,8 +25,8 @@ describe('authGuard', () => {
     mockAuthService.isAuthenticated.and.returnValue(true);
 
     // Act
-    const result = TestBed.runInInjectionContext(() => 
-      authGuard({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
+    const result = TestBed.runInInjectionContext(() =>
+      authGuard({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot),
     );
 
     // Assert
@@ -42,8 +42,8 @@ describe('authGuard', () => {
     mockRouter.createUrlTree.and.returnValue(mockUrlTree);
 
     // Act
-    const result = TestBed.runInInjectionContext(() => 
-      authGuard({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
+    const result = TestBed.runInInjectionContext(() =>
+      authGuard({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot),
     );
 
     // Assert

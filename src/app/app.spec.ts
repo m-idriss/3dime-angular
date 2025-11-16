@@ -55,11 +55,11 @@ describe('App', () => {
   it('should show stats on home page for non-authenticated users', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
-    
+
     // Simulate home page route
     app['currentRoute'].set('/');
     fixture.detectChanges();
-    
+
     // Stats should be visible
     expect(app['shouldShowStats']()).toBe(true);
   });
@@ -67,13 +67,13 @@ describe('App', () => {
   it('should hide stats on about page', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
-    
+
     // Simulate about page route - set signal directly
     app['currentRoute'].set('/me');
-    
+
     // Force computed signal to recalculate by accessing it
     const result = app['shouldShowStats']();
-    
+
     // Stats should be hidden on /me route
     expect(result).toBe(false);
   });
@@ -81,14 +81,14 @@ describe('App', () => {
   it('should hide stats for authenticated users', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
-    
+
     // Simulate home page route
     app['currentRoute'].set('/');
-    
+
     // Simulate authenticated user
     app['authService'].isAuthenticated.set(true);
     fixture.detectChanges();
-    
+
     // Stats should be hidden for logged-in users
     expect(app['shouldShowStats']()).toBe(false);
   });

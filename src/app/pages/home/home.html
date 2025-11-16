@@ -1,7 +1,7 @@
 <!-- Toast Container for Global Messages -->
 <div
   class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
-  style="z-index: 12000;"
+  style="z-index: 12000"
 >
   <!-- Success Toast -->
   @if (toastService.successMessage()) {
@@ -36,12 +36,12 @@
         Your Automated Calendar Converter
       </h1>
       <p class="hero-description" itemprop="description">
-        Upload images of your appointments, and AI turns them into calendar-ready events.<br>
+        Upload images of your appointments, and AI turns them into calendar-ready events.<br />
         No registration – simple Google login, 100% free.
       </p>
 
       <!-- Key Features for SEO -->
-      <div class="hero-features" style="display: none;" itemprop="featureList">
+      <div class="hero-features" style="display: none" itemprop="featureList">
         <ul>
           <li>Convert images (JPG, PNG) and PDF files to calendar events</li>
           <li>AI-powered event extraction with GPT-4 Vision</li>
@@ -55,7 +55,10 @@
     </article>
 
     <!-- Desktop: Side-by-side layout when events exist, centered when no events -->
-    <div class="content-layout" [class.has-calendar]="calendarStateService.isVisible() && isDesktop()">
+    <div
+      class="content-layout"
+      [class.has-calendar]="calendarStateService.isVisible() && isDesktop()"
+    >
       <div class="converter-card">
         <app-converter></app-converter>
       </div>
