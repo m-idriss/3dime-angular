@@ -32,27 +32,17 @@
   <!-- Quota Status Bar with Progress -->
   @if (quotaEnabled() && quotaLimitVal !== null && quotaRemainingVal !== null) {
       <div class="quota-status-bar" role="status" aria-live="polite">
-        <div class="quota-info">
-          <span class="quota-icon">🎫</span>
-          <span class="quota-text">
-            Daily conversions: <strong>{{ quotaRemainingVal }} / {{ quotaLimitVal }}</strong> remaining
-          </span>
+        <div class="quota-label">
+          {{ quotaRemainingVal }} / {{ quotaLimitVal }} remaining
         </div>
-        
-        <!-- Progress Bar -->
-        <div class="quota-progress-container">
-          <div class="quota-progress-bar" 
-               [style.width.%]="(quotaRemainingVal / quotaLimitVal) * 100"
-               [class.low]="quotaRemainingVal <= 1"
-               [class.medium]="quotaRemainingVal > 1 && quotaRemainingVal <= quotaLimitVal * 0.5"
-               [class.high]="quotaRemainingVal > quotaLimitVal * 0.5"
-               role="progressbar"
-               [attr.aria-valuenow]="quotaRemainingVal"
-               [attr.aria-valuemin]="0"
-               [attr.aria-valuemax]="quotaLimitVal">
-            <span class="progress-label">{{ quotaRemainingVal }} left</span>
-          </div>
-        </div>
+        <ngb-progressbar 
+          [value]="(quotaRemainingVal / quotaLimitVal) * 100"
+          [type]="quotaRemainingVal <= 1 ? 'danger' : quotaRemainingVal <= quotaLimitVal * 0.5 ? 'warning' : 'success'"
+          [showValue]="false"
+          [striped]="false"
+          [animated]="false"
+          height="8px">
+        </ngb-progressbar>
       </div>
     }
 
