@@ -29,21 +29,29 @@
   @if (!isAuthLoading && isAuthenticated) {
   @let quotaLimitVal = quotaLimit();
   @let quotaRemainingVal = quotaRemaining();
-  <!-- Quota Status Bar -->
-  @if (quotaEnabled() && quotaLimitVal !== null && quotaRemainingVal !== null && quotaRemainingVal <= 1) {
+  <!-- Quota Status Bar with Progress -->
+  @if (quotaEnabled() && quotaLimitVal !== null && quotaRemainingVal !== null) {
       <div class="quota-status-bar" role="status" aria-live="polite">
         <div class="quota-info">
           <span class="quota-icon">🎫</span>
           <span class="quota-text">
-            Daily conversions: <strong>{{ quotaRemaining() }} / {{ quotaLimit() }}</strong> remaining
+            Daily conversions: <strong>{{ quotaRemainingVal }} / {{ quotaLimitVal }}</strong> remaining
           </span>
         </div>
-        <div class="help-link">
-          <a href="mailto:contact@3dime.com" class="help-button"
-             appTooltip="Need more conversions? Contact us to upgrade your plan"
-             appTooltipPlacement="left">
-            ❓ Help
-          </a>
+        
+        <!-- Progress Bar -->
+        <div class="quota-progress-container">
+          <div class="quota-progress-bar" 
+               [style.width.%]="(quotaRemainingVal / quotaLimitVal) * 100"
+               [class.low]="quotaRemainingVal <= 1"
+               [class.medium]="quotaRemainingVal > 1 && quotaRemainingVal <= quotaLimitVal * 0.5"
+               [class.high]="quotaRemainingVal > quotaLimitVal * 0.5"
+               role="progressbar"
+               [attr.aria-valuenow]="quotaRemainingVal"
+               [attr.aria-valuemin]="0"
+               [attr.aria-valuemax]="quotaLimitVal">
+            <span class="progress-label">{{ quotaRemainingVal }} left</span>
+          </div>
         </div>
       </div>
     }
