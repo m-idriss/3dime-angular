@@ -89,16 +89,15 @@ export class ConverterService {
     // Configure PDF.js worker - using unpkg.com which has better version availability
     // unpkg.com automatically resolves to the closest matching version
     pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
-    
+
     // Initialize userId based on current auth state
     this.userId = this.determineUserId();
-    
+
     // Watch for auth state changes and update userId accordingly
     effect(() => {
       const user = this.authService.currentUser();
       const newUserId = this.determineUserId();
       if (newUserId !== this.userId) {
-        console.log('User ID changed from', this.userId, 'to', newUserId);
         this.userId = newUserId;
       }
     });
@@ -110,17 +109,17 @@ export class ConverterService {
    */
   private determineUserId(): string {
     const currentUser = this.authService.currentUser();
-    
+
     // If user is authenticated, use their email as userId
     if (currentUser && currentUser.email) {
       return currentUser.email;
     }
-    
+
     // If user is authenticated but no email, use their uid
     if (currentUser && currentUser.uid) {
       return currentUser.uid;
     }
-    
+
     // Fall back to anonymous ID for unauthenticated users
     return this.getOrCreateAnonymousId();
   }
@@ -132,7 +131,7 @@ export class ConverterService {
    */
   private getOrCreateAnonymousId(): string {
     const STORAGE_KEY = '3dime_anonymous_id';
-    
+
     // Try to get existing ID from localStorage
     try {
       const existingId = localStorage.getItem(STORAGE_KEY);
@@ -145,7 +144,7 @@ export class ConverterService {
 
     // Generate new anonymous ID
     const newId = this.generateAnonymousId();
-    
+
     // Try to store it
     try {
       localStorage.setItem(STORAGE_KEY, newId);

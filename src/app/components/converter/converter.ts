@@ -104,11 +104,9 @@ export class Converter extends AuthAwareComponent implements OnInit {
    */
   private fetchQuotaStatus(): void {
     const userId = this.converterService.getUserId();
-    console.log('Fetching quota for userId:', userId); // Debug log
-    
+
     this.converterService.getQuotaStatus().subscribe({
       next: (response) => {
-        console.log('Quota response:', response); // Debug log
         if (response.success && response.quota) {
           this.quotaRemaining.set(response.quota.remaining);
           this.quotaLimit.set(response.quota.limit);
@@ -395,10 +393,10 @@ export class Converter extends AuthAwareComponent implements OnInit {
           },
           error: (err) => {
             // Check for quota exceeded error (HTTP 429)
-            const errorMsg = err.status === 429 
+            const errorMsg = err.status === 429
               ? (err.error?.error || 'Daily conversion limit reached. Please try again tomorrow or contact us to upgrade.')
               : (err.error?.message || err.message || 'Conversion error.');
-            
+
             this.batchFiles.update((files) =>
               files.map((f, i) =>
                 i === index
@@ -411,12 +409,12 @@ export class Converter extends AuthAwareComponent implements OnInit {
                   : f
               )
             );
-            
+
             // Refresh quota if we hit the limit
             if (err.status === 429) {
               this.fetchQuotaStatus();
             }
-            
+
             resolve();
           },
         });
@@ -474,7 +472,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       );
       this.toastService.clearError();
     }
-    
+
     // Automatically show calendar view when events are extracted (desktop only)
     if (allEvents.length > 0 && isPlatformBrowser(this.platformId) && window.innerWidth >= 1200) {
       this.openCalendarView();
@@ -538,7 +536,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       this.extractedEvents.set(events);
       this.toastService.showSuccess(`Successfully extracted ${events.length} event(s) from your file!`);
       this.toastService.clearError();
-      
+
       // Automatically show calendar view when events are extracted (desktop only)
       if (isPlatformBrowser(this.platformId) && window.innerWidth >= 1200) {
         this.openCalendarView();
@@ -669,8 +667,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
   }
 
   protected updateEventField(
-    index: number, 
-    field: keyof CalendarEvent, 
+    index: number,
+    field: keyof CalendarEvent,
     value: string | Date | boolean
   ): void {
     this.extractedEvents.update((events) =>
