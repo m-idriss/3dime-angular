@@ -658,6 +658,11 @@
    Responsive Styles
    ======================== */
 @media (max-width: 768px) {
+  .quota-status-bar {
+    margin: var(--space-md) var(--space-xs) var(--space-lg) var(--space-xs);
+    padding: 0.75rem 0.75rem;
+  }
+
   .upload-zone {
     padding: 1rem;
 
