@@ -80,7 +80,7 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
     this.previousMonths = this.months;
 
     this.isLoading = true;
-    this.githubService.getCommits(this.months).subscribe(commits => {
+    this.githubService.getCommits(this.months).subscribe((commits) => {
       this.data = commits;
       this.isLoading = false;
       this.cdr.markForCheck();

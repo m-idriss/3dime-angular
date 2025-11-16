@@ -79,7 +79,8 @@
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -154,13 +155,10 @@
   }
 }
 
-
-
 /* ========================
    Mobile Responsive Styles
    ======================== */
 @media (max-width: 768px) {
-
   .home-page {
     padding-top: 70px;
   }
@@ -168,7 +166,6 @@
   .home-container {
     padding: 1rem;
   }
-
 
   .hero-title {
     font-size: 1.75rem;

@@ -11,7 +11,6 @@
           loading="lazy"
           appTooltip="AI calendar conversion, sign-in to get started"
           appTooltipPlacement="bottom"
-
         />
       </div>
     </section>
@@ -29,7 +28,8 @@
   @if (!isAuthLoading && isAuthenticated) {
     <!-- Upload Area - Only show if no events extracted -->
     @if (extractedEvents().length === 0) {
-      <section class="upload-zone"
+      <section
+        class="upload-zone"
         [class.dragging]="isDragging()"
         (dragover)="onDragOver($event)"
         (dragleave)="onDragLeave($event)"
@@ -99,7 +99,10 @@
           <span class="spinner" aria-hidden="true"></span>
           @if (isBatchMode()) {
             <div class="batch-processing">
-              <span>Processing files: {{ batchStats().processing + batchStats().success }} / {{ batchStats().total }}</span>
+              <span
+                >Processing files: {{ batchStats().processing + batchStats().success }} /
+                {{ batchStats().total }}</span
+              >
               <ngb-progressbar
                 [value]="batchProgress()"
                 [striped]="true"
@@ -132,50 +135,63 @@
           </div>
           <div [ngbCollapse]="isBatchDetailsCollapsed()">
             <div class="batch-files-list">
-            @for (batchFile of batchFiles(); track $index) {
-              <div class="batch-file-item" [class]="'status-' + batchFile.status">
-                <div class="batch-file-info">
-                  <span class="batch-file-name">{{ batchFile.file.name }}</span>
-                  <span class="batch-file-status-icon" [attr.aria-label]="'Status: ' + batchFile.status">
-                    @if (batchFile.status === BatchFileStatus.PENDING) { ⏳ }
-                    @if (batchFile.status === BatchFileStatus.PROCESSING) { 🔄 }
-                    @if (batchFile.status === BatchFileStatus.SUCCESS) { ✅ }
-                    @if (batchFile.status === BatchFileStatus.ERROR) { ❌ }
-                  </span>
-                </div>
-                @if (batchFile.status === BatchFileStatus.PROCESSING) {
-                  <div class="batch-file-progress">
-                    <ngb-progressbar
-                      [value]="batchFile.progress || 0"
-                      [striped]="true"
-                      [animated]="true"
-                      type="primary"
-                      [showValue]="true"
-                      height="20px"
-                    ></ngb-progressbar>
-                  </div>
-                }
-                @if (batchFile.status === BatchFileStatus.ERROR) {
-                  <div class="batch-file-error">
-                    <span class="error-text">{{ batchFile.error }}</span>
-                    <button
-                      class="retry-button btn btn-sm btn-warning"
-                      (click)="retryFile($index)"
-                      [disabled]="isProcessing()"
-                      aria-label="Retry processing this file"
-                      appTooltip="Retry processing"
-                      appTooltipPlacement="top"
+              @for (batchFile of batchFiles(); track $index) {
+                <div class="batch-file-item" [class]="'status-' + batchFile.status">
+                  <div class="batch-file-info">
+                    <span class="batch-file-name">{{ batchFile.file.name }}</span>
+                    <span
+                      class="batch-file-status-icon"
+                      [attr.aria-label]="'Status: ' + batchFile.status"
                     >
-                      🔄 Retry
-                    </button>
+                      @if (batchFile.status === BatchFileStatus.PENDING) {
+                        ⏳
+                      }
+                      @if (batchFile.status === BatchFileStatus.PROCESSING) {
+                        🔄
+                      }
+                      @if (batchFile.status === BatchFileStatus.SUCCESS) {
+                        ✅
+                      }
+                      @if (batchFile.status === BatchFileStatus.ERROR) {
+                        ❌
+                      }
+                    </span>
                   </div>
-                }
-                @if (batchFile.status === BatchFileStatus.SUCCESS && batchFile.events) {
-                  <span class="batch-file-events-count">{{ batchFile.events.length }} event(s) extracted</span>
-                }
-              </div>
-            }
-          </div>
+                  @if (batchFile.status === BatchFileStatus.PROCESSING) {
+                    <div class="batch-file-progress">
+                      <ngb-progressbar
+                        [value]="batchFile.progress || 0"
+                        [striped]="true"
+                        [animated]="true"
+                        type="primary"
+                        [showValue]="true"
+                        height="20px"
+                      ></ngb-progressbar>
+                    </div>
+                  }
+                  @if (batchFile.status === BatchFileStatus.ERROR) {
+                    <div class="batch-file-error">
+                      <span class="error-text">{{ batchFile.error }}</span>
+                      <button
+                        class="retry-button btn btn-sm btn-warning"
+                        (click)="retryFile($index)"
+                        [disabled]="isProcessing()"
+                        aria-label="Retry processing this file"
+                        appTooltip="Retry processing"
+                        appTooltipPlacement="top"
+                      >
+                        🔄 Retry
+                      </button>
+                    </div>
+                  }
+                  @if (batchFile.status === BatchFileStatus.SUCCESS && batchFile.events) {
+                    <span class="batch-file-events-count"
+                      >{{ batchFile.events.length }} event(s) extracted</span
+                    >
+                  }
+                </div>
+              }
+            </div>
           </div>
         </section>
       }
@@ -218,9 +234,13 @@
                       }
                     </div>
                     <div class="event-times-header">
-                      <time class="event-time-start" [attr.datetime]="event.start">{{ getTime(event.start) }}</time>
+                      <time class="event-time-start" [attr.datetime]="event.start">{{
+                        getTime(event.start)
+                      }}</time>
                       @if (event.end && getTime(event.end)) {
-                        <time class="event-time-end" [attr.datetime]="event.end">{{ getTime(event.end) }}</time>
+                        <time class="event-time-end" [attr.datetime]="event.end">{{
+                          getTime(event.end)
+                        }}</time>
                       }
                     </div>
                   </div>
@@ -246,11 +266,11 @@
                         }
                         <div class="event-detail-row">
                           <span class="detail-label">🕒 Start:</span>
-                          <span class="detail-value">{{ event.start | date:'short' }}</span>
+                          <span class="detail-value">{{ event.start | date: 'short' }}</span>
                         </div>
                         <div class="event-detail-row">
                           <span class="detail-label">🕓 End:</span>
-                          <span class="detail-value">{{ event.end | date:'short' }}</span>
+                          <span class="detail-value">{{ event.end | date: 'short' }}</span>
                         </div>
                         <div class="event-actions-buttons">
                           <button
@@ -277,85 +297,101 @@
                     @if (event.isEditing) {
                       <!-- Edit Mode -->
                       <div class="event-edit-form">
-                <div class="form-group">
-                  <label for="summary-{{$index}}">Event Title</label>
-                  <input
-                    id="summary-{{$index}}"
-                    type="text"
-                    class="form-input"
-                    [value]="event.summary"
-                    (input)="updateEventField($index, 'summary', $any($event.target).value)"
-                    placeholder="Event title"
-                  />
-                </div>
+                        <div class="form-group">
+                          <label for="summary-{{ $index }}">Event Title</label>
+                          <input
+                            id="summary-{{ $index }}"
+                            type="text"
+                            class="form-input"
+                            [value]="event.summary"
+                            (input)="updateEventField($index, 'summary', $any($event.target).value)"
+                            placeholder="Event title"
+                          />
+                        </div>
 
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="start-{{$index}}">Start</label>
-                    <input
-                      id="start-{{$index}}"
-                      type="datetime-local"
-                      class="form-input"
-                      [value]="formatDateForInput(event.start)"
-                      (input)="updateEventField($index, 'start', parseDateFromInput($any($event.target).value))"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="end-{{$index}}">End</label>
-                    <input
-                      id="end-{{$index}}"
-                      type="datetime-local"
-                      class="form-input"
-                      [value]="formatDateForInput(event.end)"
-                      (input)="updateEventField($index, 'end', parseDateFromInput($any($event.target).value))"
-                    />
-                  </div>
-                </div>
+                        <div class="form-row">
+                          <div class="form-group">
+                            <label for="start-{{ $index }}">Start</label>
+                            <input
+                              id="start-{{ $index }}"
+                              type="datetime-local"
+                              class="form-input"
+                              [value]="formatDateForInput(event.start)"
+                              (input)="
+                                updateEventField(
+                                  $index,
+                                  'start',
+                                  parseDateFromInput($any($event.target).value)
+                                )
+                              "
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="end-{{ $index }}">End</label>
+                            <input
+                              id="end-{{ $index }}"
+                              type="datetime-local"
+                              class="form-input"
+                              [value]="formatDateForInput(event.end)"
+                              (input)="
+                                updateEventField(
+                                  $index,
+                                  'end',
+                                  parseDateFromInput($any($event.target).value)
+                                )
+                              "
+                            />
+                          </div>
+                        </div>
 
-                <div class="form-group">
-                  <label for="location-{{$index}}">Location</label>
-                  <input
-                    id="location-{{$index}}"
-                    type="text"
-                    class="form-input"
-                    [value]="event.location || ''"
-                    (input)="updateEventField($index, 'location', $any($event.target).value)"
-                    placeholder="Event location (optional)"
-                  />
-                </div>
+                        <div class="form-group">
+                          <label for="location-{{ $index }}">Location</label>
+                          <input
+                            id="location-{{ $index }}"
+                            type="text"
+                            class="form-input"
+                            [value]="event.location || ''"
+                            (input)="
+                              updateEventField($index, 'location', $any($event.target).value)
+                            "
+                            placeholder="Event location (optional)"
+                          />
+                        </div>
 
-                <div class="form-group">
-                  <label for="description-{{$index}}">Description</label>
-                  <textarea
-                    id="description-{{$index}}"
-                    class="form-input"
-                    rows="3"
-                    [value]="event.description || ''"
-                    (input)="updateEventField($index, 'description', $any($event.target).value)"
-                    placeholder="Event description (optional)"
-                  ></textarea>
-                </div>
+                        <div class="form-group">
+                          <label for="description-{{ $index }}">Description</label>
+                          <textarea
+                            id="description-{{ $index }}"
+                            class="form-input"
+                            rows="3"
+                            [value]="event.description || ''"
+                            (input)="
+                              updateEventField($index, 'description', $any($event.target).value)
+                            "
+                            placeholder="Event description (optional)"
+                          ></textarea>
+                        </div>
 
-                <div class="form-actions">
-                  <button
-                    class="form-button save btn btn-success"
-                    (click)="saveEvent($index)"
-                    aria-label="Save changes"
-                    appTooltip="Save event changes"
-                    appTooltipPlacement="top"
-                  >
-                    💾 Save
-                  </button>
-                  <button
-                    class="form-button cancel btn btn-secondary"
-                    (click)="cancelEdit($index)"
-                    aria-label="Cancel editing"
-                    appTooltip="Cancel without saving"
-                    appTooltipPlacement="top"
-                  >
-                    ✕ Cancel
-                  </button>
-                </div>
+                        <div class="form-actions">
+                          <button
+                            class="form-button save btn btn-success"
+                            (click)="saveEvent($index)"
+                            aria-label="Save changes"
+                            appTooltip="Save event changes"
+                            appTooltipPlacement="top"
+                          >
+                            💾 Save
+                          </button>
+                          <button
+                            class="form-button cancel btn btn-secondary"
+                            (click)="cancelEdit($index)"
+                            aria-label="Cancel editing"
+                            appTooltip="Cancel without saving"
+                            appTooltipPlacement="top"
+                          >
+                            ✕ Cancel
+                          </button>
+                        </div>
                       </div>
                     }
                   </ng-template>
@@ -390,22 +426,34 @@
     }
   }
   @if (!isAuthLoading && isAuthenticated) {
-  @let quotaLimitVal = quotaLimit();
-  @let quotaRemainingVal = quotaRemaining();
-  <!-- Quota Status Bar with Progress -->
-  @if (!isQuotaLoading() && quotaEnabled() && quotaLimitVal !== null && quotaRemainingVal !== null && quotaLimitVal > 0) {
-  <div class="quota-status-bar" role="status" aria-live="polite">
-    <ngb-progressbar
-      [value]="100 - (quotaRemainingVal / quotaLimitVal) * 100"
-      [type]="(quotaLimitVal - quotaRemainingVal) <= quotaLimitVal / 3 ? 'success'
-            : (quotaLimitVal - quotaRemainingVal) <= (2 * quotaLimitVal) / 3 ? 'warning' : 'danger'"
-      [showValue]="false"
-      [striped]="true"
-      [animated]="true"
-      height="20px">
-      {{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} this month
-    </ngb-progressbar>
-  </div>
-  }
+    @let quotaLimitVal = quotaLimit();
+    @let quotaRemainingVal = quotaRemaining();
+    <!-- Quota Status Bar with Progress -->
+    @if (
+      !isQuotaLoading() &&
+      quotaEnabled() &&
+      quotaLimitVal !== null &&
+      quotaRemainingVal !== null &&
+      quotaLimitVal > 0
+    ) {
+      <div class="quota-status-bar" role="status" aria-live="polite">
+        <ngb-progressbar
+          [value]="100 - (quotaRemainingVal / quotaLimitVal) * 100"
+          [type]="
+            quotaLimitVal - quotaRemainingVal <= quotaLimitVal / 3
+              ? 'success'
+              : quotaLimitVal - quotaRemainingVal <= (2 * quotaLimitVal) / 3
+                ? 'warning'
+                : 'danger'
+          "
+          [showValue]="false"
+          [striped]="true"
+          [animated]="true"
+          height="20px"
+        >
+          {{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} this month
+        </ngb-progressbar>
+      </div>
+    }
   }
 </app-card>

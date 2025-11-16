@@ -66,9 +66,9 @@ export class About {
       this.educationCard,
       this.githubCard,
       this.hobbiesCard,
-      this.stuffCard
+      this.stuffCard,
     ];
-    cards.forEach(card => {
+    cards.forEach((card) => {
       if (shouldExpand) {
         card?.expand();
       } else {

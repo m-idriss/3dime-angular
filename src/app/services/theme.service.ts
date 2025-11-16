@@ -54,12 +54,12 @@ export class ThemeService {
     // Initialize from localStorage or use defaults
     // Migrate old theme values to new ones
     let savedTheme = localStorage.getItem('theme') || this.config.DEFAULT_THEME;
-    
+
     // Map old theme values to new ones
     if (savedTheme === 'white' || savedTheme === 'glass') {
       savedTheme = 'light';
     }
-    
+
     this.currentTheme = savedTheme;
     this.currentFontSize = localStorage.getItem('fontSize') || this.config.DEFAULT_FONT_SIZE;
 
@@ -120,15 +120,15 @@ export class ThemeService {
     // Apply background based on theme
     const backgroundColor = theme === 'dark' ? '#000000' : '#ffffff';
     const bgClass = theme === 'dark' ? 'bg-black' : 'bg-white';
-    
+
     body.classList.add(bgClass);
-    
+
     // Update background element if it exists
     if (bgElement) {
       bgElement.innerHTML = '';
       bgElement.style.background = backgroundColor;
     }
-    
+
     // Update meta theme color
     this.updateThemeColor(backgroundColor);
   }
