@@ -490,6 +490,9 @@ export class Converter extends AuthAwareComponent implements OnInit {
       this.toastService.clearError();
     }
 
+    // Refresh quota status after batch conversion completes
+    this.fetchQuotaStatus();
+
     // Automatically show calendar view when events are extracted (desktop only)
     if (allEvents.length > 0 && isPlatformBrowser(this.platformId) && window.innerWidth >= 1200) {
       this.openCalendarView();
