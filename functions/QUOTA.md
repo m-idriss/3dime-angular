@@ -2,21 +2,21 @@
 
 ## Overview
 
-The quota system limits the number of conversions a user can perform per day based on their subscription plan. This prevents abuse and prepares the system for future subscription tiers.
+The quota system limits the number of conversions a user can perform per month based on their subscription plan. This prevents abuse and prepares the system for future subscription tiers.
 
 ## Features
 
-- **Daily Usage Limits**: Track and enforce conversion limits per user per day
+- **Monthly Usage Limits**: Track and enforce conversion limits per user per month
 - **Multiple Plan Tiers**: Support for free, pro, and premium plans with different limits
-- **Automatic Reset**: Usage counts reset daily at midnight
+- **Automatic Reset**: Usage counts reset monthly at the start of each month
 - **Anonymous Support**: Track anonymous users separately
 - **Graceful Degradation**: If quota service is disabled, all requests are allowed
 - **Quota Exceeded Logging**: All quota exceeded events are logged for analytics
 
 ## Plan Limits
 
-| Plan | Daily Conversion Limit |
-|------|----------------------|
+| Plan | Monthly Conversion Limit |
+|------|------------------------|
 | Free | 3 conversions |
 | Pro | 100 conversions |
 | Premium | 1000 conversions |
@@ -30,8 +30,8 @@ The quota system requires a Notion database with the following schema:
 | Property Name | Type | Description |
 |--------------|------|-------------|
 | User ID | Title | Unique identifier for the user (e.g., email, UUID, or "anonymous") |
-| Usage Count | Number | Number of conversions used today |
-| Last Reset | Date | Timestamp of the last daily reset |
+| Usage Count | Number | Number of conversions used this month |
+| Last Reset | Date | Timestamp of the last monthly reset |
 | Plan | Select | User's subscription plan (options: free, pro, premium) |
 
 ### Select Options for "Plan"
@@ -118,12 +118,12 @@ POST /converterFunction
 **Response (429 Too Many Requests):**
 ```json
 {
-  "error": "You've reached your daily conversion limit. Please try again tomorrow or contact us to upgrade your plan.",
-  "message": "Daily limit reached",
+  "error": "You've reached your monthly conversion limit. Please try again next month or contact us to upgrade your plan.",
+  "message": "Monthly limit reached",
   "details": {
-    "dailyLimit": 3,
+    "monthlyLimit": 3,
     "used": 3,
-    "resetsAt": "midnight UTC"
+    "resetsAt": "start of next month"
   },
   "contact": "contact@3dime.com"
 }
@@ -266,7 +266,7 @@ Monitor quota system health through:
 ## Future Enhancements
 
 - [ ] Add `X-Client-Origin` header for better anonymous user tracking
-- [ ] Implement hourly quotas in addition to daily
+- [ ] Implement hourly or daily quotas in addition to monthly
 - [ ] Add webhook for real-time quota alerts
 - [ ] Create admin dashboard for quota management
 - [ ] Add subscription payment integration
@@ -295,14 +295,14 @@ Monitor quota system health through:
 1. Check user's entry in Notion database
 2. Verify "Last Reset" date is correct
 3. Manually reset "Usage Count" to 0
-4. Check for timezone issues with daily reset
+4. Check for timezone issues with monthly reset
 
-### Quota not resetting daily
+### Quota not resetting monthly
 
-**Symptom**: Usage count doesn't reset at midnight
+**Symptom**: Usage count doesn't reset at the start of a new month
 
 **Solutions**:
-1. Daily reset happens on first request after midnight
+1. Monthly reset happens on first request after the month changes
 2. Check timezone of server vs user
 3. Verify "Last Reset" date is being updated correctly
 4. Check for errors in quota service logs

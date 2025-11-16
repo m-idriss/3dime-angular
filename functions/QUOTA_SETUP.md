@@ -127,12 +127,12 @@ curl -X POST https://converterfunction-xxx.run.app \
 
 ```json
 {
-  "error": "You've reached your daily conversion limit. Please try again tomorrow or contact us to upgrade your plan.",
-  "message": "Daily limit reached",
+  "error": "You've reached your monthly conversion limit. Please try again next month or contact us to upgrade your plan.",
+  "message": "Monthly limit reached",
   "details": {
-    "dailyLimit": 3,
+    "monthlyLimit": 3,
     "used": 3,
-    "resetsAt": "midnight UTC"
+    "resetsAt": "start of next month"
   },
   "contact": "contact@3dime.com"
 }
@@ -156,7 +156,7 @@ After testing:
 1. Open the Notion database
 2. Find the user's row
 3. Change "Plan" from `free` to `pro`
-4. The user now has 100 conversions per day
+4. The user now has 100 conversions per month
 
 ### Reset a user's quota
 
@@ -208,12 +208,12 @@ After testing:
 2. Update "Last Reset" to today's date for affected users
 3. Set "Usage Count" to `0`
 
-### Quota not resetting daily
+### Quota not resetting monthly
 
-**Cause**: Daily reset happens on first request after midnight
+**Cause**: Monthly reset happens on first request after month changes
 
 **Solution**:
-- Wait for first request after midnight
+- Wait for first request after the month changes
 - Reset happens automatically based on "Last Reset" date comparison
 - Check server timezone vs user timezone
 

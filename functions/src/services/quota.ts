@@ -55,12 +55,11 @@ export class QuotaService {
   }
 
   /**
-   * Check if a date is today
+   * Check if a date is in the same month
    */
-  private isToday(date: Date): boolean {
+  private isSameMonth(date: Date): boolean {
     const today = new Date();
     return (
-      date.getDate() === today.getDate() &&
       date.getMonth() === today.getMonth() &&
       date.getFullYear() === today.getFullYear()
     );
@@ -213,8 +212,8 @@ export class QuotaService {
         await this.upsertQuotaEntry(userId, 0, new Date(), "free");
       }
 
-      // Reset count if it's a new day
-      if (!this.isToday(quotaEntry.lastReset)) {
+      // Reset count if it's a new month
+      if (!this.isSameMonth(quotaEntry.lastReset)) {
         quotaEntry.usageCount = 0;
         quotaEntry.lastReset = new Date();
         const pageId = await this.getPageId(userId);
@@ -256,8 +255,8 @@ export class QuotaService {
         return;
       }
 
-      // Reset if it's a new day
-      if (!this.isToday(quotaEntry.lastReset)) {
+      // Reset if it's a new month
+      if (!this.isSameMonth(quotaEntry.lastReset)) {
         quotaEntry.usageCount = 1;
         quotaEntry.lastReset = new Date();
       } else {
@@ -291,8 +290,8 @@ export class QuotaService {
       const quotaEntry = await this.fetchQuotaEntry(userId);
       if (!quotaEntry) return null;
 
-      // Reset if it's a new day
-      if (!this.isToday(quotaEntry.lastReset)) {
+      // Reset if it's a new month
+      if (!this.isSameMonth(quotaEntry.lastReset)) {
         quotaEntry.usageCount = 0;
       }
 
