@@ -27,6 +27,25 @@
 
   <!-- Converter UI (only shown when authenticated) -->
   @if (!isAuthLoading && isAuthenticated) {
+    <!-- Quota Status Bar -->
+    @if (quotaEnabled() && quotaLimit() !== null && quotaRemaining() !== null) {
+      <div class="quota-status-bar" role="status" aria-live="polite">
+        <div class="quota-info">
+          <span class="quota-icon">🎫</span>
+          <span class="quota-text">
+            Daily conversions: <strong>{{ quotaRemaining() }} / {{ quotaLimit() }}</strong> remaining
+          </span>
+        </div>
+        <div class="help-link">
+          <a href="mailto:contact@3dime.com" class="help-button" 
+             appTooltip="Need more conversions? Contact us to upgrade your plan"
+             appTooltipPlacement="left">
+            ❓ Help
+          </a>
+        </div>
+      </div>
+    }
+
     <!-- Upload Area - Only show if no events extracted -->
     @if (extractedEvents().length === 0) {
       <section class="upload-zone"

@@ -32,6 +32,32 @@ export interface ConversionResponse {
   icsContent: string;
   success: boolean;
   error?: string;
+  message?: string;
+  details?: {
+    dailyLimit?: number;
+    used?: number;
+    resetsAt?: string;
+  };
+  contact?: string;
+}
+
+/**
+ * Quota status information
+ */
+export interface QuotaStatus {
+  usageCount: number;
+  limit: number;
+  remaining: number;
+  plan: string;
+}
+
+/**
+ * Response from quota status API
+ */
+export interface QuotaStatusResponse {
+  success: boolean;
+  quota: QuotaStatus;
+  enabled: boolean;
 }
 
 /**
@@ -115,6 +141,22 @@ export class ConverterService {
       randomPart = Math.random().toString(36).substring(2, 15);
     }
     return `anon_${timestamp}_${randomPart}`;
+  }
+
+  /**
+   * Get current quota status for the user
+   */
+  getQuotaStatus(): Observable<QuotaStatusResponse> {
+    return this.http.post<QuotaStatusResponse>(`${this.baseUrl}?target=quotaStatus`, {
+      userId: this.userId
+    });
+  }
+
+  /**
+   * Get the current user ID
+   */
+  getUserId(): string {
+    return this.userId;
   }
 
   /**

@@ -112,6 +112,20 @@ export class TrackingService {
     return this.logEvent({ action: "conversion", userId, timestamp: new Date(), status: "Error", fileCount, eventCount, duration, domain, errorMessage });
   }
 
+  /** Log a quota exceeded event */
+  async logQuotaExceeded(userId: string, usageCount: number, limit: number, plan: string, domain?: string) {
+    return this.logEvent({ 
+      action: "quota_exceeded", 
+      userId, 
+      timestamp: new Date(), 
+      status: "Error",
+      fileCount: usageCount,
+      eventCount: limit,
+      domain,
+      errorMessage: `Quota exceeded: ${usageCount}/${limit} (plan: ${plan})`
+    });
+  }
+
   /** Fetch aggregated statistics from Notion */
   async getStatistics(): Promise<{ fileCount: number; eventCount: number } | null> {
     if (!this.isEnabled || !this.trackingDbId || !this.notionToken) return null;
