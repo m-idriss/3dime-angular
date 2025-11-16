@@ -58,6 +58,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly quotaLimit = signal<number | null>(null);
   protected readonly quotaEnabled = signal<boolean>(false);
   protected readonly isQuotaLoading = signal<boolean>(false);
+  protected readonly planType = signal<string | null>(null);
 
   constructor() {
     super();
@@ -148,6 +149,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
           this.quotaRemaining.set(response.quota.remaining);
           this.quotaLimit.set(response.quota.limit);
           this.quotaEnabled.set(response.enabled);
+          this.planType.set(response.quota.plan);
         } else {
           // Hide quota bar if response is not successful
           this.quotaEnabled.set(false);

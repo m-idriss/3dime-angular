@@ -428,6 +428,7 @@
   @if (!isAuthLoading && isAuthenticated) {
     @let quotaLimitVal = quotaLimit();
     @let quotaRemainingVal = quotaRemaining();
+    @let planTypeVal = (planType() ?? '').toUpperCase();
     <!-- Quota Status Bar with Progress -->
     @if (
       !isQuotaLoading() &&
@@ -440,18 +441,17 @@
         <ngb-progressbar
           [value]="100 - (quotaRemainingVal / quotaLimitVal) * 100"
           [type]="
-            quotaLimitVal - quotaRemainingVal <= quotaLimitVal / 3
-              ? 'success'
-              : quotaLimitVal - quotaRemainingVal <= (2 * quotaLimitVal) / 3
-                ? 'warning'
-                : 'danger'
-          "
+                  quotaRemainingVal >= quotaLimitVal / 2
+                    ? 'success'
+                    : quotaRemainingVal >= quotaLimitVal / 3
+                      ? 'warning'
+                      : 'danger'
+                "
           [showValue]="true"
           [striped]="true"
           [animated]="true"
           height="20px"
-          ngbTooltip="{{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} used this month"
-          placement="bottom"
+          ngbTooltip="{{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} used this month. [{{ planTypeVal }} account]"
         ></ngb-progressbar>
       </div>
     }
