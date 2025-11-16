@@ -64,7 +64,7 @@ export class Stats implements OnInit {
   /**
    * Animate counter from 0 to target value
    */
-  private animateCounter(target: number, signal: any): void {
+  private animateCounter(target: number, signal: { set: (value: number) => void }): void {
     const duration = 2000; // 2 seconds
     const steps = 60;
     const increment = target / steps;

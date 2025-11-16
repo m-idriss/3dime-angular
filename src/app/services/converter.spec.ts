@@ -29,8 +29,8 @@ describe('ConverterService', () => {
   });
 
   it('should generate and store userId on initialization', () => {
-    // Access private userId through any
-    const userId = (service as any).userId;
+    // Access private userId through type assertion
+    const userId = (service as unknown as { userId: string }).userId;
     expect(userId).toBeTruthy();
     expect(userId).toContain('anon_');
     
@@ -50,7 +50,7 @@ describe('ConverterService', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     const newService = TestBed.inject(ConverterService);
-    const userId = (newService as any).userId;
+    const userId = (newService as unknown as { userId: string }).userId;
     
     expect(userId).toBe(existingId);
   });

@@ -116,7 +116,6 @@ export class Converter extends AuthAwareComponent implements OnInit {
     }
 
     this.isQuotaLoading.set(true);
-    const userId = this.converterService.getUserId();
 
     this.converterService.getQuotaStatus().subscribe({
       next: (response) => {

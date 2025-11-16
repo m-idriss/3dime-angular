@@ -144,7 +144,7 @@ export class ConverterService {
       if (existingId) {
         return existingId;
       }
-    } catch (e) {
+    } catch {
       // localStorage might not be available (SSR, private mode, etc.)
     }
 
@@ -154,7 +154,7 @@ export class ConverterService {
     // Try to store it
     try {
       localStorage.setItem(STORAGE_KEY, newId);
-    } catch (e) {
+    } catch {
       // Ignore storage errors
     }
 
