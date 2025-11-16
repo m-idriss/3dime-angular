@@ -290,7 +290,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
         error: (err) => {
           // Check for quota exceeded error (HTTP 429)
           if (err.status === 429) {
-            const errorMsg = err.error?.error || 'Daily conversion limit reached. Please try again tomorrow or contact us to upgrade your plan.';
+            const errorMsg = err.error?.error || 'Monthly conversion limit reached. Please try again later or contact us to upgrade.';
             this.toastService.showError(errorMsg);
             // Refresh quota to show updated count
             this.fetchQuotaStatus();
@@ -413,7 +413,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
           error: (err) => {
             // Check for quota exceeded error (HTTP 429)
             const errorMsg = err.status === 429
-              ? (err.error?.error || 'Daily conversion limit reached. Please try again tomorrow or contact us to upgrade.')
+              ? (err.error?.error || 'Monthly conversion limit reached. Please try again later or contact us to upgrade.')
               : (err.error?.message || err.message || 'Conversion error.');
 
             this.batchFiles.update((files) =>
