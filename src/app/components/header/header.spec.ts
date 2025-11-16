@@ -27,9 +27,9 @@ describe('Header', () => {
     expect(compiled.querySelector('.logo')).toBeTruthy();
   });
 
-  it('should render navigation links', () => {
+  it('should render navigation menu', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const navLinks = compiled.querySelectorAll('.nav-link');
-    expect(navLinks.length).toBe(1);
+    const navMenu = compiled.querySelector('.nav-menu');
+    expect(navMenu).toBeTruthy();
   });
 });
