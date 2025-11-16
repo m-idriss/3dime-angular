@@ -1,10 +1,11 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as pdfjsLib from 'pdfjs-dist';
 
 import { environment } from '../../environments/environment';
 import { PDF_CONVERSION_CONFIG, CALENDAR_CONFIG } from '../constants';
+import { AuthService } from './auth.service';
 
 /**
  * Request payload for ICS conversion
@@ -32,6 +33,32 @@ export interface ConversionResponse {
   icsContent: string;
   success: boolean;
   error?: string;
+  message?: string;
+  details?: {
+    dailyLimit?: number;
+    used?: number;
+    resetsAt?: string;
+  };
+  contact?: string;
+}
+
+/**
+ * Quota status information
+ */
+export interface QuotaStatus {
+  usageCount: number;
+  limit: number;
+  remaining: number;
+  plan: string;
+}
+
+/**
+ * Response from quota status API
+ */
+export interface QuotaStatusResponse {
+  success: boolean;
+  quota: QuotaStatus;
+  enabled: boolean;
 }
 
 /**
@@ -54,6 +81,7 @@ export interface ConversionResponse {
 })
 export class ConverterService {
   private readonly http = inject(HttpClient);
+  private readonly authService = inject(AuthService);
   private readonly baseUrl = environment.apiUrl;
   private userId: string;
 
@@ -62,16 +90,48 @@ export class ConverterService {
     // unpkg.com automatically resolves to the closest matching version
     pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
     
-    // Generate or retrieve anonymous user ID for tracking
-    this.userId = this.getOrCreateUserId();
+    // Initialize userId based on current auth state
+    this.userId = this.determineUserId();
+    
+    // Watch for auth state changes and update userId accordingly
+    effect(() => {
+      const user = this.authService.currentUser();
+      const newUserId = this.determineUserId();
+      if (newUserId !== this.userId) {
+        console.log('User ID changed from', this.userId, 'to', newUserId);
+        this.userId = newUserId;
+      }
+    });
+  }
+
+  /**
+   * Determine the userId based on authentication state
+   * Uses authenticated user's email if available, otherwise generates/retrieves anonymous ID
+   */
+  private determineUserId(): string {
+    const currentUser = this.authService.currentUser();
+    
+    // If user is authenticated, use their email as userId
+    if (currentUser && currentUser.email) {
+      return currentUser.email;
+    }
+    
+    // If user is authenticated but no email, use their uid
+    if (currentUser && currentUser.uid) {
+      return currentUser.uid;
+    }
+    
+    // Fall back to anonymous ID for unauthenticated users
+    return this.getOrCreateAnonymousId();
   }
 
   /**
    * Get or create anonymous user ID for usage tracking
    * Stored in localStorage for consistency across sessions
+   * Only used when user is not authenticated
    */
-  private getOrCreateUserId(): string {
-    const STORAGE_KEY = '3dime_user_id';
+  private getOrCreateAnonymousId(): string {
+    const STORAGE_KEY = '3dime_anonymous_id';
     
     // Try to get existing ID from localStorage
     try {
@@ -115,6 +175,22 @@ export class ConverterService {
       randomPart = Math.random().toString(36).substring(2, 15);
     }
     return `anon_${timestamp}_${randomPart}`;
+  }
+
+  /**
+   * Get current quota status for the user
+   */
+  getQuotaStatus(): Observable<QuotaStatusResponse> {
+    return this.http.post<QuotaStatusResponse>(`${this.baseUrl}?target=quotaStatus`, {
+      userId: this.userId
+    });
+  }
+
+  /**
+   * Get the current user ID
+   */
+  getUserId(): string {
+    return this.userId;
   }
 
   /**

@@ -29,6 +29,9 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
   protected readonly isBatchDetailsCollapsed = signal(false);
+  protected readonly quotaRemaining = signal<number | null>(null);
+  protected readonly quotaLimit = signal<number | null>(null);
+  protected readonly quotaEnabled = signal<boolean>(false);
 
   constructor() {
     super();
@@ -39,6 +42,15 @@ export class Converter extends AuthAwareComponent implements OnInit {
       if (calendarEvents.length > 0 && calendarEvents !== this.extractedEvents()) {
         this.extractedEvents.set(calendarEvents);
         this.regenerateIcsContent();
+      }
+    });
+
+    // Watch for auth state changes and refresh quota
+    effect(() => {
+      const isAuth = this.isAuthenticated;
+      // Refresh quota when authentication state changes
+      if (isPlatformBrowser(this.platformId)) {
+        this.fetchQuotaStatus();
       }
     });
 
@@ -81,7 +93,33 @@ export class Converter extends AuthAwareComponent implements OnInit {
   private readonly maxFileSize = FILE_UPLOAD_CONSTRAINTS.MAX_FILE_SIZE;
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) this.handleSharedFiles();
+    if (isPlatformBrowser(this.platformId)) {
+      this.handleSharedFiles();
+      this.fetchQuotaStatus();
+    }
+  }
+
+  /**
+   * Fetch current quota status for the user
+   */
+  private fetchQuotaStatus(): void {
+    const userId = this.converterService.getUserId();
+    console.log('Fetching quota for userId:', userId); // Debug log
+    
+    this.converterService.getQuotaStatus().subscribe({
+      next: (response) => {
+        console.log('Quota response:', response); // Debug log
+        if (response.success && response.quota) {
+          this.quotaRemaining.set(response.quota.remaining);
+          this.quotaLimit.set(response.quota.limit);
+          this.quotaEnabled.set(response.enabled);
+        }
+      },
+      error: (error) => {
+        console.error('Failed to fetch quota status:', error);
+        // Don't show error to user, just use default values
+      }
+    });
   }
 
   private async handleSharedFiles(): Promise<void> {
@@ -225,13 +263,23 @@ export class Converter extends AuthAwareComponent implements OnInit {
           if (response.success && response.icsContent) {
             this.icsContent.set(response.icsContent);
             this.parseIcsContent(response.icsContent);
+            // Refresh quota status after successful conversion
+            this.fetchQuotaStatus();
           } else {
             this.toastService.showError(response.error || 'Failed to convert files.');
           }
           this.isProcessing.set(false);
         },
         error: (err) => {
-          this.toastService.showError(err.error?.message || err.message || 'Conversion error.');
+          // Check for quota exceeded error (HTTP 429)
+          if (err.status === 429) {
+            const errorMsg = err.error?.error || 'Daily conversion limit reached. Please try again tomorrow or contact us to upgrade your plan.';
+            this.toastService.showError(errorMsg);
+            // Refresh quota to show updated count
+            this.fetchQuotaStatus();
+          } else {
+            this.toastService.showError(err.error?.message || err.message || 'Conversion error.');
+          }
           this.isProcessing.set(false);
         },
       });
@@ -346,6 +394,11 @@ export class Converter extends AuthAwareComponent implements OnInit {
             }
           },
           error: (err) => {
+            // Check for quota exceeded error (HTTP 429)
+            const errorMsg = err.status === 429 
+              ? (err.error?.error || 'Daily conversion limit reached. Please try again tomorrow or contact us to upgrade.')
+              : (err.error?.message || err.message || 'Conversion error.');
+            
             this.batchFiles.update((files) =>
               files.map((f, i) =>
                 i === index
@@ -353,11 +406,17 @@ export class Converter extends AuthAwareComponent implements OnInit {
                       ...f,
                       status: BatchFileStatus.ERROR,
                       progress: 100,
-                      error: err.error?.message || err.message || 'Conversion error.',
+                      error: errorMsg,
                     }
                   : f
               )
             );
+            
+            // Refresh quota if we hit the limit
+            if (err.status === 429) {
+              this.fetchQuotaStatus();
+            }
+            
             resolve();
           },
         });
