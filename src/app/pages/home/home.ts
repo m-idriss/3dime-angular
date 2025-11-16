@@ -20,7 +20,7 @@ export class Home implements OnInit, OnDestroy {
   public readonly toastService = inject(ToastService);
   public readonly calendarStateService = inject(CalendarStateService);
   private readonly platformId = inject(PLATFORM_ID);
-  
+
   protected readonly isDesktop = signal(false);
   private resizeSubscription?: Subscription;
 
@@ -28,7 +28,7 @@ export class Home implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       // Initialize desktop detection
       this.updateDesktopStatus();
-      
+
       // Listen to window resize with debounce
       this.resizeSubscription = fromEvent(window, 'resize')
         .pipe(debounceTime(200))
@@ -37,11 +37,11 @@ export class Home implements OnInit, OnDestroy {
         });
     }
   }
-  
+
   ngOnDestroy(): void {
     this.resizeSubscription?.unsubscribe();
   }
-  
+
   private updateDesktopStatus(): void {
     this.isDesktop.set(window.innerWidth >= 1200);
   }

@@ -13,12 +13,7 @@ import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    Header,
-    Footer,
-    Stats,
-  ],
+  imports: [RouterOutlet, Header, Footer, Stats],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -33,8 +28,8 @@ export class App implements OnInit {
   private deferredPrompt: BeforeInstallPromptEvent | null = null;
 
   // Show stats only on home page for non-logged users
-  protected readonly shouldShowStats = computed(() => 
-    this.currentRoute() === '/' && !this.authService.isAuthenticated()
+  protected readonly shouldShowStats = computed(
+    () => this.currentRoute() === '/' && !this.authService.isAuthenticated(),
   );
 
   ngOnInit(): void {
@@ -64,11 +59,9 @@ export class App implements OnInit {
         e.preventDefault();
         // Store the event so it can be triggered later
         this.deferredPrompt = e;
-        console.log('PWA install prompt available');
       });
 
       window.addEventListener('appinstalled', () => {
-        console.log('PWA was installed');
         this.deferredPrompt = null;
       });
     }

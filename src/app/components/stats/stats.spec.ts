@@ -19,8 +19,8 @@ describe('Stats', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: StatsService, useValue: statsServiceSpy }
-      ]
+        { provide: StatsService, useValue: statsServiceSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Stats);

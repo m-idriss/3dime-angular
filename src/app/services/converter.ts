@@ -97,12 +97,13 @@ export class ConverterService {
     effect(() => {
       const user = this.authService.currentUser();
       // Use the user from the signal instead of calling determineUserId again
-      const newUserId = user && user.email 
-        ? user.email 
-        : user && user.uid 
-          ? user.uid 
-          : this.getOrCreateAnonymousId();
-      
+      const newUserId =
+        user && user.email
+          ? user.email
+          : user && user.uid
+            ? user.uid
+            : this.getOrCreateAnonymousId();
+
       if (newUserId !== this.userId) {
         this.userId = newUserId;
       }
@@ -144,7 +145,7 @@ export class ConverterService {
       if (existingId) {
         return existingId;
       }
-    } catch (e) {
+    } catch {
       // localStorage might not be available (SSR, private mode, etc.)
     }
 
@@ -154,7 +155,7 @@ export class ConverterService {
     // Try to store it
     try {
       localStorage.setItem(STORAGE_KEY, newId);
-    } catch (e) {
+    } catch {
       // Ignore storage errors
     }
 
@@ -172,7 +173,7 @@ export class ConverterService {
       const array = new Uint32Array(2); // 2 * 4 bytes = 8 bytes
       window.crypto.getRandomValues(array);
       randomPart = Array.from(array)
-        .map(num => num.toString(36))
+        .map((num) => num.toString(36))
         .join('')
         .substring(0, 13);
     } else {
@@ -187,7 +188,7 @@ export class ConverterService {
    */
   getQuotaStatus(): Observable<QuotaStatusResponse> {
     return this.http.post<QuotaStatusResponse>(`${this.baseUrl}?target=quotaStatus`, {
-      userId: this.userId
+      userId: this.userId,
     });
   }
 

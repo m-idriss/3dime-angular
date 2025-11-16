@@ -88,4 +88,3 @@ describe('SkeletonLoader', () => {
     expect(component.items.length).toBe(5);
   });
 });
-

@@ -46,17 +46,17 @@ export abstract class NotionAwareComponent implements OnInit {
    */
   protected loadNotionData(): void {
     let firstItemLoaded = false;
-    
+
     this.getProgressiveItems().subscribe({
       next: (item) => {
         this.onItemLoaded(item);
-        
+
         // Hide loading spinner after first item appears
         if (!firstItemLoaded) {
           this.isLoading = false;
           firstItemLoaded = true;
         }
-        
+
         this.cdr.markForCheck();
       },
       error: (err) => {
@@ -68,7 +68,7 @@ export abstract class NotionAwareComponent implements OnInit {
         // Ensure loading is false even if no items were loaded
         this.isLoading = false;
         this.cdr.markForCheck();
-      }
+      },
     });
   }
 

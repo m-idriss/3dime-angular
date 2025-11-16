@@ -1,8 +1,22 @@
-import { Component, signal, OnInit, PLATFORM_ID, computed, inject, effect, untracked } from '@angular/core';
+import {
+  Component,
+  signal,
+  OnInit,
+  PLATFORM_ID,
+  computed,
+  inject,
+  effect,
+  untracked,
+} from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import ICAL from '../../libs/ical-wrapper'; // ⚡ Wrapper to ensure parse() exists
-import { NgbAccordionModule, NgbCollapseModule, NgbPopoverModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbAccordionModule,
+  NgbCollapseModule,
+  NgbPopoverModule,
+  NgbProgressbarModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { AppTooltipDirective } from '../../shared/directives';
 
 import { ConverterService, FileData } from '../../services/converter';
@@ -16,7 +30,16 @@ import { getMonthDay } from '../../utils';
 
 @Component({
   selector: 'app-converter',
-  imports: [Card, FormsModule, CommonModule, NgbAccordionModule, NgbCollapseModule, AppTooltipDirective, NgbPopoverModule, NgbProgressbarModule],
+  imports: [
+    Card,
+    FormsModule,
+    CommonModule,
+    NgbAccordionModule,
+    NgbCollapseModule,
+    AppTooltipDirective,
+    NgbPopoverModule,
+    NgbProgressbarModule,
+  ],
   templateUrl: './converter.html',
   styleUrl: './converter.scss',
 })
@@ -68,7 +91,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
     const batch = this.batchFiles();
     if (batch.length === 0) return 0;
     const completed = batch.filter(
-      (f) => f.status === BatchFileStatus.SUCCESS || f.status === BatchFileStatus.ERROR
+      (f) => f.status === BatchFileStatus.SUCCESS || f.status === BatchFileStatus.ERROR,
     ).length;
     return Math.round((completed / batch.length) * 100);
   });
@@ -116,7 +139,6 @@ export class Converter extends AuthAwareComponent implements OnInit {
     }
 
     this.isQuotaLoading.set(true);
-    const userId = this.converterService.getUserId();
 
     this.converterService.getQuotaStatus().subscribe({
       next: (response) => {
@@ -135,7 +157,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
         // Hide quota bar on error instead of showing partial/incorrect data
         this.quotaEnabled.set(false);
         this.isQuotaLoading.set(false);
-      }
+      },
     });
   }
 
@@ -156,7 +178,6 @@ export class Converter extends AuthAwareComponent implements OnInit {
           if (sharedFiles.length) {
             this.addFiles(sharedFiles);
             this.scrollToConverter();
-            console.log(`Received ${sharedFiles.length} file(s) via PWA share target`);
           }
         } catch (error) {
           console.error('Error handling shared files:', error);
@@ -264,13 +285,13 @@ export class Converter extends AuthAwareComponent implements OnInit {
                   dataUrl,
                   name: `${file.name} (Page ${index + 1})`,
                   type: 'image/jpeg',
-                } as FileData)
+                }) as FileData,
             );
           } else {
             const dataUrl = await this.converterService.fileToDataUrl(file);
             return [{ dataUrl, name: file.name, type: file.type } as FileData];
           }
-        })
+        }),
       );
 
       const fileData = fileDataArrays.flat();
@@ -290,7 +311,9 @@ export class Converter extends AuthAwareComponent implements OnInit {
         error: (err) => {
           // Check for quota exceeded error (HTTP 429)
           if (err.status === 429) {
-            const errorMsg = err.error?.error || 'Monthly conversion limit reached. Please try again later or contact us to upgrade.';
+            const errorMsg =
+              err.error?.error ||
+              'Monthly conversion limit reached. Please try again later or contact us to upgrade.';
             this.toastService.showError(errorMsg);
             // Refresh quota to show updated count
             this.fetchQuotaStatus();
@@ -342,8 +365,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
     // Update status to processing
     this.batchFiles.update((files) =>
       files.map((f, i) =>
-        i === index ? { ...f, status: BatchFileStatus.PROCESSING, progress: 10 } : f
-      )
+        i === index ? { ...f, status: BatchFileStatus.PROCESSING, progress: 10 } : f,
+      ),
     );
 
     try {
@@ -352,7 +375,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
 
       if (batchFile.file.type === 'application/pdf') {
         this.batchFiles.update((files) =>
-          files.map((f, i) => (i === index ? { ...f, progress: 30 } : f))
+          files.map((f, i) => (i === index ? { ...f, progress: 30 } : f)),
         );
         const imageDataUrls = await this.converterService.pdfToImages(batchFile.file);
         fileDataArray = imageDataUrls.map(
@@ -361,15 +384,17 @@ export class Converter extends AuthAwareComponent implements OnInit {
               dataUrl,
               name: `${batchFile.file.name} (Page ${pageIndex + 1})`,
               type: 'image/jpeg',
-            } as FileData)
+            }) as FileData,
         );
       } else {
         const dataUrl = await this.converterService.fileToDataUrl(batchFile.file);
-        fileDataArray = [{ dataUrl, name: batchFile.file.name, type: batchFile.file.type } as FileData];
+        fileDataArray = [
+          { dataUrl, name: batchFile.file.name, type: batchFile.file.type } as FileData,
+        ];
       }
 
       this.batchFiles.update((files) =>
-        files.map((f, i) => (i === index ? { ...f, progress: 50 } : f))
+        files.map((f, i) => (i === index ? { ...f, progress: 50 } : f)),
       );
 
       // Call API for this single file
@@ -390,8 +415,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
                         icsContent: response.icsContent,
                         events,
                       }
-                    : f
-                )
+                    : f,
+                ),
               );
               resolve();
             } else {
@@ -404,17 +429,19 @@ export class Converter extends AuthAwareComponent implements OnInit {
                         progress: 100,
                         error: response.error || 'Failed to convert file.',
                       }
-                    : f
-                )
+                    : f,
+                ),
               );
               resolve();
             }
           },
           error: (err) => {
             // Check for quota exceeded error (HTTP 429)
-            const errorMsg = err.status === 429
-              ? (err.error?.error || 'Monthly conversion limit reached. Please try again later or contact us to upgrade.')
-              : (err.error?.message || err.message || 'Conversion error.');
+            const errorMsg =
+              err.status === 429
+                ? err.error?.error ||
+                  'Monthly conversion limit reached. Please try again later or contact us to upgrade.'
+                : err.error?.message || err.message || 'Conversion error.';
 
             this.batchFiles.update((files) =>
               files.map((f, i) =>
@@ -425,8 +452,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
                       progress: 100,
                       error: errorMsg,
                     }
-                  : f
-              )
+                  : f,
+              ),
             );
 
             // Refresh quota if we hit the limit
@@ -448,8 +475,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
                 progress: 100,
                 error: (err as Error).message || 'Failed to process file.',
               }
-            : f
-        )
+            : f,
+        ),
       );
     }
   }
@@ -482,13 +509,11 @@ export class Converter extends AuthAwareComponent implements OnInit {
     const failedCount = this.batchFiles().filter((f) => f.status === BatchFileStatus.ERROR).length;
     if (failedCount > 0) {
       this.toastService.showError(
-        `${successfulFiles.length} file(s) processed successfully. ${failedCount} file(s) failed.`
+        `${successfulFiles.length} file(s) processed successfully. ${failedCount} file(s) failed.`,
       );
       this.toastService.clearSuccess();
     } else {
-      this.toastService.showSuccess(
-        `Successfully extracted ${allEvents.length} event(s)!`
-      );
+      this.toastService.showSuccess(`Successfully extracted ${allEvents.length} event(s)!`);
       this.toastService.clearError();
     }
 
@@ -551,12 +576,12 @@ export class Converter extends AuthAwareComponent implements OnInit {
         };
       });
 
-      events.sort(
-        (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
-      );
+      events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
       this.extractedEvents.set(events);
-      this.toastService.showSuccess(`Successfully extracted ${events.length} event(s) from your file!`);
+      this.toastService.showSuccess(
+        `Successfully extracted ${events.length} event(s) from your file!`,
+      );
       this.toastService.clearError();
 
       // Automatically show calendar view when events are extracted (desktop only)
@@ -599,10 +624,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
     // Reset file status
     this.batchFiles.update((files) =>
       files.map((f, i) =>
-        i === index
-          ? { ...f, status: BatchFileStatus.PENDING, progress: 0, error: undefined }
-          : f
-      )
+        i === index ? { ...f, status: BatchFileStatus.PENDING, progress: 0, error: undefined } : f,
+      ),
     );
 
     // Process the file
@@ -658,7 +681,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       events.map((event, i) => ({
         ...event,
         isEditing: i === index,
-      }))
+      })),
     );
   }
 
@@ -667,7 +690,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       events.map((event, i) => ({
         ...event,
         isEditing: i === index ? false : event.isEditing,
-      }))
+      })),
     );
     // Regenerate ICS content with edited events
     this.regenerateIcsContent();
@@ -678,7 +701,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       events.map((event, i) => ({
         ...event,
         isEditing: i === index ? false : event.isEditing,
-      }))
+      })),
     );
   }
 
@@ -691,7 +714,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected updateEventField(
     index: number,
     field: keyof CalendarEvent,
-    value: string | Date | boolean
+    value: string | Date | boolean,
   ): void {
     this.extractedEvents.update((events) =>
       events.map((event, i) =>
@@ -700,8 +723,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
               ...event,
               [field]: value,
             }
-          : event
-      )
+          : event,
+      ),
     );
   }
 
@@ -800,7 +823,10 @@ export class Converter extends AuthAwareComponent implements OnInit {
       ics = ics.replace(/BEGIN:VCALENDAR\r\n/, 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\n');
     }
     if (!/PRODID:/.test(ics)) {
-      ics = ics.replace(/VERSION:2\.0\r\n/, 'VERSION:2.0\r\nPRODID:-//3dime Calendar Converter//EN\r\n');
+      ics = ics.replace(
+        /VERSION:2\.0\r\n/,
+        'VERSION:2.0\r\nPRODID:-//3dime Calendar Converter//EN\r\n',
+      );
     }
 
     ics = ics.replace(/\r\n{2,}/g, '\r\n');

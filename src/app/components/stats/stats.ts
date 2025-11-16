@@ -50,21 +50,19 @@ export class Stats implements OnInit {
         // Animate time saved counters
         this.animateCounter(this.timeSavedHours(), this.timeSavedHours);
         this.animateCounter(this.timeSavedWorkdays(), this.timeSavedWorkdays);
-
-
       },
       error: (err) => {
         console.error('Failed to load statistics:', err);
         this.hasError.set(true);
         this.loading.set(false);
-      }
+      },
     });
   }
 
   /**
    * Animate counter from 0 to target value
    */
-  private animateCounter(target: number, signal: any): void {
+  private animateCounter(target: number, signal: { set: (value: number) => void }): void {
     const duration = 2000; // 2 seconds
     const steps = 60;
     const increment = target / steps;

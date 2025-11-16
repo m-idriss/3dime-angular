@@ -71,26 +71,26 @@ export class NotionService {
    */
   fetchAll(): Observable<void> {
     this.fetchAll$ ??= this.http.get<NotionApiResponse>(`${this.baseUrl}?target=notion`).pipe(
-        timeout(API_TIMEOUT_MS),
-        map((res) => {
-          this.stuffs = res.stuff ?? [];
-          this.experiences = res.experience ?? [];
-          this.educations = res.education ?? [];
-          this.hobbies = res.hobbies ?? [];
-          this.techStacks = res.tech_stack ?? [];
-        }),
-        catchError((err) => {
-          console.warn('Notion API call failed or timed out:', err.message || err);
-          // Initialize with empty arrays on error to allow components to render
-          this.stuffs = [];
-          this.experiences = [];
-          this.educations = [];
-          this.hobbies = [];
-          this.techStacks = [];
-          return of();
-        }),
-        shareReplay(1),
-      );
+      timeout(API_TIMEOUT_MS),
+      map((res) => {
+        this.stuffs = res.stuff ?? [];
+        this.experiences = res.experience ?? [];
+        this.educations = res.education ?? [];
+        this.hobbies = res.hobbies ?? [];
+        this.techStacks = res.tech_stack ?? [];
+      }),
+      catchError((err) => {
+        console.warn('Notion API call failed or timed out:', err.message || err);
+        // Initialize with empty arrays on error to allow components to render
+        this.stuffs = [];
+        this.experiences = [];
+        this.educations = [];
+        this.hobbies = [];
+        this.techStacks = [];
+        return of();
+      }),
+      shareReplay(1),
+    );
     return this.fetchAll$;
   }
 
@@ -152,16 +152,17 @@ export class NotionService {
    * @param delayMs Delay between each item emission (default: PROGRESSIVE_DELAY_MS)
    * @returns Observable that emits items progressively
    */
-  private streamItemsProgressively(items: LinkItem[], delayMs = PROGRESSIVE_DELAY_MS): Observable<LinkItem> {
+  private streamItemsProgressively(
+    items: LinkItem[],
+    delayMs = PROGRESSIVE_DELAY_MS,
+  ): Observable<LinkItem> {
     if (items.length === 0) {
       return of();
     }
     // Emit first item immediately, then rest with delay
     return concat(
       of(items[0]),
-      from(items.slice(1)).pipe(
-        concatMap(item => of(item).pipe(delay(delayMs)))
-      )
+      from(items.slice(1)).pipe(concatMap((item) => of(item).pipe(delay(delayMs)))),
     );
   }
 
@@ -172,9 +173,7 @@ export class NotionService {
    * @returns Observable that emits stuff items progressively
    */
   fetchStuffsProgressively(): Observable<LinkItem> {
-    return this.fetchAll().pipe(
-      concatMap(() => this.streamItemsProgressively(this.stuffs))
-    );
+    return this.fetchAll().pipe(concatMap(() => this.streamItemsProgressively(this.stuffs)));
   }
 
   /**
@@ -184,9 +183,7 @@ export class NotionService {
    * @returns Observable that emits experience items progressively
    */
   fetchExperiencesProgressively(): Observable<LinkItem> {
-    return this.fetchAll().pipe(
-      concatMap(() => this.streamItemsProgressively(this.experiences))
-    );
+    return this.fetchAll().pipe(concatMap(() => this.streamItemsProgressively(this.experiences)));
   }
 
   /**
@@ -196,9 +193,7 @@ export class NotionService {
    * @returns Observable that emits education items progressively
    */
   fetchEducationsProgressively(): Observable<LinkItem> {
-    return this.fetchAll().pipe(
-      concatMap(() => this.streamItemsProgressively(this.educations))
-    );
+    return this.fetchAll().pipe(concatMap(() => this.streamItemsProgressively(this.educations)));
   }
 
   /**
@@ -208,9 +203,7 @@ export class NotionService {
    * @returns Observable that emits hobby items progressively
    */
   fetchHobbiesProgressively(): Observable<LinkItem> {
-    return this.fetchAll().pipe(
-      concatMap(() => this.streamItemsProgressively(this.hobbies))
-    );
+    return this.fetchAll().pipe(concatMap(() => this.streamItemsProgressively(this.hobbies)));
   }
 
   /**
@@ -220,8 +213,6 @@ export class NotionService {
    * @returns Observable that emits tech stack items progressively
    */
   fetchTechStacksProgressively(): Observable<LinkItem> {
-    return this.fetchAll().pipe(
-      concatMap(() => this.streamItemsProgressively(this.techStacks))
-    );
+    return this.fetchAll().pipe(concatMap(() => this.streamItemsProgressively(this.techStacks)));
   }
 }

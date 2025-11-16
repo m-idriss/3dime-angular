@@ -11,11 +11,7 @@ describe('StatsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        StatsService
-      ]
+      providers: [provideHttpClient(), provideHttpClientTesting(), StatsService],
     });
     service = TestBed.inject(StatsService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -33,7 +29,7 @@ describe('StatsService', () => {
     it('should fetch statistics from API', (done) => {
       const mockStats: Statistics = {
         fileCount: 1500,
-        eventCount: 3000
+        eventCount: 3000,
       };
 
       service.getStatistics().subscribe({
@@ -43,7 +39,7 @@ describe('StatsService', () => {
           expect(stats.eventCount).toBe(3000);
           done();
         },
-        error: () => fail('Should not error')
+        error: () => fail('Should not error'),
       });
 
       const req = httpMock.expectOne(`${environment.apiUrl}?target=statistics`);
@@ -59,7 +55,7 @@ describe('StatsService', () => {
           expect(stats.message).toBe('Statistics unavailable');
           done();
         },
-        error: () => fail('Should not error')
+        error: () => fail('Should not error'),
       });
 
       const req = httpMock.expectOne(`${environment.apiUrl}?target=statistics`);
@@ -69,7 +65,7 @@ describe('StatsService', () => {
     it('should cache results (shareReplay)', () => {
       const mockStats: Statistics = {
         fileCount: 100,
-        eventCount: 200
+        eventCount: 200,
       };
 
       // First subscription
@@ -88,7 +84,7 @@ describe('StatsService', () => {
     it('should clear cache and allow new request', () => {
       const mockStats: Statistics = {
         fileCount: 100,
-        eventCount: 200
+        eventCount: 200,
       };
 
       // First request

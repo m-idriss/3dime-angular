@@ -124,7 +124,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -345,8 +346,7 @@
   .sign-in-button {
     padding: 0.4rem 0.75rem;
     font-size: 0.9rem;
-      height: 40px;
-
+    height: 40px;
 
     span {
       display: none;

@@ -59,7 +59,7 @@ export class Footer implements OnInit {
       },
       error: (err) => {
         console.warn('Failed to fetch release version:', err);
-      }
+      },
     });
   }
 }
