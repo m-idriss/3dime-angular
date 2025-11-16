@@ -54,11 +54,11 @@ export class Converter extends AuthAwareComponent implements OnInit {
   protected readonly extractedEvents = signal<CalendarEvent[]>([]);
   protected readonly icsContent = signal<string | null>(null);
   protected readonly isBatchDetailsCollapsed = signal(false);
-  protected readonly quotaRemaining = signal<number | null>(null);
-  protected readonly quotaLimit = signal<number | null>(null);
-  protected readonly quotaEnabled = signal<boolean>(false);
-  protected readonly isQuotaLoading = signal<boolean>(false);
-  protected readonly planType = signal<string | null>(null);
+  public readonly quotaRemaining = signal<number | null>(null);
+  public readonly quotaLimit = signal<number | null>(null);
+  public readonly quotaEnabled = signal<boolean>(false);
+  public readonly isQuotaLoading = signal<boolean>(false);
+  public readonly planType = signal<string | null>(null);
 
   constructor() {
     super();
