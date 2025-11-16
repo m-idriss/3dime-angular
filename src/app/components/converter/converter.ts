@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, PLATFORM_ID, computed, inject, effect } from '@angular/core';
+import { Component, signal, OnInit, PLATFORM_ID, computed, inject, effect, untracked } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import ICAL from '../../libs/ical-wrapper'; // ⚡ Wrapper to ensure parse() exists
@@ -48,12 +48,14 @@ export class Converter extends AuthAwareComponent implements OnInit {
 
     // Watch for auth state changes and refresh quota
     effect(() => {
-      const isAuth = this.isAuthenticated;
-      // Only refresh quota when user becomes authenticated and on browser
-      if (isAuth && isPlatformBrowser(this.platformId)) {
+      // Read the signal directly to ensure proper tracking
+      const isAuth = this.authService.isAuthenticated();
+      // Only refresh quota when user becomes authenticated, on browser, and not already loading
+      // Use untracked() to read isQuotaLoading without subscribing to its changes
+      if (isAuth && isPlatformBrowser(this.platformId) && !untracked(() => this.isQuotaLoading())) {
         this.fetchQuotaStatus();
       }
-    });
+    }, { allowSignalWrites: true });
 
     // Listen for export requests from calendar
     this.calendarStateService.exportRequested$.subscribe(() => {
