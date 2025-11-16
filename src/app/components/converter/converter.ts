@@ -55,7 +55,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       if (isAuth && isPlatformBrowser(this.platformId) && !untracked(() => this.isQuotaLoading())) {
         this.fetchQuotaStatus();
       }
-    }, { allowSignalWrites: true });
+    });
 
     // Listen for export requests from calendar
     this.calendarStateService.exportRequested$.subscribe(() => {
