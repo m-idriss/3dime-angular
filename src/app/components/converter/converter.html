@@ -27,25 +27,6 @@
 
   <!-- Converter UI (only shown when authenticated) -->
   @if (!isAuthLoading && isAuthenticated) {
-  @let quotaLimitVal = quotaLimit();
-  @let quotaRemainingVal = quotaRemaining();
-  <!-- Quota Status Bar with Progress -->
-  @if (quotaEnabled() && quotaLimitVal !== null && quotaRemainingVal !== null) {
-      <div class="quota-status-bar" role="status" aria-live="polite">
-        <div class="quota-label">
-          {{ quotaRemainingVal }} / {{ quotaLimitVal }} remaining
-        </div>
-        <ngb-progressbar 
-          [value]="(quotaRemainingVal / quotaLimitVal) * 100"
-          [type]="quotaRemainingVal <= 1 ? 'danger' : quotaRemainingVal <= quotaLimitVal * 0.5 ? 'warning' : 'success'"
-          [showValue]="false"
-          [striped]="false"
-          [animated]="false"
-          height="8px">
-        </ngb-progressbar>
-      </div>
-    }
-
     <!-- Upload Area - Only show if no events extracted -->
     @if (extractedEvents().length === 0) {
       <section class="upload-zone"
@@ -407,5 +388,24 @@
         </button>
       </nav>
     }
+  }
+  @if (!isAuthLoading && isAuthenticated) {
+  @let quotaLimitVal = quotaLimit();
+  @let quotaRemainingVal = quotaRemaining();
+  <!-- Quota Status Bar with Progress -->
+  @if (quotaEnabled() && quotaLimitVal !== null && quotaRemainingVal !== null) {
+  <div class="quota-status-bar" role="status" aria-live="polite">
+    <ngb-progressbar
+      [value]="100 - (quotaRemainingVal / quotaLimitVal) * 100"
+      [type]="(quotaLimitVal - quotaRemainingVal) <= quotaLimitVal / 3 ? 'success'
+            : (quotaLimitVal - quotaRemainingVal) <= (2 * quotaLimitVal) / 3 ? 'warning' : 'danger'"
+      [showValue]="false"
+      [striped]="true"
+      [animated]="true"
+      height="20px">
+      {{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} this month
+    </ngb-progressbar>
+  </div>
+  }
   }
 </app-card>

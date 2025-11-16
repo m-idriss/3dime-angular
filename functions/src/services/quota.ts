@@ -36,7 +36,7 @@ export class QuotaService {
 
   constructor() {
     this.quotaDbId = process.env.NOTION_QUOTA_DB_ID;
-    this.notionToken = process.env.NOTION_QUOTA_TOKEN;
+    this.notionToken = process.env.NOTION_TRACKING_TOKEN;
     this.isEnabled = !!(this.quotaDbId && this.notionToken);
 
     if (this.isEnabled && this.notionToken) {

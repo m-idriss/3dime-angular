@@ -91,7 +91,7 @@ function prepareImageForGemini(file: ImageFile) {
 
 export const converterFunction = onRequest(
   {
-    secrets: ["SERVICE_ACCOUNT_JSON", "NOTION_QUOTA_TOKEN", "NOTION_QUOTA_DB_ID"],
+    secrets: ["SERVICE_ACCOUNT_JSON", "NOTION_TOKEN"],
     maxInstances: 10,
     timeoutSeconds: 60,
     memory: "256MiB",
@@ -143,7 +143,7 @@ export const converterFunction = onRequest(
         // Use provided userId or generate anonymous one
         const anonymousUserId = userId || "anonymous";
         const fileCount = files.length;
-        
+
         console.log('Converter request - received userId:', userId, 'using:', anonymousUserId); // Debug log
 
         // Check quota before processing
@@ -159,7 +159,7 @@ export const converterFunction = onRequest(
             domain
           ).catch((err) => console.error("Tracking error:", err));
 
-          return res.status(429).json({ 
+          return res.status(429).json({
             error: "You've reached your daily conversion limit. Please try again tomorrow or contact us to upgrade your plan.",
             message: "Daily limit reached",
             details: {
@@ -324,11 +324,11 @@ export const converterFunction = onRequest(
 
         const duration = Date.now() - startTime;
         const eventCount = countEvents(icsContent);
-        
+
         // Increment quota usage for successful conversion
         quotaService.incrementUsage(anonymousUserId)
           .catch((err) => console.error("Quota increment error:", err));
-        
+
         // Track successful conversion
         trackingService.logConversion(anonymousUserId, fileCount, domain, eventCount, duration)
           .catch((err) => console.error("Tracking error:", err));

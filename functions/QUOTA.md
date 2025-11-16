@@ -55,7 +55,7 @@ The quota service requires the following environment variables:
 
 ```bash
 # Notion API token for quota database access
-NOTION_QUOTA_TOKEN=secret_xxx
+NOTION_TRACKING_TOKEN=secret_xxx
 
 # Notion database ID for quota storage
 NOTION_QUOTA_DB_ID=xxx-xxx-xxx-xxx
@@ -79,7 +79,7 @@ firebase deploy --only functions
 For local development (`.env` file):
 
 ```bash
-NOTION_QUOTA_TOKEN=secret_xxx
+NOTION_TRACKING_TOKEN=secret_xxx
 NOTION_QUOTA_DB_ID=xxx-xxx-xxx-xxx
 ```
 
@@ -258,7 +258,7 @@ Monitor quota system health through:
 
 ## Security Considerations
 
-- **API Token Security**: Keep NOTION_QUOTA_TOKEN secret
+- **API Token Security**: Keep NOTION_TRACKING_TOKEN secret
 - **Database Permissions**: Restrict database access to function service account
 - **Rate Limiting**: Quota system provides basic rate limiting per user
 - **Anonymous Users**: All anonymous users share the same quota (consider using client headers for better identification)

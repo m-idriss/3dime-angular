@@ -145,7 +145,7 @@ Converts images/PDFs to ICS calendar files using Google Gemini AI with quota man
 
 **Environment Variables Required**:
 - `SERVICE_ACCOUNT_JSON` - Google Cloud service account JSON for Gemini API authentication
-- `NOTION_QUOTA_TOKEN` - Notion API token for quota management (optional)
+- `NOTION_TRACKING_TOKEN` - Notion API token for quota management (optional)
 - `NOTION_QUOTA_DB_ID` - Notion database ID for quota storage (optional)
 
 **Configuration**:
@@ -210,7 +210,7 @@ firebase functions:secrets:set NOTION_TOKEN
 firebase functions:secrets:set NOTION_DATASOURCE_ID
 
 # Notion quota system (optional)
-firebase functions:secrets:set NOTION_QUOTA_TOKEN
+firebase functions:secrets:set NOTION_TRACKING_TOKEN
 firebase functions:secrets:set NOTION_QUOTA_DB_ID
 
 # Google Cloud service account for Gemini API

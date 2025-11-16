@@ -78,7 +78,7 @@ This guide walks you through setting up the quota system for the converterFuncti
 cd /path/to/3dime-angular/functions
 
 # Set Notion quota token
-firebase functions:secrets:set NOTION_QUOTA_TOKEN
+firebase functions:secrets:set NOTION_TRACKING_TOKEN
 # When prompted, paste your integration token (secret_xxx...)
 
 # Set Notion quota database ID
@@ -91,7 +91,7 @@ firebase functions:secrets:set NOTION_QUOTA_DB_ID
 1. Go to [Firebase Console](https://console.firebase.google.com)
 2. Select your project
 3. Navigate to Functions → Secrets
-4. Add secret: `NOTION_QUOTA_TOKEN` → Paste integration token
+4. Add secret: `NOTION_TRACKING_TOKEN` → Paste integration token
 5. Add secret: `NOTION_QUOTA_DB_ID` → Paste database ID
 
 ## Step 4: Deploy Functions
@@ -183,7 +183,7 @@ After testing:
 **Solution**:
 1. Verify secrets are set:
    ```bash
-   firebase functions:secrets:access NOTION_QUOTA_TOKEN
+   firebase functions:secrets:access NOTION_TRACKING_TOKEN
    firebase functions:secrets:access NOTION_QUOTA_DB_ID
    ```
 2. If missing, set them following Step 3

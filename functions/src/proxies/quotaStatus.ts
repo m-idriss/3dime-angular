@@ -24,7 +24,6 @@ const corsHandler = cors({
  */
 export const quotaStatusFunction = onRequest(
   {
-    secrets: ["NOTION_QUOTA_TOKEN", "NOTION_QUOTA_DB_ID"],
     maxInstances: 10,
     timeoutSeconds: 30,
     memory: "256MiB",
@@ -37,12 +36,12 @@ export const quotaStatusFunction = onRequest(
         }
 
         const quotaService = getQuotaService();
-        
+
         // Get userId from request body (POST) or query (GET)
         const userId = req.method === "POST" ? req.body?.userId : req.query.userId as string;
-        
+
         console.log('QuotaStatus request - userId:', userId); // Debug log
-        
+
         if (!userId) {
           return res.status(400).json({ error: "userId is required" });
         }
@@ -73,9 +72,9 @@ export const quotaStatusFunction = onRequest(
 
       } catch (err: any) {
         console.error("Quota status error:", err);
-        return res.status(500).json({ 
-          error: "Internal error", 
-          message: err.message 
+        return res.status(500).json({
+          error: "Internal error",
+          message: err.message
         });
       }
     });
