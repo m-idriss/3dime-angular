@@ -389,4 +389,23 @@
       </nav>
     }
   }
+  @if (!isAuthLoading && isAuthenticated) {
+  @let quotaLimitVal = quotaLimit();
+  @let quotaRemainingVal = quotaRemaining();
+  <!-- Quota Status Bar with Progress -->
+  @if (quotaEnabled() && quotaLimitVal !== null && quotaRemainingVal !== null) {
+  <div class="quota-status-bar" role="status" aria-live="polite">
+    <ngb-progressbar
+      [value]="100 - (quotaRemainingVal / quotaLimitVal) * 100"
+      [type]="(quotaLimitVal - quotaRemainingVal) <= quotaLimitVal / 3 ? 'success'
+            : (quotaLimitVal - quotaRemainingVal) <= (2 * quotaLimitVal) / 3 ? 'warning' : 'danger'"
+      [showValue]="false"
+      [striped]="true"
+      [animated]="true"
+      height="20px">
+      {{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} this month
+    </ngb-progressbar>
+  </div>
+  }
+  }
 </app-card>

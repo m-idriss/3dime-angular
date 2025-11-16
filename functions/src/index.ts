@@ -7,6 +7,7 @@ export { githubSocial } from "./proxies/githubSocial";
 export { notionFunction } from "./proxies/notion";
 export { converterFunction } from "./proxies/converter";
 export { statisticsFunction } from "./proxies/statistics";
+export { quotaStatusFunction } from "./proxies/quotaStatus";
 
 setGlobalOptions({ maxInstances: 10 });
 
@@ -69,6 +70,7 @@ export const proxyApi = onRequest((req, res) => {
             notion: `${localBaseUrl}/notionFunction`,
             converter: `${localBaseUrl}/converterFunction`,
             statistics: `${localBaseUrl}/statisticsFunction`,
+            quotaStatus: `${localBaseUrl}/quotaStatusFunction`,
           }
         : {
             profile: "https://githubsocial-fuajdt22nq-uc.a.run.app",
@@ -77,6 +79,7 @@ export const proxyApi = onRequest((req, res) => {
             notion: "https://notionfunction-fuajdt22nq-uc.a.run.app",
             converter: "https://converterfunction-fuajdt22nq-uc.a.run.app",
             statistics: "https://statisticsfunction-fuajdt22nq-uc.a.run.app",
+            quotaStatus: "https://quotastatusfunction-fuajdt22nq-uc.a.run.app",
         };
 
       if (!targets[target]) {

@@ -2,6 +2,7 @@ import { onRequest } from "firebase-functions/v2/https";
 import cors from "cors";
 import { GoogleAuth } from "google-auth-library";
 import { getTrackingService } from "../services/tracking";
+import { getQuotaService } from "../services/quota";
 
 // Whitelist of allowed origins for CORS
 const allowedOrigins = [
@@ -90,7 +91,7 @@ function prepareImageForGemini(file: ImageFile) {
 
 export const converterFunction = onRequest(
   {
-    secrets: ["SERVICE_ACCOUNT_JSON"],
+    secrets: ["SERVICE_ACCOUNT_JSON", "NOTION_TOKEN"],
     maxInstances: 10,
     timeoutSeconds: 60,
     memory: "256MiB",
@@ -99,6 +100,7 @@ export const converterFunction = onRequest(
     return corsHandler(req, res, async () => {
       const startTime = Date.now();
       const trackingService = getTrackingService();
+      const quotaService = getQuotaService();
 
       // Extract domain from request origin for tracking
       const originHeader = req.headers.origin || req.headers.referer;
@@ -141,6 +143,33 @@ export const converterFunction = onRequest(
         // Use provided userId or generate anonymous one
         const anonymousUserId = userId || "anonymous";
         const fileCount = files.length;
+
+        console.log('Converter request - received userId:', userId, 'using:', anonymousUserId); // Debug log
+
+        // Check quota before processing
+        const quotaCheck = await quotaService.checkQuota(anonymousUserId);
+        console.log('Quota check for', anonymousUserId, ':', quotaCheck); // Debug log
+        if (!quotaCheck.allowed) {
+          // Log quota exceeded event
+          trackingService.logQuotaExceeded(
+            anonymousUserId,
+            quotaCheck.limit - quotaCheck.remaining,
+            quotaCheck.limit,
+            quotaCheck.plan,
+            domain
+          ).catch((err) => console.error("Tracking error:", err));
+
+          return res.status(429).json({
+            error: "You've reached your daily conversion limit. Please try again tomorrow or contact us to upgrade your plan.",
+            message: "Daily limit reached",
+            details: {
+              dailyLimit: quotaCheck.limit,
+              used: quotaCheck.limit - quotaCheck.remaining,
+              resetsAt: "midnight UTC"
+            },
+            contact: "contact@3dime.com"
+          });
+        }
 
         const tz = timeZone || "UTC";
         const today = currentDate || new Date().toISOString().split("T")[0];
@@ -295,6 +324,11 @@ export const converterFunction = onRequest(
 
         const duration = Date.now() - startTime;
         const eventCount = countEvents(icsContent);
+
+        // Increment quota usage for successful conversion
+        quotaService.incrementUsage(anonymousUserId)
+          .catch((err) => console.error("Quota increment error:", err));
+
         // Track successful conversion
         trackingService.logConversion(anonymousUserId, fileCount, domain, eventCount, duration)
           .catch((err) => console.error("Tracking error:", err));
