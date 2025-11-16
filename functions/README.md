@@ -132,12 +132,12 @@ Converts images/PDFs to ICS calendar files using Google Gemini AI with quota man
 **Response (Quota Exceeded - 429)**:
 ```json
 {
-  "error": "You've reached your daily conversion limit. Please try again tomorrow or contact us to upgrade your plan.",
-  "message": "Daily limit reached",
+  "error": "You've reached your monthly conversion limit. Please try again next month or contact us to upgrade your plan.",
+  "message": "Monthly limit reached",
   "details": {
-    "dailyLimit": 3,
+    "monthlyLimit": 3,
     "used": 3,
-    "resetsAt": "midnight UTC"
+    "resetsAt": "start of next month"
   },
   "contact": "contact@3dime.com"
 }
