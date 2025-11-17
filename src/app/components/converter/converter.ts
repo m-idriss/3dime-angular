@@ -165,6 +165,16 @@ export class Converter extends AuthAwareComponent implements OnInit {
     });
   }
 
+  /**
+   * Fetch quota status with a delay to allow backend to update
+   * This ensures the quota count reflects the most recent conversion
+   */
+  private fetchQuotaStatusWithDelay(delayMs: number = 500): void {
+    setTimeout(() => {
+      this.fetchQuotaStatus();
+    }, delayMs);
+  }
+
   private async handleSharedFiles(): Promise<void> {
     if ('launchQueue' in window) {
       // Web Share Target API doesn't have full TypeScript definitions
@@ -305,8 +315,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
           if (response.success && response.icsContent) {
             this.icsContent.set(response.icsContent);
             this.parseIcsContent(response.icsContent);
-            // Refresh quota status after successful conversion
-            this.fetchQuotaStatus();
+            // Refresh quota status after successful conversion with delay to allow backend update
+            this.fetchQuotaStatusWithDelay();
           } else {
             this.toastService.showError(response.error || 'Failed to convert files.');
           }
@@ -319,8 +329,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
               err.error?.error ||
               'Monthly conversion limit reached. Please try again later or contact us to upgrade.';
             this.toastService.showError(errorMsg);
-            // Refresh quota to show updated count
-            this.fetchQuotaStatus();
+            // Refresh quota to show updated count with delay
+            this.fetchQuotaStatusWithDelay();
           } else {
             this.toastService.showError(err.error?.message || err.message || 'Conversion error.');
           }
@@ -422,6 +432,8 @@ export class Converter extends AuthAwareComponent implements OnInit {
                     : f,
                 ),
               );
+              // Refresh quota after each successful conversion with delay
+              this.fetchQuotaStatusWithDelay();
               resolve();
             } else {
               this.batchFiles.update((files) =>
@@ -460,9 +472,9 @@ export class Converter extends AuthAwareComponent implements OnInit {
               ),
             );
 
-            // Refresh quota if we hit the limit
+            // Refresh quota if we hit the limit with delay
             if (err.status === 429) {
-              this.fetchQuotaStatus();
+              this.fetchQuotaStatusWithDelay();
             }
 
             resolve();
@@ -521,8 +533,7 @@ export class Converter extends AuthAwareComponent implements OnInit {
       this.toastService.clearError();
     }
 
-    // Refresh quota status after batch conversion completes
-    this.fetchQuotaStatus();
+    // Note: Quota is already refreshed after each file conversion in batch mode
 
     // Automatically show calendar view when events are extracted (desktop only)
     if (allEvents.length > 0 && isPlatformBrowser(this.platformId) && window.innerWidth >= 1200) {
