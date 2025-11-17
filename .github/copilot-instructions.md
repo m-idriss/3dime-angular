@@ -50,8 +50,8 @@ cd functions && npm run build
 ```
 
 **Expected Build Warnings (NORMAL):**
-- Bundle size warning: 2.04 MB exceeds 1.80 MB budget by 239.71 kB (tracked for optimization)
-- Converter styles warning: 13.38 kB exceeds 13.00 kB budget (acceptable)
+- Bundle size warning: 2.06 MB exceeds 1.80 MB budget by 258.56 kB (tracked for optimization)
+- Build output: Initial total 2.06 MB raw size, 479.12 kB estimated transfer size
 - CommonJS dependencies may cause optimization warnings - non-breaking
 
 ### Development Server
@@ -73,10 +73,11 @@ npm test
 ```
 
 **Expected Test Behavior:**
-- All 61 tests pass successfully ✅
+- All 100 tests pass successfully ✅
 - Tests build and execute in headless Chrome
-- Test execution is very fast (< 1 second)
+- Test execution is very fast (< 1 second after build)
 - Test providers properly configured (HttpClient, SwUpdate mocked)
+- Some INFO logs about Auth service and statistics are expected
 
 ### Validation Steps
 Always run these steps after making changes:
@@ -101,7 +102,16 @@ Always run these steps after making changes:
    ```bash
    CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false
    ```
-   - Should show "61 SUCCESS" with all tests passing in < 1 second
+   - Should show "100 SUCCESS" with all tests passing in ~1 second
+
+### Linting
+```bash
+# Run ESLint - should complete with "All files pass linting"
+npm run lint
+
+# Lints both TypeScript (.ts) and HTML (.html) files
+# Configuration: eslint.config.js, angular.json
+```
 
 ### Code Formatting
 ```bash
@@ -225,7 +235,7 @@ The application displays:
 ### Known Limitations
 - Content is currently hardcoded in component templates
 - Some external CDN resources may be blocked in restricted environments
-- Tests require HttpClient provider setup (currently all tests fail with NG0201 errors)
+- Firebase Functions prefer Node 22 but work with Node 20 (build warnings expected)
 
 ## Important Guidelines
 
@@ -242,7 +252,7 @@ The application displays:
 
 ### What NOT TO DO ❌
 - **Never cancel build/test commands** - they need time to complete
-- **Don't remove working tests** - all current test failures are expected (HttpClient setup)
+- **Don't remove working tests** - all current tests pass successfully
 - **Don't add dependencies** without checking bundle size impact
 - **Don't modify environment files** with real secrets (use .example files)
 - **Don't change global styles** without considering all components
@@ -260,7 +270,7 @@ Ask the user for guidance when:
 - **Breaking changes** - modifications that affect existing functionality
 - **Unclear requirements** - ambiguous feature requests
 - **Performance issues** - bundle size grows significantly
-- **Test failures** - unexpected test failures (beyond HttpClient issues)
+- **Test failures** - unexpected test failures (all tests should pass)
 
 ## Debugging Tips
 
@@ -278,10 +288,38 @@ Ask the user for guidance when:
 - Check browser console for any JavaScript errors
 - Test space-themed animations and transitions
 
+## CI/CD & GitHub Actions
+
+### Automated Workflows
+The repository has several GitHub Actions workflows in `.github/workflows/`:
+
+1. **deploy.yml** - Automatic deployment on push to main
+   - Triggers on changes to src/, public/, package.json, angular.json, functions/, etc.
+   - Runs on Node.js 20
+   - Steps: npm ci → generate environment.prod.ts → build → FTP deploy
+   - Requires secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_PATH, FIREBASE_*
+
+2. **qodana_code_quality.yml** - Code quality analysis
+   - Runs on PR and push to main
+   - Uses JetBrains Qodana for static code analysis
+   - Posts PR comments with findings
+
+3. **update-screenshot.yml** - Automated screenshot updates
+   - Updates portfolio screenshots automatically
+
+4. **Other workflows** - release.yml, labeler.yml, summary.yml, check-dead-links.yml
+
+### Pre-Deployment Checklist
+Before merging to main (which triggers deployment):
+- ✅ All tests pass (`CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false`)
+- ✅ Build succeeds (`npm run build -- --configuration=production`)
+- ✅ Lint passes (`npm run lint`)
+- ✅ Manual testing completed on localhost:4200
+
 ## Deployment
 
 ### Static Site Hosting
-The `dist/3dime-angular/` directory contains static files ready for deployment to:
+The `dist/3dime-angular/browser/` directory contains static files ready for deployment to:
 - **GitHub Pages** (recommended for portfolio sites)
 - **Netlify** with automatic builds
 - **Vercel** with optimized performance
@@ -292,5 +330,14 @@ The `dist/3dime-angular/` directory contains static files ready for deployment t
 # Build for production
 npm run build -- --configuration=production
 
-# The dist/ folder contains deployable files
+# The dist/3dime-angular/browser/ folder contains deployable files
+```
+
+### Firebase Functions Deployment
+```bash
+# Deploy functions only
+firebase deploy --only functions
+
+# Deploy everything (hosting + functions)
+firebase deploy
 ```
