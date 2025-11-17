@@ -175,15 +175,13 @@
 
   .hero-icon {
     font-size: 2rem;
+    display: none;
   }
 
   .hero-description {
     font-size: 1rem;
   }
 
-  span {
-    display: none;
-  }
 }
 
 /* ========================
@@ -194,8 +192,8 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  margin: var(--space-md) auto;
-  max-width: 900px; // Match converter card max-width
+  margin: 2rem auto;
+  max-width: 400px; // Match converter card max-width
   border-radius: var(--radius-md);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);

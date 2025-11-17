@@ -91,21 +91,37 @@
         quotaLimitVal > 0
       ) {
         <div class="quota-status-bar" role="status" aria-live="polite">
-          <ngb-progressbar
-            [value]="100 - (quotaRemainingVal / quotaLimitVal) * 100"
-            [type]="
-              quotaRemainingVal >= quotaLimitVal / 2
-                ? 'success'
-                : quotaRemainingVal >= quotaLimitVal / 3
-                  ? 'warning'
-                  : 'danger'
-            "
-            [showValue]="true"
-            [striped]="true"
-            [animated]="true"
-            height="20px"
-            ngbTooltip="{{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} used this month. [{{ planTypeVal }} account]"
-          ></ngb-progressbar>
+          <div class="d-flex flex-column gap-1">
+            <ngb-progressbar
+              [value]="100 - (quotaRemainingVal / quotaLimitVal) * 100"
+              [type]="
+                quotaRemainingVal >= quotaLimitVal / 2
+                  ? 'success'
+                  : quotaRemainingVal >= quotaLimitVal / 3
+                    ? 'warning'
+                    : 'danger'
+              "
+              [showValue]="true"
+              [striped]="true"
+              [animated]="true"
+              height="20px"
+              ngbTooltip="{{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }} used this month. [{{ planTypeVal }} account]"
+            ></ngb-progressbar>
+
+            <!-- Inline text showing subscription and quota remaining -->
+            @if (quotaRemainingVal > 0) {
+              <div class="quota-info mt-1 text-nowrap small text-muted align-self-center" role="note" aria-live="polite">
+                <span class="fw-semibold">Plan:</span>
+                <span class="ms-1">{{ planTypeVal || 'FREE' }}</span>
+                <span class="mx-2">•</span>
+                <span class="fw-semibold">Usage:</span>
+                <span class="ms-1">{{ quotaLimitVal - quotaRemainingVal }} / {{ quotaLimitVal }}</span>
+                <span class="mx-2">•</span>
+                <span>{{ quotaRemainingVal }} left this month</span>
+                <span class="visually-hidden">{{ quotaRemainingVal }} remaining out of {{ quotaLimitVal }} total</span>
+              </div>
+            }
+          </div>
         </div>
       }
     }
