@@ -311,7 +311,7 @@ The repository has several GitHub Actions workflows in `.github/workflows/`:
 
 ### Pre-Deployment Checklist
 Before merging to main (which triggers deployment):
-- ✅ All tests pass (`npm test`)
+- ✅ All tests pass (`CHROME_BIN=/usr/bin/google-chrome-stable npx ng test --browsers=ChromeHeadless --watch=false`)
 - ✅ Build succeeds (`npm run build -- --configuration=production`)
 - ✅ Lint passes (`npm run lint`)
 - ✅ Manual testing completed on localhost:4200
