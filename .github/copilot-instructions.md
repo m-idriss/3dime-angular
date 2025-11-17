@@ -51,7 +51,7 @@ cd functions && npm run build
 
 **Expected Build Warnings (NORMAL):**
 - Bundle size warning: 2.06 MB exceeds 1.80 MB budget by 258.56 kB (tracked for optimization)
-- Initial total: 2.06 MB raw size, 479.12 kB estimated transfer size
+- Build output: Initial total 2.06 MB raw size, 479.12 kB estimated transfer size
 - CommonJS dependencies may cause optimization warnings - non-breaking
 
 ### Development Server
