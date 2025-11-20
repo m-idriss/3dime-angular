@@ -189,11 +189,49 @@ export class CacheManager<T> {
       version: data.version,
     };
   }
+
+  /**
+   * Directly set cache data without fetching from external API
+   * Useful for webhook-driven cache updates where data is provided directly
+   * 
+   * Note: This method updates `lastCheckAt` to prevent immediate background refresh.
+   * This is intentional - when a webhook updates the cache, we consider it fresh and
+   * reset the cooldown timer. The cache will only refresh again after the TTL expires.
+   * 
+   * @param data The data to store in cache
+   * @param versionFn Function to compute version hash from data
+   * @returns The stored data
+   */
+  async set(data: T, versionFn: (data: T) => string): Promise<T> {
+    const cacheRef = this.db.collection(this.options.collection).doc(this.options.key);
+    const now = Date.now();
+    const version = versionFn(data);
+
+    await cacheRef.set({
+      version,
+      data,
+      lastCheckAt: now,
+      updatedAt: new Date().toISOString(),
+    });
+
+    log(`Cache set for ${this.options.key}`, { version });
+    return data;
+  }
 }
 
 /**
  * Helper function to create a simple hash from any data
  * Used as default version function when specific versioning is not needed
+ * 
+ * Note: This uses string length as a simple hash for performance and simplicity.
+ * While this can have collisions, it's sufficient for cache versioning where:
+ * - We only need to detect if data changed (not cryptographic security)
+ * - False positives (detecting change when none occurred) are acceptable
+ * - Performance is prioritized over collision resistance
+ * - The hash is combined with other metadata (timestamps) for cache decisions
+ * 
+ * For applications requiring stronger collision resistance, provide a custom
+ * version function using crypto.createHash('sha256') or similar.
  */
 export function simpleHash(data: any): string {
   return JSON.stringify(data).length.toString(16);

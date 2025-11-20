@@ -1,14 +1,14 @@
 import { onRequest } from "firebase-functions/v2/https";
 import cors from "cors";
-import { Client } from "@notionhq/client";
 import { CacheManager, simpleHash } from "../utils/cache";
 import { initializeFirebaseAdmin } from "../utils/firebase-admin";
+import { fetchNotionData, NotionData } from "../utils/notion";
 
 // Initialize Firebase Admin SDK
 initializeFirebaseAdmin();
 
-// Cache configuration: 1 hour TTL, 5 minute force cooldown
-const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+// Cache configuration: 24 hour TTL (longer since webhook updates cache proactively), 5 minute force cooldown
+const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 const FORCE_COOLDOWN = 5 * 60 * 1000; // 5 minutes
 
 // Allowed origins for CORS
@@ -31,8 +31,6 @@ const corsHandler = cors({
   credentials: true,
 });
 
-type NotionData = Record<string, any[]>;
-
 export const notionFunction = onRequest(
   { secrets: ["NOTION_TOKEN", "NOTION_DATASOURCE_ID"] },
   async (req, res) => {
@@ -54,33 +52,12 @@ export const notionFunction = onRequest(
           forceCooldown: FORCE_COOLDOWN,
         });
 
-        // Fetch function for Notion API
-        const fetchNotionData = async (): Promise<NotionData> => {
-          const notion = new Client({ auth: token });
-          const response = await notion.dataSources.query({
-            data_source_id: dataSourceId,
-            filter: { property: "Name", rich_text: { is_not_empty: true } },
-            sorts: [{ property: "Rank", direction: "ascending" }],
-          });
-
-          // Group data by category
-          const grouped = response.results.reduce((acc: Record<string, any[]>, page: any) => {
-            const item = {
-              name: page.properties?.Name?.rich_text?.[0]?.plain_text ?? "",
-              url: page.properties?.URL?.url ?? "",
-              description: page.properties?.Description?.rich_text?.[0]?.plain_text ?? "",
-              rank: page.properties?.Rank?.number ?? 0,
-              category: page.properties?.Category?.select?.name ?? "Uncategorized",
-            };
-            (acc[item.category] ||= []).push(item);
-            return acc;
-          }, {});
-
-          return grouped;
-        };
-
         // Get data from cache or fetch fresh
-        const data = await cache.get(fetchNotionData, simpleHash, forceRefresh);
+        const data = await cache.get(
+          () => fetchNotionData(token, dataSourceId),
+          simpleHash,
+          forceRefresh
+        );
 
         return res.status(200).json(data);
       } catch (err: any) {
