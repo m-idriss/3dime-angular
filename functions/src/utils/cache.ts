@@ -189,6 +189,30 @@ export class CacheManager<T> {
       version: data.version,
     };
   }
+
+  /**
+   * Directly set cache data without fetching from external API
+   * Useful for webhook-driven cache updates where data is provided directly
+   * 
+   * @param data The data to store in cache
+   * @param versionFn Function to compute version hash from data
+   * @returns The stored data
+   */
+  async set(data: T, versionFn: (data: T) => string): Promise<T> {
+    const cacheRef = this.db.collection(this.options.collection).doc(this.options.key);
+    const now = Date.now();
+    const version = versionFn(data);
+
+    await cacheRef.set({
+      version,
+      data,
+      lastCheckAt: now,
+      updatedAt: new Date().toISOString(),
+    });
+
+    log(`Cache set for ${this.options.key}`, { version });
+    return data;
+  }
 }
 
 /**

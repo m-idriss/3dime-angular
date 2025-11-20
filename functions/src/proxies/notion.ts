@@ -7,8 +7,8 @@ import { initializeFirebaseAdmin } from "../utils/firebase-admin";
 // Initialize Firebase Admin SDK
 initializeFirebaseAdmin();
 
-// Cache configuration: 1 hour TTL, 5 minute force cooldown
-const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+// Cache configuration: 24 hour TTL (longer since webhook updates cache proactively), 5 minute force cooldown
+const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 const FORCE_COOLDOWN = 5 * 60 * 1000; // 5 minutes
 
 // Allowed origins for CORS

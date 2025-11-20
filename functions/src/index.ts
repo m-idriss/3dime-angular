@@ -5,6 +5,7 @@ import { log } from "firebase-functions/logger";
 export { githubCommits } from "./proxies/githubCommits";
 export { githubSocial } from "./proxies/githubSocial";
 export { notionFunction } from "./proxies/notion";
+export { notionWebhook } from "./proxies/notionWebhook";
 export { converterFunction } from "./proxies/converter";
 export { statisticsFunction } from "./proxies/statistics";
 export { quotaStatusFunction } from "./proxies/quotaStatus";
