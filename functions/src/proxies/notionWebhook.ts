@@ -15,7 +15,7 @@ const FORCE_COOLDOWN = 5 * 60 * 1000; // 5 minutes
 /**
  * Verify Notion webhook signature
  * Notion sends a signature in the header to verify the webhook is authentic
- * 
+ *
  * @param body Request body as string
  * @param signature Signature from Notion-Signature header
  * @param secret Webhook secret configured in Notion
@@ -31,7 +31,7 @@ function verifyNotionSignature(
     const hmac = crypto.createHmac("sha256", secret);
     hmac.update(body);
     const expectedSignature = hmac.digest("hex");
-    
+
     // Use timing-safe comparison to prevent timing attacks
     return crypto.timingSafeEqual(
       Buffer.from(signature),
@@ -45,26 +45,26 @@ function verifyNotionSignature(
 
 /**
  * Notion Webhook Handler
- * 
+ *
  * This function receives webhook notifications from Notion when the database changes.
  * It fetches fresh data and updates the cache immediately, enabling instant cache refresh.
- * 
+ *
  * Security:
  * - Verifies webhook signature to ensure request is from Notion
  * - Requires NOTION_WEBHOOK_SECRET environment variable
- * 
+ *
  * Configuration in Notion:
  * 1. Go to Notion Settings > Integrations > Your Integration
  * 2. Add webhook with URL pointing to this function
  * 3. Set webhook secret and add to Firebase secrets
- * 
+ *
  * @example
  * // Webhook URL: https://notionwebhook-fuajdt22nq-uc.a.run.app
  * // Request from Notion will trigger cache refresh
  */
 export const notionWebhook = onRequest(
-  { 
-    secrets: ["NOTION_TOKEN", "NOTION_DATASOURCE_ID", "NOTION_WEBHOOK_SECRET"],
+  {
+    secrets: ["NOTION_TOKEN", "NOTION_DATASOURCE_ID"],
     timeoutSeconds: 60,
   },
   async (req, res) => {
@@ -102,7 +102,7 @@ export const notionWebhook = onRequest(
       // Verify webhook signature if secret is configured
       if (webhookSecret) {
         // Use case-insensitive header retrieval
-        const signature = (req.headers["notion-signature"] || 
+        const signature = (req.headers["notion-signature"] ||
                           req.headers["Notion-Signature"]) as string;
         if (!signature) {
           log("Missing Notion-Signature header");
@@ -155,7 +155,7 @@ export const notionWebhook = onRequest(
       });
     } catch (err: any) {
       log("Notion webhook error", { error: err.message, stack: err.stack });
-      res.status(500).json({ 
+      res.status(500).json({
         error: "Internal server error",
         message: err.message,
       });
