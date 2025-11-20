@@ -21,10 +21,11 @@
 - **[API Documentation](./API.md)** - Firebase Functions and API endpoints
 - **[Design System](./DESIGN_SYSTEM.md)** - Design principles, colors, and styling
 
-### For Planning
+### For Planning & Architecture
 
 **Looking at the big picture?**
 
+- **[System Architecture](../ARCHITECTURE.md)** - **⭐ Complete system design and technical architecture**
 - **[Project Roadmap](../ROADMAP.md)** - Planned features, improvements, and timeline
 
 ---
@@ -41,12 +42,14 @@
 
 ### Code & Architecture
 
-| Document                                   | Topics Covered                                                      |
-| ------------------------------------------ | ------------------------------------------------------------------- |
-| [Component Documentation](./COMPONENTS.md) | All components, component guidelines, best practices, accessibility |
-| [Services Documentation](./SERVICES.md)    | ThemeService, GithubService, NotionService, service patterns       |
-| [API Documentation](./API.md)              | Firebase Functions, API endpoints, error handling, deployment       |
-| [Firebase Functions](../functions/README.md) | Backend functions, deployment, configuration, testing             |
+| Document                                        | Topics Covered                                                      |
+| ----------------------------------------------- | ------------------------------------------------------------------- |
+| **[System Architecture](../ARCHITECTURE.md)**   | **Complete system design, tech stack, data flow, deployment, ADRs** |
+| [Component Documentation](./COMPONENTS.md)      | All components, component guidelines, best practices, accessibility |
+| [Services Documentation](./SERVICES.md)         | ThemeService, GithubService, NotionService, service patterns       |
+| [API Documentation](./API.md)                   | Firebase Functions, API endpoints, error handling, deployment       |
+| [Firebase Functions](../functions/README.md)    | Backend functions, deployment, configuration, testing             |
+| [Backend Caching](../functions/CACHING.md)      | Firestore caching strategy, performance optimization              |
 
 ### Features & Functionality
 
@@ -332,12 +335,14 @@ Essential reading for first-time contributors:
 
 | Topic                 | Document                                      | Section            |
 | --------------------- | --------------------------------------------- | ------------------ |
+| **System design**     | **[System Architecture](../ARCHITECTURE.md)** | **All sections**   |
 | Project structure     | [README.md](../README.md)                     | Architecture       |
 | Components            | [Component Documentation](./COMPONENTS.md)    | Core Components    |
 | Services              | [Services Documentation](./SERVICES.md)       | Core Services      |
 | Styling               | [Design System](./DESIGN_SYSTEM.md)           | All sections       |
 | API endpoints         | [API Documentation](./API.md)                 | API Endpoints      |
 | Backend functions     | [Firebase Functions](../functions/README.md)  | All sections       |
+| Caching strategy      | [Backend Caching](../functions/CACHING.md)    | Cache Manager      |
 | PWA features          | [PWA Documentation](./PWA.md)                 | Features           |
 | Calendar converter    | [Calendar Converter](./CONVERTER.md)          | Overview           |
 | Git workflow          | [Contributing Guidelines](../CONTRIBUTING.md) | Submitting Changes |
@@ -377,12 +382,14 @@ Going deeper into the architecture:
 
 ## 📊 Documentation Statistics
 
-- **Total Documents**: 15
+- **Total Documents**: 17
   - Main README: 1
+  - System Architecture: 1 (NEW)
   - Functions README: 1
+  - Functions Caching: 1
   - Bruno README: 1
   - Docs folder: 12
-- **Total Pages**: ~100+ pages of documentation
+- **Total Pages**: ~120+ pages of documentation
 - **Topics Covered**: 150+
 - **Code Examples**: 120+
 - **Components Documented**: 9
