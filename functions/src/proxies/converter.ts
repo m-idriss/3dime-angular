@@ -101,6 +101,8 @@ export const converterFunction = onRequest(
       const startTime = Date.now();
       const trackingService = getTrackingService();
       const quotaService = getQuotaService();
+      const modelName = process.env.MODEL_NAME || "gemini-2.5-flash-lite";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`;
 
       // Extract domain from request origin for tracking
       const originHeader = req.headers.origin || req.headers.referer;
@@ -217,8 +219,7 @@ export const converterFunction = onRequest(
         ];
 
         // Call Gemini API
-        const response = await fetch(
-          "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
+        const response = await fetch(apiUrl,
           {
             method: "POST",
             headers: {
