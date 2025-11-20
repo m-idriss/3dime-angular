@@ -95,7 +95,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 ### 3. Configure Notion Webhook
 
-⚠️ **Note**: As of 2025, Notion's webhook feature may still be in development. Check the [Notion API documentation](https://developers.notion.com/) for the latest webhook configuration options.
+⚠️ **Note**: As of 2024, Notion's webhook feature may still be in development. Check the [Notion API documentation](https://developers.notion.com/) for the latest webhook configuration options.
 
 #### Expected Configuration Steps:
 

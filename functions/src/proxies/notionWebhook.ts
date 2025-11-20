@@ -101,7 +101,9 @@ export const notionWebhook = onRequest(
 
       // Verify webhook signature if secret is configured
       if (webhookSecret) {
-        const signature = req.headers["notion-signature"] as string;
+        // Use case-insensitive header retrieval
+        const signature = (req.headers["notion-signature"] || 
+                          req.headers["Notion-Signature"]) as string;
         if (!signature) {
           log("Missing Notion-Signature header");
           res.status(401).json({ error: "Missing signature" });
@@ -110,7 +112,13 @@ export const notionWebhook = onRequest(
 
         // Use raw body for signature verification to match what Notion signed
         // Firebase Functions v2 provides rawBody which is the original request body
-        const bodyString = req.rawBody ? req.rawBody.toString("utf8") : JSON.stringify(req.body);
+        if (!req.rawBody) {
+          log("Raw body not available for signature verification");
+          res.status(400).json({ error: "Cannot verify signature without raw body" });
+          return;
+        }
+
+        const bodyString = req.rawBody.toString("utf8");
         if (!verifyNotionSignature(bodyString, signature, webhookSecret)) {
           log("Invalid webhook signature");
           res.status(401).json({ error: "Invalid signature" });
