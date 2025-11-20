@@ -133,7 +133,9 @@ export const notionWebhook = onRequest(
           return;
         }
 
-        const bodyString = JSON.stringify(req.body);
+        // Use raw body for signature verification to match what Notion signed
+        // Firebase Functions v2 provides rawBody which is the original request body
+        const bodyString = req.rawBody ? req.rawBody.toString("utf8") : JSON.stringify(req.body);
         if (!verifyNotionSignature(bodyString, signature, webhookSecret)) {
           log("Invalid webhook signature");
           res.status(401).json({ error: "Invalid signature" });

@@ -194,6 +194,10 @@ export class CacheManager<T> {
    * Directly set cache data without fetching from external API
    * Useful for webhook-driven cache updates where data is provided directly
    * 
+   * Note: This method updates `lastCheckAt` to prevent immediate background refresh.
+   * This is intentional - when a webhook updates the cache, we consider it fresh and
+   * reset the cooldown timer. The cache will only refresh again after the TTL expires.
+   * 
    * @param data The data to store in cache
    * @param versionFn Function to compute version hash from data
    * @returns The stored data
