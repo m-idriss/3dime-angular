@@ -222,6 +222,16 @@ export class CacheManager<T> {
 /**
  * Helper function to create a simple hash from any data
  * Used as default version function when specific versioning is not needed
+ * 
+ * Note: This uses string length as a simple hash for performance and simplicity.
+ * While this can have collisions, it's sufficient for cache versioning where:
+ * - We only need to detect if data changed (not cryptographic security)
+ * - False positives (detecting change when none occurred) are acceptable
+ * - Performance is prioritized over collision resistance
+ * - The hash is combined with other metadata (timestamps) for cache decisions
+ * 
+ * For applications requiring stronger collision resistance, provide a custom
+ * version function using crypto.createHash('sha256') or similar.
  */
 export function simpleHash(data: any): string {
   return JSON.stringify(data).length.toString(16);

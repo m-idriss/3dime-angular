@@ -1,7 +1,7 @@
 import { onRequest } from "firebase-functions/v2/https";
-import { Client } from "@notionhq/client";
 import { CacheManager, simpleHash } from "../utils/cache";
 import { initializeFirebaseAdmin } from "../utils/firebase-admin";
+import { fetchNotionData, NotionData } from "../utils/notion";
 import { log } from "firebase-functions/logger";
 import crypto from "crypto";
 
@@ -11,8 +11,6 @@ initializeFirebaseAdmin();
 // Cache configuration: 24 hour TTL since webhook will update cache proactively
 const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 const FORCE_COOLDOWN = 5 * 60 * 1000; // 5 minutes
-
-type NotionData = Record<string, any[]>;
 
 /**
  * Verify Notion webhook signature
@@ -46,37 +44,6 @@ function verifyNotionSignature(
 }
 
 /**
- * Fetch fresh data from Notion API
- * This is the same logic as in notion.ts but extracted for reuse
- */
-async function fetchNotionData(
-  token: string,
-  dataSourceId: string
-): Promise<NotionData> {
-  const notion = new Client({ auth: token });
-  const response = await notion.dataSources.query({
-    data_source_id: dataSourceId,
-    filter: { property: "Name", rich_text: { is_not_empty: true } },
-    sorts: [{ property: "Rank", direction: "ascending" }],
-  });
-
-  // Group data by category
-  const grouped = response.results.reduce((acc: Record<string, any[]>, page: any) => {
-    const item = {
-      name: page.properties?.Name?.rich_text?.[0]?.plain_text ?? "",
-      url: page.properties?.URL?.url ?? "",
-      description: page.properties?.Description?.rich_text?.[0]?.plain_text ?? "",
-      rank: page.properties?.Rank?.number ?? 0,
-      category: page.properties?.Category?.select?.name ?? "Uncategorized",
-    };
-    (acc[item.category] ||= []).push(item);
-    return acc;
-  }, {});
-
-  return grouped;
-}
-
-/**
  * Notion Webhook Handler
  * 
  * This function receives webhook notifications from Notion when the database changes.
@@ -102,10 +69,18 @@ export const notionWebhook = onRequest(
   },
   async (req, res) => {
     try {
+      // Log webhook receipt without exposing sensitive data
+      const safeHeaders = Object.keys(req.headers)
+        .filter((key) => !key.toLowerCase().includes("signature") && !key.toLowerCase().includes("auth"))
+        .reduce((acc: Record<string, any>, key) => {
+          acc[key] = req.headers[key];
+          return acc;
+        }, {});
+
       log("Notion webhook received", {
         method: req.method,
-        headers: req.headers,
-        body: req.body,
+        headers: safeHeaders,
+        bodySize: req.rawBody?.length || JSON.stringify(req.body).length,
       });
 
       // Only accept POST requests
