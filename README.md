@@ -176,11 +176,15 @@ bru run bruno-collections/3dime-api
 
 ## 📚 Documentation
 
-### Essential Guides
+### 🎯 Start Here
+- **[System Architecture](ARCHITECTURE.md)** - **⭐ Complete technical overview**
 - **[Installation Guide](docs/INSTALLATION.md)** - Complete setup instructions
-- **[Deployment Guide](docs/DEPLOYMENT.md)** - Deploy to production
 - **[Calendar Converter](docs/CONVERTER.md)** - AI conversion feature details
+
+### Essential Guides
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Deploy to production
 - **[PWA Guide](docs/PWA.md)** - Progressive Web App features
+- **[Development Guidelines](docs/DEVELOPMENT.md)** - Workflow and best practices
 
 ### Technical Docs
 - **[Components](docs/COMPONENTS.md)** - Component architecture
@@ -190,10 +194,10 @@ bru run bruno-collections/3dime-api
 - **[Testing Guide](docs/TESTING.md)** - Testing strategies
 
 ### Additional Resources
-- **[Development Guidelines](docs/DEVELOPMENT.md)** - Workflow and best practices
 - **[Contributing Guidelines](CONTRIBUTING.md)** - How to contribute
 - **[Project Roadmap](ROADMAP.md)** - Future features and timeline
 - **[Security Policy](SECURITY.md)** - Security guidelines
+- **[Backend Caching](functions/CACHING.md)** - Caching implementation details
 
 **[📖 Full Documentation Index →](docs/README.md)**
 
@@ -236,7 +240,8 @@ src/app/
 └── app.ts              # Main application
 ```
 
-**[📖 Detailed Architecture →](docs/COMPONENTS.md)**
+**[📖 Complete System Architecture →](ARCHITECTURE.md)** - Comprehensive technical documentation  
+**[📖 Component Details →](docs/COMPONENTS.md)** - Individual component documentation
 
 ## 📊 Performance
 
