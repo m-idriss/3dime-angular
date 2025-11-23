@@ -68,14 +68,15 @@ describe('StatsService', () => {
         eventCount: 200,
       };
 
-      let subscriptionCount = 0;
+      let firstEmitted = false;
+      let secondEmitted = false;
 
       // First subscription
       service.getStatistics().subscribe({
         next: (stats) => {
-          subscriptionCount++;
           expect(stats).toEqual(mockStats);
-          if (subscriptionCount === 2) {
+          firstEmitted = true;
+          if (firstEmitted && secondEmitted) {
             done();
           }
         },
@@ -84,9 +85,9 @@ describe('StatsService', () => {
       // Second subscription (should use cache, not make new request)
       service.getStatistics().subscribe({
         next: (stats) => {
-          subscriptionCount++;
           expect(stats).toEqual(mockStats);
-          if (subscriptionCount === 2) {
+          secondEmitted = true;
+          if (firstEmitted && secondEmitted) {
             done();
           }
         },
