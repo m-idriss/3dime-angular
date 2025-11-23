@@ -62,17 +62,35 @@ describe('StatsService', () => {
       req.error(new ProgressEvent('error'));
     });
 
-    it('should cache results (shareReplay)', () => {
+    it('should cache results (shareReplay)', (done) => {
       const mockStats: Statistics = {
         fileCount: 100,
         eventCount: 200,
       };
 
+      let subscriptionCount = 0;
+
       // First subscription
-      service.getStatistics().subscribe();
+      service.getStatistics().subscribe({
+        next: (stats) => {
+          subscriptionCount++;
+          expect(stats).toEqual(mockStats);
+          if (subscriptionCount === 2) {
+            done();
+          }
+        },
+      });
 
       // Second subscription (should use cache, not make new request)
-      service.getStatistics().subscribe();
+      service.getStatistics().subscribe({
+        next: (stats) => {
+          subscriptionCount++;
+          expect(stats).toEqual(mockStats);
+          if (subscriptionCount === 2) {
+            done();
+          }
+        },
+      });
 
       // Only one HTTP request should be made
       const req = httpMock.expectOne(`${environment.apiUrl}?target=statistics`);
@@ -81,14 +99,18 @@ describe('StatsService', () => {
   });
 
   describe('refreshStatistics', () => {
-    it('should clear cache and allow new request', () => {
+    it('should clear cache and allow new request', (done) => {
       const mockStats: Statistics = {
         fileCount: 100,
         eventCount: 200,
       };
 
       // First request
-      service.getStatistics().subscribe();
+      service.getStatistics().subscribe({
+        next: (stats) => {
+          expect(stats).toEqual(mockStats);
+        },
+      });
       let req = httpMock.expectOne(`${environment.apiUrl}?target=statistics`);
       req.flush(mockStats);
 
@@ -96,7 +118,12 @@ describe('StatsService', () => {
       service.refreshStatistics();
 
       // Second request should make a new HTTP call
-      service.getStatistics().subscribe();
+      service.getStatistics().subscribe({
+        next: (stats) => {
+          expect(stats).toEqual(mockStats);
+          done();
+        },
+      });
       req = httpMock.expectOne(`${environment.apiUrl}?target=statistics`);
       req.flush(mockStats);
     });
