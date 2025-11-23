@@ -68,17 +68,21 @@ describe('StatsService', () => {
         eventCount: 200,
       };
 
-      let firstEmitted = false;
-      let secondEmitted = false;
+      let emissionCount = 0;
+      const expectedEmissions = 2;
+
+      const checkComplete = () => {
+        emissionCount++;
+        if (emissionCount === expectedEmissions) {
+          done();
+        }
+      };
 
       // First subscription
       service.getStatistics().subscribe({
         next: (stats) => {
           expect(stats).toEqual(mockStats);
-          firstEmitted = true;
-          if (firstEmitted && secondEmitted) {
-            done();
-          }
+          checkComplete();
         },
       });
 
@@ -86,10 +90,7 @@ describe('StatsService', () => {
       service.getStatistics().subscribe({
         next: (stats) => {
           expect(stats).toEqual(mockStats);
-          secondEmitted = true;
-          if (firstEmitted && secondEmitted) {
-            done();
-          }
+          checkComplete();
         },
       });
 
