@@ -675,4 +675,4 @@ Add labels for screen readers:
 - [CSS Custom Properties (MDN)](https://developer.mozilla.org/en-US/docs/Web/CSS/--*)
 - [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [Material Design](https://material.io/design)
-- [Glassmorphism in UI Design](https://uxdesign.cc/glassmorphism-in-user-interfaces-1f39bb1308c9)
+- [Glassmorphism in UI Design](https://blog.logrocket.com/ux-design/what-is-glassmorphism/)
