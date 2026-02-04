@@ -463,7 +463,7 @@ All icons located in `public/assets/icons/`
 ## Resources
 
 - [Angular Service Worker Guide](https://angular.io/guide/service-worker)
-- [Web.dev PWA Guide](https://web.dev/explore/progressive-web-apps)
+- [Web.dev PWA Guide](https://web.dev/learn/pwa)
 - [MDN PWA Documentation](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps)
 - [PWA Builder](https://www.pwabuilder.com/) - Test and improve your PWA
 - [Lighthouse](https://developer.chrome.com/docs/lighthouse/) - Audit your PWA
