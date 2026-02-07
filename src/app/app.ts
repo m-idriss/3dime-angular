@@ -9,6 +9,7 @@ import { Footer } from './components/footer/footer';
 import { Stats } from './components/stats/stats';
 import { PWA_CONFIG } from './constants/pwa.constants';
 import { AuthService } from './services/auth.service';
+import { SeoService } from './services/seo.service';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ export class App implements OnInit {
   private readonly swUpdate = inject(SwUpdate);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+  private readonly seoService = inject(SeoService);
 
   protected readonly title = signal('3dime-angular');
   protected readonly currentRoute = signal<string>('');
