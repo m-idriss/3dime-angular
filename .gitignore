@@ -50,3 +50,4 @@ src/environments/environment.local.ts
 firebase-debug.log
 .vercel
 .env*.local
+package-lock.json
