@@ -9,14 +9,13 @@ import {
   inject,
   effect,
   HostListener,
+  ViewContainerRef,
+  ComponentRef,
+  AfterViewInit,
 } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput, EventDropArg, EventClickArg } from '@fullcalendar/core';
 import { EventResizeDoneArg } from '@fullcalendar/interaction';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarEvent } from '../../models';
 
 /**
@@ -30,11 +29,11 @@ import { CalendarEvent } from '../../models';
  */
 @Component({
   selector: 'app-calendar-view',
-  imports: [CommonModule, FullCalendarModule],
+  imports: [CommonModule],
   templateUrl: './calendar-view.html',
   styleUrl: './calendar-view.scss',
 })
-export class CalendarView implements OnInit {
+export class CalendarView implements OnInit, AfterViewInit {
   // Inputs
   readonly events = input.required<CalendarEvent[]>();
   readonly visible = input.required<boolean>();
@@ -47,7 +46,7 @@ export class CalendarView implements OnInit {
 
   // Local state
   protected readonly calendarOptions = signal<CalendarOptions>({
-    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    plugins: [], // Will be populated after dynamic import
     initialView: 'dayGridMonth',
     headerToolbar: {
       left: 'prev,next today',
@@ -83,7 +82,12 @@ export class CalendarView implements OnInit {
     },
   });
 
-  @ViewChild('calendar') calendarComponent?: FullCalendarComponent;
+  @ViewChild('calendarContainer', { read: ViewContainerRef }) calendarContainer?: ViewContainerRef;
+  // Type will be FullCalendarComponent after dynamic import, but we can't reference it statically
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private calendarComponentRef?: ComponentRef<any>;
+  private calendarLoaded = false;
+  protected loadError = false;
 
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -95,8 +99,54 @@ export class CalendarView implements OnInit {
   }
 
   ngOnInit(): void {
-    // Initial load
-    this.updateCalendarEvents();
+    // Initial load will happen in ngAfterViewInit
+  }
+
+  async ngAfterViewInit(): Promise<void> {
+    // Lazy load FullCalendar modules once, only in the browser platform when the container is available
+    if (!this.calendarLoaded && isPlatformBrowser(this.platformId) && this.calendarContainer) {
+      await this.loadCalendar();
+    }
+  }
+
+  /**
+   * Lazy load FullCalendar library and create the calendar component
+   */
+  private async loadCalendar(): Promise<void> {
+    try {
+      // Dynamically import FullCalendar modules
+      const [
+        { FullCalendarComponent },
+        dayGridPlugin,
+        timeGridPlugin,
+        interactionPlugin,
+      ] = await Promise.all([
+        import('@fullcalendar/angular'),
+        import('@fullcalendar/daygrid').then((m) => m.default),
+        import('@fullcalendar/timegrid').then((m) => m.default),
+        import('@fullcalendar/interaction').then((m) => m.default),
+      ]);
+
+      // Update calendar options with the loaded plugins
+      this.calendarOptions.update((options) => ({
+        ...options,
+        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+      }));
+
+      // Create the FullCalendar component dynamically
+      if (this.calendarContainer) {
+        this.calendarComponentRef = this.calendarContainer.createComponent(FullCalendarComponent);
+        this.calendarComponentRef.instance.options = this.calendarOptions();
+
+        this.calendarLoaded = true;
+
+        // Update calendar events after loading
+        this.updateCalendarEvents();
+      }
+    } catch (error) {
+      console.error('Error loading FullCalendar:', error);
+      this.loadError = true;
+    }
   }
 
   /**
@@ -118,6 +168,11 @@ export class CalendarView implements OnInit {
       ...options,
       events: fullCalendarEvents,
     }));
+
+    // Update the component instance if it's already loaded
+    if (this.calendarComponentRef) {
+      this.calendarComponentRef.instance.options = this.calendarOptions();
+    }
   }
 
   /**
@@ -195,8 +250,8 @@ export class CalendarView implements OnInit {
    * Change calendar view
    */
   protected changeView(viewType: string): void {
-    if (isPlatformBrowser(this.platformId) && this.calendarComponent) {
-      const calendarApi = this.calendarComponent.getApi();
+    if (isPlatformBrowser(this.platformId) && this.calendarComponentRef) {
+      const calendarApi = this.calendarComponentRef.instance.getApi();
       calendarApi.changeView(viewType);
     }
   }
