@@ -1,17 +1,15 @@
 # Proper MIME types for JavaScript modules (Safari compatibility)
 <IfModule mod_mime.c>
   # JavaScript MIME types
-  AddType application/javascript .js
-  AddType application/javascript .mjs
-  AddType text/javascript .js
+  AddType application/javascript .js .mjs
   
   # Other common MIME types
   AddType text/css .css
   AddType application/json .json
   AddType image/svg+xml .svg
   AddType image/x-icon .ico
-  AddType application/font-woff2 .woff2
-  AddType application/font-woff .woff
+  AddType font/woff2 .woff2
+  AddType font/woff .woff
 </IfModule>
 
 <IfModule mod_rewrite.c>
