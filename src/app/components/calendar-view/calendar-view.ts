@@ -103,8 +103,7 @@ export class CalendarView implements OnInit, AfterViewInit {
   }
 
   async ngAfterViewInit(): Promise<void> {
-    // Lazy load FullCalendar modules only when the component is initialized
-    // Skip lazy loading in test environment to avoid injector issues during cleanup
+    // Lazy load FullCalendar modules once, only in the browser platform when the container is available
     if (!this.calendarLoaded && isPlatformBrowser(this.platformId) && this.calendarContainer) {
       await this.loadCalendar();
     }
@@ -117,7 +116,7 @@ export class CalendarView implements OnInit, AfterViewInit {
     try {
       // Dynamically import FullCalendar modules
       const [
-        { FullCalendarModule, FullCalendarComponent },
+        { FullCalendarComponent },
         dayGridPlugin,
         timeGridPlugin,
         interactionPlugin,
