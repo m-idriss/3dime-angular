@@ -6,12 +6,12 @@ export const routes: Routes = [
   {
     path: '',
     component: Home,
-    title: 'Calendar Converter | 3dime',
+    title: 'Calendar Converter | Photocalia',
   },
   {
     path: 'me',
     component: About,
-    title: 'About Me | 3dime',
+    title: 'About Me | Photocalia',
   },
   {
     path: '**',

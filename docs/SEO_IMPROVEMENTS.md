@@ -16,7 +16,7 @@ This document outlines the comprehensive SEO improvements implemented for the 3d
 
 **After:**
 ```html
-<title>Free AI Calendar Converter - Convert Images & PDFs to ICS Calendar Files | 3dime</title>
+<title>Free AI Calendar Converter - Convert Images & PDFs to ICS Calendar Files | Photocalia</title>
 ```
 
 **Benefits:**
