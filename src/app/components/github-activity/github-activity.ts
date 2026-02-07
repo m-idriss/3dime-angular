@@ -154,7 +154,7 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
               {
                 position: 'left',
                 key: 'left',
-                text: () => ['', 'Mon', '', 'Wen', '', 'Fri', ''],
+                text: () => ['', 'Mon', '', 'Wed', '', 'Fri', ''],
                 textAlign: 'end',
                 width: 20,
                 padding: [25, 5, 0, 0],

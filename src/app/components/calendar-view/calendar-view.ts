@@ -83,8 +83,11 @@ export class CalendarView implements OnInit, AfterViewInit {
   });
 
   @ViewChild('calendarContainer', { read: ViewContainerRef }) calendarContainer?: ViewContainerRef;
+  // Type will be FullCalendarComponent after dynamic import, but we can't reference it statically
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private calendarComponentRef?: ComponentRef<any>;
   private calendarLoaded = false;
+  protected loadError = false;
 
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -101,7 +104,8 @@ export class CalendarView implements OnInit, AfterViewInit {
 
   async ngAfterViewInit(): Promise<void> {
     // Lazy load FullCalendar modules only when the component is initialized
-    if (!this.calendarLoaded && isPlatformBrowser(this.platformId)) {
+    // Skip lazy loading in test environment to avoid injector issues during cleanup
+    if (!this.calendarLoaded && isPlatformBrowser(this.platformId) && this.calendarContainer) {
       await this.loadCalendar();
     }
   }
@@ -142,6 +146,7 @@ export class CalendarView implements OnInit, AfterViewInit {
       }
     } catch (error) {
       console.error('Error loading FullCalendar:', error);
+      this.loadError = true;
     }
   }
 
