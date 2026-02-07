@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the comprehensive SEO improvements implemented for the 3dime Calendar Converter application to enhance search engine visibility and attract more users to this incredible tool.
+This document outlines the comprehensive SEO improvements implemented for the Photocalia Calendar Converter application to enhance search engine visibility and attract more users to this incredible tool.
 
 ## Implemented Changes
 
@@ -146,8 +146,8 @@ Additional schema type for better categorization as a web application.
 #### Hreflang Tags
 Added for international SEO:
 ```html
-<link rel="alternate" hreflang="en" href="https://3dime.com/" />
-<link rel="alternate" hreflang="x-default" href="https://3dime.com/" />
+<link rel="alternate" hreflang="en" href="https://photocalia.com/" />
+<link rel="alternate" hreflang="x-default" href="https://photocalia.com/" />
 ```
 
 #### Additional Meta Tags
@@ -348,6 +348,6 @@ Enhanced home page markup:
 
 ## Conclusion
 
-These comprehensive SEO improvements position the 3dime Calendar Converter as a highly discoverable and authoritative tool for converting images and PDFs to calendar files. The combination of enhanced meta tags, structured data, technical SEO files, and semantic HTML creates a strong foundation for organic search visibility and user acquisition.
+These comprehensive SEO improvements position the Photocalia Calendar Converter as a highly discoverable and authoritative tool for converting images and PDFs to calendar files. The combination of enhanced meta tags, structured data, technical SEO files, and semantic HTML creates a strong foundation for organic search visibility and user acquisition.
 
 The improvements align with modern SEO best practices and Google's guidelines, ensuring long-term search engine visibility and sustainable organic growth.
