@@ -8,6 +8,11 @@
 export type PlanType = "free" | "pro" | "premium";
 
 /**
+ * Default plan for new users
+ */
+export const DEFAULT_PLAN: PlanType = "free";
+
+/**
  * Firestore document structure for user quotas
  * Stored at: users/{uid}
  */

@@ -29,14 +29,14 @@ export async function migrateUserFromNotion(uid: string): Promise<boolean> {
 
     if (!notionData) {
       log("No Notion data found for user - creating with defaults", { uid });
-      // Create new user with default values
-      await firestoreQuotaService.checkQuota(uid); // This will auto-create
+      // Create new user with default values by calling checkQuota
+      // This will auto-create the user with DEFAULT_PLAN
+      await firestoreQuotaService.checkQuota(uid);
       return true;
     }
 
-    // Get Firestore reference
-    const db = (firestoreQuotaService as any).db;
-    const userDocRef = db.collection("users").doc(uid);
+    // Get Firestore reference through proper API
+    const userDocRef = firestoreQuotaService.getUserDocumentRef(uid);
     
     // Check if user already exists in Firestore
     const existingDoc = await userDocRef.get();

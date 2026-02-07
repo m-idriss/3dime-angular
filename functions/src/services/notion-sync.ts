@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client";
 import { log } from "firebase-functions/logger";
-import { PlanType } from "../types/quota";
+import { PlanType, DEFAULT_PLAN } from "../types/quota";
 
 /**
  * Background Notion sync service
@@ -152,7 +152,7 @@ export class NotionSyncService {
       return {
         usageCount: props["Usage Count"]?.number ?? 0,
         lastReset: new Date(props["Last Reset"]?.date?.start ?? new Date()),
-        plan: (props["Plan"]?.select?.name ?? "free") as PlanType,
+        plan: (props["Plan"]?.select?.name ?? DEFAULT_PLAN) as PlanType,
       };
     } catch (error: any) {
       log("Failed to read from Notion", { error: error.message, userId });

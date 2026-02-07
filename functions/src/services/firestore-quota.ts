@@ -6,6 +6,7 @@ import {
   UserQuotaDocument,
   QuotaCheckResult,
   QUOTA_LIMITS,
+  DEFAULT_PLAN,
 } from "../types/quota";
 
 /**
@@ -54,9 +55,9 @@ export class FirestoreQuotaService {
   private async createUser(uid: string): Promise<UserQuotaDocument> {
     const now = Timestamp.now();
     const newUser: UserQuotaDocument = {
-      plan: "free",
+      plan: DEFAULT_PLAN,
       quotaUsed: 0,
-      quotaLimit: QUOTA_LIMITS.free,
+      quotaLimit: QUOTA_LIMITS[DEFAULT_PLAN],
       periodStart: now,
       createdAt: now,
       updatedAt: now,
@@ -131,7 +132,7 @@ export class FirestoreQuotaService {
         allowed: true,
         remaining: -1,
         limit: -1,
-        plan: "free",
+        plan: DEFAULT_PLAN,
       };
     }
   }
@@ -185,9 +186,9 @@ export class FirestoreQuotaService {
         // Return default values for non-existent user
         return {
           usageCount: 0,
-          limit: QUOTA_LIMITS.free,
-          remaining: QUOTA_LIMITS.free,
-          plan: "free",
+          limit: QUOTA_LIMITS[DEFAULT_PLAN],
+          remaining: QUOTA_LIMITS[DEFAULT_PLAN],
+          plan: DEFAULT_PLAN,
         };
       }
 
@@ -232,6 +233,14 @@ export class FirestoreQuotaService {
     });
 
     log("Updated user plan", { uid, plan });
+  }
+
+  /**
+   * Get Firestore reference for a user document
+   * Used by migration service
+   */
+  getUserDocumentRef(uid: string) {
+    return this.getUserDocRef(uid);
   }
 }
 

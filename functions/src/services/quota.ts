@@ -74,16 +74,24 @@ export class QuotaService {
    */
   private async syncToNotionBackground(userId: string): Promise<void> {
     try {
-      const status = await this.firestoreService.getQuotaStatus(userId);
-      if (status) {
-        // Convert period start to Date for Notion
-        const periodStart = new Date(); // We don't store this separately, use current date
-        await this.notionSyncService.syncToNotion(
-          userId,
-          status.usageCount,
-          status.plan,
-          periodStart
-        );
+      // Get user document to retrieve periodStart
+      const userDocRef = this.firestoreService.getUserDocumentRef(userId);
+      const userDoc = await userDocRef.get();
+      
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        const status = await this.firestoreService.getQuotaStatus(userId);
+        
+        if (status && userData) {
+          const periodStart = userData.periodStart?.toDate() || new Date();
+          
+          await this.notionSyncService.syncToNotion(
+            userId,
+            status.usageCount,
+            status.plan,
+            periodStart
+          );
+        }
       }
     } catch (error: any) {
       // Just log, don't throw - this is background sync
