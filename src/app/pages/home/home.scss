@@ -126,52 +126,56 @@
 .steps-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
   padding: 0 1rem;
+  text-align: left;
 
   @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.step-card {
-  background: rgba(255, 255, 255, 0.05);
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 2rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-  }
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(102, 126, 234, 0.2);
-    border-color: rgba(102, 126, 234, 0.3);
-
-    &::before {
-      transform: scaleX(1);
-    }
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(102, 126, 234, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.1);
   }
 }
 
-.step-number {
-  font-size: 1.5rem;
-  margin-bottom: 0.75rem;
-  opacity: 0.9;
+.step-badge {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.step-content {
+  flex: 1;
 }
 
 .step-title {
@@ -186,6 +190,86 @@
   font-size: 1rem;
   color: var(--text-secondary, #b0b0b0);
   line-height: 1.6;
+  margin: 0;
+}
+
+/* ========================
+   Why PhotoCalia Section
+   ======================== */
+.why-photocalia-section {
+  text-align: center;
+  margin: 3rem auto;
+  max-width: 1200px;
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+.benefits-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1rem;
+  text-align: left;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(102, 126, 234, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.1);
+  }
+}
+
+.benefit-check {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.benefit-content {
+  flex: 1;
+}
+
+.benefit-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary, #e0e0e0);
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.benefit-description {
+  font-size: 0.95rem;
+  color: var(--text-secondary, #b0b0b0);
+  line-height: 1.5;
   margin: 0;
 }
 
@@ -295,23 +379,52 @@
   }
 
   .steps-container {
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
-  .step-card {
-    padding: 1.5rem 1rem;
+  .step-item {
+    padding: 1.25rem 1rem;
   }
 
-  .step-number {
-    font-size: 1.25rem;
+  .step-badge {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
   }
 
   .step-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .step-description {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+  }
+
+  // Why PhotoCalia Section - Mobile
+  .why-photocalia-section {
+    margin: 2rem auto;
+  }
+
+  .benefits-container {
+    gap: 1rem;
+  }
+
+  .benefit-item {
+    padding: 1.25rem 1rem;
+  }
+
+  .benefit-check {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+
+  .benefit-title {
+    font-size: 1rem;
+  }
+
+  .benefit-description {
+    font-size: 0.875rem;
   }
 
 }
