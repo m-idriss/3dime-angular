@@ -61,6 +61,7 @@
     opacity: 0;
     transform: translateY(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -72,6 +73,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -79,13 +81,112 @@
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
+}
+
+/* ========================
+   How It Works Section
+   ======================== */
+.how-it-works-section {
+  text-align: center;
+  margin: 3rem auto;
+  max-width: 1200px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary, #e0e0e0);
+  margin-bottom: 2.5rem;
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+  }
+}
+
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.step-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(102, 126, 234, 0.2);
+    border-color: rgba(102, 126, 234, 0.3);
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.step-number {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.9;
+}
+
+.step-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary, #e0e0e0);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.step-description {
+  font-size: 1rem;
+  color: var(--text-secondary, #b0b0b0);
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* ========================
@@ -102,6 +203,7 @@
 
   // Desktop: Side-by-side layout when calendar is visible
   &.has-calendar {
+
     // Intermediate desktop: favor converter, calendar gets less space
     @media (min-width: 1200px) and (max-width: 1499px) {
       grid-template-columns: 1.3fr 0.7fr;
@@ -182,6 +284,36 @@
     font-size: 1rem;
   }
 
+  // How It Works Section - Mobile
+  .how-it-works-section {
+    margin: 2rem auto;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .steps-container {
+    gap: 1.5rem;
+  }
+
+  .step-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .step-number {
+    font-size: 1.25rem;
+  }
+
+  .step-title {
+    font-size: 1.1rem;
+  }
+
+  .step-description {
+    font-size: 0.9rem;
+  }
+
 }
 
 /* ========================
@@ -200,7 +332,7 @@
 
   // On desktop with calendar, match the converter column width
   @media (min-width: 1200px) {
-    .content-layout.has-calendar ~ & {
+    .content-layout.has-calendar~& {
       max-width: none;
       margin-left: 0;
       margin-right: auto;
