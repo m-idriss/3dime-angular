@@ -48,3 +48,5 @@ src/environments/environment.local.ts
 
 # Firebase logs
 firebase-debug.log
+.vercel
+.env*.local
