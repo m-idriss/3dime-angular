@@ -32,7 +32,12 @@
           </div>
 
           <div class="calendar-container">
-            <full-calendar #calendar [options]="calendarOptions()"></full-calendar>
+            @if (loadError) {
+              <div class="error-message">
+                <p>⚠️ Failed to load calendar. Please refresh the page and try again.</p>
+              </div>
+            }
+            <ng-container #calendarContainer></ng-container>
           </div>
         </div>
 
@@ -64,7 +69,12 @@
       <!-- Calendar Body -->
       <div class="calendar-inline-body">
         <div class="calendar-container">
-          <full-calendar #calendar [options]="calendarOptions()"></full-calendar>
+          @if (loadError) {
+            <div class="error-message">
+              <p>⚠️ Failed to load calendar. Please refresh the page and try again.</p>
+            </div>
+          }
+          <ng-container #calendarContainer></ng-container>
         </div>
       </div>
 
