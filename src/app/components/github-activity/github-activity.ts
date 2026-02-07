@@ -13,9 +13,6 @@ import {
 } from '@angular/core';
 import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
-import CalHeatmap from 'cal-heatmap';
-import CalendarLabel from 'cal-heatmap/plugins/CalendarLabel';
-import Tooltip from 'cal-heatmap/plugins/Tooltip';
 
 import { GithubService, CommitData } from '../../services/github.service';
 import { Card } from '../card/card';
@@ -103,75 +100,88 @@ export class GithubActivity implements AfterViewInit, OnDestroy {
       }
     }
 
-    this.cal = new CalHeatmap();
+    // Dynamically import cal-heatmap and its plugins only when needed (lazy loading)
+    import('cal-heatmap').then((CalHeatmapModule) => {
+      const CalHeatmap = CalHeatmapModule.default;
 
-    this.cal.paint(
-      {
-        itemSelector: this.container.nativeElement,
-        domain: {
-          type: 'month',
-          label: { text: 'MMM', textAlign: 'start', position: 'top' },
-        },
-        subDomain: {
-          type: 'ghDay',
-          radius: 2,
-          width: 9,
-          height: 9,
-          gutter: 1,
-        },
-        data: {
-          source: this.data,
-          x: (d: { date: number; value: number }) => d.date,
-          y: (d: { date: number; value: number }) => d.value,
-          defaultValue: -1,
-        },
-        theme: 'dark',
-        date: {
-          start: new Date(new Date().setMonth(new Date().getMonth() - (this.months - 1))),
-          locale: { weekStart: 7 },
-          highlight: [new Date()],
-        },
-        range: this.months,
-        scale: {
-          opacity: {
-            baseColor: '#764ba2',
-            type: 'linear',
-            domain: [-1, 15],
-          },
-        },
-      },
-      [
-        [
-          CalendarLabel,
+      Promise.all([
+        import('cal-heatmap/plugins/CalendarLabel'),
+        import('cal-heatmap/plugins/Tooltip'),
+      ]).then(([CalendarLabelModule, TooltipModule]) => {
+        const CalendarLabel = CalendarLabelModule.default;
+        const Tooltip = TooltipModule.default;
+
+        this.cal = new CalHeatmap();
+
+        this.cal.paint(
           {
-            position: 'left',
-            key: 'left',
-            text: () => ['', 'Mon', '', 'Wen', '', 'Fri', ''],
-            textAlign: 'end',
-            width: 20,
-            padding: [25, 5, 0, 0],
-          },
-        ],
-        [
-          Tooltip,
-          {
-            // dayjsDate is from cal-heatmap library without proper types
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            text: (_timestamp: number, value: number, dayjsDate: any) => {
-              if (value === 0) {
-                return `No contributions on ${dayjsDate.format('LL')}`;
-              } else if (value === 1) {
-                return `1 contribution on ${dayjsDate.format('LL')}`;
-              } else if (value > 1) {
-                return `${value} contributions on ${dayjsDate.format('LL')}`;
-              } else {
-                return '';
-              }
+            itemSelector: this.container.nativeElement,
+            domain: {
+              type: 'month',
+              label: { text: 'MMM', textAlign: 'start', position: 'top' },
+            },
+            subDomain: {
+              type: 'ghDay',
+              radius: 2,
+              width: 9,
+              height: 9,
+              gutter: 1,
+            },
+            data: {
+              source: this.data,
+              x: (d: { date: number; value: number }) => d.date,
+              y: (d: { date: number; value: number }) => d.value,
+              defaultValue: -1,
+            },
+            theme: 'dark',
+            date: {
+              start: new Date(new Date().setMonth(new Date().getMonth() - (this.months - 1))),
+              locale: { weekStart: 7 },
+              highlight: [new Date()],
+            },
+            range: this.months,
+            scale: {
+              opacity: {
+                baseColor: '#764ba2',
+                type: 'linear',
+                domain: [-1, 15],
+              },
             },
           },
-        ],
-      ],
-    );
+          [
+            [
+              CalendarLabel,
+              {
+                position: 'left',
+                key: 'left',
+                text: () => ['', 'Mon', '', 'Wen', '', 'Fri', ''],
+                textAlign: 'end',
+                width: 20,
+                padding: [25, 5, 0, 0],
+              },
+            ],
+            [
+              Tooltip,
+              {
+                // dayjsDate is from cal-heatmap library without proper types
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                text: (_timestamp: number, value: number, dayjsDate: any) => {
+                  if (value === 0) {
+                    return `No contributions on ${dayjsDate.format('LL')}`;
+                  } else if (value === 1) {
+                    return `1 contribution on ${dayjsDate.format('LL')}`;
+                  } else if (value > 1) {
+                    return `${value} contributions on ${dayjsDate.format('LL')}`;
+                  } else {
+                    return '';
+                  }
+                },
+              },
+            ],
+          ],
+        );
+      });
+    });
   }
 
   /**

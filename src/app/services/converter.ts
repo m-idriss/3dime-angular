@@ -1,7 +1,6 @@
 import { Injectable, inject, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import * as pdfjsLib from 'pdfjs-dist';
 
 import { environment } from '../../environments/environment';
 import { PDF_CONVERSION_CONFIG, CALENDAR_CONFIG } from '../constants';
@@ -86,10 +85,6 @@ export class ConverterService {
   private userId: string;
 
   constructor() {
-    // Configure PDF.js worker - using unpkg.com which has better version availability
-    // unpkg.com automatically resolves to the closest matching version
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
-
     // Initialize userId based on current auth state
     this.userId = this.determineUserId();
 
@@ -256,6 +251,13 @@ export class ConverterService {
    */
   async pdfToImages(file: File): Promise<string[]> {
     try {
+      // Dynamically import pdfjs-dist only when needed (lazy loading)
+      const pdfjsLib = await import('pdfjs-dist');
+
+      // Configure PDF.js worker - using unpkg.com which has better version availability
+      // unpkg.com automatically resolves to the closest matching version
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+
       // Read the PDF file as array buffer
       const arrayBuffer = await file.arrayBuffer();
 

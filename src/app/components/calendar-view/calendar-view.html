@@ -32,7 +32,7 @@
           </div>
 
           <div class="calendar-container">
-            <full-calendar #calendar [options]="calendarOptions()"></full-calendar>
+            <ng-container #calendarContainer></ng-container>
           </div>
         </div>
 
@@ -64,7 +64,7 @@
       <!-- Calendar Body -->
       <div class="calendar-inline-body">
         <div class="calendar-container">
-          <full-calendar #calendar [options]="calendarOptions()"></full-calendar>
+          <ng-container #calendarContainer></ng-container>
         </div>
       </div>
 
