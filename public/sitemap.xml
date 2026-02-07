@@ -4,20 +4,20 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  
+
   <!-- Homepage / Calendar Converter -->
   <url>
-    <loc>https://3dime.com/</loc>
+    <loc>https://photocalia.com/</loc>
     <lastmod>2025-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://3dime.com/assets/images/converter.png</image:loc>
-      <image:title>3dime AI Calendar Converter</image:title>
+      <image:loc>https://photocalia.com/assets/images/converter.png</image:loc>
+      <image:title>Photocalia AI Calendar Converter</image:title>
       <image:caption>Convert images and PDFs to calendar events with AI</image:caption>
     </image:image>
   </url>
-  
+
   <!-- About Me Page -->
   <url>
     <loc>https://3dime.com/me</loc>
