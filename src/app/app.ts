@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, PLATFORM_ID, inject, computed } from '@angular/core';
+import { Component, signal, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs/operators';
@@ -6,15 +6,13 @@ import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
-import { Stats } from './components/stats/stats';
 import { PWA_CONFIG } from './constants/pwa.constants';
-import { AuthService } from './services/auth.service';
 import { SeoService } from './services/seo.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Header, Footer, Stats],
+  imports: [RouterOutlet, Header, Footer],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -22,17 +20,11 @@ export class App implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly swUpdate = inject(SwUpdate);
   private readonly router = inject(Router);
-  private readonly authService = inject(AuthService);
   private readonly seoService = inject(SeoService);
 
   protected readonly title = signal('3dime-angular');
   protected readonly currentRoute = signal<string>('');
   private deferredPrompt: BeforeInstallPromptEvent | null = null;
-
-  // Show stats only on home page for non-logged users
-  protected readonly shouldShowStats = computed(
-    () => this.currentRoute() === '/' && !this.authService.isAuthenticated(),
-  );
 
   ngOnInit(): void {
     // Track current route
