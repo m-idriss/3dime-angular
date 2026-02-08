@@ -72,10 +72,11 @@ export const githubCommits = onRequest(
           const fromDate = cutoff.toISOString();
           const toDate = new Date().toISOString();
 
+          // Use GraphQL variables to prevent potential injection issues
           const query = `
-            query {
+            query($from: DateTime!, $to: DateTime!) {
               user(login: "m-idriss") {
-                contributionsCollection(from: "${fromDate}", to: "${toDate}") {
+                contributionsCollection(from: $from, to: $to) {
                   contributionCalendar {
                     weeks {
                       contributionDays {
@@ -95,7 +96,13 @@ export const githubCommits = onRequest(
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({ query }),
+            body: JSON.stringify({ 
+              query,
+              variables: {
+                from: fromDate,
+                to: toDate
+              }
+            }),
           });
 
           const data: any = await response.json();

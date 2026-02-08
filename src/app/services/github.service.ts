@@ -76,7 +76,7 @@ export class GithubService {
 
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
-  private commits$?: Observable<CommitData[]>;
+  private commitsCache = new Map<number, Observable<CommitData[]>>();
 
   /**
    * Get GitHub user profile.
@@ -118,30 +118,40 @@ export class GithubService {
 
   /**
    * Get GitHub commit activity data.
-   * Caches the result to prevent duplicate API calls.
+   * Caches the result per months parameter to prevent duplicate API calls.
    * Includes timeout to prevent hanging in restrictive network environments.
    *
    * @param months - Number of months of commit history to fetch (default: 6)
    * @returns Observable of commit activity data (returns empty array on timeout/error)
    */
   getCommits(months = 6): Observable<CommitData[]> {
-    const url = `${this.endpoints.commits}&months=${months}`;
-    this.commits$ ??= this.http.get<CommitData[]>(url).pipe(
-      timeout(API_CONFIG.TIMEOUT_MS),
-      catchError((err) => {
-        console.warn('Commits API call failed or timed out:', err.message || err);
-        return of([]);
-      }),
-      shareReplay(1),
-    );
-    return this.commits$;
+    if (!this.commitsCache.has(months)) {
+      const url = `${this.endpoints.commits}&months=${months}`;
+      this.commitsCache.set(
+        months,
+        this.http.get<CommitData[]>(url).pipe(
+          timeout(API_CONFIG.TIMEOUT_MS),
+          catchError((err) => {
+            console.warn('Commits API call failed or timed out:', err.message || err);
+            return of([]);
+          }),
+          shareReplay(1),
+        ),
+      );
+    }
+    return this.commitsCache.get(months)!;
   }
 
   /**
    * Clear cached commit data to force a refresh on next request.
+   * @param months - Optional specific months value to clear. If not provided, clears all cached commits.
    */
-  refreshCommits(): void {
-    this.commits$ = undefined;
+  refreshCommits(months?: number): void {
+    if (months !== undefined) {
+      this.commitsCache.delete(months);
+    } else {
+      this.commitsCache.clear();
+    }
   }
 
   /**

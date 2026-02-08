@@ -51,3 +51,4 @@ firebase-debug.log
 .vercel
 .env*.local
 package-lock.json
+**/package-lock.json
