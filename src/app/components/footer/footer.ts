@@ -40,7 +40,6 @@ export class Footer implements OnInit {
     { label: 'Security', url: `${this.githubRepo}/blob/main/SECURITY.md` },
     { label: 'Community', url: `${this.githubRepo}/blob/main/CONTRIBUTING.md` },
     { label: 'Discussions', url: `${this.githubRepo}/discussions` },
-    { label: 'About Me', url: '/me', isInternal: true },
   ];
 
   ngOnInit(): void {
