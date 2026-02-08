@@ -1,23 +1,9 @@
 <header class="app-header">
   <div class="header-content">
     <a routerLink="/" class="logo">
-      <span class="logo-text">📅 Calendar Converter</span>
+      <span class="logo-text">💼 Idriss Mohamady</span>
     </a>
     <nav class="nav-menu">
-      <!-- Sign In Button (when not authenticated) -->
-      @if (!isAuthenticated && !isAuthLoading) {
-        <button
-          class="sign-in-button"
-          (click)="signIn()"
-          aria-label="Sign in with Google"
-          appTooltip="Sign in with Google"
-          appTooltipPlacement="bottom"
-        >
-          <i class="fab fa-google" aria-hidden="true"></i>
-          <span>Sign In</span>
-        </button>
-      }
-
       <!-- Burger Menu -->
       <div class="burger-menu" [class.active]="menuOpen" aria-label="Settings menu">
         <button
@@ -30,31 +16,12 @@
           appTooltip="Settings"
           appTooltipPlacement="bottom"
         >
-          @if (isAuthenticated && currentUser) {
-            <img
-              [src]="currentUser.photoURL"
-              [alt]="currentUser.displayName || 'User avatar'"
-              class="user-avatar"
-            />
-          } @else {
-            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
-          }
+          <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
         </button>
 
         <!-- Dropdown menu -->
         @if (menuOpen) {
           <div class="profile-dropdown" role="menu" aria-label="Settings">
-            @if (isAuthenticated && currentUser) {
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">{{ currentUser.displayName }}</div>
-                  <div class="user-email">{{ currentUser.email }}</div>
-                </div>
-              </div>
-
-              <div class="dropdown-separator" role="separator"></div>
-            }
-
             <button
               class="dropdown-item theme-toggle"
               role="menuitem"
@@ -83,21 +50,6 @@
               <i class="fas fa-text-height" aria-hidden="true"></i>
               <span>Font Size: {{ fontSizeDisplayName }}</span>
             </button>
-
-            @if (isAuthenticated) {
-              <div class="dropdown-separator" role="separator"></div>
-
-              <button
-                class="dropdown-item sign-out btn btn-danger"
-                role="menuitem"
-                (click)="signOut()"
-                [appTooltip]="'Sign out of your account'"
-                appTooltipPlacement="left"
-              >
-                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-                <span>Sign Out</span>
-              </button>
-            }
           </div>
         }
       </div>
