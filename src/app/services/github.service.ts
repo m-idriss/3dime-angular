@@ -4,13 +4,7 @@ import { Observable, of } from 'rxjs';
 import { shareReplay, catchError, timeout } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
-
-/**
- * Timeout for API calls in milliseconds.
- * Ensures components don't hang indefinitely waiting for API responses.
- * This is critical for screenshot workflows and CI environments where APIs might be blocked.
- */
-const API_TIMEOUT_MS = 10000; // 10 seconds
+import { API_CONFIG } from '../constants/app.constants';
 
 /**
  * Social media link interface
@@ -63,7 +57,7 @@ export interface GithubRelease {
  *
  * ngOnInit() {
  *   this.githubService.getProfile().subscribe(user => {
- *     console.log(user.name);
+ *     this.userName = user.name;
  *   });
  * }
  * ```
@@ -93,7 +87,7 @@ export class GithubService {
    */
   getProfile(): Observable<GithubUser> {
     this.profile$ ??= this.http.get<GithubUser>(this.endpoints.profile).pipe(
-      timeout(API_TIMEOUT_MS),
+      timeout(API_CONFIG.TIMEOUT_MS),
       catchError((err) => {
         console.warn('Profile API call failed or timed out:', err.message || err);
         return of({} as GithubUser);
@@ -112,7 +106,7 @@ export class GithubService {
    */
   getSocialLinks(): Observable<SocialLink[]> {
     this.socialLinks$ ??= this.http.get<SocialLink[]>(this.endpoints.social).pipe(
-      timeout(API_TIMEOUT_MS),
+      timeout(API_CONFIG.TIMEOUT_MS),
       catchError((err) => {
         console.warn('Social links API call failed or timed out:', err.message || err);
         return of([]);
@@ -132,7 +126,7 @@ export class GithubService {
   getCommits(months = 6): Observable<CommitData[]> {
     const url = `${this.endpoints.commits}&months=${months}`;
     return this.http.get<CommitData[]>(url).pipe(
-      timeout(API_TIMEOUT_MS),
+      timeout(API_CONFIG.TIMEOUT_MS),
       catchError((err) => {
         console.warn('Commits API call failed or timed out:', err.message || err);
         return of([]);
@@ -158,7 +152,7 @@ export class GithubService {
   getLatestRelease(): Observable<GithubRelease> {
     const url = 'https://api.github.com/repos/m-idriss/3dime-angular/releases/latest';
     return this.http.get<GithubRelease>(url).pipe(
-      timeout(API_TIMEOUT_MS),
+      timeout(API_CONFIG.TIMEOUT_MS),
       catchError((err) => {
         console.warn('Release API call failed or timed out:', err.message || err);
         return of({} as GithubRelease);

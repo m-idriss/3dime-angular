@@ -40,7 +40,7 @@ export class SeoService {
             }),
             filter(route => route.outlet === 'primary'),
             mergeMap(route => route.data)
-        ).subscribe((data: any) => {
+        ).subscribe((data: { seo?: SeoData }) => {
             if (data.seo) {
                 this.updateSeoTags(data.seo);
             }
