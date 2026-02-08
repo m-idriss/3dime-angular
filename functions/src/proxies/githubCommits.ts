@@ -68,10 +68,14 @@ export const githubCommits = onRequest(
           const cutoff = new Date();
           cutoff.setMonth(cutoff.getMonth() - months);
 
+          // Format dates for GitHub GraphQL API (ISO 8601 format)
+          const fromDate = cutoff.toISOString();
+          const toDate = new Date().toISOString();
+
           const query = `
             query {
               user(login: "m-idriss") {
-                contributionsCollection {
+                contributionsCollection(from: "${fromDate}", to: "${toDate}") {
                   contributionCalendar {
                     weeks {
                       contributionDays {

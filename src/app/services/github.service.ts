@@ -118,6 +118,7 @@ export class GithubService {
 
   /**
    * Get GitHub commit activity data.
+   * Caches the result to prevent duplicate API calls.
    * Includes timeout to prevent hanging in restrictive network environments.
    *
    * @param months - Number of months of commit history to fetch (default: 6)
@@ -125,7 +126,7 @@ export class GithubService {
    */
   getCommits(months = 6): Observable<CommitData[]> {
     const url = `${this.endpoints.commits}&months=${months}`;
-    return this.http.get<CommitData[]>(url).pipe(
+    this.commits$ ??= this.http.get<CommitData[]>(url).pipe(
       timeout(API_CONFIG.TIMEOUT_MS),
       catchError((err) => {
         console.warn('Commits API call failed or timed out:', err.message || err);
@@ -133,6 +134,7 @@ export class GithubService {
       }),
       shareReplay(1),
     );
+    return this.commits$;
   }
 
   /**
