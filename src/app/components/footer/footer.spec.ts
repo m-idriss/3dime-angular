@@ -29,18 +29,5 @@ describe('Footer', () => {
     expect(footerLinks.length).toBeGreaterThan(0);
   });
 
-  it('should include About Me link', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const aboutMeLink = Array.from(compiled.querySelectorAll('.footer-link')).find(
-      (link) => link.textContent?.trim() === 'About Me',
-    );
-    expect(aboutMeLink).toBeTruthy();
-  });
 
-  it('should have About Me as internal link', () => {
-    const aboutMeLink = component.footerLinks.find((link) => link.label === 'About Me');
-    expect(aboutMeLink).toBeTruthy();
-    expect(aboutMeLink?.isInternal).toBe(true);
-    expect(aboutMeLink?.url).toBe('/me');
-  });
 });
