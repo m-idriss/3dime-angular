@@ -2,13 +2,11 @@ import {
   Component,
   HostListener,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AppTooltipDirective } from '../../shared/directives';
 import { ThemeService } from '../../services/theme.service';
-import { AuthAwareComponent } from '../base/auth-aware.component';
 
 @Component({
   selector: 'app-header',
@@ -17,9 +15,8 @@ import { AuthAwareComponent } from '../base/auth-aware.component';
   styleUrl: './header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Header extends AuthAwareComponent {
+export class Header {
   private readonly themeService = inject(ThemeService);
-  private readonly cdr = inject(ChangeDetectorRef);
 
   menuOpen = false;
 
@@ -69,24 +66,5 @@ export class Header extends AuthAwareComponent {
 
   get fontSizeDisplayName(): string {
     return this.themeService.getFontSizeDisplayName(this.currentFontSize);
-  }
-
-  async signOut(): Promise<void> {
-    try {
-      await this.authService.signOutUser();
-      this.menuOpen = false;
-      this.cdr.markForCheck();
-    } catch (error) {
-      console.error('Sign out error:', error);
-    }
-  }
-
-  async signIn(): Promise<void> {
-    try {
-      await this.authService.signInWithGoogle();
-      this.cdr.markForCheck();
-    } catch (error) {
-      console.error('Sign in error:', error);
-    }
   }
 }
