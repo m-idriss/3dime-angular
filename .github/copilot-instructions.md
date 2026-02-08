@@ -293,21 +293,15 @@ Ask the user for guidance when:
 ### Automated Workflows
 The repository has several GitHub Actions workflows in `.github/workflows/`:
 
-1. **deploy.yml** - Automatic deployment on push to main
-   - Triggers on changes to src/, public/, package.json, angular.json, functions/, etc.
-   - Runs on Node.js 20
-   - Steps: npm ci → generate environment.prod.ts → build → FTP deploy
-   - Requires secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_PATH, FIREBASE_*
-
-2. **qodana_code_quality.yml** - Code quality analysis
+1. **qodana_code_quality.yml** - Code quality analysis
    - Runs on PR and push to main
    - Uses JetBrains Qodana for static code analysis
    - Posts PR comments with findings
 
-3. **update-screenshot.yml** - Automated screenshot updates
+2. **update-screenshot.yml** - Automated screenshot updates
    - Updates portfolio screenshots automatically
 
-4. **Other workflows** - release.yml, labeler.yml, summary.yml, check-dead-links.yml
+3. **Other workflows** - release.yml, labeler.yml, summary.yml, check-dead-links.yml
 
 ### Pre-Deployment Checklist
 Before merging to main (which triggers deployment):

@@ -47,47 +47,6 @@ The production build includes:
 - `.htaccess` for Apache
 - `_redirects` for Netlify
 
-## Automatic Deployment (GitHub Actions)
-
-The project includes automated deployment via GitHub Actions.
-
-### Setup
-
-1. **Configure Secrets**: Add deployment credentials to GitHub repository secrets:
-   ```
-   Settings → Secrets and variables → Actions → New repository secret
-   ```
-
-   Required secrets:
-   - `FTP_SERVER` - your-server.com
-   - `FTP_USERNAME` - your-username
-   - `FTP_PASSWORD` - your-password
-   - `FTP_PATH` - /public_html/ (or your web root)
-
-2. **Automatic Trigger**: Deployment triggers on push to `main` branch when relevant files change:
-   - Source code (`src/**`, `public/**`)
-   - Dependencies (`package.json`, `package-lock.json`)
-   - Build configuration (`angular.json`, `tsconfig*.json`)
-   - Firebase Functions (`functions/**`)
-   - Deployment workflow (`.github/workflows/deploy.yml`)
-   - Firebase configuration (`firebase.json`, `.firebaserc`)
-
-   **Note**: Documentation changes won't trigger deployment.
-
-3. **Workflow Process**: The GitHub Action will:
-   - Check out code
-   - Set up Node.js
-   - Install dependencies
-   - Build production version
-   - Deploy via FTP to your server
-
-### Monitoring Deployments
-
-View deployment status:
-- **Actions tab** in your GitHub repository
-- **Deployment logs** for troubleshooting
-- **Status badges** in README (optional)
-
 ## Manual Deployment
 
 ### Netlify
