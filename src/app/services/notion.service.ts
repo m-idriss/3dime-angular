@@ -5,6 +5,7 @@ import { map, catchError, shareReplay, timeout, concatMap, delay } from 'rxjs/op
 
 import { LinkItem } from '../models';
 import { environment } from '../../environments/environment';
+import { API_CONFIG } from '../constants/app.constants';
 
 /**
  * Notion API response interface
@@ -18,17 +19,11 @@ interface NotionApiResponse {
 }
 
 /**
- * Timeout for API calls in milliseconds.
- * Ensures components don't hang indefinitely waiting for API responses.
- * This is critical for screenshot workflows and CI environments where APIs might be blocked.
- */
-const API_TIMEOUT_MS = 10000; // 10 seconds
-
-/**
  * Delay between progressive item emissions in milliseconds.
  * This creates a staggered effect where items appear one by one.
+ * Currently set to 0 for instant loading (can be increased for visual effect).
  */
-const PROGRESSIVE_DELAY_MS = 0; // 100ms between each item
+const PROGRESSIVE_DELAY_MS = 0;
 
 /**
  * Service for fetching data from Notion API.
@@ -71,7 +66,7 @@ export class NotionService {
    */
   fetchAll(): Observable<void> {
     this.fetchAll$ ??= this.http.get<NotionApiResponse>(`${this.baseUrl}?target=notion`).pipe(
-      timeout(API_TIMEOUT_MS),
+      timeout(API_CONFIG.TIMEOUT_MS),
       map((res) => {
         this.stuffs = res.stuff ?? [];
         this.experiences = res.experience ?? [];

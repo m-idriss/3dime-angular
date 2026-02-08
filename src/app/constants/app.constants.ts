@@ -97,3 +97,15 @@ export const SCROLL_CONFIG = {
    */
   BACK_TO_TOP_THRESHOLD: 300,
 } as const;
+
+/**
+ * API request configuration
+ */
+export const API_CONFIG = {
+  /**
+   * Timeout for API calls in milliseconds.
+   * Ensures components don't hang indefinitely waiting for API responses.
+   * This is critical for screenshot workflows and CI environments where APIs might be blocked.
+   */
+  TIMEOUT_MS: 10000, // 10 seconds
+} as const;
