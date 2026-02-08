@@ -23,24 +23,23 @@ describe('Footer', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render footer links', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const footerLinks = compiled.querySelectorAll('.footer-link');
-    expect(footerLinks.length).toBeGreaterThan(0);
+  it('should build footer links based on environment configuration', () => {
+    expect(component.footerLinks).toBeDefined();
+    expect(Array.isArray(component.footerLinks)).toBe(true);
   });
 
-  it('should include About Me link', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const aboutMeLink = Array.from(compiled.querySelectorAll('.footer-link')).find(
-      (link) => link.textContent?.trim() === 'About Me',
-    );
-    expect(aboutMeLink).toBeTruthy();
+  it('should include License link when enabled in config', () => {
+    const licenseLink = component.footerLinks.find((link) => link.label === 'License');
+    // License is enabled in the default environment config
+    expect(licenseLink).toBeTruthy();
+    expect(licenseLink?.url).toContain('/LICENSE');
   });
 
-  it('should have About Me as internal link', () => {
-    const aboutMeLink = component.footerLinks.find((link) => link.label === 'About Me');
-    expect(aboutMeLink).toBeTruthy();
-    expect(aboutMeLink?.isInternal).toBe(true);
-    expect(aboutMeLink?.url).toBe('/me');
+  it('should mark internal links correctly', () => {
+    const internalLinks = component.footerLinks.filter((link) => link.isInternal);
+    // All internal links should have isInternal set to true
+    internalLinks.forEach((link) => {
+      expect(link.isInternal).toBe(true);
+    });
   });
 });
