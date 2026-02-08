@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 
 import { Footer } from './footer';
+import { environment } from '../../../environments/environment';
 
 describe('Footer', () => {
   let component: Footer;
@@ -31,15 +32,56 @@ describe('Footer', () => {
   it('should include License link when enabled in config', () => {
     const licenseLink = component.footerLinks.find((link) => link.label === 'License');
     // License is enabled in the default environment config
-    expect(licenseLink).toBeTruthy();
-    expect(licenseLink?.url).toContain('/LICENSE');
+    if (environment.footer.enableLicenseLink) {
+      expect(licenseLink).toBeTruthy();
+      expect(licenseLink?.url).toContain('/LICENSE');
+    } else {
+      expect(licenseLink).toBeUndefined();
+    }
   });
 
-  it('should mark internal links correctly', () => {
-    const internalLinks = component.footerLinks.filter((link) => link.isInternal);
-    // All internal links should have isInternal set to true
-    internalLinks.forEach((link) => {
-      expect(link.isInternal).toBe(true);
+  it('should only include links enabled in environment config', () => {
+    const config = environment.footer;
+    
+    // Check each link type matches config
+    const hasRepository = component.footerLinks.some((link) => link.label === 'Repository');
+    expect(hasRepository).toBe(config.enableRepositoryLink);
+
+    const hasIssues = component.footerLinks.some((link) => link.label === 'Issues');
+    expect(hasIssues).toBe(config.enableIssuesLink);
+
+    const hasDocs = component.footerLinks.some((link) => link.label === 'Docs');
+    expect(hasDocs).toBe(config.enableDocsLink);
+
+    const hasLicense = component.footerLinks.some((link) => link.label === 'License');
+    expect(hasLicense).toBe(config.enableLicenseLink);
+
+    const hasSecurity = component.footerLinks.some((link) => link.label === 'Security');
+    expect(hasSecurity).toBe(config.enableSecurityLink);
+
+    const hasCommunity = component.footerLinks.some((link) => link.label === 'Community');
+    expect(hasCommunity).toBe(config.enableCommunityLink);
+
+    const hasDiscussions = component.footerLinks.some((link) => link.label === 'Discussions');
+    expect(hasDiscussions).toBe(config.enableDiscussionsLink);
+
+    const hasAboutMe = component.footerLinks.some((link) => link.label === 'About Me');
+    expect(hasAboutMe).toBe(config.enableAboutMeLink);
+  });
+
+  it('should mark About Me link as internal when enabled', () => {
+    const aboutMeLink = component.footerLinks.find((link) => link.label === 'About Me');
+    if (aboutMeLink) {
+      expect(aboutMeLink.isInternal).toBe(true);
+      expect(aboutMeLink.url).toBe('/me');
+    }
+  });
+
+  it('should mark external links without isInternal flag', () => {
+    const externalLinks = component.footerLinks.filter((link) => !link.isInternal);
+    externalLinks.forEach((link) => {
+      // External links should have URLs starting with http or be full github repo URLs
+      expect(link.url).toMatch(/^https?:\/\//);
     });
   });
 });
