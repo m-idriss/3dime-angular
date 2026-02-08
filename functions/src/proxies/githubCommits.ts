@@ -67,11 +67,15 @@ export const githubCommits = onRequest(
         const fetchCommits = async (): Promise<CommitData[]> => {
           const cutoff = new Date();
           cutoff.setMonth(cutoff.getMonth() - months);
+          
+          const now = new Date();
+          const fromDate = cutoff.toISOString();
+          const toDate = now.toISOString();
 
           const query = `
             query {
               user(login: "m-idriss") {
-                contributionsCollection {
+                contributionsCollection(from: "${fromDate}", to: "${toDate}") {
                   contributionCalendar {
                     weeks {
                       contributionDays {
