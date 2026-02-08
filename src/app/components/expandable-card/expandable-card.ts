@@ -1,5 +1,4 @@
 import { Component, Input, signal, HostBinding, OnInit } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { AppTooltipDirective } from '../../shared/directives';
 
 /**
@@ -9,7 +8,7 @@ import { AppTooltipDirective } from '../../shared/directives';
 @Component({
   selector: 'app-expandable-card',
   standalone: true,
-  imports: [NgIf, AppTooltipDirective],
+  imports: [AppTooltipDirective],
   templateUrl: './expandable-card.html',
   styleUrl: './expandable-card.scss',
 })
