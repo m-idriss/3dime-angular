@@ -122,7 +122,6 @@ firebase deploy --only hosting
 
 ### Deployment Options
 - **Static Hosting**: Netlify, Vercel, GitHub Pages, Firebase
-- **Auto Deploy**: GitHub Actions (configured for FTP)
 - **Server Configuration**: `.htaccess` and `_redirects` included automatically
 
 **[📖 Complete Deployment Guide →](docs/DEPLOYMENT.md)**
