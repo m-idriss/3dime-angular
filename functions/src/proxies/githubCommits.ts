@@ -68,9 +68,8 @@ export const githubCommits = onRequest(
           const cutoff = new Date();
           cutoff.setMonth(cutoff.getMonth() - months);
           
-          const now = new Date();
           const fromDate = cutoff.toISOString();
-          const toDate = now.toISOString();
+          const toDate = new Date().toISOString();
 
           const query = `
             query($from: DateTime!, $to: DateTime!) {
