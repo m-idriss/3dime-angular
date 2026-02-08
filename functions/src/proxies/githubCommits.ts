@@ -56,9 +56,10 @@ export const githubCommits = onRequest(
         const forceRefresh = req.query.force === "true";
 
         // Create cache manager with dynamic key based on months parameter
+        // Version suffix ensures cache invalidation when query logic changes
         const cache = new CacheManager<CommitData[]>({
           collection: "github-cache",
-          key: `commits-${months}`,
+          key: `commits-${months}-v2`,
           ttl: CACHE_TTL,
           forceCooldown: FORCE_COOLDOWN,
         });
