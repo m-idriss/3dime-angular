@@ -4,9 +4,9 @@
 
 <img src="public/assets/logo.png" alt="3dime Logo" width="120" height="120"/>
 
-### ✨ Modern Personal Portfolio with AI-Powered Calendar Converter ✨
+### ✨ Modern Personal Portfolio ✨
 
-*A sophisticated Angular 20+ application featuring an AI-powered image/PDF to calendar conversion tool, alongside professional portfolio sections with a beautiful space-themed design*
+*A sophisticated Angular 20+ portfolio application showcasing professional experience, technical skills, and personal interests with a beautiful space-themed design*
 
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-3dime.com-00D4AA?style=for-the-badge)](https://3dime.com)
 [![Angular](https://img.shields.io/badge/Angular-20.3-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
@@ -20,28 +20,11 @@
 
 ## 🎯 Overview
 
-3dime-angular is a modern, high-performance personal portfolio application built with Angular 20.3+. The standout feature is an **AI-powered Calendar Converter** that transforms images and PDFs containing calendar information into downloadable ICS files using GPT-4 Vision.
+3dime-angular is a modern, high-performance personal portfolio application built with Angular 20.3+. It showcases professional experience, technical skills, and personal interests with a stunning space-themed design featuring glassmorphism effects.
 
-Beyond the converter, it showcases professional experience, technical skills, and personal interests with a stunning space-themed design featuring glassmorphism effects.
-
-**Key Technologies**: Angular 20.3+ standalone components, TypeScript 5.9+, OpenAI GPT-4 Vision, Firebase Functions, Progressive Web App capabilities.
+**Key Technologies**: Angular 20.3+ standalone components, TypeScript 5.9+, Progressive Web App capabilities.
 
 ## ✨ Key Features
-
-### 📅 **AI Calendar Converter** (Spotlight Feature)
-
-Transform images and PDFs into calendar events instantly!
-
-- **🧠 GPT-4 Vision AI** - Intelligent extraction of dates, times, and event details
-- **📤 Drag & Drop Upload** - Supports JPG, PNG, and PDF files
-- **📦 Batch Processing** - Process multiple files with progress tracking
-- **✏️ Event Editing** - Edit or delete events before downloading
-- **📄 PDF Support** - Automatic PDF-to-image conversion using PDF.js
-- **📅 ICS Export** - Download calendar files compatible with Google Calendar, Outlook, Apple Calendar
-- **🔐 Secure Authentication** - Firebase Google Sign-In for API access
-- **📱 PWA Share Target** - Share images from other apps directly to the converter
-
-**[📖 Full Converter Documentation →](docs/CONVERTER.md)**
 
 ### 🎨 **Modern Portfolio Design**
 - **Glassmorphism UI** - Stunning frosted glass effects with space-themed aesthetics
@@ -63,12 +46,10 @@ Transform images and PDFs into calendar events instantly!
 | Category | Technologies |
 |----------|-------------|
 | **Frontend** | Angular 20.3, TypeScript 5.9, RxJS 7.8, SCSS |
-| **AI Integration** | OpenAI GPT-4 Vision (gpt-4o), PDF.js for PDF processing |
-| **Backend** | Firebase Functions (Node.js), Firebase Authentication |
 | **PWA** | Service Worker, Web App Manifest, Offline Support |
 | **Build Tools** | Angular CLI 20.3, esbuild, Karma + Jasmine |
 | **Deployment** | Firebase Hosting, GitHub Actions CI/CD |
-| **APIs** | Notion API, GitHub API, Firebase |
+| **APIs** | Notion API, GitHub API |
 
 ## 🚀 Quick Start
 
@@ -109,21 +90,9 @@ Customize the theme in `src/styles.scss` using CSS custom properties:
 
 Update content in component files under `src/app/components/`.
 
-### Firebase Setup (Required for Calendar Converter)
-
-1. Create Firebase project in [Firebase Console](https://console.firebase.google.com)
-2. Enable Google authentication provider
-3. Add Firebase config to environment files
-4. Set OpenAI API key as Firebase secret
-
-**[📖 Complete Setup Guide →](docs/FIREBASE_AUTH_SETUP.md)**
-
-**[📖 Firebase Emulator Setup →](EMULATOR_SETUP.md)** - Configure local development environment
-
 ### PWA Features
 
 - 📱 Installable on mobile and desktop
-- 📤 Share images/PDFs from other apps to converter
 - ⚡ Quick access shortcuts
 - 🔄 Offline support
 
@@ -133,7 +102,6 @@ Update content in component files under `src/app/components/`.
 
 ⚠️ **Never commit secrets, API keys, or credentials to the repository!**
 
-- Use Firebase secrets for backend API keys
 - Configure environment variables in deployment platform
 - Restrict API keys to specific domains
 - Store CI/CD secrets in GitHub repository settings
@@ -190,14 +158,12 @@ bru run bruno-collections/3dime-api
 - **[Components](docs/COMPONENTS.md)** - Component architecture
 - **[Services](docs/SERVICES.md)** - Service APIs
 - **[Design System](docs/DESIGN_SYSTEM.md)** - Styling and theming
-- **[API Reference](docs/API.md)** - Firebase Functions endpoints
 - **[Testing Guide](docs/TESTING.md)** - Testing strategies
 
 ### Additional Resources
 - **[Contributing Guidelines](CONTRIBUTING.md)** - How to contribute
 - **[Project Roadmap](ROADMAP.md)** - Future features and timeline
 - **[Security Policy](SECURITY.md)** - Security guidelines
-- **[Backend Caching](functions/CACHING.md)** - Caching implementation details
 
 **[📖 Full Documentation Index →](docs/README.md)**
 
@@ -205,10 +171,10 @@ bru run bruno-collections/3dime-api
 
 <div align="center">
 
-### 📅 AI Calendar Converter
+### 💼 Portfolio Homepage
 
 ![3dime-angular Desktop Screenshot](public/assets/screenshots/desktopPage1920x1080.jpeg)
-*Transform images and PDFs into calendar events with AI-powered extraction*
+*Modern portfolio showcasing experience, skills, and projects*
 
 ### 📱 Mobile Experience
 
@@ -228,14 +194,13 @@ bru run bruno-collections/3dime-api
 - Standalone components with TypeScript strict mode
 - RxJS for reactive data streams
 - SCSS with CSS custom properties for theming
-- Firebase Functions for AI processing backend
 - Service Worker for PWA capabilities
 
 **Project Structure:**
 ```
 src/app/
-├── components/          # UI components (converter, profile, etc.)
-├── services/           # Data services (GitHub, Notion, converter)
+├── components/          # UI components (profile, about, tech stack, etc.)
+├── services/           # Data services (GitHub, Notion, theme)
 ├── models/             # TypeScript interfaces
 └── app.ts              # Main application
 ```
@@ -245,10 +210,10 @@ src/app/
 
 ## 📊 Performance
 
-- ⚡ **Build Time**: ~14 seconds
-- 📦 **Bundle Size**: 2.04 MB raw / 475 KB transferred
-- 🧪 **Tests**: 61 tests, all passing ✅
-- 🚀 **Load Time**: < 3 seconds on 3G
+- ⚡ **Build Time**: ~8 seconds
+- 📦 **Bundle Size**: 700 KB raw / 147 KB transferred
+- 🧪 **Tests**: 59 tests, all passing ✅
+- 🚀 **Load Time**: < 2 seconds on 3G
 - ♿ **Accessibility**: WCAG AA compliant
 - 🔍 **SEO**: Optimized meta tags
 
