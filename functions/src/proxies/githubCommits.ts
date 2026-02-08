@@ -100,8 +100,8 @@ export const githubCommits = onRequest(
               query,
               variables: {
                 from: fromDate,
-                to: toDate
-              }
+                to: toDate,
+              },
             }),
           });
 
