@@ -394,7 +394,6 @@ Request → Check Firestore → Not Found → Fetch from API (2-5s)
 
 ```
 .github/workflows/
-├── deploy.yml              # Main deployment pipeline
 ├── qodana_code_quality.yml # Code quality analysis
 ├── update-screenshot.yml   # Automated screenshot updates
 ├── release.yml            # Release automation
@@ -407,27 +406,13 @@ Request → Check Firestore → Not Found → Fetch from API (2-5s)
 ```
 ┌─────────────┐
 │  Developer  │
-│  Pushes to  │
-│    main     │
+│  Manually   │
+│   Deploys   │
 └──────┬──────┘
        │
        ▼
 ┌─────────────────────────────────────┐
-│  GitHub Actions Triggered           │
-│  - Node.js 20 environment           │
-│  - Checkout code                    │
-└──────┬──────────────────────────────┘
-       │
-       ▼
-┌─────────────────────────────────────┐
-│  Install Dependencies               │
-│  - npm ci (clean install)           │
-│  - Generate environment.prod.ts     │
-└──────┬──────────────────────────────┘
-       │
-       ▼
-┌─────────────────────────────────────┐
-│  Build Application                  │
+│  Build Application Locally          │
 │  - npm run build --configuration    │
 │    production                       │
 │  - Output: dist/3dime-angular/      │
@@ -436,11 +421,11 @@ Request → Check Firestore → Not Found → Fetch from API (2-5s)
        ▼
 ┌─────────────────────────────────────┐
 │  Deploy to Hosting                  │
-│  Option 1: FTP Deploy               │
-│  - Uses FTP_SERVER, FTP_USERNAME,   │
-│    FTP_PASSWORD secrets             │
-│  Option 2: Firebase Hosting         │
-│  - firebase deploy --only hosting   │
+│  - Firebase Hosting                 │
+│    firebase deploy --only hosting   │
+│  - Manual FTP/SFTP upload           │
+│  - Other static hosting (Netlify,   │
+│    Vercel, GitHub Pages)            │
 └─────────────────────────────────────┘
 ```
 
@@ -450,7 +435,7 @@ Request → Check Firestore → Not Found → Fetch from API (2-5s)
 
 | Component | Deployment Method | Hosting |
 |-----------|------------------|---------|
-| **Frontend** | GitHub Actions → FTP or Firebase Hosting | CDN-backed |
+| **Frontend** | Manual deployment via Firebase CLI or static hosting | CDN-backed |
 | **Functions** | `firebase deploy --only functions` | Firebase Cloud Functions |
 | **Firestore** | Automatic (managed service) | Firebase Firestore |
 | **Auth** | Automatic (managed service) | Firebase Authentication |
@@ -692,7 +677,6 @@ sequenceDiagram
 |---------|---------|
 | **Firebase Hosting** | Static file hosting with CDN |
 | **Custom Domain** | 3dime.com with SSL/TLS |
-| **FTP Deployment** | Alternative deployment via GitHub Actions |
 
 ---
 
