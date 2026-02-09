@@ -307,7 +307,7 @@ All icons located in `public/assets/icons/`
    npx http-server dist/3dime-angular/browser -p 8080
    ```
 
-3. **Open in browser**: <http://localhost:8080>
+3. **Open in browser**: `http://localhost:8080`
 
 4. **Test PWA features**:
    - Open DevTools → Application → Service Workers
