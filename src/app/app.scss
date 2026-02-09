@@ -11,10 +11,6 @@
 }
 
 /* Make the routed content area grow to push footer to bottom */
-app-header {
-  flex-shrink: 0;
-}
-
 app-footer {
   flex-shrink: 0;
   margin-top: auto;

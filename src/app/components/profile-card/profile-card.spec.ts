@@ -32,4 +32,23 @@ describe('ProfileCard', () => {
     // - Social links: appTooltip="[provider]" appTooltipPlacement="bottom"
     expect(component).toBeTruthy();
   });
+
+  it('should toggle menu when toggleMenu is called', () => {
+    expect(component.menuOpen).toBe(false);
+    component.toggleMenu();
+    expect(component.menuOpen).toBe(true);
+    component.toggleMenu();
+    expect(component.menuOpen).toBe(false);
+  });
+
+  it('should close menu when closeMenu is called', () => {
+    component.menuOpen = true;
+    component.closeMenu();
+    expect(component.menuOpen).toBe(false);
+  });
+
+  it('should have theme service methods', () => {
+    expect(component.toggleTheme).toBeDefined();
+    expect(component.changeFontSize).toBeDefined();
+  });
 });
