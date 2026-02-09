@@ -31,7 +31,7 @@
     {
       "name": "api-performance",
       "urls": [
-        "https://*.photocalia.com/**",
+        "https://*.3dime.com/**",
         "https://*.a.run.app/**"
       ],
       "cacheConfig": {
