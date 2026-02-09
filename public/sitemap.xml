@@ -5,16 +5,15 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Homepage / Calendar Converter -->
   <url>
-    <loc>https://photocalia.com/</loc>
+    <loc>https://3dime.com/</loc>
     <lastmod>2025-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://photocalia.com/assets/images/converter.png</image:loc>
-      <image:title>Photocalia AI Calendar Converter</image:title>
-      <image:caption>Convert images and PDFs to calendar events with AI</image:caption>
+      <image:loc>https://3dime.com/assets/images/converter.png</image:loc>
+      <image:title>Porfolio</image:title>
+      <image:caption>3Dime Portfolio</image:caption>
     </image:image>
   </url>
 

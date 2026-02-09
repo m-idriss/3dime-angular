@@ -12,8 +12,6 @@ initializeFirebaseAdmin();
 const allowedOrigins = [
   'https://3dime.com',
   'https://www.3dime.com',
-  'https://photocalia.com',
-  'https://www.photocalia.com',
   'http://localhost:4200',
   'http://localhost:5000'
 ];
