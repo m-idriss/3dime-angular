@@ -4,10 +4,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   inject,
+  HostListener,
 } from '@angular/core';
 import { AppTooltipDirective } from '../../shared/directives';
 
 import { GithubService, SocialLink, GithubUser } from '../../services/github.service';
+import { ThemeService } from '../../services/theme.service';
 import { SkeletonLoader } from '../skeleton-loader/skeleton-loader';
 import {
   SOCIAL_ICON_MAP,
@@ -25,11 +27,13 @@ import {
 })
 export class ProfileCard implements OnInit {
   private readonly githubService = inject(GithubService);
+  private readonly themeService = inject(ThemeService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   socialLinks: SocialLink[] = [];
   profileData: GithubUser | null = null;
   isLoading = true;
+  menuOpen = false;
   private loadingCount = 0;
 
   ngOnInit(): void {
@@ -93,5 +97,56 @@ export class ProfileCard implements OnInit {
     }
 
     return `fa fa-brands fa-${iconName}`;
+  }
+
+  // Settings menu functionality
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+    this.cdr.markForCheck();
+  }
+
+  closeMenu(): void {
+    this.menuOpen = false;
+    this.cdr.markForCheck();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    const settingsButton = target.closest('.settings-fab');
+    if (!settingsButton && this.menuOpen) {
+      this.closeMenu();
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape' && this.menuOpen) {
+      this.closeMenu();
+    }
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
+  }
+
+  changeFontSize() {
+    this.themeService.cycleFontSize();
+  }
+
+  get currentTheme(): string {
+    return this.themeService.getCurrentTheme();
+  }
+
+  get currentFontSize(): string {
+    return this.themeService.getCurrentFontSize();
+  }
+
+  get themeDisplayName(): string {
+    return this.themeService.getThemeDisplayName(this.currentTheme);
+  }
+
+  get fontSizeDisplayName(): string {
+    return this.themeService.getFontSizeDisplayName(this.currentFontSize);
   }
 }
