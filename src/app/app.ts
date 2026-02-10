@@ -4,7 +4,6 @@ import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs/operators';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 
-import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
 import { PWA_CONFIG } from './constants/pwa.constants';
 import { SeoService } from './services/seo.service';
@@ -12,7 +11,7 @@ import { SeoService } from './services/seo.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Header, Footer],
+  imports: [RouterOutlet, Footer],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

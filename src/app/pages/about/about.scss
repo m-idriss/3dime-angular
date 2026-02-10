@@ -1,6 +1,6 @@
 // Use the same styles as the main app for consistency
 .cards-container {
-  padding-top: 100px;
+  padding-top: 2rem;
 }
 
 .expand-all-btn {
@@ -40,7 +40,7 @@
 
 @media (max-width: 768px) {
   .cards-container {
-    padding-top: 80px;
+    padding-top: 1rem;
   }
 
   .expand-all-btn {
