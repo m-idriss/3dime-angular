@@ -69,9 +69,8 @@ export class GithubService {
   private readonly http = inject(HttpClient);
 
   private readonly endpoints = {
-    profile: `${environment.apiUrl}?target=profile`,
-    social: `${environment.apiUrl}?target=social`,
-    commits: `${environment.apiUrl}?target=commit`,
+    social: `${environment.apiUrl}/githubSocial`,
+    commits: `${environment.apiUrl}/githubCommits`,
   };
 
   private profile$?: Observable<GithubUser>;
@@ -86,7 +85,7 @@ export class GithubService {
    * @returns Observable of GitHub user profile data (returns empty object on timeout/error)
    */
   getProfile(): Observable<GithubUser> {
-    this.profile$ ??= this.http.get<GithubUser>(this.endpoints.profile).pipe(
+    this.profile$ ??= this.http.get<GithubUser>(this.endpoints.social).pipe(
       timeout(API_CONFIG.TIMEOUT_MS),
       catchError((err) => {
         console.warn('Profile API call failed or timed out:', err.message || err);
@@ -124,7 +123,7 @@ export class GithubService {
    * @returns Observable of commit activity data (returns empty array on timeout/error)
    */
   getCommits(months = 6): Observable<CommitData[]> {
-    const url = `${this.endpoints.commits}&months=${months}`;
+    const url = `${this.endpoints.commits}?months=${months}`;
     return this.http.get<CommitData[]>(url).pipe(
       timeout(API_CONFIG.TIMEOUT_MS),
       catchError((err) => {

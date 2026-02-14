@@ -5,13 +5,12 @@ meta {
 }
 
 get {
-  url: {{api_url}}?target=commit&months=6
+  url: {{api_url}}/githubCommits?months=6
   body: none
   auth: none
 }
 
 params:query {
-  target: commit
   months: 6
 }
 
