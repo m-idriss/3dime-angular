@@ -323,7 +323,7 @@ Prevents abuse of AI conversion feature:
 
 ## Firestore Cache Implementation
 
-Detailed documentation: [`functions/CACHING.md`](functions/CACHING.md)
+Detailed documentation: See the backend functions documentation in the `3dime-api` repository (CACHING.md and README.md) for caching and functions implementation details.
 
 ### Cache Manager
 
@@ -1169,8 +1169,8 @@ Angular SPA → Firebase Functions → External APIs
 - **[API Reference](docs/API.md)** - Backend API endpoints
 - **[Calendar Converter](docs/CONVERTER.md)** - AI conversion feature details
 - **[PWA Guide](docs/PWA.md)** - Progressive Web App features
-- **[Caching Strategy](functions/CACHING.md)** - Backend caching implementation
-- **[Backend Architecture](functions/ARCHITECTURE.md)** - Functions architecture details
+- **Caching Strategy (moved)** - See caching implementation details in the external `3dime-api` repository (CACHING.md)
+- **Backend Architecture (moved)** - See the functions architecture details in the external `3dime-api` repository README
 
 ## External References
 
@@ -1178,111 +1178,6 @@ Angular SPA → Firebase Functions → External APIs
 - [Firebase Documentation](https://firebase.google.com/docs) - Firebase platform docs
 - [OpenAI API Reference](https://platform.openai.com/docs) - GPT-4 Vision API
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/) - TypeScript guide
-- [RxJS Documentation](https://rxjs.dev/) - Reactive programming with RxJS
 
----
 
-# 🎯 Architecture Decision Records (ADRs)
-
-## ADR-001: Standalone Components
-
-**Decision**: Use Angular standalone components instead of NgModules
-
-**Context**: Angular 20+ promotes standalone components as the modern approach
-
-**Rationale**:
-- Simpler mental model (no module management)
-- Better tree-shaking and smaller bundles
-- Easier lazy loading
-- Future-proof (Angular's direction)
-
-**Status**: ✅ Implemented
-
----
-
-## ADR-002: Firebase for Backend
-
-**Decision**: Use Firebase Cloud Functions for serverless backend
-
-**Context**: Need scalable, low-maintenance backend for API proxy and AI processing
-
-**Rationale**:
-- Zero infrastructure management
-- Automatic scaling
-- Integrated authentication
-- Pay-per-use pricing
-- Quick deployment
-
-**Status**: ✅ Implemented
-
----
-
-## ADR-003: Firestore for Caching
-
-**Decision**: Use Firestore instead of Redis/Memcached for caching
-
-**Context**: Need fast caching layer without additional infrastructure
-
-**Rationale**:
-- No additional setup required (already using Firebase)
-- Sufficient performance (< 100ms reads)
-- Persistent cache (survives function cold starts)
-- Simple TTL implementation
-- Cost-effective for current scale
-
-**Status**: ✅ Implemented
-
-**Future**: Consider Redis for sub-10ms requirements
-
----
-
-## ADR-004: OpenAI GPT-4o for Calendar Extraction
-
-**Decision**: Use OpenAI GPT-4o Vision instead of alternatives (Google Gemini, AWS Rekognition)
-
-**Context**: Need accurate extraction of calendar events from images
-
-**Rationale**:
-- Superior accuracy for complex layouts
-- Natural language understanding
-- Handles multiple date formats
-- Multimodal (text + image)
-- Well-documented API
-
-**Trade-offs**:
-- Higher cost per request
-- External dependency
-
-**Status**: ✅ Implemented
-
----
-
-## ADR-005: Hash-based Routing
-
-**Decision**: Use hash-based routing (#/) instead of PathLocationStrategy
-
-**Context**: Deploying to static hosting (Firebase Hosting, FTP)
-
-**Rationale**:
-- Works on all static hosts without server configuration
-- No need for URL rewriting rules
-- Simpler deployment
-- Compatible with GitHub Pages
-
-**Trade-offs**:
-- Less SEO-friendly URLs
-- Visible # in URLs
-
-**Status**: ✅ Implemented
-
----
-
-# ⭐ Support the Project
-
-If you find this work interesting or helpful, please consider giving the repository a **⭐ star** on GitHub!
-
----
-
-**Last Updated**: 2025-11-20  
-**Document Version**: 2.0  
-**Architecture Version**: 3.1.x
+```

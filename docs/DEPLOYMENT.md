@@ -287,7 +287,7 @@ firebase functions:log
 curl https://us-central1-your-project.cloudfunctions.net/converterFunction
 ```
 
-See [Firebase Functions Documentation](../functions/README.md) for more details.
+See the `3dime-api` repository README for Firebase functions documentation and deployment details.
 
 ## Creating Releases
 
@@ -477,6 +477,6 @@ Issues with deployment?
 
 **Related Documentation:**
 - [Installation Guide](./INSTALLATION.md)
-- [Firebase Functions](../functions/README.md)
+- Firebase Functions (moved) - See the `3dime-api` repository README for functions documentation and deployment details.
 - [Security Policy](../SECURITY.md)
 - [Release Guide](../RELEASE_GUIDE.md)

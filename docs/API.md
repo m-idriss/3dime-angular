@@ -35,7 +35,9 @@ Production: https://us-central1-<project-id>.cloudfunctions.net/
 
 ## Firebase Functions
 
-### Function Structure
+> Note: The Firebase Functions code has been moved to the separate `3dime-api` repository. See the `3dime-api` README for source layout, build, and deployment instructions.
+
+### Typical Function Structure (previously in this repo)
 
 ```
 functions/
@@ -48,7 +50,7 @@ functions/
 │       └── notion.ts         # Notion database integration
 ```
 
-### Deployment
+### Deployment (from `3dime-api` repository)
 
 #### Prerequisites
 
@@ -66,21 +68,22 @@ functions/
 
 3. Install function dependencies:
    ```bash
-   cd functions
+   # from the functions repository
+   cd 3dime-api
    npm install
    ```
 
 #### Build and Deploy
 
 ```bash
-# Build functions
-cd functions
+# Build functions from the functions repository
+cd 3dime-api
 npm run build
 
 # Deploy all functions
 firebase deploy --only functions
 
-# Deploy specific function
+# Deploy specific function (run from inside 3dime-api)
 firebase deploy --only functions:proxyApi
 ```
 
