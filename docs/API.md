@@ -91,64 +91,11 @@ firebase deploy --only functions:proxyApi
 
 ## API Endpoints
 
-### Proxy API
+### GitHub Social
 
-Unified proxy endpoint for all API requests.
+Fetch GitHub user profile information and social media links.
 
-**Endpoint**: `/proxyApi`  
-**Method**: `GET`  
-**CORS**: Enabled for all origins
-
-#### Query Parameters
-
-| Parameter | Type   | Required | Description         |
-| --------- | ------ | -------- | ------------------- |
-| `target`  | string | Yes      | Target service name |
-
-#### Available Targets
-
-- `hello` - Test endpoint
-- `profile` - GitHub user profile
-- `social` - Social media links
-- `commit` - GitHub commit activity
-- `notion` - Notion database items
-
-#### Example Request
-
-```bash
-curl "https://us-central1-project.cloudfunctions.net/proxyApi?target=profile"
-```
-
----
-
-### Hello World (Test)
-
-Test endpoint to verify function deployment.
-
-**Target**: `hello`  
-**Method**: `GET`
-
-#### Response
-
-```json
-{
-  "message": "Hello from Firebase!"
-}
-```
-
-#### Example
-
-```bash
-curl "https://us-central1-project.cloudfunctions.net/proxyApi?target=hello"
-```
-
----
-
-### GitHub Profile
-
-Fetch GitHub user profile information.
-
-**Target**: `profile`  
+**Endpoint**: `/githubSocial`  
 **Method**: `GET`
 
 #### Response
@@ -170,40 +117,8 @@ Fetch GitHub user profile information.
 #### Example
 
 ```typescript
-this.http.get<GithubUser>(`${apiUrl}?target=profile`).subscribe((user) => {
+this.http.get<GithubUser>(`${apiUrl}/githubSocial`).subscribe((user) => {
   console.log(user.name);
-});
-```
-
----
-
-### Social Links
-
-Fetch social media links for the user.
-
-**Target**: `social`  
-**Method**: `GET`
-
-#### Response
-
-```json
-[
-  {
-    "provider": "LinkedIn",
-    "url": "https://linkedin.com/in/username"
-  },
-  {
-    "provider": "Twitter",
-    "url": "https://twitter.com/username"
-  }
-]
-```
-
-#### Example
-
-```typescript
-this.http.get<SocialLink[]>(`${apiUrl}?target=social`).subscribe((links) => {
-  links.forEach((link) => console.log(link.provider, link.url));
 });
 ```
 
@@ -211,10 +126,16 @@ this.http.get<SocialLink[]>(`${apiUrl}?target=social`).subscribe((links) => {
 
 ### GitHub Commits
 
-Fetch GitHub commit activity for the last year.
+Fetch GitHub commit activity.
 
-**Target**: `commit`  
+**Endpoint**: `/githubCommits`  
 **Method**: `GET`
+
+#### Query Parameters
+
+| Parameter | Type   | Required | Default | Description                     |
+| --------- | ------ | -------- | ------- | ------------------------------- |
+| `months`  | number | No       | 12      | Number of months to retrieve    |
 
 #### Response
 
@@ -239,7 +160,7 @@ Fetch GitHub commit activity for the last year.
 #### Example
 
 ```typescript
-this.http.get<CommitData[]>(`${apiUrl}?target=commit`).subscribe((commits) => {
+this.http.get<CommitData[]>(`${apiUrl}/githubCommits?months=6`).subscribe((commits) => {
   commits.forEach((commit) => {
     const date = new Date(commit.date);
     console.log(`${date.toDateString()}: ${commit.value} commits`);
@@ -249,51 +170,91 @@ this.http.get<CommitData[]>(`${apiUrl}?target=commit`).subscribe((commits) => {
 
 ---
 
-### Notion Items
+### Notion Function
 
-Fetch recommended products and tools from Notion database.
+Fetch data from Notion database.
 
-**Target**: `notion`  
+**Endpoint**: `/notionFunction`  
 **Method**: `GET`
 
 #### Response
 
 ```json
 {
-  "Software": [
+  "tech_stack": [
     {
-      "name": "VS Code",
-      "url": "https://code.visualstudio.com",
-      "description": "Code editor",
+      "name": "Java",
+      "url": "https://www.java.com/",
+      "description": "",
       "rank": 1
     }
   ],
-  "Hardware": [
-    {
-      "name": "MacBook Pro",
-      "url": "https://apple.com/macbook-pro",
-      "description": "Laptop",
-      "rank": 1
-    }
-  ]
+  "experience": [...],
+  "hobbies": [...],
+  "education": [...],
+  "stuff": [...]
 }
 ```
 
 **Structure:**
 
-- Top-level keys are category names
+- Top-level keys are category names (tech_stack, experience, hobbies, education, stuff)
 - Each category contains an array of items
 - Items are sorted by `rank` within each category
 
 #### Example
 
 ```typescript
-this.http.get<Record<string, any[]>>(`${apiUrl}?target=notion`).subscribe((data) => {
-  Object.keys(data).forEach((category) => {
-    console.log(`${category}:`, data[category]);
-  });
+this.http.get<NotionApiResponse>(`${apiUrl}/notionFunction`).subscribe((data) => {
+  console.log('Tech Stack:', data.tech_stack);
+  console.log('Experience:', data.experience);
 });
 ```
+
+---
+
+### Notion Webhook
+
+Endpoint for Notion webhooks. Automatically updates cache when changes occur.
+
+**Endpoint**: `/notionWebhook`  
+**Method**: `POST`
+
+---
+
+### Converter Function
+
+Convert images/PDFs to ICS files for calendar.
+
+**Endpoint**: `/converterFunction`  
+**Method**: `POST`
+
+---
+
+### Statistics Function
+
+Fetch application statistics.
+
+**Endpoint**: `/statisticsFunction`  
+**Method**: `GET`
+
+---
+
+### Quota Status Function
+
+Fetch user quota status.
+
+**Endpoint**: `/quotaStatusFunction`  
+**Method**: `GET`
+
+---
+
+### Migrate Quota Function
+
+Migration endpoint for quota data.
+
+**Endpoint**: `/migrateQuotaFunction`  
+**Method**: `POST`
 
 ---
 
