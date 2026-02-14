@@ -29,8 +29,10 @@ cd 3dime-angular
 # Install main dependencies (takes ~30 seconds)
 npm install
 
-# Optional: Install Firebase Functions dependencies
-cd functions && npm install && cd ..
+# Optional: Install Firebase Functions dependencies (functions have moved to `3dime-api` repository)
+# cd functions && npm install && cd ..
+# Instead, work from the new repository:
+# cd ../3dime-api && npm install && cd -
 ```
 
 ### 3. Verify Installation
@@ -143,7 +145,8 @@ See [Firebase Authentication Setup Guide](./FIREBASE_AUTH_SETUP.md) for detailed
 
 For the Stuff section (recommended tools):
 1. Set up Notion API credentials
-2. Configure Firebase Functions in `functions/src/`
+2. Configure Firebase Functions in `functions/src/`  
+   -> Note: Functions code now lives in the separate `3dime-api` repository under `src/`.
 3. Deploy Firebase Functions for API endpoints
 
 See [API Documentation](./API.md) for details.
@@ -173,13 +176,15 @@ firebase login
 # Initialize project (if not already done)
 firebase init
 
-# Install Functions dependencies
-cd functions && npm install
+# Install Functions dependencies (functions have been moved to `3dime-api`)
+# cd functions && npm install
+# Instead:
+cd ../3dime-api && npm install
 ```
 
 ### Configuration
 
-Set up secrets for API keys:
+Set up secrets for API keys (from your functions repository or using the Firebase CLI):
 
 ```bash
 # OpenAI API key (for Calendar Converter)
@@ -196,21 +201,24 @@ firebase functions:secrets:set NOTION_DATASOURCE_ID
 ### Build Functions
 
 ```bash
-cd functions
+# Build from functions repository (3dime-api)
+cd ../3dime-api
 npm run build
 ```
 
 ### Deploy Functions
 
 ```bash
-# Deploy all functions
+# Deploy all functions from the functions repository
+# (run inside 3dime-api)
+cd ../3dime-api
 firebase deploy --only functions
 
-# Deploy specific function
+# Or deploy a specific function
 firebase deploy --only functions:converterFunction
 ```
 
-See [Firebase Functions Documentation](../functions/README.md) for more details.
+See the `3dime-api` repository README for Firebase functions documentation and deployment details.
 
 ## Progressive Web App (PWA) Setup
 
@@ -318,5 +326,3 @@ npx prettier --write src/  # Format code
 **Related Documentation:**
 - [Development Guidelines](./DEVELOPMENT.md)
 - [Deployment Guide](./DEPLOYMENT.md)
-- [Testing Guide](./TESTING.md)
-- [Contributing Guidelines](../CONTRIBUTING.md)

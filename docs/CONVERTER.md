@@ -45,7 +45,7 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 
 ### Backend (Firebase Function)
 
-**Function**: `functions/src/proxies/converter.ts`
+**Function**: `functions/src/proxies/converter.ts` (moved)
 
 - Accepts POST requests with image/PDF data
 - Calls OpenAI GPT-4 Vision API for event extraction

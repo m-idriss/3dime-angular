@@ -20,6 +20,7 @@
 - **[Services Documentation](./SERVICES.md)** - Service APIs and data management
 - **[API Documentation](./API.md)** - Firebase Functions and API endpoints
 - **[Design System](./DESIGN_SYSTEM.md)** - Design principles, colors, and styling
+- **Backend Functions (moved)** - See the functions README in the external `3dime-api` repository for backend functions documentation and deployment instructions.
 
 ### For Planning & Architecture
 
@@ -48,8 +49,7 @@
 | [Component Documentation](./COMPONENTS.md)      | All components, component guidelines, best practices, accessibility |
 | [Services Documentation](./SERVICES.md)         | ThemeService, GithubService, NotionService, service patterns       |
 | [API Documentation](./API.md)                   | Firebase Functions, API endpoints, error handling, deployment       |
-| [Firebase Functions](../functions/README.md)    | Backend functions, deployment, configuration, testing             |
-| [Backend Caching](../functions/CACHING.md)      | Firestore caching strategy, performance optimization              |
+| Backend Caching (moved)                         | Caching details are in the external `3dime-api` repository (CACHING.md) |
 
 ### Features & Functionality
 
@@ -96,7 +96,7 @@ Essential reading for frontend development:
 Essential reading for backend/API work:
 
 - [Installation Guide](./INSTALLATION.md) - Firebase setup
-- [Firebase Functions](../functions/README.md) - Backend implementation and deployment
+- Backend Functions (moved) - See the `3dime-api` repository README for backend implementation and deployment details
 - [API Documentation](./API.md) - Firebase Functions and endpoints
 - [Services Documentation](./SERVICES.md) - Data layer integration
 - [Deployment Guide](./DEPLOYMENT.md) - Deploy functions and hosting
@@ -341,8 +341,8 @@ Essential reading for first-time contributors:
 | Services              | [Services Documentation](./SERVICES.md)       | Core Services      |
 | Styling               | [Design System](./DESIGN_SYSTEM.md)           | All sections       |
 | API endpoints         | [API Documentation](./API.md)                 | API Endpoints      |
-| Backend functions     | [Firebase Functions](../functions/README.md)  | All sections       |
-| Caching strategy      | [Backend Caching](../functions/CACHING.md)    | Cache Manager      |
+| Backend functions     | Backend functions (moved) - See the `3dime-api` repository README for backend implementation and deployment details.  | All sections      |
+| Caching strategy      | Backend caching (moved) - See the `3dime-api` repository (CACHING.md) for details.    | Cache Manager      |
 | PWA features          | [PWA Documentation](./PWA.md)                 | Features           |
 | Calendar converter    | [Calendar Converter](./CONVERTER.md)          | Overview           |
 | Git workflow          | [Contributing Guidelines](../CONTRIBUTING.md) | Submitting Changes |

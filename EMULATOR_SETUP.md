@@ -67,23 +67,27 @@ When running the emulator, the following functions are available:
 
 ## Starting the Emulator
 
+> Note: Firebase Functions have been moved to a separate repository named `3dime-api`. For local emulator or build steps, work from that repository.
+
 ### 1. Install Functions Dependencies
 ```bash
-cd functions
+# In the new functions repository
+cd ../3dime-api
 npm install
 ```
 
 ### 2. Build Functions
 ```bash
+# Build from the functions repository
 npm run build
 ```
 
 ### 3. Start Emulator
 ```bash
-# From the functions directory
+# From the functions repository
 npm run serve
 
-# Or from the project root
+# Or from the project root (will start only the emulator if you have firebase configured locally)
 firebase emulators:start --only functions
 ```
 
@@ -111,7 +115,7 @@ The Angular app will run at `http://localhost:4200` and connect to the emulator 
 **Cause:** Incorrect function name or URL structure.
 
 **Solution:** 
-1. Verify the function is deployed/built: `ls functions/lib/`
+1. Verify the function is deployed/built in the functions repo: `ls ../3dime-api/lib/`
 2. Check the emulator logs for registered functions
 3. Ensure URL follows pattern: `http://localhost:5001/{projectId}/{region}/{functionName}`
 
@@ -120,7 +124,7 @@ The Angular app will run at `http://localhost:4200` and connect to the emulator 
 1. **Separate Configs:** Maintain separate environment files for development and production
 2. **Direct Calls:** Always call functions directly in development (don't use proxyApi)
 3. **Use Emulator:** Test all function changes locally before deploying
-4. **Watch Mode:** Use `npm run build:watch` in functions directory for automatic rebuilds
+4. **Watch Mode:** Use `npm run build:watch` in the functions repository for automatic rebuilds
 5. **Check Logs:** Monitor emulator logs to understand request flow
 
 ## Additional Resources
