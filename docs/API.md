@@ -135,7 +135,7 @@ Fetch GitHub commit activity.
 
 | Parameter | Type   | Required | Default | Description                     |
 | --------- | ------ | -------- | ------- | ------------------------------- |
-| `months`  | number | No       | 12      | Number of months to retrieve    |
+| `months`  | number | No       | 6       | Number of months to retrieve    |
 
 #### Response
 
