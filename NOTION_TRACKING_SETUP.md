@@ -108,7 +108,17 @@ To receive notifications when new conversion entries are created, you can config
 
 ### For Firebase Functions
 
-Create or update `/functions/.env`:
+> Functions were moved to a separate repository named `3dime-api`. Apply these environment variables in that repository before deploying.
+
+Create or update the functions environment in the `3dime-api` repository (or set them using the Firebase CLI):
+
+```bash
+# In the functions repository (3dime-api)
+cd ../3dime-api
+# create a .env file or set using firebase CLI
+```
+
+Example `.env` contents (in `3dime-api`):
 
 ```bash
 # Existing Notion variables (for content)
@@ -128,7 +138,7 @@ NOTION_USER_ID=your_notion_user_id
 
 ### For Local Development
 
-Update `/.env.example` to include:
+Update `/.env.example` in this repository to include:
 
 ```bash
 # Usage Tracking (Optional)
@@ -139,27 +149,18 @@ NOTION_USER_ID=your_notion_user_id
 
 ## Step 7: Deploy and Test
 
-1. **Set environment variables in Firebase**:
-   
-   The tracking variables are set as regular environment variables (not secrets). You can set them using:
-   
+1. **Set environment variables in Firebase** (run from your functions repository or using the Firebase CLI with project context):
    ```bash
    firebase functions:config:set \
      notion.tracking_token="secret_your_tracking_integration_token" \
      notion.tracking_db_id="your_tracking_database_id" \
      notion.user_id="your_notion_user_id"
    ```
-   
-   Or by creating a `.env` file in the `functions/` directory with:
-   ```bash
-   NOTION_TRACKING_TOKEN=secret_your_tracking_integration_token
-   NOTION_TRACKING_DB_ID=your_tracking_database_id
-   NOTION_USER_ID=your_notion_user_id
-   ```
+   Or create `.env` in the `3dime-api` repository with the values shown earlier.
 
-2. **Deploy functions** (if using Firebase):
+2. **Deploy functions** (from `3dime-api` repo):
    ```bash
-   cd functions
+   cd ../3dime-api
    npm run deploy
    ```
 
