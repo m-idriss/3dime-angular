@@ -223,7 +223,7 @@ interface CommitData {
 
 ##### getProfile()
 
-Fetches GitHub user profile information from the `/githubSocial` endpoint.
+Fetches GitHub user profile information.
 
 ```typescript
 getProfile(): Observable<GithubUser>
@@ -244,7 +244,7 @@ this.githubService.getProfile().subscribe((user) => {
 
 ##### getSocialLinks()
 
-Fetches social media links from the `/githubSocial` endpoint.
+Fetches social media links from API.
 
 ```typescript
 getSocialLinks(): Observable<SocialLink[]>
@@ -264,16 +264,13 @@ this.githubService.getSocialLinks().subscribe((links) => {
 });
 ```
 
-##### getCommits()
+##### getCommitsV2()
 
-Fetches GitHub commit activity data from the `/githubCommits` endpoint.
+Fetches GitHub commit activity data for the last year.
 
 ```typescript
-getCommits(months = 6): Observable<CommitData[]>
+getCommitsV2(): Observable<CommitData[]>
 ```
-
-**Parameters**:
-- `months`: Number of months of commit history to fetch (default: 6)
 
 **Returns**: Observable array of commit data with dates and values
 
@@ -282,7 +279,7 @@ getCommits(months = 6): Observable<CommitData[]>
 **Example**:
 
 ```typescript
-this.githubService.getCommits(12).subscribe((commits) => {
+this.githubService.getCommitsV2().subscribe((commits) => {
   commits.forEach((commit) => {
     const date = new Date(commit.date);
     console.log(`${date.toDateString()}: ${commit.value} commits`);
@@ -350,82 +347,35 @@ export class ProfileComponent implements OnInit {
 
 **Location**: `src/app/services/notion.service.ts`
 
-**Purpose**: Fetch data from Notion database through the `/notionFunction` endpoint.
+**Purpose**: Fetch recommended products and tools from Notion database.
 
 #### Public Methods
 
-##### fetchAll()
+##### getStuff()
 
-Fetches all Notion data and populates internal arrays.
+Fetches recommended items categorized by type.
 
 ```typescript
-fetchAll(): Observable<void>
+getStuff(): Observable<Record<string, any[]>>
 ```
 
-**Returns**: Observable that completes when data is loaded
-
-**Caching**: Results are cached with `shareReplay(1)`
+**Returns**: Observable of items grouped by category
 
 **Example**:
 
 ```typescript
-this.notionService.fetchAll().subscribe(() => {
-  const techStacks = this.notionService.getTechStacks();
-  console.log('Tech stacks loaded:', techStacks);
+this.notionService.getStuff().subscribe((data) => {
+  // data = {
+  //   "Software": [...],
+  //   "Hardware": [...],
+  //   "Books": [...]
+  // }
+
+  Object.keys(data).forEach((category) => {
+    console.log(`${category}:`, data[category]);
+  });
 });
 ```
-
-##### getStuffs()
-
-Returns recommended products and tools.
-
-```typescript
-getStuffs(): LinkItem[]
-```
-
-**Returns**: Array of stuff items
-
-**Note**: Call `fetchAll()` first to populate data.
-
-##### getExperiences()
-
-Returns work experience and projects.
-
-```typescript
-getExperiences(): LinkItem[]
-```
-
-**Returns**: Array of experience items
-
-##### getEducations()
-
-Returns education and training information.
-
-```typescript
-getEducations(): LinkItem[]
-```
-
-**Returns**: Array of education items
-
-##### getHobbies()
-
-Returns hobbies and interests.
-
-```typescript
-getHobbies(): LinkItem[]
-```
-
-**Returns**: Array of hobby items
-
-##### getTechStacks()
-
-Returns technology stack and skills.
-
-```typescript
-getTechStacks(): LinkItem[]
-```
-
-**Returns**: Array of tech stack items
 
 #### Item Structure
 
@@ -442,35 +392,40 @@ Each item contains:
 ```typescript
 import { Component, OnInit } from '@angular/core';
 import { NotionService } from './services/notion.service';
-import { LinkItem } from './models';
 
 @Component({
   selector: 'app-stuff',
   template: `
-    <section>
-      <h2>Recommended Stuff</h2>
-      <div class="items">
-        @for (item of stuffItems; track item.name) {
-          <article>
-            <h3>
-              <a [href]="item.url">{{ item.name }}</a>
-            </h3>
-            <p>{{ item.description }}</p>
-          </article>
-        }
-      </div>
-    </section>
+    @for (category of categories; track category) {
+      <section>
+        <h2>{{ category }}</h2>
+        <div class="items">
+          @for (item of stuffByCategory[category]; track item.name) {
+            <article>
+              <h3>
+                <a [href]="item.url">{{ item.name }}</a>
+              </h3>
+              <p>{{ item.description }}</p>
+            </article>
+          }
+        </div>
+      </section>
+    }
   `,
 })
 export class StuffComponent implements OnInit {
-  stuffItems: LinkItem[] = [];
+  stuffByCategory: Record<string, any[]> = {};
 
   constructor(private readonly notionService: NotionService) {}
 
   ngOnInit(): void {
-    this.notionService.fetchAll().subscribe(() => {
-      this.stuffItems = this.notionService.getStuffs();
+    this.notionService.getStuff().subscribe((data) => {
+      this.stuffByCategory = data;
     });
+  }
+
+  get categories(): string[] {
+    return Object.keys(this.stuffByCategory);
   }
 }
 ```

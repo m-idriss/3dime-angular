@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: {{api_url}}/githubSocial
+  url: {{api_url}}?target=social
   body: none
   auth: none
+}
+
+params:query {
+  target: social
 }
 
 tests {
