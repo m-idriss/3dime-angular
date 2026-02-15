@@ -86,7 +86,7 @@ export class GithubService {
    * @returns Observable of GitHub user profile data (returns empty object on timeout/error)
    */
   getProfile(): Observable<GithubUser> {
-    this.profile$ ??= this.http.get<GithubUser>(this.endpoints.profile).pipe(
+    this.profile$ ??= this.http.get<GithubUser>(this.endpoints.social).pipe(
       timeout(API_CONFIG.TIMEOUT_MS),
       catchError((err) => {
         console.warn('Profile API call failed or timed out:', err.message || err);
