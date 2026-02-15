@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: {{api_url}}/notionFunction
+  url: {{api_url}}?target=notion
   body: none
   auth: none
+}
+
+params:query {
+  target: notion
 }
 
 tests {
