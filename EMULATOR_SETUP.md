@@ -1,22 +1,25 @@
 # Firebase Emulator Setup Guide
 
-> **Note:** Firebase Functions have been relocated to the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> **Note:** The backend has been relocated to the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
 > 
-> This guide provides a brief overview for frontend developers. For complete emulator setup, build instructions, and function development, see the **[3dime-api repository](https://github.com/m-idriss/3dime-api)**.
+> The backend is built with **Quarkus**, a modern cloud-native Java framework.
+> 
+> This guide provides a brief overview for frontend developers. For complete backend setup, build instructions, and development, see the **[3dime-api repository](https://github.com/m-idriss/3dime-api)**.
 
 ## Overview
 
-This Angular frontend application consumes backend APIs from the `3dime-api` Firebase Functions. During local development, you can test against either:
-- **Production API** - The deployed functions at `https://api.3dime.com`
-- **Local Emulator** - Functions running locally via Firebase Emulator
+This Angular frontend application consumes backend APIs from the `3dime-api` Quarkus application. During local development, you can test against either:
+- **Production API** - The deployed API at `https://api.3dime.com`
+- **Local Backend** - Quarkus application running locally in dev mode
 
 ## Quick Setup for Local Development
 
 ### Prerequisites
 - The [`3dime-api`](https://github.com/m-idriss/3dime-api) repository cloned and set up
-- Firebase CLI installed (`npm install -g firebase-tools`)
+- Java Development Kit (JDK) 17 or later
+- Maven (included via Maven wrapper in the repository)
 
-### Starting the Backend Emulator
+### Starting the Backend
 
 From the `3dime-api` repository:
 
@@ -25,16 +28,11 @@ From the `3dime-api` repository:
 git clone https://github.com/m-idriss/3dime-api.git
 cd 3dime-api
 
-# Install dependencies and build
-npm install
-npm run build
-
-# Start the emulator
-npm run serve
-# Or: firebase emulators:start --only functions
+# Start Quarkus in development mode (with hot reload)
+./mvnw quarkus:dev
 ```
 
-The emulator will start at `http://localhost:5001`
+The API will start at `http://localhost:8080` with live reload enabled.
 
 ### Starting the Frontend
 
@@ -48,22 +46,22 @@ The Angular app will run at `http://localhost:4200`
 
 ### Configure Environment
 
-Update `src/environments/environment.ts` to point to your local emulator:
+Update `src/environments/environment.ts` to point to your local backend:
 
 ```typescript
 export const environment = {
   production: false,
-  // Replace 'your-project-id' with your Firebase project ID from firebase.json or Firebase Console
-  apiUrl: 'http://localhost:5001/your-project-id/us-central1',
+  // Point to local Quarkus dev server
+  apiUrl: 'http://localhost:8080/api',
   // ... other config
 };
 ```
 
-## Available Function Endpoints
+## Available API Endpoints
 
-When running the emulator locally, functions are available at:
+When running the Quarkus backend locally, API endpoints are available at:
 ```
-http://localhost:5001/{projectId}/{region}/{functionName}
+http://localhost:8080/api/{endpoint}
 ```
 
 Example endpoints:
@@ -72,25 +70,25 @@ Example endpoints:
 - `notionFunction` - Notion integration
 - `converterFunction` - Calendar converter
 
-See the [`3dime-api` README](https://github.com/m-idriss/3dime-api) for the complete list of available functions and their APIs.
+See the [`3dime-api` README](https://github.com/m-idriss/3dime-api) for the complete list of available endpoints and their APIs.
 
 ## Troubleshooting
 
 ### CORS Errors
-Ensure `http://localhost:4200` is in the allowed origins list in the function CORS configuration (configured in `3dime-api`).
+Ensure `http://localhost:4200` is in the allowed origins list in the Quarkus application configuration (configured in `3dime-api`).
 
-### Function Not Found (404)
-- Verify the function is built: Check `3dime-api/lib/` directory
-- Check emulator logs for registered functions
-- Verify URL pattern: `http://localhost:5001/{projectId}/{region}/{functionName}`
+### Endpoint Not Found (404)
+- Verify the Quarkus application is running: Check console output
+- Check available endpoints in Quarkus Dev UI at `http://localhost:8080/q/dev`
+- Verify URL pattern: `http://localhost:8080/api/{endpoint}`
 
 ### Backend Issues
-For function development, deployment, and backend-specific issues, refer to:
-- **[3dime-api Repository](https://github.com/m-idriss/3dime-api)** - Backend functions source code
+For backend development, deployment, and troubleshooting, refer to:
+- **[3dime-api Repository](https://github.com/m-idriss/3dime-api)** - Quarkus backend source code
 - **[3dime-api README](https://github.com/m-idriss/3dime-api/blob/main/README.md)** - Complete backend documentation
 
 ## Additional Resources
 
-- [Firebase Emulator Documentation](https://firebase.google.com/docs/emulator-suite)
-- [3dime-api Repository](https://github.com/m-idriss/3dime-api) - **Backend functions source**
+- [Quarkus Documentation](https://quarkus.io/guides/)
+- [3dime-api Repository](https://github.com/m-idriss/3dime-api) - **Backend source**
 - [Angular Environment Configuration](https://angular.dev/tools/cli/environments)

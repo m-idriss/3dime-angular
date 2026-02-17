@@ -257,9 +257,11 @@ For production:
 
 See [SECURITY.md](../SECURITY.md) for detailed security guidelines.
 
-## Firebase Functions Deployment
+## Backend Deployment
 
-> **Note:** Firebase Functions are maintained in the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> **Note:** The backend is maintained in the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> 
+> The backend is built with **Quarkus**, a modern cloud-native Java framework.
 > 
 > For complete deployment instructions, see the [3dime-api repository](https://github.com/m-idriss/3dime-api).
 
@@ -272,33 +274,27 @@ From the `3dime-api` repository:
 git clone https://github.com/m-idriss/3dime-api.git
 cd 3dime-api
 
-# Install dependencies and build
-npm install
-npm run build
+# Build the Quarkus application
+./mvnw clean package
 
-# Deploy all functions
-firebase deploy --only functions
+# For native compilation (optional, requires GraalVM)
+./mvnw clean package -Pnative
 
-# Deploy specific function
-firebase deploy --only functions:converterFunction
-
-# Deploy with custom project
-firebase deploy --only functions --project production
+# Deploy to your cloud platform
+# See 3dime-api documentation for platform-specific instructions
 ```
 
 ### Verify Deployment
 
 ```bash
-# View function logs (from 3dime-api repository)
-firebase functions:log
+# Test the API endpoints
+curl https://api.3dime.com/api/health
 
-# Test endpoints
-curl https://api.3dime.com
-# or
-curl https://us-central1-your-project.cloudfunctions.net/proxyApi
+# Check specific endpoints
+curl https://api.3dime.com/api/github/profile
 ```
 
-For detailed backend deployment instructions, function configuration, and troubleshooting, see the [3dime-api repository documentation](https://github.com/m-idriss/3dime-api).
+For detailed backend deployment instructions, configuration, and troubleshooting, see the [3dime-api repository documentation](https://github.com/m-idriss/3dime-api).
 
 ## Creating Releases
 

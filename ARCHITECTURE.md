@@ -850,13 +850,15 @@ export class ThemeService {
 
 # ⚙️ 4. Backend Architecture
 
-> **Note:** The backend Firebase Functions are maintained in a separate repository: [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api)
+> **Note:** The backend is maintained in a separate repository: [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api)
+> 
+> The backend is built with **Quarkus**, a modern, cloud-native Java framework optimized for containerized environments and serverless deployments.
 > 
 > For complete backend architecture, function implementation details, API endpoint specifications, and deployment instructions, see the [3dime-api repository](https://github.com/m-idriss/3dime-api).
 
 ## Backend Overview
 
-The backend consists of Firebase Cloud Functions deployed as a serverless API layer. The frontend (this repository) consumes these APIs via HTTP requests.
+The backend is a **Quarkus-based REST API** deployed as a serverless application. The frontend (this repository) consumes these APIs via HTTP requests.
 
 ### Key Backend Services
 
@@ -866,30 +868,20 @@ The backend consists of Firebase Cloud Functions deployed as a serverless API la
 - **Statistics & Quota** - Usage tracking and quota management
 - **Caching** - Firestore-based caching with intelligent refresh strategies
 
-### Backend Repository Structure
+### Backend Technology Stack
 
-The [`3dime-api`](https://github.com/m-idriss/3dime-api) repository contains:
+The [`3dime-api`](https://github.com/m-idriss/3dime-api) backend is built with:
 
-```
-3dime-api/
-├── src/
-│   ├── index.ts              # Function exports
-│   ├── proxies/              # API endpoint handlers
-│   │   ├── converter.ts      # AI calendar conversion ⭐
-│   │   ├── githubCommits.ts  # GitHub activity data
-│   │   ├── githubSocial.ts   # GitHub profile/social
-│   │   ├── notion.ts         # Notion content
-│   │   ├── statistics.ts     # Usage statistics
-│   │   └── quotaStatus.ts    # Quota checking
-│   ├── services/             # Business logic
-│   │   ├── quota.ts          # Notion-based quota management
-│   │   └── tracking.ts       # Usage tracking
-│   └── utils/                # Utilities
-│       ├── cache.ts          # Cache management
-│       └── firebase-admin.ts # Admin SDK setup
-├── CACHING.md                # Detailed caching strategy
-└── README.md                 # Complete backend documentation
-```
+- **Quarkus** - Supersonic Subatomic Java framework for cloud-native applications
+- **Java** - Modern Java with reactive programming
+- **RESTEasy** - JAX-RS implementation for REST endpoints
+- **Microprofile** - Cloud-native microservices APIs
+
+**Key Benefits:**
+- Fast startup times and low memory footprint
+- Native compilation support with GraalVM
+- Optimized for serverless and containerized deployments
+- Developer-friendly with live reload and streamlined APIs
 
 ## API Integration
 

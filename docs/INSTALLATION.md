@@ -142,8 +142,8 @@ See [Firebase Authentication Setup Guide](./FIREBASE_AUTH_SETUP.md) for detailed
 
 For the Stuff section (recommended tools):
 1. Set up Notion API credentials
-2. Configure Firebase Functions in the [`3dime-api`](https://github.com/m-idriss/3dime-api) repository
-3. Deploy Firebase Functions for API endpoints
+2. Configure the Quarkus application in the [`3dime-api`](https://github.com/m-idriss/3dime-api) repository
+3. Deploy the backend API
 
 See [API Documentation](./API.md) and the [3dime-api repository](https://github.com/m-idriss/3dime-api) for details.
 
@@ -154,72 +154,62 @@ The GitHub Activity section uses the GitHub API:
 - Rate limited to 60 requests/hour without auth
 - Consider adding authentication for higher limits
 
-## Firebase Functions Setup
+## Backend Setup
 
-> **Note:** Firebase Functions are maintained in the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> **Note:** The backend is maintained in the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
 > 
-> For local development with functions, see the [Emulator Setup Guide](../EMULATOR_SETUP.md).
+> The backend is built with **Quarkus**, a modern cloud-native Java framework.
+> 
+> For local development with the backend, see the [Emulator Setup Guide](../EMULATOR_SETUP.md).
 
 ### Prerequisites
-- Firebase CLI installed globally
-- Firebase project created
+- Java Development Kit (JDK) 17 or later
+- Maven (included as Maven wrapper in the repository)
+- Cloud deployment platform configured
 
 ### Installation
 
 ```bash
-# Install Firebase CLI
-npm install -g firebase-tools
-
-# Login to Firebase
-firebase login
-
 # Clone the backend repository
 git clone https://github.com/m-idriss/3dime-api.git
 cd 3dime-api
 
-# Install dependencies
-npm install
+# Build the application
+./mvnw clean package
 ```
 
 ### Configuration
 
-Set up secrets for API keys (from the 3dime-api repository):
+Set up environment variables for API keys (in the 3dime-api repository):
 
 ```bash
 # From the 3dime-api repository
 cd 3dime-api
 
-# OpenAI API key (for Calendar Converter)
-firebase functions:secrets:set OPENAI_API_KEY
-
-# GitHub token (for API proxy)
-firebase functions:secrets:set GITHUB_TOKEN
-
-# Notion credentials (for Stuff section)
-firebase functions:secrets:set NOTION_TOKEN
-firebase functions:secrets:set NOTION_DATASOURCE_ID
+# Configure application.properties or use environment variables
+# See 3dime-api documentation for specific configuration
 ```
 
-### Build Functions
+### Run Locally
 
 ```bash
-# Build from backend repository (3dime-api)
+# Start Quarkus in development mode (with hot reload)
 cd 3dime-api
-npm run build
+./mvnw quarkus:dev
 ```
 
-### Deploy Functions
+### Deploy
 
 ```bash
-# Deploy all functions from the backend repository
+# Build for production
 cd 3dime-api
-firebase deploy --only functions
+./mvnw clean package -Dquarkus.package.type=uber-jar
 
-# Or deploy a specific function
-firebase deploy --only functions:converterFunction
+# Deploy to your cloud platform
+# See 3dime-api documentation for platform-specific deployment
 ```
 
-See the [3dime-api repository](https://github.com/m-idriss/3dime-api) for complete Firebase functions documentation and deployment details.
+See the [3dime-api repository](https://github.com/m-idriss/3dime-api) for complete backend documentation and deployment details.
 
 ## Progressive Web App (PWA) Setup
 
