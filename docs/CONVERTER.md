@@ -38,14 +38,18 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 
 **Service**: `src/app/services/converter.ts`
 
-- HTTP communication with Firebase function
+- HTTP communication with backend API
 - File-to-base64 conversion
 - PDF-to-image conversion using PDF.js
 - ICS file download helper
 
-### Backend (Firebase Function)
+### Backend (Quarkus REST API)
 
-**Function**: `functions/src/proxies/converter.ts` (moved)
+> **Note:** The backend is implemented in the [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> 
+> The backend is built with **Quarkus**, a modern cloud-native Java framework.
+
+**Endpoint**: `/api/converter` (in 3dime-api repository)
 
 - Accepts POST requests with image/PDF data
 - Calls OpenAI GPT-4 Vision API for event extraction
