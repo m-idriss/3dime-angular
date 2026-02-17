@@ -31,8 +31,10 @@ Client → Firebase Functions (3dime-api) → External APIs
 ### Base URL
 
 ```
-Production: https://api.3dime.com (or https://us-central1-<project-id>.cloudfunctions.net/)
+Production: https://api.3dime.com
 ```
+
+> **Note:** The backend functions are also accessible via the raw Cloud Functions URL: `https://us-central1-<project-id>.cloudfunctions.net/`, but the canonical URL `https://api.3dime.com` should be used in production.
 
 ---
 

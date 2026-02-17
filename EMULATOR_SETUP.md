@@ -53,6 +53,7 @@ Update `src/environments/environment.ts` to point to your local emulator:
 ```typescript
 export const environment = {
   production: false,
+  // Replace 'your-project-id' with your Firebase project ID from firebase.json or Firebase Console
   apiUrl: 'http://localhost:5001/your-project-id/us-central1',
   // ... other config
 };
