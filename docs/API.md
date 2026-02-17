@@ -1,11 +1,14 @@
 # API Documentation
 
-> Documentation for the 3dime-angular API endpoints and Firebase Functions.
+> Documentation for the 3dime-angular API endpoints provided by the backend Firebase Functions.
+
+> **Note:** The Firebase Functions backend is maintained in a separate repository: [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api)
+> 
+> For complete API implementation details, deployment instructions, and source code, see the [3dime-api repository](https://github.com/m-idriss/3dime-api).
 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Firebase Functions](#firebase-functions)
 - [API Endpoints](#api-endpoints)
 - [Error Handling](#error-handling)
 
@@ -13,41 +16,45 @@
 
 ## Overview
 
-The application uses Firebase Functions to proxy external API requests and provide backend functionality. All functions are deployed as Google Cloud Functions and accessed through a unified proxy endpoint.
+The application uses Firebase Functions deployed in the [`3dime-api`](https://github.com/m-idriss/3dime-api) repository to proxy external API requests and provide backend functionality. All functions are deployed as Google Cloud Functions and accessed through a unified proxy endpoint.
 
 ### Architecture
 
 ```
-Client → Firebase Functions → External APIs
+Client → Firebase Functions (3dime-api) → External APIs
          └── Proxy API
          ├── GitHub API
          ├── Notion API
-         └── Hello World (test)
+         └── AI Services
 ```
 
 ### Base URL
 
 ```
-Production: https://us-central1-<project-id>.cloudfunctions.net/
+Production: https://api.3dime.com (or https://us-central1-<project-id>.cloudfunctions.net/)
 ```
 
 ---
 
-## Firebase Functions
+## Backend Repository
 
-> Note: The Firebase Functions code has been moved to the separate `3dime-api` repository. See the `3dime-api` README for source layout, build, and deployment instructions.
+> **Important:** For function development, deployment, and backend-specific documentation, see:
+> - **[3dime-api Repository](https://github.com/m-idriss/3dime-api)** - Backend functions source code
+> - **[3dime-api README](https://github.com/m-idriss/3dime-api/blob/main/README.md)** - Complete backend documentation
+> - **[3dime-api CACHING.md](https://github.com/m-idriss/3dime-api/blob/main/CACHING.md)** - Caching strategy details
 
-### Typical Function Structure (previously in this repo)
+### Function Structure (in 3dime-api repository)
 
 ```
-functions/
+3dime-api/
 ├── src/
 │   ├── index.ts              # Main entry point and proxy
 │   └── proxies/
-│       ├── helloWorld.ts     # Test endpoint
 │       ├── githubCommits.ts  # GitHub commit data
 │       ├── githubSocial.ts   # GitHub profile & social links
-│       └── notion.ts         # Notion database integration
+│       ├── notion.ts         # Notion database integration
+│       ├── converter.ts      # AI calendar conversion
+│       └── statistics.ts     # Usage statistics
 ```
 
 ### Deployment (from `3dime-api` repository)
@@ -68,7 +75,8 @@ functions/
 
 3. Install function dependencies:
    ```bash
-   # from the functions repository
+   # Clone and navigate to the backend repository
+   git clone https://github.com/m-idriss/3dime-api.git
    cd 3dime-api
    npm install
    ```
@@ -76,14 +84,14 @@ functions/
 #### Build and Deploy
 
 ```bash
-# Build functions from the functions repository
+# Build functions from the backend repository
 cd 3dime-api
 npm run build
 
 # Deploy all functions
 firebase deploy --only functions
 
-# Deploy specific function (run from inside 3dime-api)
+# Deploy specific function
 firebase deploy --only functions:proxyApi
 ```
 

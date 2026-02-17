@@ -28,12 +28,9 @@ cd 3dime-angular
 ```bash
 # Install main dependencies (takes ~30 seconds)
 npm install
-
-# Optional: Install Firebase Functions dependencies (functions have moved to `3dime-api` repository)
-# cd functions && npm install && cd ..
-# Instead, work from the new repository:
-# cd ../3dime-api && npm install && cd -
 ```
+
+> **Note:** Backend functions are in the separate [`3dime-api`](https://github.com/m-idriss/3dime-api) repository. See the [Firebase Functions Setup](#firebase-functions-setup) section below if you need to work with the backend.
 
 ### 3. Verify Installation
 
@@ -145,11 +142,10 @@ See [Firebase Authentication Setup Guide](./FIREBASE_AUTH_SETUP.md) for detailed
 
 For the Stuff section (recommended tools):
 1. Set up Notion API credentials
-2. Configure Firebase Functions in `functions/src/`  
-   -> Note: Functions code now lives in the separate `3dime-api` repository under `src/`.
+2. Configure Firebase Functions in the [`3dime-api`](https://github.com/m-idriss/3dime-api) repository
 3. Deploy Firebase Functions for API endpoints
 
-See [API Documentation](./API.md) for details.
+See [API Documentation](./API.md) and the [3dime-api repository](https://github.com/m-idriss/3dime-api) for details.
 
 ### GitHub API
 
@@ -159,6 +155,10 @@ The GitHub Activity section uses the GitHub API:
 - Consider adding authentication for higher limits
 
 ## Firebase Functions Setup
+
+> **Note:** Firebase Functions are maintained in the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> 
+> For local development with functions, see the [Emulator Setup Guide](../EMULATOR_SETUP.md).
 
 ### Prerequisites
 - Firebase CLI installed globally
@@ -173,20 +173,22 @@ npm install -g firebase-tools
 # Login to Firebase
 firebase login
 
-# Initialize project (if not already done)
-firebase init
+# Clone the backend repository
+git clone https://github.com/m-idriss/3dime-api.git
+cd 3dime-api
 
-# Install Functions dependencies (functions have been moved to `3dime-api`)
-# cd functions && npm install
-# Instead:
-cd ../3dime-api && npm install
+# Install dependencies
+npm install
 ```
 
 ### Configuration
 
-Set up secrets for API keys (from your functions repository or using the Firebase CLI):
+Set up secrets for API keys (from the 3dime-api repository):
 
 ```bash
+# From the 3dime-api repository
+cd 3dime-api
+
 # OpenAI API key (for Calendar Converter)
 firebase functions:secrets:set OPENAI_API_KEY
 
@@ -201,24 +203,23 @@ firebase functions:secrets:set NOTION_DATASOURCE_ID
 ### Build Functions
 
 ```bash
-# Build from functions repository (3dime-api)
-cd ../3dime-api
+# Build from backend repository (3dime-api)
+cd 3dime-api
 npm run build
 ```
 
 ### Deploy Functions
 
 ```bash
-# Deploy all functions from the functions repository
-# (run inside 3dime-api)
-cd ../3dime-api
+# Deploy all functions from the backend repository
+cd 3dime-api
 firebase deploy --only functions
 
 # Or deploy a specific function
 firebase deploy --only functions:converterFunction
 ```
 
-See the `3dime-api` repository README for Firebase functions documentation and deployment details.
+See the [3dime-api repository](https://github.com/m-idriss/3dime-api) for complete Firebase functions documentation and deployment details.
 
 ## Progressive Web App (PWA) Setup
 
