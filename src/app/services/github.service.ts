@@ -69,7 +69,7 @@ export class GithubService {
   private readonly http = inject(HttpClient);
 
   private readonly endpoints = {
-    profile: 'https://api.github.com/users/m-idriss',
+    profile: `${environment.apiUrl}/github/user`,
     social: `${environment.apiUrl}/github/social`,
     commits: `${environment.apiUrl}/github/commits`,
   };
