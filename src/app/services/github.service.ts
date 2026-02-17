@@ -69,9 +69,9 @@ export class GithubService {
   private readonly http = inject(HttpClient);
 
   private readonly endpoints = {
-    profile: `${environment.apiUrl}?target=profile`,
-    social: `${environment.apiUrl}?target=social`,
-    commits: `${environment.apiUrl}?target=commit`,
+    profile: 'https://api.github.com/users/m-idriss',
+    social: `${environment.apiUrl}/github/social`,
+    commits: `${environment.apiUrl}/github/commits`,
   };
 
   private profile$?: Observable<GithubUser>;
@@ -124,7 +124,7 @@ export class GithubService {
    * @returns Observable of commit activity data (returns empty array on timeout/error)
    */
   getCommits(months = 6): Observable<CommitData[]> {
-    const url = `${this.endpoints.commits}&months=${months}`;
+    const url = `${this.endpoints.commits}?months=${months}`;
     return this.http.get<CommitData[]>(url).pipe(
       timeout(API_CONFIG.TIMEOUT_MS),
       catchError((err) => {
