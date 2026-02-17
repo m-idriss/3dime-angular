@@ -259,14 +259,23 @@ See [SECURITY.md](../SECURITY.md) for detailed security guidelines.
 
 ## Firebase Functions Deployment
 
-### Prerequisites
-- Firebase CLI installed
-- Logged into Firebase account
-- Functions configured with secrets
+> **Note:** Firebase Functions are maintained in the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> 
+> For complete deployment instructions, see the [3dime-api repository](https://github.com/m-idriss/3dime-api).
 
-### Deploy Functions
+### Quick Reference
+
+From the `3dime-api` repository:
 
 ```bash
+# Clone and navigate to backend repository
+git clone https://github.com/m-idriss/3dime-api.git
+cd 3dime-api
+
+# Install dependencies and build
+npm install
+npm run build
+
 # Deploy all functions
 firebase deploy --only functions
 
@@ -280,14 +289,16 @@ firebase deploy --only functions --project production
 ### Verify Deployment
 
 ```bash
-# View function logs
+# View function logs (from 3dime-api repository)
 firebase functions:log
 
 # Test endpoints
-curl https://us-central1-your-project.cloudfunctions.net/converterFunction
+curl https://api.3dime.com
+# or
+curl https://us-central1-your-project.cloudfunctions.net/proxyApi
 ```
 
-See the `3dime-api` repository README for Firebase functions documentation and deployment details.
+For detailed backend deployment instructions, function configuration, and troubleshooting, see the [3dime-api repository documentation](https://github.com/m-idriss/3dime-api).
 
 ## Creating Releases
 
