@@ -1,11 +1,16 @@
 # API Documentation
 
-> Documentation for the 3dime-angular API endpoints and Firebase Functions.
+> Documentation for the 3dime-angular API endpoints provided by the backend REST API.
+
+> **Note:** The backend is maintained in a separate repository: [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api)
+> 
+> The backend is built with **Quarkus**, a modern cloud-native Java framework optimized for serverless and containerized deployments.
+> 
+> For complete API implementation details, deployment instructions, and source code, see the [3dime-api repository](https://github.com/m-idriss/3dime-api).
 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Firebase Functions](#firebase-functions)
 - [API Endpoints](#api-endpoints)
 - [Error Handling](#error-handling)
 
@@ -13,79 +18,65 @@
 
 ## Overview
 
-The application uses Firebase Functions to proxy external API requests and provide backend functionality. All functions are deployed as Google Cloud Functions and accessed through a unified proxy endpoint.
+The application uses a **Quarkus-based REST API** deployed in the [`3dime-api`](https://github.com/m-idriss/3dime-api) repository to proxy external API requests and provide backend functionality. The API is deployed as a serverless application and accessed through a unified endpoint.
 
 ### Architecture
 
 ```
-Client → Firebase Functions → External APIs
-         └── Proxy API
+Client → Quarkus REST API (3dime-api) → External APIs
+         └── API Endpoints
          ├── GitHub API
          ├── Notion API
-         └── Hello World (test)
+         └── AI Services
 ```
 
 ### Base URL
 
 ```
-Production: https://us-central1-<project-id>.cloudfunctions.net/
+Production: https://api.3dime.com
 ```
+
+> **Note:** The backend functions are also accessible via the raw Cloud Functions URL: `https://us-central1-<project-id>.cloudfunctions.net/`, but the canonical URL `https://api.3dime.com` should be used in production.
 
 ---
 
-## Firebase Functions
+## Backend Repository
 
-> Note: The Firebase Functions code has been moved to the separate `3dime-api` repository. See the `3dime-api` README for source layout, build, and deployment instructions.
+> **Important:** For API development, deployment, and backend-specific documentation, see:
+> - **[3dime-api Repository](https://github.com/m-idriss/3dime-api)** - Quarkus-based backend source code
+> - **[3dime-api README](https://github.com/m-idriss/3dime-api/blob/main/README.md)** - Complete backend documentation
 
-### Typical Function Structure (previously in this repo)
+### Technology Stack
 
-```
-functions/
-├── src/
-│   ├── index.ts              # Main entry point and proxy
-│   └── proxies/
-│       ├── helloWorld.ts     # Test endpoint
-│       ├── githubCommits.ts  # GitHub commit data
-│       ├── githubSocial.ts   # GitHub profile & social links
-│       └── notion.ts         # Notion database integration
-```
+The backend is built with **Quarkus** (Java):
+- REST endpoints using JAX-RS and RESTEasy
+- Reactive programming with Mutiny
+- Cloud-native deployment optimizations
+- Fast startup and low memory footprint
 
 ### Deployment (from `3dime-api` repository)
 
 #### Prerequisites
 
-1. Install Firebase CLI:
+1. Java Development Kit (JDK) 17 or later
+2. Maven or Gradle for building the Quarkus application
+3. Cloud deployment platform (e.g., Firebase, AWS Lambda, Google Cloud Run)
 
-   ```bash
-   npm install -g firebase-tools
-   ```
-
-2. Login to Firebase:
-
-   ```bash
-   firebase login
-   ```
-
-3. Install function dependencies:
-   ```bash
-   # from the functions repository
-   cd 3dime-api
-   npm install
-   ```
-
-#### Build and Deploy
+#### Quick Start
 
 ```bash
-# Build functions from the functions repository
+# Clone and navigate to the backend repository
+git clone https://github.com/m-idriss/3dime-api.git
 cd 3dime-api
-npm run build
 
-# Deploy all functions
-firebase deploy --only functions
+# Build the Quarkus application
+./mvnw clean package
 
-# Deploy specific function (run from inside 3dime-api)
-firebase deploy --only functions:proxyApi
+# Run locally for development
+./mvnw quarkus:dev
 ```
+
+For complete deployment instructions to your cloud platform, see the [3dime-api repository](https://github.com/m-idriss/3dime-api).
 
 ---
 

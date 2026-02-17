@@ -28,12 +28,9 @@ cd 3dime-angular
 ```bash
 # Install main dependencies (takes ~30 seconds)
 npm install
-
-# Optional: Install Firebase Functions dependencies (functions have moved to `3dime-api` repository)
-# cd functions && npm install && cd ..
-# Instead, work from the new repository:
-# cd ../3dime-api && npm install && cd -
 ```
+
+> **Note:** Backend functions are in the separate [`3dime-api`](https://github.com/m-idriss/3dime-api) repository. See the [Firebase Functions Setup](#firebase-functions-setup) section below if you need to work with the backend.
 
 ### 3. Verify Installation
 
@@ -145,11 +142,10 @@ See [Firebase Authentication Setup Guide](./FIREBASE_AUTH_SETUP.md) for detailed
 
 For the Stuff section (recommended tools):
 1. Set up Notion API credentials
-2. Configure Firebase Functions in `functions/src/`  
-   -> Note: Functions code now lives in the separate `3dime-api` repository under `src/`.
-3. Deploy Firebase Functions for API endpoints
+2. Configure the Quarkus application in the [`3dime-api`](https://github.com/m-idriss/3dime-api) repository
+3. Deploy the backend API
 
-See [API Documentation](./API.md) for details.
+See [API Documentation](./API.md) and the [3dime-api repository](https://github.com/m-idriss/3dime-api) for details.
 
 ### GitHub API
 
@@ -158,67 +154,62 @@ The GitHub Activity section uses the GitHub API:
 - Rate limited to 60 requests/hour without auth
 - Consider adding authentication for higher limits
 
-## Firebase Functions Setup
+## Backend Setup
+
+> **Note:** The backend is maintained in the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> 
+> The backend is built with **Quarkus**, a modern cloud-native Java framework.
+> 
+> For local development with the backend, see the [Emulator Setup Guide](../EMULATOR_SETUP.md).
 
 ### Prerequisites
-- Firebase CLI installed globally
-- Firebase project created
+- Java Development Kit (JDK) 17 or later
+- Maven (included as Maven wrapper in the repository)
+- Cloud deployment platform configured
 
 ### Installation
 
 ```bash
-# Install Firebase CLI
-npm install -g firebase-tools
+# Clone the backend repository
+git clone https://github.com/m-idriss/3dime-api.git
+cd 3dime-api
 
-# Login to Firebase
-firebase login
-
-# Initialize project (if not already done)
-firebase init
-
-# Install Functions dependencies (functions have been moved to `3dime-api`)
-# cd functions && npm install
-# Instead:
-cd ../3dime-api && npm install
+# Build the application
+./mvnw clean package
 ```
 
 ### Configuration
 
-Set up secrets for API keys (from your functions repository or using the Firebase CLI):
+Set up environment variables for API keys (in the 3dime-api repository):
 
 ```bash
-# OpenAI API key (for Calendar Converter)
-firebase functions:secrets:set OPENAI_API_KEY
+# From the 3dime-api repository
+cd 3dime-api
 
-# GitHub token (for API proxy)
-firebase functions:secrets:set GITHUB_TOKEN
-
-# Notion credentials (for Stuff section)
-firebase functions:secrets:set NOTION_TOKEN
-firebase functions:secrets:set NOTION_DATASOURCE_ID
+# Configure application.properties or use environment variables
+# See 3dime-api documentation for specific configuration
 ```
 
-### Build Functions
+### Run Locally
 
 ```bash
-# Build from functions repository (3dime-api)
-cd ../3dime-api
-npm run build
+# Start Quarkus in development mode (with hot reload)
+cd 3dime-api
+./mvnw quarkus:dev
 ```
 
-### Deploy Functions
+### Deploy
 
 ```bash
-# Deploy all functions from the functions repository
-# (run inside 3dime-api)
-cd ../3dime-api
-firebase deploy --only functions
+# Build for production
+cd 3dime-api
+./mvnw clean package -Dquarkus.package.type=uber-jar
 
-# Or deploy a specific function
-firebase deploy --only functions:converterFunction
+# Deploy to your cloud platform
+# See 3dime-api documentation for platform-specific deployment
 ```
 
-See the `3dime-api` repository README for Firebase functions documentation and deployment details.
+See the [3dime-api repository](https://github.com/m-idriss/3dime-api) for complete backend documentation and deployment details.
 
 ## Progressive Web App (PWA) Setup
 

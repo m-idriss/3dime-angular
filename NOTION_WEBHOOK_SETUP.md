@@ -1,8 +1,12 @@
 # Notion Webhook Setup Guide
 
-This guide explains how to configure Notion webhooks to enable instant cache refresh when your Notion database changes.
+> **Note:** Firebase Functions have been relocated to the [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> 
+> This guide provides setup instructions for the frontend. For function implementation details and deployment, see the **[3dime-api repository](https://github.com/m-idriss/3dime-api)**.
 
 ## Overview
+
+This guide explains how to configure Notion webhooks to enable instant cache refresh when your Notion database changes.
 
 **Before (Fixed TTL):**
 - Cache refreshes every 1 hour regardless of whether data changed
@@ -34,7 +38,7 @@ This guide explains how to configure Notion webhooks to enable instant cache ref
           ▼
 ┌──────────────────────────┐
 │ notionWebhook Function   │
-│ (Firebase Functions)     │
+│ (3dime-api repository)   │
 ├──────────────────────────┤
 │ 1. Verify signature      │
 │ 2. Fetch fresh data      │
@@ -58,11 +62,18 @@ This guide explains how to configure Notion webhooks to enable instant cache ref
 
 ### 1. Deploy the Webhook Function
 
-The webhook function is already implemented in `functions/src/proxies/notionWebhook.ts`. Deploy it to Firebase:
+The webhook function is implemented in the [`3dime-api`](https://github.com/m-idriss/3dime-api) repository. Deploy it to Firebase:
 
 ```bash
-cd functions
+# Clone and navigate to the backend repository
+git clone https://github.com/m-idriss/3dime-api.git
+cd 3dime-api
+
+# Install dependencies and build
+npm install
 npm run build
+
+# Deploy the webhook function
 firebase deploy --only functions:notionWebhook
 ```
 
@@ -73,7 +84,7 @@ https://notionwebhook-fuajdt22nq-uc.a.run.app
 
 ### 2. Configure Firebase Secrets
 
-The webhook requires the following secrets to be configured in Firebase:
+The webhook requires the following secrets to be configured in Firebase (from the `3dime-api` repository):
 
 ```bash
 # Set existing secrets (already configured)
@@ -138,6 +149,7 @@ curl -X POST https://notionwebhook-fuajdt22nq-uc.a.run.app \
 1. Make a change to your Notion database (add, update, or delete an item)
 2. Check Firebase Functions logs to verify the webhook was triggered:
    ```bash
+   # From the 3dime-api repository
    firebase functions:log --only notionWebhook
    ```
 3. Verify the cache was updated by checking the `notion-cache` collection in Firestore
@@ -152,6 +164,7 @@ To verify that the webhook is working correctly:
 
 2. **Check Function Logs**:
    ```bash
+   # From the 3dime-api repository
    firebase functions:log --only notionWebhook
    ```
    
@@ -188,7 +201,7 @@ The webhook function verifies that requests are genuinely from Notion using HMAC
 ### Check Webhook Status
 
 ```bash
-# View recent webhook invocations
+# View recent webhook invocations (from 3dime-api repository)
 firebase functions:log --only notionWebhook --limit 50
 
 # Monitor webhook in real-time
@@ -217,7 +230,7 @@ firebase functions:log --only notionWebhook --follow
 - **Cause**: Function succeeds but cache not written
 - **Solution**:
   - Check Firestore permissions
-  - Verify the cache manager configuration matches the main function
+  - Verify the cache manager configuration in `3dime-api`
 
 ### Health Check
 
@@ -226,7 +239,7 @@ The webhook endpoint returns different status codes:
 - **200**: Cache updated successfully
 - **401**: Missing or invalid signature
 - **405**: Method not allowed (only POST is accepted)
-- **500**: Internal server error (check logs)
+- **500**: Internal server error (check logs in `3dime-api`)
 
 ## Fallback Mechanism
 
@@ -255,20 +268,22 @@ The existing `notionFunction` continues to work during webhook setup:
 
 ### After Deployment
 
-1. Deploy both functions: `notionFunction` and `notionWebhook`
+1. Deploy both functions (in `3dime-api`): `notionFunction` and `notionWebhook`
 2. Configure webhook in Notion (see step 3)
 3. Monitor logs to ensure webhooks are working
 4. Optional: Keep both systems running for redundancy
 
 ## Related Files
 
-- `functions/src/proxies/notionWebhook.ts` - Webhook handler implementation
-- `functions/src/proxies/notion.ts` - Main Notion data fetching function
-- `functions/src/utils/cache.ts` - Cache manager with `set()` method
-- `functions/src/index.ts` - Function exports
+The webhook implementation is in the [`3dime-api`](https://github.com/m-idriss/3dime-api) repository:
+- `src/proxies/notionWebhook.ts` - Webhook handler implementation
+- `src/proxies/notion.ts` - Main Notion data fetching function
+- `src/utils/cache.ts` - Cache manager with `set()` method
+- `src/index.ts` - Function exports
 
 ## References
 
 - [Notion API Documentation](https://developers.notion.com/)
 - [Firebase Functions Documentation](https://firebase.google.com/docs/functions)
 - [Firebase Secrets Management](https://firebase.google.com/docs/functions/config-env)
+- [3dime-api Repository](https://github.com/m-idriss/3dime-api) - Backend functions source

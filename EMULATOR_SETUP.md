@@ -1,134 +1,94 @@
 # Firebase Emulator Setup Guide
 
-This guide explains how to properly configure your development environment to use Firebase Functions emulator without encountering infinite loops or unnecessary overhead.
+> **Note:** The backend has been relocated to the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> 
+> The backend is built with **Quarkus**, a modern cloud-native Java framework.
+> 
+> This guide provides a brief overview for frontend developers. For complete backend setup, build instructions, and development, see the **[3dime-api repository](https://github.com/m-idriss/3dime-api)**.
 
-## Understanding the Architecture
+## Overview
 
-### Production
-In production, the application uses a `proxyApi` function as a single entry point that routes requests to various backend services:
-- Frontend → `https://api.3dime.com` (proxyApi) → Individual Cloud Functions
+This Angular frontend application consumes backend APIs from the `3dime-api` Quarkus application. During local development, you can test against either:
+- **Production API** - The deployed API at `https://api.3dime.com`
+- **Local Backend** - Quarkus application running locally in dev mode
 
-### Development (Emulator Mode)
-In development with the Firebase emulator, all functions are exposed directly at their own endpoints:
-- Frontend → `http://localhost:5001/{project}/{region}/{functionName}` → Individual Functions
+## Quick Setup for Local Development
 
-**Important:** The `proxyApi` function is NOT available in emulator mode to prevent infinite loops and unnecessary overhead.
+### Prerequisites
+- The [`3dime-api`](https://github.com/m-idriss/3dime-api) repository cloned and set up
+- Java Development Kit (JDK) 17 or later
+- Maven (included via Maven wrapper in the repository)
 
-## Configuration Steps
+### Starting the Backend
 
-### 1. Update Environment Configuration
+From the `3dime-api` repository:
 
-For development, configure your `src/environments/environment.ts` to point directly to the emulator:
-
-```typescript
-export const environment = {
-  production: false,
-  // Option A: Point directly to a specific function (recommended for testing one feature)
-  apiUrl: 'http://localhost:5001/image-to-ics/us-central1/converterFunction',
-  
-  // Option B: Use a base URL and construct full paths in services
-  // apiUrl: 'http://localhost:5001/image-to-ics/us-central1',
-  
-  firebase: {
-    // Your Firebase config
-  },
-};
-```
-
-### 2. Update Service Layer (if using Option B)
-
-If using a base URL, update your services to construct full function URLs:
-
-```typescript
-// Before (using proxyApi)
-getQuotaStatus(): Observable<QuotaStatusResponse> {
-  return this.http.post(`${this.baseUrl}?target=quotaStatus`, { userId: this.userId });
-}
-
-// After (direct function call)
-getQuotaStatus(): Observable<QuotaStatusResponse> {
-  return this.http.post(`${this.baseUrl}/quotaStatusFunction`, { userId: this.userId });
-}
-```
-
-### 3. Available Function Endpoints
-
-When running the emulator, the following functions are available:
-
-| Target | Function Name | Emulator URL |
-|--------|--------------|--------------|
-| profile | githubSocial | `http://localhost:5001/image-to-ics/us-central1/githubSocial` |
-| social | githubSocial | `http://localhost:5001/image-to-ics/us-central1/githubSocial?target=social` |
-| commit | githubCommits | `http://localhost:5001/image-to-ics/us-central1/githubCommits` |
-| notion | notionFunction | `http://localhost:5001/image-to-ics/us-central1/notionFunction` |
-| converter | converterFunction | `http://localhost:5001/image-to-ics/us-central1/converterFunction` |
-| statistics | statisticsFunction | `http://localhost:5001/image-to-ics/us-central1/statisticsFunction` |
-| quotaStatus | quotaStatusFunction | `http://localhost:5001/image-to-ics/us-central1/quotaStatusFunction` |
-
-## Starting the Emulator
-
-> Note: Firebase Functions have been moved to a separate repository named `3dime-api`. For local emulator or build steps, work from that repository.
-
-### 1. Install Functions Dependencies
 ```bash
-# In the new functions repository
-cd ../3dime-api
-npm install
+# Clone the backend repository (if not already done)
+git clone https://github.com/m-idriss/3dime-api.git
+cd 3dime-api
+
+# Start Quarkus in development mode (with hot reload)
+./mvnw quarkus:dev
 ```
 
-### 2. Build Functions
-```bash
-# Build from the functions repository
-npm run build
-```
+The API will start at `http://localhost:8080` with live reload enabled.
 
-### 3. Start Emulator
-```bash
-# From the functions repository
-npm run serve
+### Starting the Frontend
 
-# Or from the project root (will start only the emulator if you have firebase configured locally)
-firebase emulators:start --only functions
-```
+From this repository (in a separate terminal):
 
-### 4. Start Angular Dev Server
-In a separate terminal:
 ```bash
 npm start
 ```
 
-The Angular app will run at `http://localhost:4200` and connect to the emulator at `http://localhost:5001`.
+The Angular app will run at `http://localhost:4200`
+
+### Configure Environment
+
+Update `src/environments/environment.ts` to point to your local backend:
+
+```typescript
+export const environment = {
+  production: false,
+  // Point to local Quarkus dev server
+  apiUrl: 'http://localhost:8080/api',
+  // ... other config
+};
+```
+
+## Available API Endpoints
+
+When running the Quarkus backend locally, API endpoints are available at:
+```
+http://localhost:8080/api/{endpoint}
+```
+
+Example endpoints:
+- `githubSocial` - GitHub profile data
+- `githubCommits` - Commit activity
+- `notionFunction` - Notion integration
+- `converterFunction` - Calendar converter
+
+See the [`3dime-api` README](https://github.com/m-idriss/3dime-api) for the complete list of available endpoints and their APIs.
 
 ## Troubleshooting
 
-### Issue: "proxyApi is not available in emulator mode"
-**Cause:** Your frontend is trying to call `proxyApi` in development mode.
+### CORS Errors
+Ensure `http://localhost:4200` is in the allowed origins list in the Quarkus application configuration (configured in `3dime-api`).
 
-**Solution:** Update your environment configuration to call functions directly (see Step 1 above).
+### Endpoint Not Found (404)
+- Verify the Quarkus application is running: Check console output
+- Check available endpoints in Quarkus Dev UI at `http://localhost:8080/q/dev`
+- Verify URL pattern: `http://localhost:8080/api/{endpoint}`
 
-### Issue: CORS errors
-**Cause:** The emulator might not be configured to accept requests from your frontend origin.
-
-**Solution:** Ensure `http://localhost:4200` is in the `allowedOrigins` list in each function's CORS configuration.
-
-### Issue: Function not found (404)
-**Cause:** Incorrect function name or URL structure.
-
-**Solution:** 
-1. Verify the function is deployed/built in the functions repo: `ls ../3dime-api/lib/`
-2. Check the emulator logs for registered functions
-3. Ensure URL follows pattern: `http://localhost:5001/{projectId}/{region}/{functionName}`
-
-## Best Practices
-
-1. **Separate Configs:** Maintain separate environment files for development and production
-2. **Direct Calls:** Always call functions directly in development (don't use proxyApi)
-3. **Use Emulator:** Test all function changes locally before deploying
-4. **Watch Mode:** Use `npm run build:watch` in the functions repository for automatic rebuilds
-5. **Check Logs:** Monitor emulator logs to understand request flow
+### Backend Issues
+For backend development, deployment, and troubleshooting, refer to:
+- **[3dime-api Repository](https://github.com/m-idriss/3dime-api)** - Quarkus backend source code
+- **[3dime-api README](https://github.com/m-idriss/3dime-api/blob/main/README.md)** - Complete backend documentation
 
 ## Additional Resources
 
-- [Firebase Emulator Documentation](https://firebase.google.com/docs/emulator-suite)
-- [Firebase Functions CORS Configuration](https://firebase.google.com/docs/functions/http-events#cors)
+- [Quarkus Documentation](https://quarkus.io/guides/)
+- [3dime-api Repository](https://github.com/m-idriss/3dime-api) - **Backend source**
 - [Angular Environment Configuration](https://angular.dev/tools/cli/environments)

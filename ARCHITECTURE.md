@@ -2,7 +2,9 @@
 
 > **Comprehensive technical and architectural overview of the 3dime-angular portfolio application**
 
-This document provides a complete system architecture for the 3dime-angular portfolio, including frontend Angular application, backend Firebase Functions, data flow, caching strategies, authentication, and deployment architecture.
+This document provides a complete system architecture for the 3dime-angular portfolio, including frontend Angular application, backend integration, data flow, and deployment architecture.
+
+> **Note:** Backend Firebase Functions have been relocated to the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository. For backend architecture, caching strategies, and function implementation details, see the [3dime-api repository documentation](https://github.com/m-idriss/3dime-api).
 
 ## Table of Contents
 
@@ -54,6 +56,7 @@ The 3dime-angular portfolio is a modern, high-performance personal portfolio app
                              ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                    Firebase Cloud Functions                              │
+│                  (3dime-api - External Repository)                       │
 │  ┌──────────────────────────────────────────────────────────────────┐  │
 │  │  API Proxy Layer (proxyApi)                                      │  │
 │  │  - GitHub Integration  - Notion Integration                      │  │
@@ -86,8 +89,8 @@ The 3dime-angular portfolio is a modern, high-performance personal portfolio app
 
 - **Modern Angular Stack**: Standalone components, TypeScript strict mode, RxJS for reactive programming
 - **Progressive Web App**: Installable, offline-capable, share target integration
-- **Serverless Backend**: Firebase Functions for API proxy and AI processing
-- **Intelligent Caching**: Firestore-based caching with background refresh
+- **Serverless Backend**: Firebase Functions (in [3dime-api repo](https://github.com/m-idriss/3dime-api)) for API proxy and AI processing
+- **Intelligent Caching**: Firestore-based caching with background refresh (managed by backend)
 - **AI Integration**: OpenAI GPT-4 Vision for calendar event extraction
 - **Space-Themed UI**: Glassmorphism effects with modern CSS features
 
@@ -95,7 +98,7 @@ The 3dime-angular portfolio is a modern, high-performance personal portfolio app
 
 # 🛠️ 2. Technology Stack
 
-## Request Flow Patterns
+## Frontend Technologies
 
 ### Pattern 1: Standard API Request (with Cache)
 
@@ -847,80 +850,63 @@ export class ThemeService {
 
 # ⚙️ 4. Backend Architecture
 
-## Firebase Functions Structure
+> **Note:** The backend is maintained in a separate repository: [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api)
+> 
+> The backend is built with **Quarkus**, a modern, cloud-native Java framework optimized for containerized environments and serverless deployments.
+> 
+> For complete backend architecture, function implementation details, API endpoint specifications, and deployment instructions, see the [3dime-api repository](https://github.com/m-idriss/3dime-api).
 
-```
-functions/
-├── src/
-│   ├── index.ts              # Function exports
-│   ├── proxies/              # API endpoint handlers
-│   │   ├── converter.ts      # AI calendar conversion ⭐
-│   │   ├── githubCommits.ts  # GitHub activity data
-│   │   ├── githubSocial.ts   # GitHub profile/social
-│   │   ├── notion.ts         # Notion content
-│   │   ├── statistics.ts     # Usage statistics
-│   │   └── quotaStatus.ts    # Quota checking
-│   ├── services/             # Business logic
-│   │   ├── quota.ts          # Notion-based quota management
-│   │   └── tracking.ts       # Usage tracking
-│   └── utils/                # Utilities
-│       ├── cache.ts          # Cache management
-│       └── firebase-admin.ts # Admin SDK setup
-└── package.json
-```
+## Backend Overview
 
-## API Endpoints
+The backend is a **Quarkus-based REST API** deployed as a serverless application. The frontend (this repository) consumes these APIs via HTTP requests.
 
-### Main Proxy Function (`proxyApi`)
+### Key Backend Services
 
-Single HTTP function that routes requests based on `target` parameter:
+- **GitHub Integration** - Fetch profile data and commit activity
+- **Notion Integration** - Retrieve portfolio content (stuff, experience, education)
+- **AI Converter** - Calendar event extraction using OpenAI GPT-4 Vision
+- **Statistics & Quota** - Usage tracking and quota management
+- **Caching** - Firestore-based caching with intelligent refresh strategies
 
-```typescript
-export const proxyApi = onRequest(async (req, res) => {
-  const target = req.query.target;
-  
-  switch (target) {
-    case 'profile':
-    case 'social':
-      return githubSocial(req, res);
-    case 'commits':
-      return githubCommits(req, res);
-    case 'notion':
-      return notionFunction(req, res);
-    case 'statistics':
-      return statisticsFunction(req, res);
-    case 'quotaStatus':
-      return quotaStatus(req, res);
-    default:
-      res.status(400).send('Invalid target');
-  }
-});
-```
+### Backend Technology Stack
 
-### Converter Function (`converter`)
+The [`3dime-api`](https://github.com/m-idriss/3dime-api) backend is built with:
 
-Separate HTTPS function for AI-powered calendar conversion:
+- **Quarkus** - Supersonic Subatomic Java framework for cloud-native applications
+- **Java** - Modern Java with reactive programming
+- **RESTEasy** - JAX-RS implementation for REST endpoints
+- **Microprofile** - Cloud-native microservices APIs
 
-```typescript
-export const converter = onRequest(async (req, res) => {
-  // 1. Verify Firebase Auth token
-  const user = await verifyIdToken(req);
-  
-  // 2. Check user quota (Notion API)
-  const quota = await checkUserQuota(user.uid);
-  if (quota.exceeded) return res.status(429).send('Quota exceeded');
-  
-  // 3. Process images with OpenAI GPT-4 Vision
-  const events = await extractEventsFromImages(req.body.images);
-  
-  // 4. Update quota and log usage
-  await updateQuota(user.uid);
-  await logUsage(user.uid, events.length);
-  
-  // 5. Return ICS content
-  res.json({ ics: generateICS(events) });
-});
-```
+**Key Benefits:**
+- Fast startup times and low memory footprint
+- Native compilation support with GraalVM
+- Optimized for serverless and containerized deployments
+- Developer-friendly with live reload and streamlined APIs
+
+## API Integration
+
+### Main Proxy Endpoint
+
+The backend exposes a unified proxy API at `https://api.3dime.com` that routes requests based on the `target` parameter:
+
+| Target | Description | Cache TTL |
+|--------|-------------|-----------|
+| `profile` | GitHub user profile | 1 hour |
+| `social` | Social media links | 1 hour |
+| `commits` | GitHub commit activity | 1 hour |
+| `notion` | Portfolio content | 24 hours* |
+| `statistics` | Usage statistics | 5 minutes |
+| `quotaStatus` | User quota status | Real-time |
+
+*Notion cache uses webhook-based invalidation for instant updates
+
+### Converter Endpoint
+
+Separate authenticated endpoint for AI-powered calendar conversion:
+- **URL**: `https://converter.3dime.com` (or similar)
+- **Auth**: Firebase ID token required
+- **Quota**: Managed via Notion database
+- **Processing**: OpenAI GPT-4 Vision API
 
 ## External API Integration
 
