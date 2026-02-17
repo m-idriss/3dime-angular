@@ -5,13 +5,9 @@ meta {
 }
 
 get {
-  url: {{api_url}}?target=notion
+  url: {{api_url}}/notion/cms
   body: none
   auth: none
-}
-
-params:query {
-  target: notion
 }
 
 tests {
@@ -49,6 +45,7 @@ tests {
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
 
 docs {
