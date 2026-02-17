@@ -37,10 +37,10 @@ Production: https://us-central1-<project-id>.cloudfunctions.net/
 
 > Note: The Firebase Functions code has been moved to the separate `3dime-api` repository. See the `3dime-api` README for source layout, build, and deployment instructions.
 
-### Typical Function Structure (previously in this repo)
+### Typical Function Structure (now in `3dime-api` repository)
 
 ```
-functions/
+3dime-api/
 ├── src/
 │   ├── index.ts              # Main entry point and proxy
 │   └── proxies/

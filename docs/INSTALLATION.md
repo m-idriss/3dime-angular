@@ -30,9 +30,9 @@ cd 3dime-angular
 npm install
 
 # Optional: Install Firebase Functions dependencies (functions have moved to `3dime-api` repository)
-# cd functions && npm install && cd ..
 # Instead, work from the new repository:
-# cd ../3dime-api && npm install && cd -
+# git clone https://github.com/<org>/3dime-api.git
+# cd 3dime-api && npm install && cd ..
 ```
 
 ### 3. Verify Installation
@@ -145,8 +145,7 @@ See [Firebase Authentication Setup Guide](./FIREBASE_AUTH_SETUP.md) for detailed
 
 For the Stuff section (recommended tools):
 1. Set up Notion API credentials
-2. Configure Firebase Functions in `functions/src/`  
-   -> Note: Functions code now lives in the separate `3dime-api` repository under `src/`.
+2. Configure Firebase Functions in the separate `3dime-api` repository at `src/`
 3. Deploy Firebase Functions for API endpoints
 
 See [API Documentation](./API.md) for details.
@@ -179,7 +178,7 @@ firebase init
 # Install Functions dependencies (functions have been moved to `3dime-api`)
 # cd functions && npm install
 # Instead:
-cd ../3dime-api && npm install
+cd 3dime-api && npm install
 ```
 
 ### Configuration
@@ -202,7 +201,7 @@ firebase functions:secrets:set NOTION_DATASOURCE_ID
 
 ```bash
 # Build from functions repository (3dime-api)
-cd ../3dime-api
+cd 3dime-api
 npm run build
 ```
 
@@ -211,7 +210,7 @@ npm run build
 ```bash
 # Deploy all functions from the functions repository
 # (run inside 3dime-api)
-cd ../3dime-api
+cd 3dime-api
 firebase deploy --only functions
 
 # Or deploy a specific function

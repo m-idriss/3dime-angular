@@ -45,7 +45,7 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
 
 ### Backend (Firebase Function)
 
-**Function**: `functions/src/proxies/converter.ts` (moved)
+**Function**: Implemented in the `3dime-api` repository at `src/proxies/converter.ts`
 
 - Accepts POST requests with image/PDF data
 - Calls OpenAI GPT-4 Vision API for event extraction
@@ -144,7 +144,7 @@ The converter uses the following key dependencies:
 
 3. Deploy the function:
    ```bash
-   cd functions
+   cd 3dime-api
    npm run build
    firebase deploy --only functions:converterFunction
    ```

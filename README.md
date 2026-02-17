@@ -163,6 +163,7 @@ bru run bruno-collections/3dime-api
 - **[Contributing Guidelines](CONTRIBUTING.md)** - How to contribute
 - **[Project Roadmap](ROADMAP.md)** - Future features and timeline
 - **[Security Policy](SECURITY.md)** - Security guidelines
+- **[Functions Relocation](FUNCTIONS_RELOCATED.md)** - Firebase Functions moved to `3dime-api` repo
 
 **[📖 Full Documentation Index →](docs/README.md)**
 

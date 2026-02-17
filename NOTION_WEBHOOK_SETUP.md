@@ -58,10 +58,10 @@ This guide explains how to configure Notion webhooks to enable instant cache ref
 
 ### 1. Deploy the Webhook Function
 
-The webhook function is already implemented in `functions/src/proxies/notionWebhook.ts`. Deploy it to Firebase:
+The webhook function is already implemented in the `3dime-api` repository at `src/proxies/notionWebhook.ts`. Deploy it to Firebase:
 
 ```bash
-cd functions
+cd 3dime-api
 npm run build
 firebase deploy --only functions:notionWebhook
 ```
@@ -262,10 +262,10 @@ The existing `notionFunction` continues to work during webhook setup:
 
 ## Related Files
 
-- `functions/src/proxies/notionWebhook.ts` - Webhook handler implementation
-- `functions/src/proxies/notion.ts` - Main Notion data fetching function
-- `functions/src/utils/cache.ts` - Cache manager with `set()` method
-- `functions/src/index.ts` - Function exports
+- `3dime-api` repository at `src/proxies/notionWebhook.ts` - Webhook handler implementation
+- `3dime-api` repository at `src/proxies/notion.ts` - Main Notion data fetching function
+- `3dime-api` repository at `src/utils/cache.ts` - Cache manager with `set()` method
+- `3dime-api` repository at `src/index.ts` - Function exports
 
 ## References
 

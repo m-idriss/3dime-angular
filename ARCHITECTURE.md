@@ -850,7 +850,7 @@ export class ThemeService {
 ## Firebase Functions Structure
 
 ```
-functions/
+3dime-api repository
 ├── src/
 │   ├── index.ts              # Function exports
 │   ├── proxies/              # API endpoint handlers
