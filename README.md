@@ -231,7 +231,7 @@ Contributions are welcome!
 
 **Idriss**
 
-🌐 [3dime.com](https://3dime.com) • 💼 [LinkedIn](https://www.linkedin.com/in/i-mohamady/) • 🐙 [GitHub](https://github.com/m-idriss)
+🌐 [3dime.com](https://3dime.com) • 🐙 [GitHub](https://github.com/m-idriss)
 
 ## 📄 License
 
