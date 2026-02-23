@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  showGithubActivity: false,
   apiUrl: 'https://api.3dime.com',
   firebase: {
     apiKey: 'AIzaSyDvQ4aCcWtSxGmTXefINTcsdb0O5zheYzE',
