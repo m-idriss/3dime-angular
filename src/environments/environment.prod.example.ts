@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  showGithubActivity: false,
   apiUrl: 'https://your-api-url.example.com',
   firebase: {
     apiKey: 'YOUR_FIREBASE_API_KEY',

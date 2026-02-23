@@ -59,15 +59,17 @@
       <app-about></app-about>
     </app-expandable-card>
 
-    <app-expandable-card
-      #githubCard
-      icon="fa-solid fa-chart-line"
-      title="GitHub"
-      ariaLabel="View GitHub activity"
-      [alwaysExpanded]="true"
-    >
-      <app-github-activity></app-github-activity>
-    </app-expandable-card>
+    @if (showGithubActivity) {
+      <app-expandable-card
+        #githubCard
+        icon="fa-solid fa-chart-line"
+        title="GitHub"
+        ariaLabel="View GitHub activity"
+        [alwaysExpanded]="true"
+      >
+        <app-github-activity></app-github-activity>
+      </app-expandable-card>
+    }
 
     <app-expandable-card
       #techStackCard

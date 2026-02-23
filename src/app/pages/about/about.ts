@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 import { About as AboutComponent } from '../../components/about/about';
 import { BackToTop } from '../../components/back-to-top/back-to-top';
@@ -33,6 +34,8 @@ import { AppTooltipDirective } from '../../shared/directives';
   styleUrl: './about.scss',
 })
 export class About {
+  readonly showGithubActivity = !!(environment as Record<string, unknown>)['showGithubActivity'];
+
   // ViewChild references to all expandable cards
   @ViewChild('techStackCard', { read: ExpandableCard }) techStackCard!: ExpandableCard;
   @ViewChild('experienceCard', { read: ExpandableCard }) experienceCard!: ExpandableCard;
@@ -45,14 +48,17 @@ export class About {
    * Check if all cards are currently expanded
    */
   allExpanded(): boolean {
-    return (
-      this.techStackCard?.isExpanded() &&
-      this.experienceCard?.isExpanded() &&
-      this.educationCard?.isExpanded() &&
-      this.githubCard?.isExpanded() &&
-      this.hobbiesCard?.isExpanded() &&
-      this.stuffCard?.isExpanded()
-    );
+    const cards: boolean[] = [
+      this.techStackCard?.isExpanded(),
+      this.experienceCard?.isExpanded(),
+      this.educationCard?.isExpanded(),
+      this.hobbiesCard?.isExpanded(),
+      this.stuffCard?.isExpanded(),
+    ];
+    if (this.showGithubActivity) {
+      cards.push(this.githubCard?.isExpanded());
+    }
+    return cards.every(Boolean);
   }
 
   /**
@@ -64,7 +70,7 @@ export class About {
       this.techStackCard,
       this.experienceCard,
       this.educationCard,
-      this.githubCard,
+      ...(this.showGithubActivity ? [this.githubCard] : []),
       this.hobbiesCard,
       this.stuffCard,
     ];
