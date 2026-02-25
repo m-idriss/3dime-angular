@@ -189,12 +189,35 @@ body.dark-theme .icon-tile {
   }
 }
 
-/* Enhanced blur for dark theme */
+/* Enhanced blur and animated gradient border — dark theme */
 body.dark-theme .expanded-card {
   backdrop-filter: blur(20px);
 
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--border-angle),
+      transparent        20%,
+      rgba(129,140,248,0.7) 40%,
+      rgba(168, 85,247,0.5) 55%,
+      transparent        75%
+    );
+    z-index: -1;
+    opacity: 0;
+    filter: blur(5px);
+    transition: opacity var(--t-medium);
+  }
+
   &:hover {
     backdrop-filter: blur(28px);
+
+    &::before {
+      opacity: 0.75;
+      animation: border-spin 5s linear infinite;
+    }
   }
 }
 

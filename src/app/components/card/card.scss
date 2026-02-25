@@ -34,14 +34,43 @@
   }
 }
 
-/* Enhanced blur for dark theme */
+/* Enhanced blur, depth, and animated gradient border — dark theme */
 body.dark-theme .container {
   backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
 
+  /* Spinning conic-gradient halo — sits just behind the card */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--border-angle),
+      transparent        20%,
+      rgba(129,140,248,0.7) 40%,
+      rgba(168, 85,247,0.5) 55%,
+      transparent        75%
+    );
+    z-index: -1;
+    opacity: 0;
+    filter: blur(5px);
+    transition: opacity var(--t-medium);
+  }
+
   &:hover {
     backdrop-filter: blur(24px);
+    border-color: rgba(129, 140, 248, 0.25);
+
+    &::before {
+      opacity: 0.75;
+      animation: border-spin 5s linear infinite;
+    }
   }
+}
+
+@keyframes border-spin {
+  to { --border-angle: 360deg; }
 }
 
 /* Card header with title and optional collapse button */
