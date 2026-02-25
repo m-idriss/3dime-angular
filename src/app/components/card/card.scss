@@ -170,6 +170,15 @@ body.dark-theme .container {
   color: var(--text-secondary);
 }
 
+/* Vibrant gradient text for dark theme headings */
+body.dark-theme .container h2,
+body.dark-theme .container h3 {
+  background: linear-gradient(135deg, #c4b5fd 0%, #818cf8 45%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .container:hover {
