@@ -50,6 +50,29 @@ export class NotionService {
   private readonly baseUrl = environment.apiUrl;
   private fetchAll$?: Observable<void>;
 
+  private readonly NOTION_CACHE_TTL_MS = 2 * 60 * 60 * 1000; // 2 hours
+  private readonly NOTION_CACHE_KEY = 'notion_cms';
+
+  private getCachedNotion(): NotionApiResponse | null {
+    try {
+      const raw = localStorage.getItem(this.NOTION_CACHE_KEY);
+      if (!raw) return null;
+      const { data, timestamp } = JSON.parse(raw) as { data: NotionApiResponse; timestamp: number };
+      if (Date.now() - timestamp > this.NOTION_CACHE_TTL_MS) return null;
+      return data;
+    } catch {
+      return null;
+    }
+  }
+
+  private setCacheNotion(data: NotionApiResponse): void {
+    try {
+      localStorage.setItem(this.NOTION_CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
+    } catch {
+      // localStorage may be unavailable
+    }
+  }
+
   stuffs: LinkItem[] = [];
   experiences: LinkItem[] = [];
   educations: LinkItem[] = [];
@@ -65,27 +88,47 @@ export class NotionService {
    * @returns Observable that completes when data is loaded (empty arrays on timeout/error)
    */
   fetchAll(): Observable<void> {
-    this.fetchAll$ ??= this.http.get<NotionApiResponse>(`${this.baseUrl}/notion/cms`).pipe(
-      timeout(API_CONFIG.TIMEOUT_MS),
-      map((res) => {
-        this.stuffs = res.stuff ?? [];
-        this.experiences = res.experience ?? [];
-        this.educations = res.education ?? [];
-        this.hobbies = res.hobbies ?? [];
-        this.techStacks = res.tech_stack ?? [];
-      }),
-      catchError((err) => {
-        console.warn('Notion API call failed or timed out:', err.message || err);
-        // Initialize with empty arrays on error to allow components to render
-        this.stuffs = [];
-        this.experiences = [];
-        this.educations = [];
-        this.hobbies = [];
-        this.techStacks = [];
-        return of();
-      }),
-      shareReplay(1),
-    );
+    if (!this.fetchAll$) {
+      const cached = this.getCachedNotion();
+
+      const fresh$ = this.http.get<NotionApiResponse>(`${this.baseUrl}/notion/cms`).pipe(
+        timeout(API_CONFIG.TIMEOUT_MS),
+        map((res) => {
+          this.stuffs = res.stuff ?? [];
+          this.experiences = res.experience ?? [];
+          this.educations = res.education ?? [];
+          this.hobbies = res.hobbies ?? [];
+          this.techStacks = res.tech_stack ?? [];
+          this.setCacheNotion(res);
+        }),
+        catchError((err) => {
+          console.warn('Notion API call failed or timed out:', err.message || err);
+          this.stuffs = [];
+          this.experiences = [];
+          this.educations = [];
+          this.hobbies = [];
+          this.techStacks = [];
+          return of();
+        }),
+        shareReplay(1),
+      );
+
+      if (cached) {
+        // Pre-populate arrays immediately from cache so progressive loading starts at once
+        this.stuffs = cached.stuff ?? [];
+        this.experiences = cached.experience ?? [];
+        this.educations = cached.education ?? [];
+        this.hobbies = cached.hobbies ?? [];
+        this.techStacks = cached.tech_stack ?? [];
+        // Emit immediately so components can render; refresh cache silently in background
+        this.fetchAll$ = of<void>(undefined).pipe(shareReplay(1));
+        fresh$.subscribe({
+          error: (err) => console.warn('Background Notion refresh failed:', err.message || err),
+        });
+      } else {
+        this.fetchAll$ = fresh$;
+      }
+    }
     return this.fetchAll$;
   }
 
