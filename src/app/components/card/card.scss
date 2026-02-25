@@ -34,14 +34,43 @@
   }
 }
 
-/* Enhanced blur for dark theme */
+/* Enhanced blur, depth, and animated gradient border — dark theme */
 body.dark-theme .container {
   backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
 
+  /* Spinning conic-gradient halo — sits just behind the card */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--border-angle),
+      transparent        20%,
+      rgba(129,140,248,0.7) 40%,
+      rgba(168, 85,247,0.5) 55%,
+      transparent        75%
+    );
+    z-index: -1;
+    opacity: 0;
+    filter: blur(5px);
+    transition: opacity var(--t-medium);
+  }
+
   &:hover {
     backdrop-filter: blur(24px);
+    border-color: rgba(129, 140, 248, 0.25);
+
+    &::before {
+      opacity: 0.75;
+      animation: border-spin 5s linear infinite;
+    }
   }
+}
+
+@keyframes border-spin {
+  to { --border-angle: 360deg; }
 }
 
 /* Card header with title and optional collapse button */
@@ -139,6 +168,28 @@ body.dark-theme .container {
   font-size: var(--font-size-base);
   line-height: 1.6;
   color: var(--text-secondary);
+}
+
+/* Animated underline — grows from center on card hover */
+body.dark-theme .container h2::after,
+body.dark-theme .container h3::after {
+  width: 0;
+  transition: width 0.4s var(--ease), background 0.4s var(--ease);
+}
+
+body.dark-theme .container:hover h2::after,
+body.dark-theme .container:hover h3::after {
+  width: 60px;
+  background: linear-gradient(90deg, transparent, #818cf8, #38bdf8, transparent);
+}
+
+/* Vibrant gradient text for dark theme headings */
+body.dark-theme .container h2,
+body.dark-theme .container h3 {
+  background: linear-gradient(135deg, #c4b5fd 0%, #818cf8 45%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Reduced motion support */
