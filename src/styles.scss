@@ -89,21 +89,47 @@ body.white-theme {
 
 /* Dark theme */
 body.dark-theme {
-  --primary-bg: rgba(0, 0, 0, 0.95);
-  --primary-bg-hover: rgba(0, 0, 0, 1);
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-bg-hover: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --text-primary: #fff;
-  --text-secondary: rgba(255, 255, 255, 0.9);
-  --menu-bg: rgba(0, 0, 0, 0.95);
-  --text-menu: #fff;
-  --text-bg: #ffffff;
-  --text-bg-alt: #333333;
+  --primary-bg: rgba(10, 10, 22, 0.82);
+  --primary-bg-hover: rgba(14, 14, 30, 0.93);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-hover: rgba(255, 255, 255, 0.10);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --text-primary: #eef0ff;
+  --text-secondary: rgba(238, 240, 255, 0.72);
+  --menu-bg: rgba(8, 8, 20, 0.96);
+  --text-menu: #eef0ff;
+  --text-bg: #eef0ff;
+  --text-bg-alt: #2a2a44;
+  --accent-color: #818cf8;
 
-  /* Enhanced shadows for dark theme depth */
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255, 255, 255, 0.1);
-  --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 2px rgba(59, 130, 246, 0.4);
+  /* Rich layered shadows with subtle glow */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-card-hover: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(129, 140, 248, 0.22), 0 0 40px rgba(99, 102, 241, 0.12);
+  --shadow-glow: 0 0 40px rgba(129, 140, 248, 0.18);
+  --shadow-glow-strong: 0 0 60px rgba(129, 140, 248, 0.32);
+}
+
+/* Dark theme custom scrollbar */
+body.dark-theme {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(129, 140, 248, 0.35) transparent;
+}
+
+body.dark-theme::-webkit-scrollbar {
+  width: 5px;
+}
+
+body.dark-theme::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body.dark-theme::-webkit-scrollbar-thumb {
+  background: rgba(129, 140, 248, 0.35);
+  border-radius: 3px;
+}
+
+body.dark-theme::-webkit-scrollbar-thumb:hover {
+  background: rgba(129, 140, 248, 0.55);
 }
 
 /* Background color variables (kept for compatibility) */
@@ -298,7 +324,31 @@ textarea:focus,
 /* Fallback background colors for different modes */
 body.bg-black .bg,
 body.dark-theme .bg {
-  background: #000000 !important;
+  background: #06060f !important;
+  overflow: hidden;
+}
+
+/* Animated ambient orbs — dark theme only */
+body.dark-theme .bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 65% 55% at 18% 22%, rgba(99, 102, 241, 0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 82% 78%, rgba(139, 92, 246, 0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 40% at 60% 8%,  rgba(59, 130, 246, 0.10) 0%, transparent 60%);
+  animation: orbs-breathe 10s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+@keyframes orbs-breathe {
+  0%   { transform: scale(1)    translate(0,    0);    opacity: 0.8; }
+  50%  { transform: scale(1.08) translate(2%,   1.5%); opacity: 1;   }
+  100% { transform: scale(1.15) translate(-1.5%, 3%);  opacity: 0.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.dark-theme .bg::before { animation: none; }
 }
 
 body.bg-white .bg,
@@ -384,13 +434,19 @@ body.white-theme .bg {
   }
 }
 
-/* Enhanced blur for dark theme links */
+/* Enhanced blur and glow for dark theme links */
 body.dark-theme .link {
   backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
 
+  &::before {
+    background: linear-gradient(90deg, transparent, rgba(129, 140, 248, 0.22), transparent);
+  }
+
   &:hover {
     backdrop-filter: blur(24px);
+    border-color: rgba(129, 140, 248, 0.35);
+    box-shadow: var(--shadow-card-hover), 0 0 18px rgba(99, 102, 241, 0.12);
   }
 }
 
