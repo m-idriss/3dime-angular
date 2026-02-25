@@ -109,6 +109,13 @@ body.dark-theme {
   --shadow-glow-strong: 0 0 60px rgba(129, 140, 248, 0.32);
 }
 
+/* CSS custom property for animated conic-gradient border (commit D) */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
 /* Dark theme custom scrollbar */
 body.dark-theme {
   scrollbar-width: thin;
