@@ -132,6 +132,83 @@ body.dark-theme::-webkit-scrollbar-thumb:hover {
   background: rgba(129, 140, 248, 0.55);
 }
 
+/* ========================
+   Twinkling Stars (dark theme)
+   ======================== */
+.stars-layer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+body.dark-theme .stars-layer {
+  display: block;
+}
+
+/* Static star field */
+body.dark-theme .stars-layer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle 1px   at  8% 12%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 23% 40%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 37%  7%, rgba(255,255,255,0.75) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 52% 26%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 67% 52%, rgba(255,255,255,0.40) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 81% 16%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 94% 36%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 14% 70%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 29% 86%, rgba(255,255,255,0.40) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 43% 63%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 57% 79%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 73% 91%, rgba(255,255,255,0.75) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 89% 68%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(circle 1px   at  4% 48%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 96% 83%, rgba(255,255,255,0.40) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 32% 22%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 48% 44%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 76% 33%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 61% 14%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(circle 1px   at  7% 83%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 91% 49%, rgba(255,255,255,0.40) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 19% 94%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 50%  4%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 79% 73%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(circle 1px   at  2% 28%, rgba(255,255,255,0.45) 0%, transparent 100%);
+}
+
+/* Twinkling star layer — slightly larger, pulses in/out */
+body.dark-theme .stars-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle 2px   at 17% 34%, rgba(255,255,255,0.95) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 44% 11%, rgba(200,210,255,0.90) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 70% 44%, rgba(255,255,255,0.85) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 53% 67%, rgba(200,210,255,0.95) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 86% 29%, rgba(255,255,255,0.80) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 26% 77%, rgba(200,210,255,0.90) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 62% 89%, rgba(255,255,255,0.85) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 39% 54%, rgba(200,210,255,0.75) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at  6% 19%, rgba(255,255,255,0.90) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 93% 64%, rgba(200,210,255,0.80) 0%, transparent 100%);
+  animation: star-twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes star-twinkle {
+  from { opacity: 0.25; }
+  to   { opacity: 1;    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.dark-theme .stars-layer::after { animation: none; opacity: 0.6; }
+}
+
 /* Background color variables (kept for compatibility) */
 body.bg-white {
   --text-bg: #000000;
