@@ -85,6 +85,19 @@ body.dark-theme .container {
   }
 }
 
+/* Animated underline — grows from center on card hover */
+body.dark-theme .container h1::after,
+body.dark-theme .container h2::after {
+  width: 0;
+  transition: width 0.4s var(--ease), background 0.4s var(--ease);
+}
+
+body.dark-theme .container:hover h1::after,
+body.dark-theme .container:hover h2::after {
+  width: 60px;
+  background: linear-gradient(90deg, transparent, #818cf8, #38bdf8, transparent);
+}
+
 /* Vibrant gradient text for dark theme headings */
 body.dark-theme .container h1,
 body.dark-theme .container h2 {
