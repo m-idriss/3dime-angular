@@ -97,12 +97,44 @@
   }
 }
 
-/* Enhanced blur for dark theme */
+/* Neon color-coded glow on icon tiles — dark theme */
 body.dark-theme .icon-tile {
   backdrop-filter: blur(20px);
 
   &:hover {
     backdrop-filter: blur(28px);
+  }
+
+  /* Experience — blue */
+  &:has(.fa-briefcase):hover {
+    border-color: rgba(59, 130, 246, 0.65);
+    box-shadow: 0 0 22px rgba(59,130,246,0.30), 0 0 45px rgba(59,130,246,0.12), 0 4px 20px rgba(0,0,0,0.5);
+    i.icon-display { color: #60a5fa; }
+    .title-display  { color: #60a5fa; }
+  }
+
+  /* Education — emerald */
+  &:has(.fa-graduation-cap):hover {
+    border-color: rgba(16, 185, 129, 0.65);
+    box-shadow: 0 0 22px rgba(16,185,129,0.30), 0 0 45px rgba(16,185,129,0.12), 0 4px 20px rgba(0,0,0,0.5);
+    i.icon-display { color: #34d399; }
+    .title-display  { color: #34d399; }
+  }
+
+  /* Hobbies — rose */
+  &:has(.fa-heart):hover {
+    border-color: rgba(236, 72, 153, 0.65);
+    box-shadow: 0 0 22px rgba(236,72,153,0.30), 0 0 45px rgba(236,72,153,0.12), 0 4px 20px rgba(0,0,0,0.5);
+    i.icon-display { color: #f472b6; }
+    .title-display  { color: #f472b6; }
+  }
+
+  /* Stuff — amber */
+  &:has(.fa-star):hover {
+    border-color: rgba(245, 158, 11, 0.65);
+    box-shadow: 0 0 22px rgba(245,158,11,0.30), 0 0 45px rgba(245,158,11,0.12), 0 4px 20px rgba(0,0,0,0.5);
+    i.icon-display { color: #fbbf24; }
+    .title-display  { color: #fbbf24; }
   }
 }
 
