@@ -31,32 +31,19 @@ jobs:
       - name: 🔍 Check links in documentation
         uses: lycheeverse/lychee-action@v2.8.0
         with:
-          # Check documentation and configuration files
           args: >-
             --verbose
             --no-progress
             --accept 200,201,202,203,204,300,301,302,303,304,307,308,429
             --timeout 10
+            --max-retries 2
             --retry-wait-time 2
             --exclude-private
             --exclude-link-local
             --user-agent "Mozilla/5.0 (compatible; converter-link-checker/1.0)"
             --cache
             --max-cache-age 86400sec
-            README.md
-            CONTRIBUTING.md
-            ROADMAP.md
-            SECURITY.md
-            PWA_VISUAL_GUIDE.md
-            docs/API.md
-            docs/COMPONENTS.md
-            docs/CONVERTER.md
-            docs/DESIGN_SYSTEM.md
-            docs/DEVELOPMENT.md
-            docs/FIREBASE_AUTH_SETUP.md
-            docs/PWA.md
-            docs/README.md
-            docs/SERVICES.md
+            '**/*.md'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -72,23 +59,6 @@ jobs:
           else
             echo "✅ All links are working correctly!" >> $GITHUB_STEP_SUMMARY
           fi
-
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Checked files:**" >> $GITHUB_STEP_SUMMARY
-          echo "- README.md (main documentation)" >> $GITHUB_STEP_SUMMARY
-          echo "- CONTRIBUTING.md (contribution guidelines)" >> $GITHUB_STEP_SUMMARY
-          echo "- ROADMAP.md (project roadmap)" >> $GITHUB_STEP_SUMMARY
-          echo "- SECURITY.md (security policies)" >> $GITHUB_STEP_SUMMARY
-          echo "- PWA_VISUAL_GUIDE.md (PWA visual guide)" >> $GITHUB_STEP_SUMMARY
-          echo "- docs/API.md (API documentation)" >> $GITHUB_STEP_SUMMARY
-          echo "- docs/COMPONENTS.md (component documentation)" >> $GITHUB_STEP_SUMMARY
-          echo "- docs/CONVERTER.md (converter documentation)" >> $GITHUB_STEP_SUMMARY
-          echo "- docs/DESIGN_SYSTEM.md (design system documentation)" >> $GITHUB_STEP_SUMMARY
-          echo "- docs/DEVELOPMENT.md (development documentation)" >> $GITHUB_STEP_SUMMARY
-          echo "- docs/FIREBASE_AUTH_SETUP.md (Firebase auth setup)" >> $GITHUB_STEP_SUMMARY
-          echo "- docs/PWA.md (PWA documentation)" >> $GITHUB_STEP_SUMMARY
-          echo "- docs/README.md (documentation index)" >> $GITHUB_STEP_SUMMARY
-          echo "- docs/SERVICES.md (services documentation)" >> $GITHUB_STEP_SUMMARY
 
       - name: 🐛 Create issue for dead links
         if: >-
@@ -107,8 +77,7 @@ jobs:
             const issueTitle = `🔗 Dead Links - ${new Date().toISOString().split('T')[0]}`;
             const issueBody = `## Dead Links Found
 
-            The automated link checker has detected one or more dead
-            links in the website.
+            The automated link checker has detected one or more dead links in the website.
 
             ### Report Details
 
@@ -116,36 +85,16 @@ jobs:
 
             ### Recommended Actions
 
-            1. **Review each failed link** and determine if it should be
-               updated or removed
+            1. **Review each failed link** and determine if it should be updated or removed
             2. **Update documentation files** with current links
-            3. **Check for alternative URLs** for resources that may
-               have moved
+            3. **Check for alternative URLs** for resources that may have moved
             4. **Consider removing outdated links** if no alternative exists
 
-            ### Files to Check
-
-            - \`README.md\` - Main documentation
-            - \`CONTRIBUTING.md\` - Contribution guidelines
-            - \`ROADMAP.md\` - Project roadmap
-            - \`SECURITY.md\` - Security policies
-            - \`PWA_VISUAL_GUIDE.md\` - PWA visual guide
-            - \`docs/API.md\` - API documentation
-            - \`docs/COMPONENTS.md\` - Component documentation
-            - \`docs/CONVERTER.md\` - Converter documentation
-            - \`docs/DESIGN_SYSTEM.md\` - Design system documentation
-            - \`docs/DEVELOPMENT.md\` - Development documentation
-            - \`docs/FIREBASE_AUTH_SETUP.md\` - Firebase auth setup
-            - \`docs/PWA.md\` - PWA documentation
-            - \`docs/README.md\` - Documentation index
-            - \`docs/SERVICES.md\` - Services documentation
-
-            **Note:** This issue was automatically created by the dead link
-            checker workflow.
+            **Note:** This issue was automatically created by the dead link checker workflow.
 
             ---
 
-            /label ~bug ~automated`;
+            /label ~bug ~automated`.replace(/^ {12}/gm, '');
 
             const { data: issues } = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
@@ -155,21 +104,18 @@ jobs:
             });
 
             const existingIssue = issues.find(issue =>
-              issue.title.includes('Dead Links Detected') &&
+              issue.title.includes('Dead Links') &&
               issue.labels.some(label => label.name === 'automated')
             );
 
             if (existingIssue) {
               // Update existing issue
-              await github.rest.issues.createComment({
+              await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: existingIssue.number,
-                body: `## 📅 Updated Report - ${new Date().toISOString().split('T')[0]}
-
-                ${reportContent}
-
-                *This comment was automatically generated by the dead link checker.*`
+                title: issueTitle,
+                body: issueBody
               });
 
               console.log(`Updated existing issue #${existingIssue.number}`);
