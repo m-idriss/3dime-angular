@@ -477,36 +477,19 @@ body.dark-theme .bg::after {
   pointer-events: none;
 }
 
-body.bg-white .bg,
-body.light-theme .bg,
-body.white-theme .bg {
+body.bg-white .bg {
   background: #f0f4ff !important;
 }
 
-/* Ambient pastel orbs — light theme */
-body.light-theme .bg::before,
-body.white-theme .bg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+/* Light theme bg: pastel orbs baked directly into background (Safari-safe, no ::before/::after) */
+body.light-theme .bg,
+body.white-theme .bg {
   background:
     radial-gradient(ellipse 70% 60% at 10% 15%, rgba(219, 234, 254, 0.85) 0%, transparent 60%),
     radial-gradient(ellipse 60% 50% at 88% 80%, rgba(224, 231, 255, 0.65) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 45% at 55% 5%,  rgba(186, 230, 253, 0.45) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-/* Subtle noise texture — light theme */
-body.light-theme .bg::after,
-body.white-theme .bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0.018;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
-  background-repeat: repeat;
-  pointer-events: none;
+    radial-gradient(ellipse 50% 45% at 55% 5%,  rgba(186, 230, 253, 0.45) 0%, transparent 50%),
+    #f0f4ff !important;
+  overflow: hidden;
 }
 
 /* ========================
@@ -547,6 +530,7 @@ body.white-theme .bg::after {
   /* Visual */
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -570,6 +554,7 @@ body.white-theme .bg::after {
   &:hover {
     background: var(--glass-bg-hover);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(59, 130, 246, 0.4);
     box-shadow: var(--shadow-card-hover);
     transform: translateY(-2px);
