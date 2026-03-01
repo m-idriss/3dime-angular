@@ -20,6 +20,7 @@
   /* Visual */
   background: var(--primary-bg);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
@@ -31,6 +32,7 @@
   &:hover {
     background: var(--primary-bg-hover);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     box-shadow: var(--shadow-card-hover);
     transform: none;
   }
@@ -178,6 +180,7 @@ body.dark-theme .container h2 {
   /* Visual */
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-card);
   object-fit: contain;
