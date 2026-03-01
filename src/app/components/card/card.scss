@@ -170,6 +170,34 @@ body.dark-theme .container {
   color: var(--text-secondary);
 }
 
+/* Vibrant gradient text for light theme headings */
+body.light-theme .container h2,
+body.light-theme .container h3 {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #0891b2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated underline — grows from center on card hover (light theme) */
+body.light-theme .container h2::after,
+body.light-theme .container h3::after {
+  width: 0;
+  transition: width 0.4s var(--ease), background 0.4s var(--ease);
+}
+
+body.light-theme .container:hover h2::after,
+body.light-theme .container:hover h3::after {
+  width: 60px;
+  background: linear-gradient(90deg, transparent, #3b82f6, #0891b2, transparent);
+}
+
+/* Subtle card hover border + glow — light theme */
+body.light-theme .container:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: var(--shadow-card-hover), 0 0 20px rgba(59, 130, 246, 0.10);
+}
+
 /* Animated underline — grows from center on card hover */
 body.dark-theme .container h2::after,
 body.dark-theme .container h3::after {
