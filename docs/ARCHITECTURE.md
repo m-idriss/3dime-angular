@@ -1149,12 +1149,12 @@ Angular SPA → Firebase Functions → External APIs
 
 ## Related Documentation
 
-- **[Component Architecture](docs/COMPONENTS.md)** - Detailed component documentation
-- **[Services Documentation](docs/SERVICES.md)** - Service APIs and usage
-- **[Design System](docs/DESIGN_SYSTEM.md)** - Styling and theming guide
-- **[API Reference](docs/API.md)** - Backend API endpoints
-- **[Calendar Converter](docs/CONVERTER.md)** - AI conversion feature details
-- **[PWA Guide](docs/PWA.md)** - Progressive Web App features
+- **[Component Architecture](./COMPONENTS.md)** - Detailed component documentation
+- **[Services Documentation](./SERVICES.md)** - Service APIs and usage
+- **[Design System](./DESIGN_SYSTEM.md)** - Styling and theming guide
+- **[API Reference](./API.md)** - Backend API endpoints
+- **[Calendar Converter](./CONVERTER.md)** - AI conversion feature details
+- **[PWA Guide](./PWA.md)** - Progressive Web App features
 - **Caching Strategy (moved)** - See caching implementation details in the external `3dime-api` repository (CACHING.md)
 - **Backend Architecture (moved)** - See the functions architecture details in the external `3dime-api` repository README
 

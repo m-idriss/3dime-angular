@@ -160,7 +160,7 @@ The GitHub Activity section uses the GitHub API:
 > 
 > The backend is built with **Quarkus**, a modern cloud-native Java framework.
 > 
-> For local development with the backend, see the [Emulator Setup Guide](../EMULATOR_SETUP.md).
+> For local development with the backend, see the [Emulator Setup Guide](./EMULATOR_SETUP.md).
 
 ### Prerequisites
 - Java Development Kit (JDK) 17 or later
