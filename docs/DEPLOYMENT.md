@@ -329,7 +329,7 @@ The project includes an automated release workflow.
 - `major`: 1.0.0 → 2.0.0 (breaking changes)
 - `custom`: Specify any version like 2.5.0
 
-See [RELEASE_GUIDE.md](../RELEASE_GUIDE.md) for detailed instructions.
+See [RELEASE_GUIDE.md](./RELEASE_GUIDE.md) for detailed instructions.
 
 ## Post-Deployment Checklist
 
