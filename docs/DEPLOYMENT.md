@@ -486,4 +486,4 @@ Issues with deployment?
 - [Installation Guide](./INSTALLATION.md)
 - Firebase Functions (moved) - See the `3dime-api` repository README for functions documentation and deployment details.
 - [Security Policy](../SECURITY.md)
-- [Release Guide](../RELEASE_GUIDE.md)
+- [Release Guide](./RELEASE_GUIDE.md)
