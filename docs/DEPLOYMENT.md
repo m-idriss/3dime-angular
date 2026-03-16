@@ -329,7 +329,7 @@ The project includes an automated release workflow.
 - `major`: 1.0.0 → 2.0.0 (breaking changes)
 - `custom`: Specify any version like 2.5.0
 
-See [RELEASE_GUIDE.md](../RELEASE_GUIDE.md) for detailed instructions.
+See [RELEASE_GUIDE.md](./RELEASE_GUIDE.md) for detailed instructions.
 
 ## Post-Deployment Checklist
 
@@ -486,4 +486,4 @@ Issues with deployment?
 - [Installation Guide](./INSTALLATION.md)
 - Firebase Functions (moved) - See the `3dime-api` repository README for functions documentation and deployment details.
 - [Security Policy](../SECURITY.md)
-- [Release Guide](../RELEASE_GUIDE.md)
+- [Release Guide](./RELEASE_GUIDE.md)
