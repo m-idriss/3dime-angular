@@ -77,6 +77,7 @@ export class GithubService {
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
   private commits$?: Observable<CommitData[]>;
+  private release$?: Observable<GithubRelease>;
 
   private readonly CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
@@ -192,14 +193,25 @@ export class GithubService {
    * @returns Observable of GitHub release data (returns empty object on timeout/error)
    */
   getLatestRelease(): Observable<GithubRelease> {
-    const url = 'https://api.github.com/repos/m-idriss/3dime-angular/releases/latest';
-    return this.http.get<GithubRelease>(url).pipe(
-      timeout(API_CONFIG.TIMEOUT_MS),
-      catchError((err) => {
-        console.warn('Release API call failed or timed out:', err.message || err);
-        return of({} as GithubRelease);
-      }),
-      shareReplay(1),
-    );
+    if (!this.release$) {
+      const cached = this.getCached<GithubRelease>('github_release');
+      const url = 'https://api.github.com/repos/m-idriss/3dime-angular/releases/latest';
+      const fresh$ = this.http.get<GithubRelease>(url).pipe(
+        timeout(API_CONFIG.TIMEOUT_MS),
+        tap((data) => this.setCache('github_release', data)),
+        catchError((err) => {
+          console.warn('Release API call failed or timed out:', err.message || err);
+          return of({} as GithubRelease);
+        }),
+        shareReplay(1),
+      );
+      if (cached) {
+        this.release$ = of(cached).pipe(shareReplay(1));
+        fresh$.subscribe({ error: (err) => console.warn('Background release refresh failed:', err.message || err) });
+      } else {
+        this.release$ = fresh$;
+      }
+    }
+    return this.release$;
   }
 }
