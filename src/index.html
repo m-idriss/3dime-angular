@@ -78,11 +78,15 @@
   <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
 
   <!-- Resource Hints for Performance -->
+  <link rel="preconnect" href="https://api.3dime.com" crossorigin />
   <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
   <link rel="dns-prefetch" href="//unpkg.com" />
   <link rel="dns-prefetch" href="//d3js.org" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Pre-warm backend API to overlap Cloud Run cold start with page load -->
+  <script>fetch('https://api.3dime.com/notion/cms',{mode:'cors'}).catch(function(){})</script>
 
   <!-- Defer non-critical CSS for better initial load performance -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" as="style"
