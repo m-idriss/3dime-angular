@@ -10,6 +10,9 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+yarn.lock
+.pnp.*
+.yarn/
 
 # IDEs and editors
 .idea/
@@ -50,5 +53,4 @@ src/environments/environment.local.ts
 firebase-debug.log
 .vercel
 .env*.local
-package-lock.json
 .claude

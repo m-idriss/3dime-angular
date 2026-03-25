@@ -21,16 +21,16 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '20'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci --legacy-peer-deps
 
       - name: Build application
-        run: yarn build
+        run: npm run build
 
       - name: Install serve
-        run: yarn global add serve
+        run: npm install -g serve
 
       - name: Start server in background
         run: |
