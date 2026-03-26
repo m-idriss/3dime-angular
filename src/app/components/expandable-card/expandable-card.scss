@@ -183,6 +183,7 @@ body.dark-theme .icon-tile {
   width: 100%;
   padding: var(--space-md);
   max-width: 400px;
+  margin: 0 auto;
 
   /* Visual */
   background: var(--primary-bg);
@@ -302,19 +303,19 @@ body.dark-theme .expanded-card {
   }
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+/* Responsive adjustments — single-column layout */
+@media (max-width: 1099px) {
   .icon-tile {
     //min-height: 70px;
     width: 100%;
     margin: 0 auto;
 
-    /* Hide icon on mobile */
+    /* Hide icon on mobile/tablet */
     i.icon-display {
       display: none;
     }
 
-    /* Show title on mobile */
+    /* Show title on mobile/tablet */
     .title-display {
       display: block;
       font-size: 1rem;
@@ -327,7 +328,7 @@ body.dark-theme .expanded-card {
 }
 
 /* Desktop layout - keep icon tiles aligned to right in left column */
-@media (min-width: 768px) {
+@media (min-width: 1100px) {
   .left-column {
     :host.compact {
       display: flex;
