@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs/operators';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { injectSpeedInsights } from '@vercel/speed-insights';
 
 import { Footer } from './components/footer/footer';
 import { PWA_CONFIG } from './constants/pwa.constants';
@@ -26,6 +27,11 @@ export class App implements OnInit {
   private deferredPrompt: BeforeInstallPromptEvent | null = null;
 
   ngOnInit(): void {
+    // Initialize Vercel Speed Insights
+    if (isPlatformBrowser(this.platformId)) {
+      injectSpeedInsights();
+    }
+
     // Track current route
     this.currentRoute.set(this.router.url);
     this.router.events
