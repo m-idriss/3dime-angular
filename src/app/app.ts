@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, signal, OnInit, PLATFORM_ID, inject, isDevMode } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs/operators';
@@ -27,8 +27,10 @@ export class App implements OnInit {
   private deferredPrompt: BeforeInstallPromptEvent | null = null;
 
   ngOnInit(): void {
-    // Initialize Vercel Speed Insights
-    if (isPlatformBrowser(this.platformId)) {
+    const isBrowser = isPlatformBrowser(this.platformId);
+
+    // Initialize Vercel Speed Insights (production browser only)
+    if (isBrowser && !isDevMode()) {
       injectSpeedInsights();
     }
 
@@ -41,7 +43,7 @@ export class App implements OnInit {
       });
 
     // Check for service worker updates
-    if (isPlatformBrowser(this.platformId) && this.swUpdate.isEnabled) {
+    if (isBrowser && this.swUpdate.isEnabled) {
       this.swUpdate.versionUpdates
         .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
         .subscribe(() => {
@@ -52,7 +54,7 @@ export class App implements OnInit {
     }
 
     // Handle PWA install prompt
-    if (isPlatformBrowser(this.platformId)) {
+    if (isBrowser) {
       window.addEventListener('beforeinstallprompt', (e) => {
         // Prevent the mini-infobar from appearing on mobile
         e.preventDefault();
