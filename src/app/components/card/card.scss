@@ -33,7 +33,42 @@
     -webkit-backdrop-filter: blur(24px);
     box-shadow: var(--shadow-card-hover), var(--shadow-glow);
     transform: none;
+
+    /* Reveal shimmer on hover */
+    &::after {
+      left: 100%;
+    }
   }
+
+  /* Shimmer sweep effect (Premium) */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+    transform: skewX(-25deg);
+    transition: left 0.75s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+
+/* Dark theme shimmer adjustment */
+body.dark-theme .container::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
 }
 
 /* Enhanced blur, depth, and animated gradient border — dark theme */
@@ -172,13 +207,14 @@ body.dark-theme .container {
   color: var(--text-secondary);
 }
 
-/* Vibrant gradient text for light theme headings (Indigo/Violet/Blue) */
+/* Vibrant glowing gradient text for light theme headings (Indigo/Violet/Blue) */
 body.light-theme .container h2,
 body.light-theme .container h3 {
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #3b82f6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.15));
 }
 
 /* Animated underline — grows from center on card hover (light theme) */
@@ -194,10 +230,35 @@ body.light-theme .container:hover h3::after {
   background: linear-gradient(90deg, transparent, #4f46e5, #3b82f6, transparent);
 }
 
-/* Subtle card hover border + glow — light theme */
-body.light-theme .container:hover {
-  border-color: rgba(99, 102, 241, 0.25);
-  box-shadow: var(--shadow-card-hover), 0 0 20px rgba(99, 102, 241, 0.08);
+/* Subtle card hover border + glow + halo — light theme */
+body.light-theme .container {
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--border-angle),
+      transparent 20%,
+      rgba(99, 102, 241, 0.3) 40%,
+      rgba(59, 130, 246, 0.2) 55%,
+      transparent 75%
+    );
+    z-index: -1;
+    opacity: 0;
+    filter: blur(8px);
+    transition: opacity var(--t-medium);
+  }
+
+  &:hover {
+    border-color: rgba(99, 102, 241, 0.2);
+    box-shadow: var(--shadow-card-hover), 0 0 30px rgba(99, 102, 241, 0.1);
+
+    &::before {
+      opacity: 0.6;
+      animation: border-spin 6s linear infinite;
+    }
+  }
 }
 
 /* Animated underline — grows from center on card hover */

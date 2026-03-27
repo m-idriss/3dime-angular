@@ -72,27 +72,27 @@
 }
 
 /* Light theme — 60/30/10 rule: white bg / black cards / blue accent */
-/* Premium Light Theme - Refined Indigo & Slate Palette */
+/* Glowing Premium White Light Theme - High-End & "Awesome" */
 body.light-theme,
 body.white-theme {
-  --primary-bg: rgba(255, 255, 255, 0.6);
-  --primary-bg-hover: rgba(255, 255, 255, 0.75);
-  --glass-bg: rgba(255, 255, 255, 0.25);
-  --glass-bg-hover: rgba(255, 255, 255, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.4);
-  --text-primary: #0f172a; /* Slate 900 */
-  --text-secondary: #475569; /* Slate 600 */
-  --accent-color: #6366f1; /* Indigo 500 */
-  --menu-bg: rgba(255, 255, 255, 0.92);
+  --primary-bg: #ffffff;
+  --primary-bg-hover: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-bg-hover: #ffffff;
+  --glass-border: rgba(99, 102, 241, 0.1);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --accent-color: #6366f1;
+  --menu-bg: #ffffff;
   --text-menu: #0f172a;
   --text-bg: #ffffff;
-  --text-bg-alt: #f8fafc;
+  --text-bg-alt: #f1f5f9;
 
-  /* Sophisticated, soft layered shadows */
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
-  --shadow-card-hover: 0 12px 32px rgba(99, 102, 241, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
-  --shadow-glow: 0 0 24px rgba(99, 102, 241, 0.06);
-  --shadow-glow-strong: 0 0 40px rgba(99, 102, 241, 0.12);
+  /* Sophisticated glows and shadows for the "Glowing" look */
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-card-hover: 0 25px 50px -12px rgba(99, 102, 241, 0.1);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.08);
+  --shadow-glow-strong: 0 0 40px rgba(99, 102, 241, 0.15);
 }
 
 /* Dark theme */
@@ -536,36 +536,36 @@ body.bg-white .bg {
   background: #ffffff !important;
 }
 
-/* Light theme bg: soft white-to-slate gradient with animated ambient orbs */
+/* Pure White theme bg */
 body.light-theme .bg,
 body.white-theme .bg {
-  background: radial-gradient(circle at 50% -20%, #eff6ff 0%, #ffffff 100%) !important;
+  background: #ffffff !important;
   overflow: hidden;
 }
 
-/* Animated ambient orbs — light theme (refined indigo/blue tints) */
+/* Minimal ambient orbs — light theme (extremely subtle tints) */
 body.light-theme .bg::before,
 body.white-theme .bg::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 45% 40% at 20% 25%, rgba(99, 102, 241, 0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 35% at 80% 75%, rgba(59, 130, 246, 0.06) 0%, transparent 65%),
-    radial-gradient(ellipse 35% 30% at 60% 30%, rgba(139, 92, 246, 0.05) 0%, transparent 60%);
-  animation: orbs-breathe 12s ease-in-out infinite alternate;
+    radial-gradient(ellipse 45% 40% at 20% 25%, rgba(99, 102, 241, 0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 35% at 80% 75%, rgba(59, 130, 246, 0.02) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 30% at 60% 30%, rgba(139, 92, 246, 0.02) 0%, transparent 60%);
+  animation: orbs-breathe 15s ease-in-out infinite alternate;
   will-change: transform, opacity;
   -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, black 40%, transparent 90%);
   mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, black 40%, transparent 90%);
 }
 
-/* Subtle grain texture — light theme (minimal opacity for tactile feel) */
+/* Subtle grain texture — light theme (nearly invisible for tactile hint) */
 body.light-theme .bg::after,
 body.white-theme .bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.015;
+  opacity: 0.008;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-size: 256px 256px;
   background-repeat: repeat;
