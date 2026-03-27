@@ -3,7 +3,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs/operators';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
-import { injectSpeedInsights } from '@vercel/speed-insights';
 import { inject as injectAnalytics } from '@vercel/analytics';
 
 import { Footer } from './components/footer/footer';
@@ -30,9 +29,8 @@ export class App implements OnInit {
   ngOnInit(): void {
     const isBrowser = isPlatformBrowser(this.platformId);
 
-    // Initialize Vercel Speed Insights & Analytics (production browser only)
+    // Initialize Vercel Analytics (production browser only)
     if (isBrowser && !isDevMode()) {
-      injectSpeedInsights();
       injectAnalytics();
     }
 

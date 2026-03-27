@@ -40,7 +40,6 @@
     "@notionhq/client": "^5.9.0",
     "@popperjs/core": "^2.11.8",
     "@vercel/analytics": "^2.0.1",
-    "@vercel/speed-insights": "^2.0.0",
     "bootstrap": "^5.3.8",
     "cal-heatmap": "^4.2.4",
     "d3": "^7.9.0",
