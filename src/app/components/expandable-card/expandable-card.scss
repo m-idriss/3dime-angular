@@ -98,17 +98,17 @@
   }
 }
 
-/* Color-coded hover effects on icon tiles — light theme */
+/* Color-coded hover effects on icon tiles — light theme (refined premium palette) */
 body.light-theme .icon-tile {
-  /* Experience — red */
+  /* Experience — Indigo/Blue */
   &:has(.fa-briefcase):hover {
-    border-color: rgba(220, 38, 38, 0.4);
-    box-shadow: 0 0 18px rgba(220, 38, 38, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
-    i.icon-display { color: #dc2626; }
-    .title-display  { color: #dc2626; }
+    border-color: rgba(79, 70, 229, 0.4);
+    box-shadow: 0 0 18px rgba(79, 70, 229, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
+    i.icon-display { color: #4f46e5; }
+    .title-display  { color: #4f46e5; }
   }
 
-  /* Education — emerald */
+  /* Education — Emerald/Teal */
   &:has(.fa-graduation-cap):hover {
     border-color: rgba(16, 185, 129, 0.4);
     box-shadow: 0 0 18px rgba(16, 185, 129, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -116,15 +116,15 @@ body.light-theme .icon-tile {
     .title-display  { color: #059669; }
   }
 
-  /* Hobbies — rose */
+  /* Hobbies — Violet/Rose */
   &:has(.fa-heart):hover {
-    border-color: rgba(236, 72, 153, 0.4);
-    box-shadow: 0 0 18px rgba(236, 72, 153, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
-    i.icon-display { color: #db2777; }
-    .title-display  { color: #db2777; }
+    border-color: rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 18px rgba(139, 92, 246, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
+    i.icon-display { color: #7c3aed; }
+    .title-display  { color: #7c3aed; }
   }
 
-  /* Stuff — amber */
+  /* Stuff — Amber/Orange */
   &:has(.fa-star):hover {
     border-color: rgba(245, 158, 11, 0.4);
     box-shadow: 0 0 18px rgba(245, 158, 11, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
