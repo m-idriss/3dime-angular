@@ -118,7 +118,7 @@ export class ThemeService {
     body.classList.add(`${theme}-theme`);
 
     // Apply background based on theme
-    const backgroundColor = theme === 'dark' ? '#000000' : '#f0f4ff';
+    const backgroundColor = theme === 'dark' ? '#000000' : '#ffffff';
     const bgClass = theme === 'dark' ? 'bg-black' : 'bg-white';
 
     body.classList.add(bgClass);
