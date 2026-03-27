@@ -76,22 +76,22 @@ body.light-theme,
 body.white-theme {
   --primary-bg: rgba(255, 255, 255, 1);
   --primary-bg-hover: rgba(255, 255, 255, 1);
-  --glass-bg: rgba(14, 165, 233, 0.04);
-  --glass-bg-hover: rgba(14, 165, 233, 0.08);
-  --glass-border: rgba(14, 165, 233, 0.12);
+  --glass-bg: rgba(37, 99, 235, 0.04);
+  --glass-bg-hover: rgba(37, 99, 235, 0.08);
+  --glass-border: rgba(37, 99, 235, 0.12);
   --text-primary: #1a1a2e;
   --text-secondary: rgba(26, 26, 46, 0.68);
-  --accent-color: #0ea5e9;
+  --accent-color: #2563eb;
   --menu-bg: rgba(255, 255, 255, 0.97);
   --text-menu: #1a1a2e;
   --text-bg: #1a1a2e;
   --text-bg-alt: #4b5563;
 
-  /* Soft dark-blue-tinted layered shadows */
-  --shadow-card: 0 4px 20px rgba(14, 165, 233, 0.08), 0 1px 4px rgba(14, 165, 233, 0.04);
-  --shadow-card-hover: 0 8px 32px rgba(14, 165, 233, 0.14), 0 2px 8px rgba(14, 165, 233, 0.06);
-  --shadow-glow: 0 0 24px rgba(14, 165, 233, 0.10);
-  --shadow-glow-strong: 0 0 40px rgba(14, 165, 233, 0.18);
+  /* Soft blue-tinted layered shadows */
+  --shadow-card: 0 4px 20px rgba(37, 99, 235, 0.08), 0 1px 4px rgba(37, 99, 235, 0.04);
+  --shadow-card-hover: 0 8px 32px rgba(37, 99, 235, 0.14), 0 2px 8px rgba(37, 99, 235, 0.06);
+  --shadow-glow: 0 0 24px rgba(37, 99, 235, 0.10);
+  --shadow-glow-strong: 0 0 40px rgba(37, 99, 235, 0.18);
 }
 
 /* Dark theme */
@@ -149,7 +149,7 @@ body.dark-theme::-webkit-scrollbar-thumb:hover {
 /* Light theme custom scrollbar */
 body.light-theme {
   scrollbar-width: thin;
-  scrollbar-color: rgba(14, 165, 233, 0.25) transparent;
+  scrollbar-color: rgba(37, 99, 235, 0.25) transparent;
 }
 
 body.light-theme::-webkit-scrollbar {
@@ -161,12 +161,12 @@ body.light-theme::-webkit-scrollbar-track {
 }
 
 body.light-theme::-webkit-scrollbar-thumb {
-  background: rgba(14, 165, 233, 0.25);
+  background: rgba(37, 99, 235, 0.25);
   border-radius: 3px;
 }
 
 body.light-theme::-webkit-scrollbar-thumb:hover {
-  background: rgba(14, 165, 233, 0.45);
+  background: rgba(37, 99, 235, 0.45);
 }
 
 /* ========================
@@ -254,31 +254,31 @@ body.light-theme .stars-layer::before {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle 1.5px at  8% 12%, rgba(14,165,233,0.55) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 23% 40%, rgba(14,165,233,0.40) 0%, transparent 100%),
-    radial-gradient(circle 2px   at 37%  7%, rgba(14,165,233,0.60) 0%, transparent 100%),
-    radial-gradient(circle 1.5px at 52% 26%, rgba(14,165,233,0.45) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 67% 52%, rgba(14,165,233,0.35) 0%, transparent 100%),
-    radial-gradient(circle 2px   at 81% 16%, rgba(14,165,233,0.55) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 94% 36%, rgba(14,165,233,0.40) 0%, transparent 100%),
-    radial-gradient(circle 1.5px at 14% 70%, rgba(14,165,233,0.50) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 29% 86%, rgba(14,165,233,0.35) 0%, transparent 100%),
-    radial-gradient(circle 2px   at 43% 63%, rgba(14,165,233,0.55) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 57% 79%, rgba(14,165,233,0.40) 0%, transparent 100%),
-    radial-gradient(circle 1.5px at 73% 91%, rgba(14,165,233,0.60) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 89% 68%, rgba(14,165,233,0.45) 0%, transparent 100%),
-    radial-gradient(circle 1px   at  4% 48%, rgba(14,165,233,0.38) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 96% 83%, rgba(14,165,233,0.35) 0%, transparent 100%),
-    radial-gradient(circle 1.5px at 32% 22%, rgba(14,165,233,0.50) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 48% 44%, rgba(14,165,233,0.30) 0%, transparent 100%),
-    radial-gradient(circle 2px   at 76% 33%, rgba(14,165,233,0.55) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 61% 14%, rgba(14,165,233,0.40) 0%, transparent 100%),
-    radial-gradient(circle 1.5px at  7% 83%, rgba(14,165,233,0.45) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 91% 49%, rgba(14,165,233,0.35) 0%, transparent 100%),
-    radial-gradient(circle 1.5px at 19% 94%, rgba(14,165,233,0.55) 0%, transparent 100%),
-    radial-gradient(circle 1px   at 50%  4%, rgba(14,165,233,0.40) 0%, transparent 100%),
-    radial-gradient(circle 1.5px at 79% 73%, rgba(14,165,233,0.50) 0%, transparent 100%),
-    radial-gradient(circle 1px   at  2% 28%, rgba(14,165,233,0.38) 0%, transparent 100%);
+    radial-gradient(circle 1.5px at  8% 12%, rgba(37,99,235,0.55) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 23% 40%, rgba(37,99,235,0.40) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 37%  7%, rgba(37,99,235,0.60) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 52% 26%, rgba(37,99,235,0.45) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 67% 52%, rgba(37,99,235,0.35) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 81% 16%, rgba(37,99,235,0.55) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 94% 36%, rgba(37,99,235,0.40) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 14% 70%, rgba(37,99,235,0.50) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 29% 86%, rgba(37,99,235,0.35) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 43% 63%, rgba(37,99,235,0.55) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 57% 79%, rgba(37,99,235,0.40) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 73% 91%, rgba(37,99,235,0.60) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 89% 68%, rgba(37,99,235,0.45) 0%, transparent 100%),
+    radial-gradient(circle 1px   at  4% 48%, rgba(37,99,235,0.38) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 96% 83%, rgba(37,99,235,0.35) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 32% 22%, rgba(37,99,235,0.50) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 48% 44%, rgba(37,99,235,0.30) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 76% 33%, rgba(37,99,235,0.55) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 61% 14%, rgba(37,99,235,0.40) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at  7% 83%, rgba(37,99,235,0.45) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 91% 49%, rgba(37,99,235,0.35) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 19% 94%, rgba(37,99,235,0.55) 0%, transparent 100%),
+    radial-gradient(circle 1px   at 50%  4%, rgba(37,99,235,0.40) 0%, transparent 100%),
+    radial-gradient(circle 1.5px at 79% 73%, rgba(37,99,235,0.50) 0%, transparent 100%),
+    radial-gradient(circle 1px   at  2% 28%, rgba(37,99,235,0.38) 0%, transparent 100%);
 }
 
 /* Twinkling blue dots — light theme */
@@ -287,16 +287,16 @@ body.light-theme .stars-layer::after {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle 2.5px at 17% 34%, rgba(14,165,233,0.70) 0%, transparent 100%),
-    radial-gradient(circle 2px   at 44% 11%, rgba(14,165,233,0.55) 0%, transparent 100%),
-    radial-gradient(circle 2.5px at 70% 44%, rgba(14,165,233,0.60) 0%, transparent 100%),
-    radial-gradient(circle 2.5px at 53% 67%, rgba(14,165,233,0.70) 0%, transparent 100%),
-    radial-gradient(circle 2px   at 86% 29%, rgba(14,165,233,0.50) 0%, transparent 100%),
-    radial-gradient(circle 2.5px at 26% 77%, rgba(14,165,233,0.55) 0%, transparent 100%),
-    radial-gradient(circle 2px   at 62% 89%, rgba(14,165,233,0.60) 0%, transparent 100%),
-    radial-gradient(circle 2.5px at 39% 54%, rgba(14,165,233,0.50) 0%, transparent 100%),
-    radial-gradient(circle 2px   at  6% 19%, rgba(14,165,233,0.55) 0%, transparent 100%),
-    radial-gradient(circle 2.5px at 93% 64%, rgba(14,165,233,0.50) 0%, transparent 100%);
+    radial-gradient(circle 2.5px at 17% 34%, rgba(37,99,235,0.70) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 44% 11%, rgba(37,99,235,0.55) 0%, transparent 100%),
+    radial-gradient(circle 2.5px at 70% 44%, rgba(37,99,235,0.60) 0%, transparent 100%),
+    radial-gradient(circle 2.5px at 53% 67%, rgba(37,99,235,0.70) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 86% 29%, rgba(37,99,235,0.50) 0%, transparent 100%),
+    radial-gradient(circle 2.5px at 26% 77%, rgba(37,99,235,0.55) 0%, transparent 100%),
+    radial-gradient(circle 2px   at 62% 89%, rgba(37,99,235,0.60) 0%, transparent 100%),
+    radial-gradient(circle 2.5px at 39% 54%, rgba(37,99,235,0.50) 0%, transparent 100%),
+    radial-gradient(circle 2px   at  6% 19%, rgba(37,99,235,0.55) 0%, transparent 100%),
+    radial-gradient(circle 2.5px at 93% 64%, rgba(37,99,235,0.50) 0%, transparent 100%);
   animation: star-twinkle 4s ease-in-out infinite alternate;
 }
 
@@ -532,13 +532,13 @@ body.dark-theme .bg::after {
 }
 
 body.bg-white .bg {
-  background: #ffffff !important;
+  background: #f0f4ff !important;
 }
 
-/* Light theme bg: pure white with animated ambient orbs */
+/* Light theme bg: soft blue-gray with animated ambient orbs */
 body.light-theme .bg,
 body.white-theme .bg {
-  background: #ffffff !important;
+  background: #f0f4ff !important;
   overflow: hidden;
 }
 
@@ -549,7 +549,7 @@ body.white-theme .bg::before {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 40% 35% at 40% 40%, rgba(14, 165, 233, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 35% at 40% 40%, rgba(37, 99, 235, 0.14) 0%, transparent 70%),
     radial-gradient(ellipse 35% 30% at 60% 55%, rgba(168, 85, 247, 0.10) 0%, transparent 65%),
     radial-gradient(ellipse 30% 25% at 50% 35%, rgba(244, 114, 182, 0.07) 0%, transparent 60%);
   animation: orbs-breathe 10s ease-in-out infinite alternate;
@@ -633,7 +633,7 @@ body.white-theme .bg::after {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.15), transparent);
+    background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.15), transparent);
     transition: left 0.5s var(--ease);
   }
 
@@ -642,7 +642,7 @@ body.white-theme .bg::after {
     background: var(--glass-bg-hover);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(14, 165, 233, 0.4);
+    border: 1px solid rgba(37, 99, 235, 0.4);
     box-shadow: var(--shadow-card-hover);
     transform: translateY(-2px);
 
@@ -661,8 +661,8 @@ body.white-theme .bg::after {
 /* Enhanced hover glow for light theme links */
 body.light-theme .link {
   &:hover {
-    border-color: rgba(14, 165, 233, 0.3);
-    box-shadow: var(--shadow-card-hover), 0 0 16px rgba(14, 165, 233, 0.10);
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: var(--shadow-card-hover), 0 0 16px rgba(37, 99, 235, 0.10);
   }
 }
 
