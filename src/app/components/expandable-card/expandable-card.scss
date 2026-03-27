@@ -100,12 +100,12 @@
 
 /* Color-coded hover effects on icon tiles — light theme */
 body.light-theme .icon-tile {
-  /* Experience — orange */
+  /* Experience — red */
   &:has(.fa-briefcase):hover {
-    border-color: rgba(37, 99, 235, 0.4);
-    box-shadow: 0 0 18px rgba(37, 99, 235, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
-    i.icon-display { color: #2563eb; }
-    .title-display  { color: #2563eb; }
+    border-color: rgba(220, 38, 38, 0.4);
+    box-shadow: 0 0 18px rgba(220, 38, 38, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
+    i.icon-display { color: #dc2626; }
+    .title-display  { color: #dc2626; }
   }
 
   /* Education — emerald */
