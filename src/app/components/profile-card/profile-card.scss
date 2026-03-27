@@ -87,10 +87,10 @@ body.dark-theme .container {
   }
 }
 
-/* Vibrant gradient text for light theme headings */
+/* Vibrant gradient text for light theme headings (Indigo/Violet/Blue) */
 body.light-theme .container h1,
 body.light-theme .container h2 {
-  background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #b91c1c 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #3b82f6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -106,13 +106,13 @@ body.light-theme .container h2::after {
 body.light-theme .container:hover h1::after,
 body.light-theme .container:hover h2::after {
   width: 60px;
-  background: linear-gradient(90deg, transparent, #dc2626, #b91c1c, transparent);
+  background: linear-gradient(90deg, transparent, #4f46e5, #3b82f6, transparent);
 }
 
 /* Subtle card hover border + glow — light theme */
 body.light-theme .container:hover {
-  border-color: rgba(220, 38, 38, 0.25);
-  box-shadow: var(--shadow-card-hover), 0 0 20px rgba(220, 38, 38, 0.08);
+  border-color: rgba(99, 102, 241, 0.25);
+  box-shadow: var(--shadow-card-hover), 0 0 20px rgba(99, 102, 241, 0.08);
 }
 
 /* Animated underline — grows from center on card hover */
