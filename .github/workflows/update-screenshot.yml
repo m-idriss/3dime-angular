@@ -83,6 +83,12 @@ jobs:
           sudo apt-get install -y imagemagick
           convert screenshots/iPhone_13_Pro_Max.jpeg -crop 1284x2200+0+0 screenshots/iPhone_13_Pro_Max.jpeg
 
+      - name: Crop desktop screenshot to central content area
+        run: |
+          # Crop the central 1280px strip (removing ~320px empty margins on each side)
+          # This focuses on the actual portfolio content and improves README readability
+          convert screenshots/desktopPage1920x1080.jpeg -crop 1280x1080+320+0 +repage screenshots/desktopPage1920x1080.jpeg
+
       - name: Verify screenshots have content
         run: |
           echo "Checking desktop screenshot..."

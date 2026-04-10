@@ -56,7 +56,8 @@ src/app/
 
 ### 💼 Portfolio Homepage
 
-![3dime-angular Desktop Screenshot](public/assets/screenshots/desktopPage1920x1080.jpeg)
+<img src="public/assets/screenshots/desktopPage1920x1080.jpeg" alt="3dime-angular Desktop Screenshot" width="800" />
+
 *Modern portfolio showcasing experience, skills, and projects*
 
 ### 📱 Mobile Experience
