@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { Environment } from '../../../environments/environment.interface';
 
 import { About as AboutComponent } from '../../components/about/about';
 import { BackToTop } from '../../components/back-to-top/back-to-top';
@@ -34,7 +35,8 @@ import { AppTooltipDirective } from '../../shared/directives';
   styleUrl: './about.scss',
 })
 export class About {
-  readonly showGithubActivity = !!(environment as Record<string, unknown>)['showGithubActivity'];
+  private readonly env = environment as Environment;
+  readonly showGithubActivity = !!(this.env.showGithubActivity ?? false);
 
   // ViewChild references to all expandable cards
   @ViewChild('techStackCard', { read: ExpandableCard }) techStackCard!: ExpandableCard;
