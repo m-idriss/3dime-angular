@@ -5,6 +5,7 @@ import { shareReplay, catchError, timeout, tap } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { API_CONFIG } from '../constants/app.constants';
+import { MOCK_GITHUB_USER, MOCK_SOCIAL_LINKS, MOCK_COMMIT_DATA, MOCK_RELEASES } from '../constants/mock-data';
 
 /**
  * Social media link interface
@@ -105,10 +106,14 @@ export class GithubService {
    * Get GitHub user profile.
    * Caches the result to prevent duplicate API calls.
    * Includes timeout to prevent hanging in restrictive network environments.
+   * Uses mock data in screenshot mode for CI/automated screenshots.
    *
    * @returns Observable of GitHub user profile data (returns empty object on timeout/error)
    */
   getProfile(): Observable<GithubUser> {
+    if (environment.screenshotMode) {
+      return of(MOCK_GITHUB_USER).pipe(shareReplay(1));
+    }
     if (!this.profile$) {
       const cached = this.getCached<GithubUser>('github_profile');
       const fresh$ = this.http.get<GithubUser>(this.endpoints.profile).pipe(
@@ -134,10 +139,14 @@ export class GithubService {
    * Get social media links.
    * Caches the result to prevent duplicate API calls.
    * Includes timeout to prevent hanging in restrictive network environments.
+   * Uses mock data in screenshot mode for CI/automated screenshots.
    *
    * @returns Observable of social media links array (returns empty array on timeout/error)
    */
   getSocialLinks(): Observable<SocialLink[]> {
+    if (environment.screenshotMode) {
+      return of(MOCK_SOCIAL_LINKS).pipe(shareReplay(1));
+    }
     if (!this.socialLinks$) {
       const cached = this.getCached<SocialLink[]>('github_social');
       const fresh$ = this.http.get<SocialLink[]>(this.endpoints.social).pipe(
@@ -162,11 +171,15 @@ export class GithubService {
   /**
    * Get GitHub commit activity data.
    * Includes timeout to prevent hanging in restrictive network environments.
+   * Uses mock data in screenshot mode for CI/automated screenshots.
    *
    * @param months - Number of months of commit history to fetch (default: 6)
    * @returns Observable of commit activity data (returns empty array on timeout/error)
    */
   getCommits(months = 6): Observable<CommitData[]> {
+    if (environment.screenshotMode) {
+      return of(MOCK_COMMIT_DATA).pipe(shareReplay(1));
+    }
     const url = `${this.endpoints.commits}?months=${months}`;
     return this.http.get<CommitData[]>(url).pipe(
       timeout(API_CONFIG.TIMEOUT_MS),
@@ -189,10 +202,14 @@ export class GithubService {
    * Get latest release from GitHub repository.
    * Fetches via backend API proxy to avoid CORS issues.
    * Includes timeout to prevent hanging in restrictive network environments.
+   * Uses mock data in screenshot mode for CI/automated screenshots.
    *
    * @returns Observable of GitHub release data (returns empty object on timeout/error)
    */
   getLatestRelease(): Observable<GithubRelease> {
+    if (environment.screenshotMode) {
+      return of(MOCK_RELEASES[0]).pipe(shareReplay(1));
+    }
     if (!this.release$) {
       const cached = this.getCached<GithubRelease>('github_release');
       const url = 'https://api.github.com/repos/m-idriss/3dime-angular/releases/latest';
