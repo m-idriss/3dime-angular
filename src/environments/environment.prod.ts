@@ -1,8 +1,10 @@
-export const environment = {
+import { Environment } from './environment.interface';
+
+export const environment: Environment = {
   production: true,
   showGithubActivity: false,
   apiUrl: 'https://api.3dime.com',
-  screenshotMode: false, // Set to true for screenshot CI mode with mock data
+  screenshotMode: false,
   firebase: {
     apiKey: 'AIzaSyDvQ4aCcWtSxGmTXefINTcsdb0O5zheYzE',
     authDomain: 'image-to-ics.firebaseapp.com',
