@@ -26,8 +26,10 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build application
-        run: npm run build
+      - name: Build application with screenshot mode
+        run: npm run build -- --configuration=screenshot
+        env:
+          SCREENSHOT_MODE: 'true'
 
       - name: Install serve
         run: npm install -g serve

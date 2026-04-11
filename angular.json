@@ -78,6 +78,30 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "screenshot": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.screenshot.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1.8MB",
+                  "maximumError": "2.1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "13kB",
+                  "maximumError": "14.5kB"
+                }
+              ],
+              "outputHashing": "all",
+              "optimization": true,
+              "sourceMap": false,
+              "extractLicenses": true
             }
           },
           "defaultConfiguration": "production"

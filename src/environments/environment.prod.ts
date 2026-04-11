@@ -2,6 +2,7 @@ export const environment = {
   production: true,
   showGithubActivity: false,
   apiUrl: 'https://api.3dime.com',
+  screenshotMode: false, // Set to true for screenshot CI mode with mock data
   firebase: {
     apiKey: 'AIzaSyDvQ4aCcWtSxGmTXefINTcsdb0O5zheYzE',
     authDomain: 'image-to-ics.firebaseapp.com',

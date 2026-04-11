@@ -1,7 +1,13 @@
+/**
+ * Screenshot environment configuration
+ * Used for CI/GitHub Actions automated screenshot generation
+ * Enables screenshotMode to return mock data when external APIs are unavailable
+ */
 export const environment = {
-  production: false,
-  screenshotMode: false,
-  apiUrl: 'http://localhost:8080',
+  production: true,
+  screenshotMode: true, // Enable mock data for screenshots
+  showGithubActivity: true,
+  apiUrl: 'https://api.3dime.com',
   firebase: {
     apiKey: 'AIzaSyDvQ4aCcWtSxGmTXefINTcsdb0O5zheYzE',
     authDomain: 'image-to-ics.firebaseapp.com',
