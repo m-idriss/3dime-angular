@@ -4,8 +4,12 @@ import { Observable, of } from 'rxjs';
 import { shareReplay, catchError, timeout, tap } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
+import { Environment } from '../../environments/environment.interface';
 import { API_CONFIG } from '../constants/app.constants';
 import { MOCK_GITHUB_USER, MOCK_SOCIAL_LINKS, MOCK_COMMIT_DATA, MOCK_RELEASES } from '../constants/mock-data';
+
+// Type the environment explicitly to ensure screenshotMode property is recognized
+const env = environment as Environment;
 
 /**
  * Social media link interface
@@ -111,7 +115,7 @@ export class GithubService {
    * @returns Observable of GitHub user profile data (returns empty object on timeout/error)
    */
   getProfile(): Observable<GithubUser> {
-    if (environment.screenshotMode) {
+    if (env.screenshotMode) {
       return of(MOCK_GITHUB_USER).pipe(shareReplay(1));
     }
     if (!this.profile$) {
@@ -144,7 +148,7 @@ export class GithubService {
    * @returns Observable of social media links array (returns empty array on timeout/error)
    */
   getSocialLinks(): Observable<SocialLink[]> {
-    if (environment.screenshotMode) {
+    if (env.screenshotMode) {
       return of(MOCK_SOCIAL_LINKS).pipe(shareReplay(1));
     }
     if (!this.socialLinks$) {
@@ -177,7 +181,7 @@ export class GithubService {
    * @returns Observable of commit activity data (returns empty array on timeout/error)
    */
   getCommits(months = 6): Observable<CommitData[]> {
-    if (environment.screenshotMode) {
+    if (env.screenshotMode) {
       return of(MOCK_COMMIT_DATA).pipe(shareReplay(1));
     }
     const url = `${this.endpoints.commits}?months=${months}`;
@@ -207,7 +211,7 @@ export class GithubService {
    * @returns Observable of GitHub release data (returns empty object on timeout/error)
    */
   getLatestRelease(): Observable<GithubRelease> {
-    if (environment.screenshotMode) {
+    if (env.screenshotMode) {
       return of(MOCK_RELEASES[0]).pipe(shareReplay(1));
     }
     if (!this.release$) {
