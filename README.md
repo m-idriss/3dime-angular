@@ -1,12 +1,4 @@
-<div align="center">
-
-<img src="public/assets/logo.png" alt="3dime" width="120" height="120" style="border-radius: 12px; margin-bottom: 20px;">
-
 # 3dime-angular
-
-</div>
-
-<div align="center">
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-3dime.com-00D4AA?style=for-the-badge)](https://3dime.com)
 [![Angular](https://img.shields.io/badge/Angular-20.3-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
@@ -14,9 +6,9 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-9C27B0?style=for-the-badge)](public/assets/manifest.json)
 
-</div>
+Modern personal portfolio built with Angular 20+ featuring a space-themed glassmorphism design. Showcases professional experience, tech stack, GitHub activity, and personal interests with drag & drop file upload, real-time updates, and PWA support.
 
-Modern personal portfolio built with Angular 20+ featuring a space-themed glassmorphism design. Showcases professional experience, tech stack, GitHub activity, and personal interests with PWA support.
+Backend: [3dime-api](https://github.com/m-idriss/3dime-api) (Quarkus REST API)
 
 ## Quick Start
 
@@ -41,8 +33,8 @@ firebase deploy --only hosting               # Deploy to Firebase
 
 ```
 src/app/
-├── components/    # UI components (profile, about, tech stack, etc.)
-├── services/      # Data services (GitHub, Notion, theme)
+├── components/    # UI components (profile, about, tech stack, converter, etc.)
+├── services/      # Data services (GitHub, Notion, theme, auth)
 ├── models/        # TypeScript interfaces
 └── app.ts         # Main application
 ```
@@ -57,6 +49,7 @@ src/app/
 | [API Reference](docs/API.md) | Backend API endpoints |
 | [Deployment](docs/DEPLOYMENT.md) | Production deploy and CI/CD |
 | [Testing](docs/TESTING.md) | Unit tests, API tests, CI |
+| [Firebase Auth](docs/FIREBASE_AUTH_SETUP.md) | Firebase authentication setup |
 | [Roadmap](docs/ROADMAP.md) | Planned features and timeline |
 | [Full Index](docs/README.md) | All documentation |
 
@@ -67,6 +60,7 @@ src/app/
 ### 💼 Portfolio Homepage
 
 ![3dime-angular Desktop Screenshot](public/assets/screenshots/desktopPage1920x1080.jpeg)
+
 *Modern portfolio showcasing experience, skills, and projects*
 
 ### 📱 Mobile Experience
