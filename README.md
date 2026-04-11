@@ -1,3 +1,7 @@
+<div align="center">
+
+<img src="public/assets/logo.png" alt="3dime" width="120" height="120" style="border-radius: 12px; margin-bottom: 20px;">
+
 # 3dime-angular
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-3dime.com-00D4AA?style=for-the-badge)](https://3dime.com)
@@ -5,6 +9,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-9C27B0?style=for-the-badge)](public/assets/manifest.json)
+
+</div>
 
 Modern personal portfolio built with Angular 20+ featuring a space-themed glassmorphism design. Showcases professional experience, tech stack, GitHub activity, and personal interests with drag & drop file upload, real-time updates, and PWA support.
 
