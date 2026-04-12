@@ -591,4 +591,4 @@ Issues with testing?
 - [Development Guidelines](./DEVELOPMENT.md)
 - [Component Documentation](./COMPONENTS.md)
 - [Services Documentation](./SERVICES.md)
-- [Contributing Guidelines](../CONTRIBUTING.md)
+- [Contributing Guidelines](./CONTRIBUTING.md)

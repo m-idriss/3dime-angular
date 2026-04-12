@@ -267,7 +267,7 @@ After installation:
 1. **Explore Components**: Review [Component Documentation](./COMPONENTS.md)
 2. **Understand Services**: Read [Services Documentation](./SERVICES.md)
 3. **Learn Design System**: Study [Design System](./DESIGN_SYSTEM.md)
-4. **Start Contributing**: Follow [Contributing Guidelines](../CONTRIBUTING.md)
+4. **Start Contributing**: Follow [Contributing Guidelines](./CONTRIBUTING.md)
 
 ## Quick Reference
 
