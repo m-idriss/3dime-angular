@@ -77,6 +77,7 @@ export class GithubService {
     profile: `${environment.apiUrl}/github/user`,
     social: `${environment.apiUrl}/github/social`,
     commits: `${environment.apiUrl}/github/commits`,
+    release: `${environment.apiUrl}/github/release`,
   };
 
   private profile$?: Observable<GithubUser>;
@@ -84,7 +85,7 @@ export class GithubService {
   private commits$?: Observable<CommitData[]>;
   private release$?: Observable<GithubRelease>;
 
-  private readonly CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+  private readonly CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
   private getCached<T>(key: string): T | null {
     try {
@@ -216,7 +217,7 @@ export class GithubService {
     }
     if (!this.release$) {
       const cached = this.getCached<GithubRelease>('github_release');
-      const url = 'https://api.github.com/repos/m-idriss/3dime-angular/releases/latest';
+      const url = this.endpoints.release;
       const fresh$ = this.http.get<GithubRelease>(url).pipe(
         timeout(API_CONFIG.TIMEOUT_MS),
         tap((data) => this.setCache('github_release', data)),
