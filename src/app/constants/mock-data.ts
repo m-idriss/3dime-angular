@@ -30,20 +30,10 @@ export const MOCK_SOCIAL_LINKS = [
   }
 ];
 
-export const MOCK_COMMIT_DATA = [
-  { date: Date.now() - 86400000 * 60, value: 12 },
-  { date: Date.now() - 86400000 * 59, value: 8 },
-  { date: Date.now() - 86400000 * 58, value: 15 },
-  { date: Date.now() - 86400000 * 57, value: 0 },
-  { date: Date.now() - 86400000 * 56, value: 6 },
-  { date: Date.now() - 86400000 * 55, value: 10 },
-  { date: Date.now() - 86400000 * 54, value: 18 },
-  { date: Date.now() - 86400000 * 53, value: 22 },
-  { date: Date.now() - 86400000 * 52, value: 14 },
-  { date: Date.now() - 86400000 * 51, value: 9 },
-  { date: Date.now() - 86400000 * 50, value: 11 },
-  { date: Date.now() - 86400000 * 49, value: 5 },
-];
+export const MOCK_COMMIT_DATA = Array.from({ length: 180 }, (_, i) => ({
+  date: Date.now() - 86400000 * (180 - i),
+  value: Math.floor(Math.random() * 25) // Random commits 0-25 per day
+}));
 
 export const MOCK_RELEASES = [
   {
@@ -60,16 +50,101 @@ export const MOCK_RELEASES = [
   }
 ];
 
+export const MOCK_TECH_STACK = [
+  // Frontend
+  { name: 'Angular', category: 'Frontend', proficiency: 95, icon: '⚙️' },
+  { name: 'TypeScript', category: 'Frontend', proficiency: 92, icon: '📘' },
+  { name: 'SCSS/CSS3', category: 'Frontend', proficiency: 88, icon: '🎨' },
+  { name: 'RxJS', category: 'Frontend', proficiency: 90, icon: '⚡' },
+  { name: 'Angular CDK', category: 'Frontend', proficiency: 85, icon: '📦' },
+
+  // Backend
+  { name: 'Java 21', category: 'Backend', proficiency: 94, icon: '☕' },
+  { name: 'Quarkus', category: 'Backend', proficiency: 92, icon: '⚡' },
+  { name: 'REST APIs', category: 'Backend', proficiency: 95, icon: '🔌' },
+  { name: 'Spring Boot', category: 'Backend', proficiency: 88, icon: '🍃' },
+  { name: 'Maven', category: 'Backend', proficiency: 90, icon: '📦' },
+
+  // Databases
+  { name: 'Firebase', category: 'Database', proficiency: 88, icon: '🔥' },
+  { name: 'Firestore', category: 'Database', proficiency: 87, icon: '🗂️' },
+  { name: 'PostgreSQL', category: 'Database', proficiency: 82, icon: '🐘' },
+
+  // DevOps & Cloud
+  { name: 'Google Cloud', category: 'DevOps', proficiency: 89, icon: '☁️' },
+  { name: 'Cloud Run', category: 'DevOps', proficiency: 90, icon: '🚀' },
+  { name: 'Docker', category: 'DevOps', proficiency: 85, icon: '🐳' },
+  { name: 'GitHub Actions', category: 'DevOps', proficiency: 88, icon: '⚙️' },
+
+  // Tools & Other
+  { name: 'Git', category: 'Tools', proficiency: 95, icon: '📚' },
+  { name: 'AWS', category: 'Cloud', proficiency: 80, icon: '☁️' },
+  { name: 'AI/LLMs', category: 'AI', proficiency: 87, icon: '🤖' }
+];
+
+export const MOCK_EXPERIENCE = [
+  {
+    title: 'Full-Stack Engineer',
+    company: '3dime.com',
+    period: '2025 - Present',
+    description: 'Building AI-powered image-to-calendar SaaS with Angular & Quarkus',
+    skills: ['Angular', 'TypeScript', 'Quarkus', 'Google Cloud', 'Firebase']
+  },
+  {
+    title: 'Senior Frontend Developer',
+    company: 'PhotoCalia',
+    period: '2024 - 2025',
+    description: 'Led frontend architecture and performance optimization',
+    skills: ['Angular', 'RxJS', 'SCSS', 'Testing', 'PWA']
+  },
+  {
+    title: 'Backend Developer',
+    company: 'Cloud Tech Solutions',
+    period: '2023 - 2024',
+    description: 'Developed scalable REST APIs using Quarkus and Spring Boot',
+    skills: ['Java', 'Quarkus', 'Databases', 'Docker', 'AWS']
+  }
+];
+
+export const MOCK_EDUCATION = [
+  {
+    degree: 'Computer Science',
+    institution: 'Tech University',
+    year: '2022',
+    details: 'Focus on full-stack development and cloud architecture'
+  },
+  {
+    degree: 'Advanced Java Development',
+    institution: 'Oracle Academy',
+    year: '2021',
+    details: 'Enterprise Java applications and design patterns'
+  }
+];
+
+export const MOCK_HOBBIES = [
+  { hobby: 'Open Source Contribution', emoji: '🤝', description: 'Active contributor to Angular and Quarkus ecosystems' },
+  { hobby: 'AI/ML Exploration', emoji: '🤖', description: 'Experimenting with LLMs and AI integration' },
+  { hobby: 'Technical Writing', emoji: '✍️', description: 'Writing blog posts about full-stack development' },
+  { hobby: 'Hiking & Travel', emoji: '🏔️', description: 'Exploring new places and remote work locations' },
+  { hobby: 'Music Production', emoji: '🎵', description: 'Creating electronic music in spare time' }
+];
+
 export const MOCK_NOTION_CONTENT = {
   tools: [
     { title: 'Angular 20+', description: 'Modern frontend framework', category: 'Frontend' },
     { title: 'Quarkus', description: 'Lightning-fast Java framework', category: 'Backend' },
     { title: 'Google Cloud Run', description: 'Serverless deployment', category: 'DevOps' },
-    { title: 'Firebase', description: 'Real-time database & auth', category: 'Backend' }
+    { title: 'Firebase', description: 'Real-time database & auth', category: 'Backend' },
+    { title: 'Docker', description: 'Container orchestration', category: 'DevOps' },
+    { title: 'TypeScript', description: 'Type-safe JavaScript', category: 'Frontend' },
+    { title: 'PostgreSQL', description: 'Relational database', category: 'Backend' },
+    { title: 'RxJS', description: 'Reactive programming library', category: 'Frontend' }
   ],
   resources: [
     { title: 'API Documentation', url: 'https://api.3dime.com/api-docs', category: 'Docs' },
     { title: 'Source Code', url: 'https://github.com/m-idriss', category: 'GitHub' },
-    { title: 'Blog', url: 'https://3dime.com/blog', category: 'Blog' }
+    { title: 'Blog', url: 'https://3dime.com/blog', category: 'Blog' },
+    { title: 'LinkedIn Profile', url: 'https://linkedin.com/in/idriss', category: 'Social' },
+    { title: 'Portfolio', url: 'https://3dime.com', category: 'Portfolio' }
   ]
 };
