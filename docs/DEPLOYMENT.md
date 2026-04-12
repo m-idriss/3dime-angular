@@ -233,7 +233,7 @@ For production:
 2. Set domain restrictions
 3. Enable only necessary APIs
 
-See [SECURITY.md](../SECURITY.md) for detailed security guidelines.
+See [SECURITY.md](./SECURITY.md) for detailed security guidelines.
 
 ## Backend Deployment
 
@@ -409,7 +409,7 @@ Before deploying:
 - [ ] Configure security headers
 - [ ] Scan for vulnerabilities
 
-See [SECURITY.md](../SECURITY.md) for comprehensive security guidelines.
+See [SECURITY.md](./SECURITY.md) for comprehensive security guidelines.
 
 ## Monitoring & Maintenance
 
@@ -443,5 +443,5 @@ Issues with deployment?
 **Related Documentation:**
 - [Installation Guide](./INSTALLATION.md)
 - Backend API - See the [`3dime-api` repository](https://github.com/m-idriss/3dime-api) for API documentation and deployment details.
-- [Security Policy](../SECURITY.md)
+- [Security Policy](./SECURITY.md)
 - [Release Guide](./RELEASE_GUIDE.md)

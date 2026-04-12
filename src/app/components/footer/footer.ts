@@ -37,8 +37,8 @@ export class Footer implements OnInit {
     { label: 'Issues', url: `${this.githubRepo}/issues` },
     { label: 'Docs', url: `${this.githubRepo}/blob/main/README.md` },
     { label: 'License', url: `${this.githubRepo}/blob/main/LICENSE` },
-    { label: 'Security', url: `${this.githubRepo}/blob/main/SECURITY.md` },
-    { label: 'Community', url: `${this.githubRepo}/blob/main/CONTRIBUTING.md` },
+    { label: 'Security', url: `${this.githubRepo}/blob/main/docs/SECURITY.md` },
+    { label: 'Community', url: `${this.githubRepo}/blob/main/docs/CONTRIBUTING.md` },
     { label: 'Discussions', url: `${this.githubRepo}/discussions` },
   ];
 

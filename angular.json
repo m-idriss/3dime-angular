@@ -22,7 +22,7 @@
               "zone.js",
               "@angular/localize/init"
             ],
-            "tsConfig": "tsconfig.app.json",
+            "tsConfig": "config/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -61,7 +61,7 @@
               "optimization": true,
               "sourceMap": false,
               "extractLicenses": true,
-              "serviceWorker": "ngsw-config.json"
+              "serviceWorker": "config/ngsw-config.json"
             },
             "development": {
               "optimization": false,
@@ -137,7 +137,7 @@
               "zone.js/testing",
               "@angular/localize/init"
             ],
-            "tsConfig": "tsconfig.spec.json",
+            "tsConfig": "config/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -153,6 +153,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
+            "eslintConfig": "config/eslint.config.js",
             "lintFilePatterns": [
               "src/**/*.ts",
               "src/**/*.html"
