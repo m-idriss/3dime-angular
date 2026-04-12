@@ -599,6 +599,7 @@ body.white-theme .bg::after {
   /* Positioning */
   position: relative;
   display: block;
+  overflow: hidden;
 
   /* Box Model */
   margin: var(--space-md);
@@ -622,6 +623,18 @@ body.white-theme .bg::after {
   /* Misc */
   transition: all var(--t-medium);
 
+  /* Shimmer effect */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.15), transparent);
+    transition: left 0.5s var(--ease);
+  }
+
   /* Hover state */
   &:hover {
     background: var(--glass-bg-hover);
@@ -630,6 +643,10 @@ body.white-theme .bg::after {
     border: 1px solid rgba(37, 99, 235, 0.4);
     box-shadow: var(--shadow-card-hover);
     transform: translateY(-2px);
+
+    &::before {
+      left: 100%;
+    }
   }
 
   /* Focus state for accessibility */
@@ -651,6 +668,10 @@ body.light-theme .link {
 body.dark-theme .link {
   backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
+
+  &::before {
+    background: linear-gradient(90deg, transparent, rgba(129, 140, 248, 0.22), transparent);
+  }
 
   &:hover {
     backdrop-filter: blur(24px);
