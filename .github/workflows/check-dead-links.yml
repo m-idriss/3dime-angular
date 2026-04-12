@@ -41,6 +41,7 @@ jobs:
             --exclude-private
             --exclude-link-local
             --user-agent "Mozilla/5.0 (compatible; converter-link-checker/1.0)"
+            --exclude "https://platform.openai.com"
             --cache
             --max-cache-age 86400sec
             '**/*.md'
