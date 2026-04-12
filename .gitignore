@@ -48,9 +48,6 @@ Thumbs.db
 # Keep environment.example.ts files as templates
 # Actual environment files should be configured per deployment
 src/environments/environment.local.ts
-
-# Firebase logs
-firebase-debug.log
 .vercel
 .env*.local
 .claude

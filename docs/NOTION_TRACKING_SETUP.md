@@ -106,16 +106,16 @@ To receive notifications when new conversion entries are created, you can config
 
 ## Step 6: Configure Environment Variables
 
-### For Firebase Functions
+### For the Quarkus Backend (3dime-api)
 
-> Functions were moved to a separate repository named `3dime-api`. Apply these environment variables in that repository before deploying.
+> Apply these environment variables in the `3dime-api` repository before deploying.
 
-Create or update the functions environment in the `3dime-api` repository (or set them using the Firebase CLI):
+Create or update the environment configuration in the `3dime-api` repository:
 
 ```bash
-# In the functions repository (3dime-api)
+# In the backend repository (3dime-api)
 cd ../3dime-api
-# create a .env file or set using firebase CLI
+# create a .env file or set environment variables
 ```
 
 Example `.env` contents (in `3dime-api`):
@@ -149,19 +149,14 @@ NOTION_USER_ID=your_notion_user_id
 
 ## Step 7: Deploy and Test
 
-1. **Set environment variables in Firebase** (run from your functions repository or using the Firebase CLI with project context):
-   ```bash
-   firebase functions:config:set \
-     notion.tracking_token="secret_your_tracking_integration_token" \
-     notion.tracking_db_id="your_tracking_database_id" \
-     notion.user_id="your_notion_user_id"
-   ```
-   Or create `.env` in the `3dime-api` repository with the values shown earlier.
+1. **Set environment variables in the 3dime-api repository**:
+   Create `.env` in the `3dime-api` repository with the values shown in Step 6.
 
-2. **Deploy functions** (from `3dime-api` repo):
+2. **Deploy the backend** (from `3dime-api` repo):
    ```bash
    cd ../3dime-api
-   npm run deploy
+   ./mvnw clean package
+   # Deploy to your cloud platform
    ```
 
 3. **Test the tracking**:
@@ -226,7 +221,7 @@ You can create Notion views to analyze your data:
 
 1. **Check integration permissions**: Ensure the database is shared with your integration
 2. **Verify environment variables**: Confirm `NOTION_TRACKING_TOKEN` and `NOTION_TRACKING_DB_ID` are set correctly
-3. **Check function logs**: Look for errors in Firebase Functions logs
+3. **Check backend logs**: Look for errors in the 3dime-api backend logs
 4. **Test API connection**: Use Notion's API to manually create a test entry
 
 ### Error: "object not found"
@@ -243,7 +238,7 @@ You can create Notion views to analyze your data:
 If you have high traffic, consider implementing rate limiting:
 
 1. Add a **buffer/batching mechanism** (send data every 30-60 seconds)
-2. Use **Firestore** as an intermediate cache
+2. Use an **intermediate cache** to batch requests
 3. Implement **Notion API rate limits** (≈ 3 requests/sec)
 
 Example implementation in `converter.ts`:
@@ -263,7 +258,7 @@ setInterval(() => {
 ## Security Best Practices
 
 1. **Never commit** `.env` files with real tokens
-2. **Use Firebase Secrets Manager** for production tokens
+2. **Use server environment variables** or a secrets manager for production tokens
 3. **Create separate integrations** for development and production
 4. **Regularly rotate** integration tokens
 5. **Monitor API usage** in Notion settings
@@ -272,7 +267,7 @@ setInterval(() => {
 
 For issues with this setup, check:
 - [Notion API Documentation](https://developers.notion.com/)
-- [Firebase Functions Documentation](https://firebase.google.com/docs/functions)
+- [3dime-api Repository](https://github.com/m-idriss/3dime-api) - Backend source
 - Project GitHub Issues
 
 ---

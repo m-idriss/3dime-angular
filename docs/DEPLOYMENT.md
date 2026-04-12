@@ -7,7 +7,7 @@
 3dime-angular supports multiple deployment options to fit different hosting environments:
 
 ### Static Hosting (Recommended)
-- **Platforms**: Netlify, Vercel, GitHub Pages, Firebase Hosting, AWS S3, Azure Static Web Apps
+- **Platforms**: Netlify, Vercel, GitHub Pages, AWS S3, Azure Static Web Apps
 - **Process**: Build and upload the `dist/3dime-angular/browser/` directory
 - **Requirements**: Static file hosting, no server-side processing needed
 - **Benefits**: Fast, scalable, cost-effective
@@ -99,21 +99,6 @@ vercel --prod
    - **Build command**: `npm run build -- --configuration=production`
    - **Output directory**: `dist/3dime-angular/browser`
 3. Deploy
-
-### Firebase Hosting
-
-```bash
-# Build for production
-npm run build -- --configuration=production
-
-# Deploy to Firebase Hosting
-firebase deploy --only hosting
-
-# Deploy everything (hosting + functions)
-firebase deploy
-```
-
-**Configuration**: `firebase.json` is already configured.
 
 ### GitHub Pages
 
@@ -233,14 +218,8 @@ Configure environment-specific settings:
 #### Netlify/Vercel
 Set environment variables in dashboard:
 - Go to Site settings → Environment variables
-- Add variables (e.g., `FIREBASE_API_KEY`)
+- Add required variables
 - Rebuild to apply
-
-#### Firebase Hosting
-Use Firebase configuration:
-```bash
-firebase functions:config:set someservice.key="THE API KEY"
-```
 
 #### Traditional Hosting
 - Use server environment variables
@@ -253,7 +232,6 @@ For production:
 1. Restrict API keys in service provider consoles
 2. Set domain restrictions
 3. Enable only necessary APIs
-4. Use Firebase secrets for backend
 
 See [SECURITY.md](../SECURITY.md) for detailed security guidelines.
 
@@ -407,15 +385,6 @@ Track performance with:
 - Check service worker registration
 - Test in production build (not dev server)
 
-### Firebase Functions Timeout
-**Issue**: Functions exceed timeout
-
-**Solutions**:
-- Optimize function code
-- Increase timeout in `firebase.json`
-- Check for infinite loops
-- Review API call efficiency
-
 ## Rollback
 
 If deployment has issues:
@@ -429,15 +398,6 @@ If deployment has issues:
 2. Re-deploy previous version
 3. Or revert Git commits and rebuild
 
-### Firebase
-```bash
-# View deployment history
-firebase hosting:releases:list
-
-# Rollback to previous deployment
-firebase hosting:rollback
-```
-
 ## Security Considerations
 
 Before deploying:
@@ -447,8 +407,6 @@ Before deploying:
 - [ ] Configure CORS properly
 - [ ] Set up HTTPS/SSL
 - [ ] Configure security headers
-- [ ] Review Firebase rules
-- [ ] Test authentication flows
 - [ ] Scan for vulnerabilities
 
 See [SECURITY.md](../SECURITY.md) for comprehensive security guidelines.
@@ -484,6 +442,6 @@ Issues with deployment?
 
 **Related Documentation:**
 - [Installation Guide](./INSTALLATION.md)
-- Firebase Functions (moved) - See the `3dime-api` repository README for functions documentation and deployment details.
+- Backend API - See the [`3dime-api` repository](https://github.com/m-idriss/3dime-api) for API documentation and deployment details.
 - [Security Policy](../SECURITY.md)
 - [Release Guide](./RELEASE_GUIDE.md)

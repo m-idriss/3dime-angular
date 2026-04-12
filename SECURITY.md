@@ -41,19 +41,6 @@ This project uses environment files for configuration:
 - Use environment variables or secure secret management for production deployments
 - Example files are provided: `environment.example.ts` and `environment.prod.example.ts`
 
-#### Firebase Configuration
-
-If you need to add Firebase configuration in the future:
-
-1. **For local development**: Use environment variables
-2. **For production**: Use Firebase Hosting environment configuration or secure secret management
-3. **Firebase API keys** can be restricted in the Firebase Console:
-   - Go to Google Cloud Console → Credentials
-   - Restrict the API key to specific domains
-   - Enable only the APIs you need
-
-**Note:** Firebase API keys for client-side apps are not secret but should be restricted to prevent abuse.
-
 #### GitHub Secrets
 
 For GitHub Actions and CI/CD:
@@ -77,7 +64,7 @@ For GitHub Actions and CI/CD:
 ### Deployment Security
 
 - Always use HTTPS in production
-- Set appropriate CORS policies - Firebase Functions use an allowlist of trusted origins:
+- Set appropriate CORS policies - use an allowlist of trusted origins:
   - Production: `https://3dime.com`, `https://www.3dime.com`
   - Development: `http://localhost:4200`, `http://localhost:5000`
   - **Never use** `cors({ origin: true })` which allows all origins

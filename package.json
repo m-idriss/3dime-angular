@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "serve:ng": "ng serve --configuration=local",
     "dev": "concurrently -k -n \"ANGULAR,BUILD\" -c \"cyan,yellow\" \"npm run serve:ng\" \"npm run watch\"",
-    "vercel-build": "node scripts/set-env.js && ng build"
+    "vercel-build": "ng build"
   },
   "prettier": {
     "printWidth": 100,

@@ -35,7 +35,6 @@
 | 🎨 **Glassmorphism Design** | Modern UI with smooth animations and dark mode support |
 | 📊 **GitHub Integration** | Real-time display of profile stats, activity, and contributions |
 | 💼 **Portfolio Showcase** | Highlight your experience, skills, and projects elegantly |
-| 🔐 **Firebase Authentication** | Secure login and real-time data synchronization |
 | 📱 **PWA — Works Offline** | Install on your phone or desktop like a native app |
 | 🌐 **Fully Responsive** | Perfect experience on mobile, tablet, and desktop |
 
@@ -50,14 +49,11 @@ npm install       # Install dependencies
 npm start         # Dev server → http://localhost:4200
 npm test          # Unit tests
 npm run build -- --configuration=production  # Production build
-firebase deploy --only hosting               # Deploy to Firebase
 ```
-
-For Firebase setup (required for authentication): see [Firebase Auth Setup](docs/FIREBASE_AUTH_SETUP.md)
 
 ## Documentation
 
-[Architecture](docs/ARCHITECTURE.md), [Installation](docs/INSTALLATION.md), [Services](docs/SERVICES.md), [API Reference](docs/API.md), [Deployment](docs/DEPLOYMENT.md), [Testing](docs/TESTING.md), [Firebase Auth](docs/FIREBASE_AUTH_SETUP.md), [Roadmap](docs/ROADMAP.md), [Full Index](docs/README.md)
+[Architecture](docs/ARCHITECTURE.md), [Installation](docs/INSTALLATION.md), [Services](docs/SERVICES.md), [API Reference](docs/API.md), [Deployment](docs/DEPLOYMENT.md), [Testing](docs/TESTING.md), [Roadmap](docs/ROADMAP.md), [Full Index](docs/README.md)
 
 ---
 

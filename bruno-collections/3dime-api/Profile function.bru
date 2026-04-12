@@ -1,0 +1,44 @@
+meta {
+  name: Profile function
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{api_url}}/github/user
+  body: none
+  auth: none
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response is an array", function() {
+    expect(res.getBody()).to.be.an("array");
+  });
+  
+  test("Response has expected social providers", function() {
+    const body = res.getBody();
+    const expectedProviders = ['linkedin', 'twitter', 'facebook', 'instagram'];
+    expectedProviders.forEach(provider => {
+      const socialItem = body.find(item => item.provider === provider);
+      expect(socialItem).to.exist;
+      expect(socialItem).to.have.property('url').that.is.a('string').and.is.not.empty;
+      expect(socialItem.url).to.match(/^https:\/\//);
+    });
+  });
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Profile API Test
+
+  This request tests the GitHub user profile endpoint.
+}

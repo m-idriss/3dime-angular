@@ -66,8 +66,6 @@ export const MOCK_TECH_STACK = [
   { name: 'Maven', category: 'Backend', proficiency: 90, icon: '📦' },
 
   // Databases
-  { name: 'Firebase', category: 'Database', proficiency: 88, icon: '🔥' },
-  { name: 'Firestore', category: 'Database', proficiency: 87, icon: '🗂️' },
   { name: 'PostgreSQL', category: 'Database', proficiency: 82, icon: '🐘' },
 
   // DevOps & Cloud
@@ -88,7 +86,7 @@ export const MOCK_EXPERIENCE = [
     company: '3dime.com',
     period: '2025 - Present',
     description: 'Building AI-powered image-to-calendar SaaS with Angular & Quarkus',
-    skills: ['Angular', 'TypeScript', 'Quarkus', 'Google Cloud', 'Firebase']
+    skills: ['Angular', 'TypeScript', 'Quarkus', 'Google Cloud']
   },
   {
     title: 'Senior Frontend Developer',
@@ -134,7 +132,6 @@ export const MOCK_NOTION_CONTENT = {
     { title: 'Angular 20+', description: 'Modern frontend framework', category: 'Frontend' },
     { title: 'Quarkus', description: 'Lightning-fast Java framework', category: 'Backend' },
     { title: 'Google Cloud Run', description: 'Serverless deployment', category: 'DevOps' },
-    { title: 'Firebase', description: 'Real-time database & auth', category: 'Backend' },
     { title: 'Docker', description: 'Container orchestration', category: 'DevOps' },
     { title: 'TypeScript', description: 'Type-safe JavaScript', category: 'Frontend' },
     { title: 'PostgreSQL', description: 'Relational database', category: 'Backend' },

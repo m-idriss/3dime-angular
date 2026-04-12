@@ -5,13 +5,12 @@
 ## Prerequisites
 
 ### Required Software
-- **Node.js**: 20+ (Functions require Node 22 but work with 20)
+- **Node.js**: 20+
 - **npm**: 10+
 - **Git**: For version control
 
 ### Optional Software
 - **Chrome/Chromium**: For testing (headless mode)
-- **Firebase CLI**: For deploying Firebase Functions
 - **Bruno**: For API testing
 
 ## Installation Steps
@@ -29,8 +28,6 @@ cd 3dime-angular
 # Install main dependencies (takes ~30 seconds)
 npm install
 ```
-
-> **Note:** Backend functions are in the separate [`3dime-api`](https://github.com/m-idriss/3dime-api) repository. See the [Firebase Functions Setup](#firebase-functions-setup) section below if you need to work with the backend.
 
 ### 3. Verify Installation
 
@@ -121,22 +118,9 @@ Use example files as templates:
 
 Use platform-specific configuration:
 - **Netlify/Vercel**: Environment variables in dashboard
-- **Firebase**: Use Firebase config and secrets
 - **GitHub Actions**: Repository secrets
 
 ## API Integration
-
-### Firebase Authentication
-
-The Calendar Converter requires Firebase Authentication with Google provider.
-
-**Quick Setup:**
-1. Create Firebase project in [Firebase Console](https://console.firebase.google.com)
-2. Enable Google authentication provider
-3. Add Firebase config to environment files
-4. Configure authorized domains
-
-See [Firebase Authentication Setup Guide](./FIREBASE_AUTH_SETUP.md) for detailed instructions.
 
 ### Notion Integration
 
@@ -159,8 +143,6 @@ The GitHub Activity section uses the GitHub API:
 > **Note:** The backend is maintained in the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
 > 
 > The backend is built with **Quarkus**, a modern cloud-native Java framework.
-> 
-> For local development with the backend, see the [Emulator Setup Guide](./EMULATOR_SETUP.md).
 
 ### Prerequisites
 - Java Development Kit (JDK) 17 or later
@@ -264,15 +246,6 @@ npm install
 ng serve --port 4201
 ```
 
-#### Firebase Functions Not Working
-**Issue**: Functions fail to deploy or run locally
-
-**Solution**:
-1. Check Node.js version (20+ required)
-2. Verify Firebase CLI is installed
-3. Ensure secrets are set correctly
-4. Check function logs: `firebase functions:log`
-
 #### Test Failures
 **Issue**: Some tests fail with HttpClient errors
 
@@ -303,10 +276,6 @@ After installation:
 npm start                 # Start dev server
 npm run build            # Build for production
 npm test                 # Run tests
-
-# Firebase
-firebase deploy          # Deploy all
-firebase emulators:start # Run locally
 
 # Code Quality
 npx prettier --write src/  # Format code

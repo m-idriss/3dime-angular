@@ -21,7 +21,6 @@ The Calendar Converter is a feature that allows users to upload images (JPG, PNG
   - Delete unwanted events
   - Real-time ICS file regeneration
 - **📅 ICS Generation**: Creates downloadable calendar files with proper RFC 5545 formatting
-- **🔐 Firebase Integration**: Secure cloud function processing with Google authentication
 - **📱 Responsive Design**: Mobile-optimized interface with modern glassmorphism UI
 
 ## Architecture
@@ -124,34 +123,16 @@ The generated ICS files are compatible with:
 
 ### Prerequisites
 
-1. Firebase project with Functions enabled
-2. OpenAI API account with access to GPT-4 Vision
-3. Node.js 20+ installed
+1. OpenAI API account with access to GPT-4 Vision
+2. Node.js 20+ installed
 
 ### Dependencies
 
 The converter uses the following key dependencies:
 
 - `pdfjs-dist`: Mozilla's PDF.js library for client-side PDF rendering
-- `@angular/common/http`: For HTTP requests to Firebase Functions
+- `@angular/common/http`: For HTTP requests to the backend API
 - PDF.js worker loaded from CDN
-
-### Configuration
-
-1. Set up Firebase secrets:
-
-   ```bash
-   firebase functions:secrets:set OPENAI_API_KEY
-   ```
-
-2. Optional: Customize prompts (see `.env.example`)
-
-3. Deploy the function:
-   ```bash
-   cd functions
-   npm run build
-   firebase deploy --only functions:converterFunction
-   ```
 
 ### Environment Variables
 
@@ -283,7 +264,7 @@ PDF files are processed client-side before being sent to the API:
 **Benefits of client-side conversion**:
 
 - No server-side PDF libraries needed
-- Reduces Firebase Function memory requirements
+- Reduces backend memory requirements
 - Works with OpenAI Vision API (which only accepts images)
 - Better privacy (PDF content processed in browser)
 
@@ -395,10 +376,10 @@ SCSS variables used:
 ## Security
 
 - File validation on client-side (type, size)
-- CORS protection on Firebase function
+- CORS protection on backend API
 - Base64 encoding for file transmission
 - No file storage (processing is stateless)
-- OpenAI API key stored as Firebase secret
+- OpenAI API key stored as backend secret
 
 ## Future Enhancements
 
@@ -412,5 +393,4 @@ SCSS variables used:
 
 - [RFC 5545 - iCalendar Specification](https://datatracker.ietf.org/doc/html/rfc5545)
 - [OpenAI Vision API](https://platform.openai.com/docs/guides/vision)
-- [Firebase Functions](https://firebase.google.com/docs/functions)
 - [ICS Format Guide](https://icalendar.org/)

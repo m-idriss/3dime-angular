@@ -36,72 +36,14 @@ bruno-collections/
     ├── test-resources/                                      # Test images for converter
     │   └── README.md
     ├── GitHub User Profile.bru                           # GitHub API test
-    ├── Firebase Converter function.bru                   # Original (with base64)
-    ├── Firebase Converter function (URL-based).bru       # NEW: Uses URL variable
-    ├── Firebase Converter function (Variable-based).bru  # NEW: Uses environment variables
-    ├── Firebase Converter function bad image.bru         # Test with invalid image
-    ├── Firebase Commits function.bru                     # Firebase commits API
-    ├── Firebase Notion function.bru                      # Firebase Notion integration
-    ├── Firebase Social function.bru                      # Firebase social API
+    ├── Commits function.bru                              # Commits API
+    ├── Notion function.bru                               # Notion CMS API
+    ├── Social function.bru                               # Social links API
+    ├── Profile function.bru                              # GitHub profile API
     └── README.md                                         # This file
 ```
 
 ## Available Requests
-
-### Firebase Converter Function (Improved Versions)
-
-We now provide two improved versions of the Firebase Converter function test that avoid embedding large base64 images directly in the .bru files:
-
-#### Option 1: URL-based (Recommended)
-**File**: `Firebase Converter function (URL-based).bru`
-
-This version automatically fetches an image from a URL and converts it to base64 using a pre-request script.
-
-**Benefits**:
-- ✓ No large base64 strings in the file
-- ✓ Easy to change test images (just update the URL)
-- ✓ Automatic conversion to base64
-- ✓ Less error-prone
-
-**Setup**:
-1. The `test_image_url` variable is already set in environment files
-2. Just run the request - it handles everything automatically!
-
-**How it works**:
-```javascript
-// Pre-request script fetches image from URL
-const imageUrl = bru.getEnvVar('test_image_url');
-// Converts to base64 automatically
-// Injects into request body
-```
-
-#### Option 2: Variable-based (Simpler)
-**File**: `Firebase Converter function (Variable-based).bru`
-
-This version uses environment variables for all test data, including the base64-encoded image.
-
-**Benefits**:
-- ✓ No scripts needed
-- ✓ Works offline
-- ✓ Fast execution
-- ✓ Full control over test data
-
-**Setup**:
-Add variables to your environment file (local.bru or prod.bru):
-```
-vars {
-  test_image_data: data:image/png;base64,YOUR_BASE64_HERE
-  test_image_name: edt-test.png
-  test_image_type: image/png
-  test_timezone: Europe/Paris
-  test_date: 2025-10-06
-}
-```
-
-### Original Version (Legacy)
-**File**: `Firebase Converter function.bru`
-
-The original version with embedded base64 data is kept for backward compatibility but is not recommended for new tests.
 
 ### GitHub User Profile
 
@@ -206,14 +148,6 @@ with open('image.png', 'rb') as f:
     data_url = f'data:image/png;base64,{base64_data}'
     print(data_url)
 ```
-
-## Future Additions
-
-Planned requests to add:
-- Firebase Functions proxy endpoints
-- GitHub commits API
-- GitHub social accounts API
-- Notion API integration
 
 ## Documentation
 

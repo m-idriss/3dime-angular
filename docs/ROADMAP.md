@@ -16,12 +16,12 @@
 - ✅ **Calendar Converter** - AI-powered calendar event extraction
   - Image and PDF upload with drag-and-drop interface
   - OpenAI GPT-4 Vision integration for intelligent parsing
-  - Firebase Authentication with Google provider
+  - Google authentication via Quarkus backend
   - ICS file generation and download
   - PDF.js integration for PDF processing
 - ✅ **Angular 20.3 Upgrade** - Latest Angular with modern features
 - ✅ **Comprehensive Documentation** - 8+ detailed documentation files
-  - PWA guide, Converter guide, Firebase Auth setup
+  - PWA guide, Converter guide, API setup
   - Components, Services, API, Design System docs
 - ✅ **CI/CD Pipeline** - Automated workflows with GitHub Actions
   - Screenshot automation workflow
@@ -38,17 +38,17 @@
 - **Clean component structure** with proper separation of concerns and reusable components
 - **SCSS styling** with CSS custom properties and modern features
 - **Build system** working efficiently (~14s build time)
-- **Firebase integration** for Authentication and Functions
+- **Quarkus API integration** at api.3dime.com
 - **Advanced UI components**: Skeleton loaders, expandable cards, calendar view, back-to-top button
 
 ### 🔧 Technical Stack
 - **Frontend**: Angular 20.3.10, TypeScript 5.9.3, SCSS
 - **Build**: Angular CLI 20.3.9 with esbuild bundler
-- **Backend**: Firebase Functions, Firebase Authentication
+- **Backend**: Quarkus REST API at api.3dime.com
 - **PWA**: Angular Service Worker with caching
 - **AI Integration**: OpenAI GPT-4 Vision API
 - **Styling**: Modern CSS with custom properties, glassmorphism effects
-- **Dependencies**: RxJS 7.8+, Firebase 12.5, PDF.js 5.4, cal-heatmap 4.2, ical.js 2.2
+- **Dependencies**: RxJS 7.8+, PDF.js 5.4, cal-heatmap 4.2, ical.js 2.2
 - **Testing**: Jasmine + Karma, Bruno API collection
 - **UI Libraries**: Bootstrap 5.3.8, Angular CDK 20.2, FullCalendar 6.1
 
@@ -66,7 +66,7 @@
 - [x] **Update copilot instructions** - Updated with accurate build sizes, test counts, and current project state
 - [x] **Repository cleanup** - Removed unused files, fixed documentation inconsistencies
 - [x] **Calendar Converter feature** - AI-powered image/PDF to ICS calendar conversion
-  - [x] Firebase Authentication with Google provider
+  - [x] Google authentication via Quarkus backend
   - [x] OpenAI GPT-4 Vision integration for event extraction
   - [x] PDF.js integration for PDF support
   - [x] Drag-and-drop file upload interface
@@ -97,7 +97,7 @@
   - [x] API documentation (API.md)
   - [x] PWA documentation (PWA.md)
   - [x] Converter documentation (CONVERTER.md)
-  - [x] Firebase Auth setup guide (FIREBASE_AUTH_SETUP.md)
+
   - [x] Development guidelines (DEVELOPMENT.md)
 - [x] **Code formatting** - Prettier configuration in package.json
 - [x] **Bruno API collection** - API testing with Bruno CLI
@@ -133,7 +133,7 @@
 #### Security Hardening
 - [ ] **Enhanced security measures**
   - [ ] Content Security Policy (CSP) headers implementation
-  - [ ] Rate limiting on Firebase Functions
+  - [ ] Rate limiting on API endpoints
   - [ ] HTTPS enforcement in production
   - [ ] Security headers (HSTS, X-Frame-Options)
   - [ ] Input validation and sanitization review
@@ -233,7 +233,7 @@
   - [ ] PWA install prompt customization
 - [ ] **API layer improvements**
   - [ ] GraphQL integration consideration
-  - [ ] Real-time data with Firebase Realtime Database or Firestore
+  - [ ] Real-time data with WebSockets or Server-Sent Events
   - [ ] API request batching
   - [ ] Optimistic updates for better UX
   - [ ] Advanced error handling with retry strategies
@@ -293,7 +293,6 @@
   - [ ] Performance budget enforcement
   - [ ] User behavior analytics (privacy-focused)
   - [ ] Service worker update monitoring
-  - [ ] Firebase Performance Monitoring
   - [ ] Custom performance dashboards
   - [ ] A/B testing infrastructure
 
@@ -342,8 +341,8 @@
 
 #### Hosting & Infrastructure
 - [x] **Deployment setup** - Active production environment
-  - [x] Firebase Hosting for application
-  - [x] Firebase Functions for backend APIs
+  - [x] Static hosting for frontend application
+  - [x] Quarkus REST API at api.3dime.com
   - [x] Custom domain (3dime.com)
   - [x] SSL certificate with HTTPS
 - [x] **CI/CD pipeline** - GitHub Actions implemented
@@ -471,7 +470,7 @@
   - Multiple engaging sections implemented ✅
 - **Features**:
   - Calendar Converter with AI processing ✅
-  - Firebase Authentication integrated ✅
+  - Quarkus API integration at api.3dime.com ✅
   - PWA with share target and shortcuts ✅
 - **Professional Impact**: 
   - Portfolio sections showcasing experience ✅
@@ -571,7 +570,7 @@ This is a personal portfolio project, but the roadmap serves as a guide for:
 
 ### Performance Monitoring
 - [ ] **Real-time monitoring**
-  - [ ] Firebase Performance Monitoring setup
+  - [ ] Performance monitoring setup
   - [ ] Custom performance metrics
   - [ ] Error rate tracking
   - [ ] API response time monitoring

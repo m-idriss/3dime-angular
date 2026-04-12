@@ -36,7 +36,7 @@ Client → Quarkus REST API (3dime-api) → External APIs
 Production: https://api.3dime.com
 ```
 
-> **Note:** The backend functions are also accessible via the raw Cloud Functions URL: `https://us-central1-<project-id>.cloudfunctions.net/`, but the canonical URL `https://api.3dime.com` should be used in production.
+> The canonical URL `https://api.3dime.com` should be used in production.
 
 ---
 
@@ -60,7 +60,7 @@ The backend is built with **Quarkus** (Java):
 
 1. Java Development Kit (JDK) 17 or later
 2. Maven or Gradle for building the Quarkus application
-3. Cloud deployment platform (e.g., Firebase, AWS Lambda, Google Cloud Run)
+3. Cloud deployment platform (e.g., Google Cloud Run, AWS Lambda)
 
 #### Quick Start
 
@@ -107,30 +107,7 @@ Unified proxy endpoint for all API requests.
 #### Example Request
 
 ```bash
-curl "https://us-central1-project.cloudfunctions.net/proxyApi?target=profile"
-```
-
----
-
-### Hello World (Test)
-
-Test endpoint to verify function deployment.
-
-**Target**: `hello`  
-**Method**: `GET`
-
-#### Response
-
-```json
-{
-  "message": "Hello from Firebase!"
-}
-```
-
-#### Example
-
-```bash
-curl "https://us-central1-project.cloudfunctions.net/proxyApi?target=hello"
+curl "https://api.3dime.com/proxyApi?target=profile"
 ```
 
 ---
@@ -362,7 +339,7 @@ const corsHandler = cors({
 - `https://3dime.com` - Production website
 - `https://www.3dime.com` - Production website (www subdomain)
 - `http://localhost:4200` - Local development (Angular dev server)
-- `http://localhost:5000` - Local development (Firebase emulator)
+- `http://localhost:8080` - Local development (Quarkus dev server)
 
 ### Preflight Requests
 
@@ -393,26 +370,13 @@ Notion API rate limits:
 
 ### Required Secrets
 
-Functions require the following secrets (set in Firebase):
+The backend requires the following secrets (configured in the `3dime-api` repository):
 
 | Secret                 | Description                  | Used By          |
 | ---------------------- | ---------------------------- | ---------------- |
-| `GITHUB_TOKEN`         | GitHub personal access token | GitHub functions |
-| `NOTION_TOKEN`         | Notion integration token     | Notion function  |
-| `NOTION_DATASOURCE_ID` | Notion database ID           | Notion function  |
-
-### Setting Secrets
-
-```bash
-# Set GitHub token
-firebase functions:secrets:set GITHUB_TOKEN
-
-# Set Notion token
-firebase functions:secrets:set NOTION_TOKEN
-
-# Set Notion database ID
-firebase functions:secrets:set NOTION_DATASOURCE_ID
-```
+| `GITHUB_TOKEN`         | GitHub personal access token | GitHub endpoints |
+| `NOTION_TOKEN`         | Notion integration token     | Notion endpoint  |
+| `NOTION_DATASOURCE_ID` | Notion database ID           | Notion endpoint  |
 
 ---
 
@@ -420,61 +384,28 @@ firebase functions:secrets:set NOTION_DATASOURCE_ID
 
 ### Local Testing
 
-Run functions locally with Firebase emulator:
+Run the backend locally with Quarkus dev mode:
 
 ```bash
-# Install emulator
-firebase init emulators
+# In the 3dime-api repository
+./mvnw quarkus:dev
 
-# Start emulator
-firebase emulators:start --only functions
-
-# Access at http://localhost:5001
-```
-
-### Function Logs
-
-View function logs:
-
-```bash
-# Recent logs
-firebase functions:log
-
-# Specific function
-firebase functions:log --only proxyApi
-
-# Follow logs in real-time
-firebase functions:log --follow
+# Access at http://localhost:8080
 ```
 
 ---
 
 ## Performance
 
-### Cold Starts
-
-Functions may experience cold starts (1-3 seconds) when:
-
-- Not called recently
-- Deployed or updated
-- Scaled down due to inactivity
-
 ### Optimization Tips
 
-1. **Keep functions warm**: Use Cloud Scheduler to ping functions
-2. **Minimize dependencies**: Reduce function size
-3. **Use caching**: Cache API responses where appropriate
-4. **Set max instances**: Limit concurrent executions
-
-```typescript
-setGlobalOptions({ maxInstances: 10 });
-```
+1. **Use caching**: Cache API responses where appropriate
+2. **Pre-warm**: The frontend pre-warms the backend on page load to reduce cold start latency
 
 ---
 
 ## Additional Resources
 
-- [Firebase Functions Documentation](https://firebase.google.com/docs/functions)
 - [GitHub API Documentation](https://docs.github.com/en/rest)
 - [Notion API Documentation](https://developers.notion.com/)
 - [Google Cloud Functions](https://cloud.google.com/functions)

@@ -4,7 +4,7 @@
 
 This document provides a complete system architecture for the 3dime-angular portfolio, including frontend Angular application, backend integration, data flow, and deployment architecture.
 
-> **Note:** Backend Firebase Functions have been relocated to the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository. For backend architecture, caching strategies, and function implementation details, see the [3dime-api repository documentation](https://github.com/m-idriss/3dime-api).
+> **Note:** The backend is maintained in the separate [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository (Quarkus REST API). For backend architecture, caching strategies, and API implementation details, see the [3dime-api repository documentation](https://github.com/m-idriss/3dime-api).
 
 ## Table of Contents
 
@@ -35,7 +35,7 @@ The 3dime-angular portfolio is a modern, high-performance personal portfolio app
                              │ HTTPS
                              ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                       Firebase Hosting / CDN                             │
+│                       Static Hosting / CDN                               │
 │                    (Static Assets, Service Worker)                       │
 └────────────────────────────┬────────────────────────────────────────────┘
                              │
@@ -55,7 +55,7 @@ The 3dime-angular portfolio is a modern, high-performance personal portfolio app
                              │ HTTP/HTTPS API Calls
                              ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    Firebase Cloud Functions                              │
+│                    Quarkus REST API                                      │
 │                  (3dime-api - External Repository)                       │
 │  ┌──────────────────────────────────────────────────────────────────┐  │
 │  │  API Proxy Layer (proxyApi)                                      │  │
@@ -67,7 +67,7 @@ The 3dime-angular portfolio is a modern, high-performance personal portfolio app
 │                             │ Cache Layer                                │
 │                             ▼                                             │
 │  ┌──────────────────────────────────────────────────────────────────┐  │
-│  │  Firestore Cache (TTL-based)                                     │  │
+│  │  Backend Cache (TTL-based)                                       │  │
 │  │  - github-cache     - notion-cache                               │  │
 │  │  - stats-cache      - Background refresh                         │  │
 │  └──────────────────────────────────────────────────────────────────┘  │
@@ -89,8 +89,8 @@ The 3dime-angular portfolio is a modern, high-performance personal portfolio app
 
 - **Modern Angular Stack**: Standalone components, TypeScript strict mode, RxJS for reactive programming
 - **Progressive Web App**: Installable, offline-capable, share target integration
-- **Serverless Backend**: Firebase Functions (in [3dime-api repo](https://github.com/m-idriss/3dime-api)) for API proxy and AI processing
-- **Intelligent Caching**: Firestore-based caching with background refresh (managed by backend)
+- **Quarkus Backend**: REST API (in [3dime-api repo](https://github.com/m-idriss/3dime-api)) for API proxy and AI processing
+- **Intelligent Caching**: Backend-managed caching with background refresh
 - **AI Integration**: OpenAI GPT-4 Vision for calendar event extraction
 - **Space-Themed UI**: Glassmorphism effects with modern CSS features
 
@@ -103,7 +103,7 @@ The 3dime-angular portfolio is a modern, high-performance personal portfolio app
 ### Pattern 1: Standard API Request (with Cache)
 
 ```
-User Action → Component → Service → Firebase Function → Cache Check
+User Action → Component → Service → Backend API → Cache Check
                                                               │
                                                               ├─ Hit → Return Cached Data (< 100ms)
                                                               │        └─ Background Refresh if Stale
@@ -119,7 +119,7 @@ User Action → Component → Service → Firebase Function → Cache Check
 User Upload → Converter Component → Auth Service → Get ID Token
                                                          │
                                                          ▼
-                                            Firebase Function (with token)
+                                            Backend API endpoint (with token)
                                                          │
                                                          ├─ Verify Token
                                                          ├─ Check Quota (Notion)
@@ -175,7 +175,7 @@ User Request → Service Worker Intercept
 
 # 🔐 6. Authentication & Security
 
-## Firebase Authentication Flow
+## Authentication Flow
 
 ```
 ┌─────────────┐
@@ -193,7 +193,7 @@ User Request → Service Worker Intercept
        │
        ▼
 ┌─────────────────────────────────────────┐
-│   Firebase Auth                          │
+│   Google OAuth Provider                   │
 │   - Validates Google credentials         │
 │   - Issues ID token (JWT)                │
 └──────┬──────────────────────────────────┘
@@ -233,7 +233,7 @@ User Request → Service Worker Intercept
 
 | Measure | Implementation |
 |---------|---------------|
-| **HTTPS Only** | Enforced by Firebase Hosting |
+| **HTTPS Only** | Enforced by static hosting / CDN |
 | **CSP Headers** | Content Security Policy configured |
 | **XSS Prevention** | Angular's built-in sanitization |
 | **CORS** | Restricted to specific origins |
@@ -243,9 +243,9 @@ User Request → Service Worker Intercept
 
 | Measure | Implementation |
 |---------|---------------|
-| **Token Verification** | Firebase Admin SDK verifies all ID tokens |
+| **Token Verification** | Backend verifies all ID tokens |
 | **Rate Limiting** | Quota system prevents abuse |
-| **API Keys** | Stored as Firebase secrets, never exposed |
+| **API Keys** | Stored as server environment variables, never exposed |
 | **Input Validation** | Request body validation before processing |
 | **Error Handling** | Generic error messages to prevent info leakage |
 
@@ -257,8 +257,8 @@ Development:
   - .env (local, gitignored)
 
 Production:
-  - Firebase secrets: firebase functions:config:set
-  - GitHub Actions secrets: FIREBASE_*, OPENAI_API_KEY
+  - Server environment variables
+  - GitHub Actions secrets: OPENAI_API_KEY
   - Environment variables injected at build time
 ```
 
@@ -268,7 +268,7 @@ Prevents abuse of AI conversion feature:
 
 1. **User limits stored in Notion database**
    - Monthly conversion quota per user
-   - Tracked by Firebase User ID
+   - Tracked by user ID
 
 2. **Quota check before processing**
    ```typescript
@@ -310,8 +310,8 @@ Prevents abuse of AI conversion feature:
                          │
                          ▼
 ┌────────────────────────────────────────────────────────────────┐
-│                    Layer 3: Firestore Cache                     │
-│                    (Backend Functions)                          │
+│                    Layer 3: Backend Cache                       │
+│                    (Quarkus API)                                │
 │  - TTL: 1 hour (most), 5 min (statistics)                     │
 │  - Scope: Global, all users                                    │
 │  - Benefits: Fast response, reduced external API calls         │
@@ -324,16 +324,16 @@ Prevents abuse of AI conversion feature:
 └────────────────────────────────────────────────────────────────┘
 ```
 
-## Firestore Cache Implementation
+## Backend Cache Implementation
 
-Detailed documentation: See the backend functions documentation in the `3dime-api` repository (CACHING.md and README.md) for caching and functions implementation details.
+Detailed documentation: See the backend documentation in the `3dime-api` repository for caching implementation details.
 
 ### Cache Manager
 
 ```typescript
 class CacheManager<T> {
   constructor(options: {
-    collection: string;    // Firestore collection
+    collection: string;    // Cache collection
     key: string;          // Document ID
     ttl: number;          // Time-To-Live in ms
     forceCooldown?: number; // Min time between force refreshes
@@ -360,12 +360,12 @@ class CacheManager<T> {
 
 **Cache Hit (Fresh)**
 ```
-Request → Check Firestore → Found & Fresh → Return Immediately (< 100ms)
+Request → Check Cache → Found & Fresh → Return Immediately (< 100ms)
 ```
 
 **Cache Hit (Stale)**
 ```
-Request → Check Firestore → Found but Stale
+Request → Check Cache → Found but Stale
                                    │
                                    ├─ Return Cached Data (< 100ms)
                                    └─ Background Refresh
@@ -374,7 +374,7 @@ Request → Check Firestore → Found but Stale
 
 **Cache Miss**
 ```
-Request → Check Firestore → Not Found → Fetch from API (2-5s)
+Request → Check Cache → Not Found → Fetch from API (2-5s)
                                         └─ Store in Cache
                                         └─ Return Fresh Data
 ```
@@ -424,11 +424,9 @@ Request → Check Firestore → Not Found → Fetch from API (2-5s)
        ▼
 ┌─────────────────────────────────────┐
 │  Deploy to Hosting                  │
-│  - Firebase Hosting                 │
-│    firebase deploy --only hosting   │
+│  - Netlify / Vercel / GitHub Pages  │
 │  - Manual FTP/SFTP upload           │
-│  - Other static hosting (Netlify,   │
-│    Vercel, GitHub Pages)            │
+│  - Custom web server                 │
 └─────────────────────────────────────┘
 ```
 
@@ -438,10 +436,8 @@ Request → Check Firestore → Not Found → Fetch from API (2-5s)
 
 | Component | Deployment Method | Hosting |
 |-----------|------------------|---------|
-| **Frontend** | Manual deployment via Firebase CLI or static hosting | CDN-backed |
-| **Functions** | `firebase deploy --only functions` | Firebase Cloud Functions |
-| **Firestore** | Automatic (managed service) | Firebase Firestore |
-| **Auth** | Automatic (managed service) | Firebase Authentication |
+| **Frontend** | Deploy to static hosting platform | CDN-backed |
+| **Backend API** | See [3dime-api repository](https://github.com/m-idriss/3dime-api) | Cloud platform |
 
 #### Development
 
@@ -449,8 +445,8 @@ Request → Check Firestore → Not Found → Fetch from API (2-5s)
 # Local development server
 npm start  # http://localhost:4200
 
-# Firebase emulators (Functions, Firestore, Auth)
-npm run dev  # Emulators on localhost
+# Local backend (Quarkus dev mode)
+# See 3dime-api repository for instructions
 ```
 
 ## Environment Configuration
@@ -461,29 +457,25 @@ npm run dev  # Emulators on localhost
 // src/environments/environment.ts (development)
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5001/project/region/proxyApi',
-  firebase: { /* config */ }
+  apiUrl: 'http://localhost:8080/api',
 };
 
 // src/environments/environment.prod.ts (production)
 export const environment = {
   production: true,
-  apiUrl: 'https://us-central1-project.cloudfunctions.net/proxyApi',
-  firebase: { /* config */ }
+  apiUrl: 'https://api.3dime.com',
 };
 ```
 
 ### Backend Configuration
 
-```bash
-# Firebase Functions configuration
-firebase functions:config:set \
-  openai.api_key="sk-..." \
-  github.token="ghp_..." \
-  notion.token="secret_..."
+Configure environment variables in the [3dime-api repository](https://github.com/m-idriss/3dime-api):
 
-# Access in code
-const apiKey = functions.config().openai.api_key;
+```bash
+# Set in .env or server environment variables
+OPENAI_API_KEY=sk-...
+GITHUB_TOKEN=ghp_...
+NOTION_TOKEN=secret_...
 ```
 
 ## Hosting Architecture
@@ -494,8 +486,8 @@ const apiKey = functions.config().openai.api_key;
 │                              │                               │
 │                              ▼                               │
 │  ┌───────────────────────────────────────────────────────┐  │
-│  │           Firebase Hosting / CDN                      │  │
-│  │  - SSL/TLS automatic (Let's Encrypt)                  │  │
+│  │           Static Hosting / CDN                        │  │
+│  │  - SSL/TLS (configured per platform)'s Encrypt)                  │  │
 │  │  - Global CDN with edge locations                     │  │
 │  │  - Serves static files from dist/                     │  │
 │  │  - Service Worker caching                             │  │
@@ -509,12 +501,11 @@ const apiKey = functions.config().openai.api_key;
 └──────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐
-│              Firebase Cloud Functions                        │
-│  - Automatic scaling                                         │
-│  - Regional deployment (us-central1)                         │
+│              Quarkus REST API (api.3dime.com)                │
+│  - See 3dime-api repository for deployment details            │
 │  - API endpoints:                                            │
-│    • proxyApi (main router)                                  │
-│    • converter (AI processing)                               │
+│    • /api/* (main endpoints)                                │
+│    • /api/converter (AI processing)                         │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -528,7 +519,7 @@ The **Converter module** allows users to authenticate, convert images into ICS e
 
 ## 🔎 High-Level Flow
 
-1. User authenticates using **Firebase Auth**.
+1. User authenticates using **Google OAuth**.
 2. Frontend sends images + auth token to the **Proxy**.
 3. Proxy checks the monthly quota via **Notion**.
 4. If quota is valid → Proxy sends images to **Gemini Pro** to generate ICS event(s).
@@ -543,7 +534,7 @@ The **Converter module** allows users to authenticate, convert images into ICS e
 ```mermaid
 sequenceDiagram
     participant FE as 🌐 Frontend
-    participant A as 🔥 Firebase Auth
+    participant A as 🔒 Google OAuth
     participant P as 🪞 Proxy
     participant NQ as 🧠 Notion - (Quota DB)
     participant GP as ✨ Gemini Pro
@@ -551,7 +542,7 @@ sequenceDiagram
     participant NN as 🔔 Notion - Admin Notify
 
     FE->>A: Authenticate with Google
-    A-->>FE: Auth token
+    A-->>FE: Auth token (JWT)
 
     FE->>P: Send images + auth token
 
@@ -596,9 +587,9 @@ The **Portfolio module** retrieves both GitHub and Notion data through the Proxy
 4. Proxy merges Notion + GitHub data.
 5. Frontend renders all cards and components.
 
-### 🔄 Firestore Cache
+### 🔄 Backend Cache
 
-The proxy uses **Firestore** to cache all portfolio-related data.
+The proxy uses a **TTL-based cache** to store all portfolio-related data.
 This reduces the number of calls to GitHub and Notion APIs, prevents hitting rate limits, and improves load times.
 Cached entries follow a TTL-based invalidation strategy.
 
@@ -649,12 +640,10 @@ sequenceDiagram
 
 | Category | Technology | Version | Purpose |
 |----------|-----------|---------|---------|
-| **Runtime** | Node.js | 20+ | JavaScript runtime for Functions |
-| **Cloud Functions** | Firebase Functions | 6.2.1 | Serverless backend API |
-| **Authentication** | Firebase Auth | 12.5.1 | Google OAuth authentication |
-| **Database** | Firestore | 12.5.1 | Cache storage and tracking |
-| **AI Processing** | OpenAI API | 4.79.0 | GPT-4o Vision for calendar extraction |
-| **HTTP Client** | Axios | 1.7.9 | HTTP requests to external APIs |
+| **Framework** | Quarkus | Latest | Cloud-native Java REST API |
+| **Authentication** | Google OAuth / JWT | - | Token-based authentication |
+| **AI Processing** | OpenAI API | Latest | GPT-4o Vision for calendar extraction |
+| **HTTP Client** | Quarkus REST Client | - | HTTP requests to external APIs |
 
 ### External APIs
 
@@ -678,7 +667,8 @@ sequenceDiagram
 
 | Service | Purpose |
 |---------|---------|
-| **Firebase Hosting** | Static file hosting with CDN |
+| **Static Hosting** | Netlify, Vercel, or similar CDN-backed hosting |
+| **Backend API** | api.3dime.com (Quarkus, see 3dime-api repo) |
 | **Custom Domain** | 3dime.com with SSL/TLS |
 
 ---
@@ -705,7 +695,7 @@ App (Root Component)
 ├── Education
 ├── Calendar Converter ⭐
 │   ├── File Upload (Drag & Drop)
-│   ├── Auth Gate (Firebase)
+│   ├── Auth Gate (Google OAuth)
 │   ├── File List
 │   ├── Progress Tracker
 │   ├── Event Editor
@@ -737,7 +727,7 @@ src/app/
 │   ├── notion.service.ts      # Notion API integration
 │   ├── theme.service.ts       # Theme management
 │   ├── converter.service.ts   # Calendar converter logic
-│   └── auth.service.ts        # Firebase authentication
+│   └── auth.service.ts        # Google OAuth authentication
 ├── models/              # TypeScript interfaces
 ├── guards/              # Route guards
 ├── utils/               # Utility functions
@@ -776,7 +766,7 @@ export class ConverterService {
   downloadICS(events: CalendarEvent[], filename: string): void
 }
 
-// Auth Service - Firebase authentication
+// Auth Service - Google OAuth authentication
 export class AuthService {
   signInWithGoogle(): Promise<UserCredential>
   signOut(): Promise<void>
@@ -866,7 +856,7 @@ The backend is a **Quarkus-based REST API** deployed as a serverless application
 - **Notion Integration** - Retrieve portfolio content (stuff, experience, education)
 - **AI Converter** - Calendar event extraction using OpenAI GPT-4 Vision
 - **Statistics & Quota** - Usage tracking and quota management
-- **Caching** - Firestore-based caching with intelligent refresh strategies
+- **Caching** - Backend TTL-based caching with intelligent refresh strategies
 
 ### Backend Technology Stack
 
@@ -904,7 +894,7 @@ The backend exposes a unified proxy API at `https://api.3dime.com` that routes r
 
 Separate authenticated endpoint for AI-powered calendar conversion:
 - **URL**: `https://converter.3dime.com` (or similar)
-- **Auth**: Firebase ID token required
+- **Auth**: JWT token required
 - **Quota**: Managed via Notion database
 - **Processing**: OpenAI GPT-4 Vision API
 
@@ -1026,7 +1016,7 @@ const response = await openai.chat.completions.create({
 
 ### Backend Optimizations
 
-- ✅ **Firestore Caching** - TTL-based cache with background refresh
+- ✅ **Backend Caching** - TTL-based cache with background refresh
 - ✅ **API Request Batching** - GraphQL for efficient GitHub queries
 - ✅ **Connection Pooling** - Reused HTTP connections
 - ✅ **Parallel Processing** - Concurrent image processing for converter
@@ -1055,8 +1045,8 @@ window.addEventListener('error', (event) => {
 ### Backend Logging
 
 ```typescript
-// Firebase Functions automatic logging
-functions.logger.info('Cache hit', { key, age });
+// Backend logging
+logger.info('Cache hit', { key, age });
 functions.logger.warn('API rate limit approaching', { remaining });
 functions.logger.error('External API failed', { error, endpoint });
 ```
@@ -1067,8 +1057,8 @@ functions.logger.error('External API failed', { error, endpoint });
 
 | Metric | Tool | Threshold |
 |--------|------|-----------|
-| **Uptime** | Firebase Hosting | > 99.9% |
-| **Error Rate** | Functions Logs | < 0.1% |
+| **Uptime** | Hosting provider | > 99.9% |
+| **Error Rate** | Backend Logs | < 0.1% |
 | **Response Time** | Cache metrics | < 200ms |
 | **API Quota** | Notion tracking | < 80% |
 
@@ -1086,8 +1076,8 @@ functions.logger.error('External API failed', { error, endpoint });
 | Metric | Source | Alert Threshold |
 |--------|--------|----------------|
 | **Function Errors** | Cloud Functions | > 5% error rate |
-| **Firestore Reads** | Firebase Console | > 10K/day |
-| **Firestore Writes** | Firebase Console | > 1K/day |
+| **Cache Reads** | Backend logs | > 10K/day |
+| **Cache Writes** | Backend logs | > 1K/day |
 | **Cache Hit Rate** | Logs analysis | < 90% |
 
 ---
@@ -1118,7 +1108,7 @@ functions.logger.error('External API failed', { error, endpoint });
 
 ### Current: Monolithic Frontend + Serverless Backend
 ```
-Angular SPA → Firebase Functions → External APIs
+Angular SPA → Quarkus REST API (api.3dime.com) → External APIs
 ```
 
 ### Future: Micro-Frontend + Microservices
@@ -1161,7 +1151,7 @@ Angular SPA → Firebase Functions → External APIs
 ## External References
 
 - [Angular Documentation](https://angular.dev/) - Official Angular guide
-- [Firebase Documentation](https://firebase.google.com/docs) - Firebase platform docs
+- [Quarkus Documentation](https://quarkus.io/guides/) - Backend framework docs
 - [OpenAI API Reference](https://platform.openai.com/docs) - GPT-4 Vision API
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/) - TypeScript guide
 

@@ -17,7 +17,7 @@
 
 ### Prerequisites
 
-- **Node.js**: 20+ (Functions require Node 22 but work with 20)
+- **Node.js**: 20+
 - **npm**: 10+
 - **Chrome/Chromium**: For testing
 - **Git**: For version control
@@ -39,15 +39,7 @@
 
    _Note: Takes ~30 seconds, never cancel the installation_
 
-3. **Install Firebase Functions dependencies** (if using Firebase features):
-
-   ```bash
-   cd functions
-   npm install
-   cd ..
-   ```
-
-4. **Verify installation**:
+3. **Verify installation**:
 
    ```bash
    npm run build

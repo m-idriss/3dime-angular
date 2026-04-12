@@ -1,8 +1,8 @@
 # Notion Webhook Setup Guide
 
-> **Note:** Firebase Functions have been relocated to the [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
+> **Note:** The backend API is maintained in the [`m-idriss/3dime-api`](https://github.com/m-idriss/3dime-api) repository.
 > 
-> This guide provides setup instructions for the frontend. For function implementation details and deployment, see the **[3dime-api repository](https://github.com/m-idriss/3dime-api)**.
+> This guide provides setup instructions for the frontend. For API implementation details and deployment, see the **[3dime-api repository](https://github.com/m-idriss/3dime-api)**.
 
 ## Overview
 
@@ -37,7 +37,7 @@ This guide explains how to configure Notion webhooks to enable instant cache ref
           │ + signature
           ▼
 ┌──────────────────────────┐
-│ notionWebhook Function   │
+│ notionWebhook Endpoint   │
 │ (3dime-api repository)   │
 ├──────────────────────────┤
 │ 1. Verify signature      │
@@ -47,7 +47,7 @@ This guide explains how to configure Notion webhooks to enable instant cache ref
            │
            ▼
 ┌──────────────────────┐
-│  Firestore Cache     │
+│  Backend Cache       │
 │  (notion-cache/data) │
 └──────────┬───────────┘
            │
@@ -60,39 +60,35 @@ This guide explains how to configure Notion webhooks to enable instant cache ref
 
 ## Setup Instructions
 
-### 1. Deploy the Webhook Function
+### 1. Deploy the Webhook Endpoint
 
-The webhook function is implemented in the [`3dime-api`](https://github.com/m-idriss/3dime-api) repository. Deploy it to Firebase:
+The webhook endpoint is implemented in the [`3dime-api`](https://github.com/m-idriss/3dime-api) repository. Deploy it following the instructions there:
 
 ```bash
 # Clone and navigate to the backend repository
 git clone https://github.com/m-idriss/3dime-api.git
 cd 3dime-api
 
-# Install dependencies and build
-npm install
-npm run build
-
-# Deploy the webhook function
-firebase deploy --only functions:notionWebhook
+# Build and deploy per 3dime-api instructions
+./mvnw clean package
 ```
 
-After deployment, note the function URL. It will look like:
+After deployment, note the webhook endpoint URL. It will look like:
 ```
-https://notionwebhook-fuajdt22nq-uc.a.run.app
+https://api.3dime.com/api/notion/webhook
 ```
 
-### 2. Configure Firebase Secrets
+### 2. Configure Backend Secrets
 
-The webhook requires the following secrets to be configured in Firebase (from the `3dime-api` repository):
+The webhook requires the following environment variables to be configured in the `3dime-api` repository:
 
 ```bash
-# Set existing secrets (already configured)
-firebase functions:secrets:set NOTION_TOKEN
-firebase functions:secrets:set NOTION_DATASOURCE_ID
+# Set in .env or server environment variables
+NOTION_TOKEN=...
+NOTION_DATASOURCE_ID=...
 
 # Set new webhook secret (generate a strong random string)
-firebase functions:secrets:set NOTION_WEBHOOK_SECRET
+NOTION_WEBHOOK_SECRET=...
 ```
 
 **Generate a strong webhook secret:**
@@ -115,7 +111,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 3. Navigate to the "Webhooks" or "Subscriptions" section
 4. Click "Add webhook" or "Subscribe to database"
 5. Configure the webhook:
-   - **Webhook URL**: `https://notionwebhook-fuajdt22nq-uc.a.run.app`
+   - **Webhook URL**: `https://api.3dime.com/api/notion/webhook`
    - **Database/Data Source ID**: Your Notion database ID (same as `NOTION_DATASOURCE_ID`)
    - **Events**: Select "Database updated", "Page created", "Page updated", "Page deleted"
    - **Webhook Secret**: The secret you generated in step 2
@@ -130,7 +126,7 @@ You can test the webhook manually using curl:
 
 ```bash
 # Test without signature (if NOTION_WEBHOOK_SECRET not set)
-curl -X POST https://notionwebhook-fuajdt22nq-uc.a.run.app \
+curl -X POST https://api.3dime.com/api/notion/webhook \
   -H "Content-Type: application/json" \
   -d '{"test": "webhook"}'
 
@@ -138,7 +134,7 @@ curl -X POST https://notionwebhook-fuajdt22nq-uc.a.run.app \
 PAYLOAD='{"test":"webhook"}'
 SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "YOUR_SECRET" | cut -d' ' -f2)
 
-curl -X POST https://notionwebhook-fuajdt22nq-uc.a.run.app \
+curl -X POST https://api.3dime.com/api/notion/webhook \
   -H "Content-Type: application/json" \
   -H "Notion-Signature: $SIGNATURE" \
   -d "$PAYLOAD"
@@ -147,26 +143,18 @@ curl -X POST https://notionwebhook-fuajdt22nq-uc.a.run.app \
 #### Test by Updating Notion
 
 1. Make a change to your Notion database (add, update, or delete an item)
-2. Check Firebase Functions logs to verify the webhook was triggered:
-   ```bash
-   # From the 3dime-api repository
-   firebase functions:log --only notionWebhook
-   ```
-3. Verify the cache was updated by checking the `notion-cache` collection in Firestore
+2. Check the backend logs to verify the webhook was triggered (see 3dime-api repository for logging instructions)
+3. Verify the cache was updated by testing the `/api/notion/cms` endpoint
 
 ### 5. Verify Cache Updates
 
 To verify that the webhook is working correctly:
 
-1. **Check Firestore**: Open Firebase Console → Firestore → `notion-cache` collection → `data` document
-   - Check the `updatedAt` timestamp
+1. **Check the backend**: Review the 3dime-api logs for webhook events
+   - Check the `updatedAt` timestamp in the cache
    - Verify the `version` hash changes after updates
 
-2. **Check Function Logs**:
-   ```bash
-   # From the 3dime-api repository
-   firebase functions:log --only notionWebhook
-   ```
+2. **Check Backend Logs**: See the 3dime-api repository for logging instructions.
    
    Look for log entries like:
    ```
@@ -192,7 +180,7 @@ The webhook function verifies that requests are genuinely from Notion using HMAC
 
 ### Environment-based Security
 
-- The webhook secret is stored in Firebase Secrets (not in code)
+- The webhook secret is stored in server environment variables (not in code)
 - Secrets are never logged or exposed in responses
 - Timing-safe comparison prevents timing attacks
 
@@ -200,13 +188,8 @@ The webhook function verifies that requests are genuinely from Notion using HMAC
 
 ### Check Webhook Status
 
-```bash
-# View recent webhook invocations (from 3dime-api repository)
-firebase functions:log --only notionWebhook --limit 50
-
-# Monitor webhook in real-time
-firebase functions:log --only notionWebhook --follow
-```
+Check the backend logs in the 3dime-api repository for recent webhook invocations.
+See the [3dime-api documentation](https://github.com/m-idriss/3dime-api) for logging details.
 
 ### Common Issues
 
@@ -221,15 +204,14 @@ firebase functions:log --only notionWebhook --follow
   - Check that the signature is sent in the `Notion-Signature` header
 
 #### 3. 500 Internal Server Error
-- **Cause**: Missing secrets or Notion API error
+- **Cause**: Missing environment variables or Notion API error
 - **Solution**:
-  - Verify all required secrets are set: `NOTION_TOKEN`, `NOTION_DATASOURCE_ID`
-  - Check Firebase Functions logs for detailed error messages
+  - Verify all required variables are set: `NOTION_TOKEN`, `NOTION_DATASOURCE_ID`
+  - Check the 3dime-api backend logs for detailed error messages
 
 #### 4. Cache not updating
-- **Cause**: Function succeeds but cache not written
+- **Cause**: Endpoint succeeds but cache not written
 - **Solution**:
-  - Check Firestore permissions
   - Verify the cache manager configuration in `3dime-api`
 
 ### Health Check
@@ -239,7 +221,7 @@ The webhook endpoint returns different status codes:
 - **200**: Cache updated successfully
 - **401**: Missing or invalid signature
 - **405**: Method not allowed (only POST is accepted)
-- **500**: Internal server error (check logs in `3dime-api`)
+- **500**: Internal server error (check 3dime-api logs)
 
 ## Fallback Mechanism
 
@@ -268,7 +250,7 @@ The existing `notionFunction` continues to work during webhook setup:
 
 ### After Deployment
 
-1. Deploy both functions (in `3dime-api`): `notionFunction` and `notionWebhook`
+1. Deploy the backend (in `3dime-api`): ensure both the main Notion endpoint and webhook endpoint are deployed
 2. Configure webhook in Notion (see step 3)
 3. Monitor logs to ensure webhooks are working
 4. Optional: Keep both systems running for redundancy
@@ -284,6 +266,5 @@ The webhook implementation is in the [`3dime-api`](https://github.com/m-idriss/3
 ## References
 
 - [Notion API Documentation](https://developers.notion.com/)
-- [Firebase Functions Documentation](https://firebase.google.com/docs/functions)
-- [Firebase Secrets Management](https://firebase.google.com/docs/functions/config-env)
-- [3dime-api Repository](https://github.com/m-idriss/3dime-api) - Backend functions source
+- [Quarkus Documentation](https://quarkus.io/guides/)
+- [3dime-api Repository](https://github.com/m-idriss/3dime-api) - Backend API source

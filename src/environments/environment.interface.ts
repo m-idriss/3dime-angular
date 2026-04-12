@@ -7,13 +7,4 @@ export interface Environment {
   screenshotMode: boolean;
   apiUrl: string;
   showGithubActivity?: boolean;
-  firebase: {
-    apiKey: string;
-    authDomain: string;
-    projectId: string;
-    storageBucket: string;
-    messagingSenderId: string;
-    appId: string;
-    measurementId: string;
-  };
 }

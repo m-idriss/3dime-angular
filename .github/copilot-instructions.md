@@ -32,9 +32,6 @@ This is an Angular 20+ personal portfolio website showcasing professional experi
 # Install all dependencies - takes ~30 seconds, NEVER CANCEL
 npm install
 
-# Install Firebase Functions dependencies (if using Firebase features)
-cd functions && npm install
-cd ..
 ```
 
 ### Build Process
@@ -45,8 +42,6 @@ npm run build
 # Production build - takes ~14 seconds, NEVER CANCEL. Set timeout to 30+ seconds.
 npm run build -- --configuration=production
 
-# Build Firebase Functions - takes ~6 seconds, NEVER CANCEL. Set timeout to 20+ seconds.
-cd functions && npm run build
 ```
 
 **Expected Build Warnings (NORMAL):**
@@ -235,7 +230,6 @@ The application displays:
 ### Known Limitations
 - Content is currently hardcoded in component templates
 - Some external CDN resources may be blocked in restricted environments
-- Firebase Functions prefer Node 22 but work with Node 20 (build warnings expected)
 
 ## Important Guidelines
 
@@ -327,11 +321,3 @@ npm run build -- --configuration=production
 # The dist/3dime-angular/browser/ folder contains deployable files
 ```
 
-### Firebase Functions Deployment
-```bash
-# Deploy functions only
-firebase deploy --only functions
-
-# Deploy everything (hosting + functions)
-firebase deploy
-```

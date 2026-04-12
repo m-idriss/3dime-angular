@@ -4,7 +4,6 @@
 
 - [README](../README.md) - Project overview and quick start
 - [Installation Guide](./INSTALLATION.md) - Complete setup instructions
-- [Firebase Auth Setup](./FIREBASE_AUTH_SETUP.md) - Firebase authentication configuration
 
 ## Architecture & Code
 
@@ -24,8 +23,7 @@
 ## Operations
 
 - [Release Guide](./RELEASE_GUIDE.md) - Release process
-- [Emulator Setup](./EMULATOR_SETUP.md) - Local emulator configuration
-- [Functions Relocated](./FUNCTIONS_RELOCATED.md) - Backend functions migration notes
+- [Local Backend Setup](./FUNCTIONS_RELOCATED.md) - Running the Quarkus backend locally
 - [Notion Webhook Setup](./NOTION_WEBHOOK_SETUP.md) - Notion webhook configuration
 - [Notion Tracking Setup](./NOTION_TRACKING_SETUP.md) - Notion tracking integration
 
