@@ -1,12 +1,43 @@
-# 3dime-angular
+<div align="center">
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-3dime.com-00D4AA?style=for-the-badge)](https://3dime.com)
-[![Angular](https://img.shields.io/badge/Angular-20.3-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
-[![PWA Ready](https://img.shields.io/badge/PWA-Ready-9C27B0?style=for-the-badge)](public/assets/manifest.json)
+<img src="public/assets/logo.png" alt="3dime Logo" width="120" />
 
-Modern personal portfolio built with Angular 20+. Showcases professional experience, tech stack, GitHub activity, and personal interests with drag & drop upload, real-time updates, and PWA support.
+<h1>3dime-angular</h1>
+
+<h3>Modern personal portfolio with GitHub integration — instantly ✨</h3>
+
+<a href="https://3dime.com"><img src="https://img.shields.io/badge/Live_Demo-3dime.com-00D4AA?style=for-the-badge" alt="Live Demo" /></a>
+<a href="https://angular.dev"><img src="https://img.shields.io/badge/Angular-20.3-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular" /></a>
+<a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" /></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="MIT License" /></a>
+<a href="public/assets/manifest.json"><img src="https://img.shields.io/badge/PWA-Ready-9C27B0?style=for-the-badge" alt="PWA Ready" /></a>
+
+<p><strong>Showcase your skills with style.</strong> 3dime-angular displays your GitHub stats, tech stack, experience, and projects with a beautiful space-themed glassmorphism design — responsive, fast, and production-ready.</p>
+
+<p><a href="https://3dime.com">🚀 View live at 3dime.com</a></p>
+
+<hr/>
+
+<img src="public/assets/screenshots/iPhone_13_Pro_Max.jpeg" alt="3dime in action" width="375" />
+
+<p><em>Your portfolio. Your story. Beautifully displayed.</em></p>
+
+<p>📝 Screenshots are automatically refreshed daily via GitHub Actions with mock data.</p>
+
+</div>
+
+---
+
+## ✨ Why 3dime-angular?
+
+| Feature | Details |
+|---------|---------|
+| 🎨 **Glassmorphism Design** | Modern UI with smooth animations and dark mode support |
+| 📊 **GitHub Integration** | Real-time display of profile stats, activity, and contributions |
+| 💼 **Portfolio Showcase** | Highlight your experience, skills, and projects elegantly |
+| 🔐 **Firebase Authentication** | Secure login and real-time data synchronization |
+| 📱 **PWA — Works Offline** | Install on your phone or desktop like a native app |
+| 🌐 **Fully Responsive** | Perfect experience on mobile, tablet, and desktop |
 
 Backend: [3dime-api](https://github.com/m-idriss/3dime-api) (Quarkus REST API)
 
@@ -15,64 +46,19 @@ Backend: [3dime-api](https://github.com/m-idriss/3dime-api) (Quarkus REST API)
 **Prerequisites:** Node.js 20+, npm 10+
 
 ```bash
-npm install
-npm start
-# Open http://localhost:4200/
-```
-
-For Firebase setup (required for the converter): see [Firebase Auth Setup](docs/FIREBASE_AUTH_SETUP.md)
-
-## Commands
-
-```bash
-npm start                                    # Dev server (http://localhost:4200)
-npm test                                     # Unit tests
+npm install       # Install dependencies
+npm start         # Dev server → http://localhost:4200
+npm test          # Unit tests
 npm run build -- --configuration=production  # Production build
 firebase deploy --only hosting               # Deploy to Firebase
 ```
 
-## Project Structure
-
-```
-src/app/
-├── components/    # UI components (profile, about, tech stack, etc.)
-├── services/      # Data services (GitHub, Notion, theme, auth)
-├── models/        # TypeScript interfaces
-└── app.ts         # Main application
-```
+For Firebase setup (required for authentication): see [Firebase Auth Setup](docs/FIREBASE_AUTH_SETUP.md)
 
 ## Documentation
 
-| Document | Description |
-|----------|-------------|
-| [Architecture](docs/ARCHITECTURE.md) | System design and technical overview |
-| [Installation](docs/INSTALLATION.md) | Detailed setup instructions |
-| [Services](docs/SERVICES.md) | Service APIs and data management |
-| [API Reference](docs/API.md) | Backend API endpoints |
-| [Deployment](docs/DEPLOYMENT.md) | Production deploy and CI/CD |
-| [Testing](docs/TESTING.md) | Unit tests, API tests, CI |
-| [Firebase Auth](docs/FIREBASE_AUTH_SETUP.md) | Firebase authentication setup |
-| [Roadmap](docs/ROADMAP.md) | Planned features and timeline |
-| [Full Index](docs/README.md) | All documentation |
+[Architecture](docs/ARCHITECTURE.md), [Installation](docs/INSTALLATION.md), [Services](docs/SERVICES.md), [API Reference](docs/API.md), [Deployment](docs/DEPLOYMENT.md), [Testing](docs/TESTING.md), [Firebase Auth](docs/FIREBASE_AUTH_SETUP.md), [Roadmap](docs/ROADMAP.md), [Full Index](docs/README.md)
 
-## 📸 Screenshots
+---
 
-<div align="center">
-
-### 📱 Mobile Experience
-
-<img src="public/assets/screenshots/iPhone_13_Pro_Max.jpeg" alt="3dime-angular Mobile Screenshot" width="375" />
-
-*Fully responsive design optimized for all devices*
-
-> 📝 **Note**: Screenshots are automatically updated daily via GitHub Actions.
-
-</div>
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
-## Author
-
-**Idriss** — [3dime.com](https://3dime.com) | [@m-idriss](https://github.com/m-idriss)
+MIT License — **Idriss** · [3dime.com](https://3dime.com) · [@m-idriss](https://github.com/m-idriss)
