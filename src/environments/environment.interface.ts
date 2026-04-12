@@ -7,13 +7,7 @@ export interface Environment {
   screenshotMode: boolean;
   apiUrl: string;
   showGithubActivity?: boolean;
-  firebase: {
-    apiKey: string;
-    authDomain: string;
-    projectId: string;
-    storageBucket: string;
-    messagingSenderId: string;
-    appId: string;
-    measurementId: string;
-  };
+  // Additional optional flags can be added here. Firebase was removed from
+  // the repository to avoid committing secrets; downstream code should not
+  // rely on a `firebase` property being present in the environment files.
 }
