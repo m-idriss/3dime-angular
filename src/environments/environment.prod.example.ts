@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
   showGithubActivity: false,
-  apiUrl: 'https://your-api-url.example.com',
+  apiUrl: 'https://your-api-url.example.com/v1',
+  screenshotMode: false,
 };

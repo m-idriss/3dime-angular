@@ -9,5 +9,5 @@ export const environment: Environment = {
   production: true,
   screenshotMode: true,
   showGithubActivity: true,
-  apiUrl: 'https://api.3dime.com',
+  apiUrl: 'https://api.3dime.com/v1',
 };
