@@ -4,6 +4,7 @@ import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs/operators';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { inject as injectAnalytics } from '@vercel/analytics';
+import { environment } from '../environments/environment';
 
 import { Footer } from './components/footer/footer';
 import { PWA_CONFIG } from './constants/pwa.constants';
@@ -65,6 +66,16 @@ export class App implements OnInit {
       window.addEventListener('appinstalled', () => {
         this.deferredPrompt = null;
       });
+
+      // Pre-warm Notion CMS API to overlap backend cold start with client load
+      // Only do this in production to avoid unnecessary network requests in dev/tests
+      if (environment.production) {
+        try {
+          fetch(`${environment.apiUrl}/notion/cms`, { mode: 'cors' }).catch(() => {});
+        } catch {
+          // ignore any sync errors (e.g., fetch not available)
+        }
+      }
     }
   }
 }
