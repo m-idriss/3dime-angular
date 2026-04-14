@@ -33,7 +33,8 @@ export interface ThemeConfig {
 export class ThemeService {
   private readonly config: ThemeConfig = {
     THEME_MODES: ['light', 'dark'],
-    DEFAULT_THEME: 'light',
+    // Use dark as the default theme
+    DEFAULT_THEME: 'dark',
     FONT_SIZES: ['normal', 'large', 'small'],
     DEFAULT_FONT_SIZE: 'small',
     THEME_DISPLAY_NAMES: {
