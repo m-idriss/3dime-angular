@@ -66,12 +66,15 @@ export class App implements OnInit {
       window.addEventListener('appinstalled', () => {
         this.deferredPrompt = null;
       });
+
       // Pre-warm Notion CMS API to overlap backend cold start with client load
-      // Use the runtime environment API URL so it follows Angular file replacements
-      try {
-        fetch(`${environment.apiUrl}/notion/cms`, { mode: 'cors' }).catch(() => {});
-      } catch {
-        // ignore any sync errors (e.g., fetch not available)
+      // Only do this in production to avoid unnecessary network requests in dev/tests
+      if (environment.production) {
+        try {
+          fetch(`${environment.apiUrl}/notion/cms`, { mode: 'cors' }).catch(() => {});
+        } catch {
+          // ignore any sync errors (e.g., fetch not available)
+        }
       }
     }
   }
