@@ -74,8 +74,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Pre-warm backend API to overlap Cloud Run cold start with page load -->
-  <script>fetch('https://api.3dime.com/notion/cms',{mode:'cors'}).catch(function(){})</script>
+  <!-- Pre-warm backend API moved to Angular bootstrap so environment apiUrl is used -->
 
   <!-- Cal-heatmap CSS (only needed when GitHub activity is enabled) -->
   <link rel="preload" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css" as="style"
