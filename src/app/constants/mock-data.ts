@@ -30,9 +30,21 @@ export const MOCK_SOCIAL_LINKS = [
   }
 ];
 
+const MOCK_COMMIT_BASE_DATE = new Date('2026-01-01').getTime();
+const MOCK_COMMIT_VALUES = [
+  3, 0, 5, 12, 8, 0, 2, 7, 15, 4, 0, 9, 6, 1, 11, 3, 0, 8, 14, 5,
+  2, 0, 7, 10, 3, 6, 0, 4, 9, 2, 0, 13, 5, 1, 7, 0, 3, 11, 8, 2,
+  0, 6, 4, 10, 1, 5, 0, 9, 3, 7, 2, 0, 12, 5, 4, 8, 1, 0, 6, 3,
+  10, 2, 0, 7, 5, 1, 4, 0, 9, 3, 6, 2, 0, 8, 4, 11, 1, 5, 0, 3,
+  7, 2, 0, 6, 4, 10, 1, 5, 0, 9, 3, 7, 2, 0, 8, 4, 11, 1, 5, 0,
+  3, 7, 2, 0, 6, 4, 10, 1, 5, 0, 9, 3, 7, 2, 0, 8, 4, 11, 1, 5,
+  14, 0, 3, 8, 2, 6, 1, 0, 10, 4, 7, 3, 0, 5, 9, 2, 1, 0, 6, 4,
+  11, 3, 0, 7, 5, 2, 0, 8, 4, 10, 1, 5, 0, 9, 3, 7, 2, 0, 6, 4,
+  12, 1, 5, 0, 3, 8, 2, 0, 7, 4, 10, 1, 5, 0, 9, 3, 6, 2, 0, 8,
+];
 export const MOCK_COMMIT_DATA = Array.from({ length: 180 }, (_, i) => ({
-  date: Date.now() - 86400000 * (180 - i),
-  value: Math.floor(Math.random() * 25) // Random commits 0-25 per day
+  date: MOCK_COMMIT_BASE_DATE + 86400000 * i,
+  value: MOCK_COMMIT_VALUES[i] ?? 0,
 }));
 
 export const MOCK_RELEASES = [
