@@ -30,7 +30,7 @@ export const MOCK_SOCIAL_LINKS = [
   }
 ];
 
-const MOCK_COMMIT_BASE_DATE = new Date('2026-01-01').getTime();
+const MOCK_COMMIT_BASE_DATE = Date.UTC(2026, 0, 1);
 const MOCK_COMMIT_VALUES = [
   3, 0, 5, 12, 8, 0, 2, 7, 15, 4, 0, 9, 6, 1, 11, 3, 0, 8, 14, 5,
   2, 0, 7, 10, 3, 6, 0, 4, 9, 2, 0, 13, 5, 1, 7, 0, 3, 11, 8, 2,
