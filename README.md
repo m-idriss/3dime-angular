@@ -170,13 +170,6 @@ bru run bruno-collections/3dime-api
 
 <div align="center">
 
-### 💼 Portfolio Homepage
-
-![3dime-angular Desktop Screenshot](public/assets/screenshots/desktopPage1920x1080.jpeg)
-*Modern portfolio showcasing experience, skills, and projects*
-
-### 📱 Mobile Experience
-
 <img src="public/assets/screenshots/iPhone_13_Pro_Max.jpeg" alt="3dime-angular Mobile Screenshot" width="375" />
 
 *Fully responsive design optimized for all devices*
