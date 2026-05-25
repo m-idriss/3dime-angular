@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { shareReplay, catchError, timeout, tap } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
@@ -52,6 +52,11 @@ export interface GithubRelease {
   published_at?: string;
 }
 
+interface CachedData<T> {
+  data: T;
+  isFresh: boolean;
+}
+
 /**
  * Service for fetching GitHub profile data and commit activity.
  * Uses caching with shareReplay to prevent duplicate API calls.
@@ -82,18 +87,20 @@ export class GithubService {
 
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
-  private commits$?: Observable<CommitData[]>;
+  private readonly commitsByMonths = new Map<number, Observable<CommitData[]>>();
   private release$?: Observable<GithubRelease>;
 
   private readonly CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
-  private getCached<T>(key: string): T | null {
+  private getCached<T>(key: string): CachedData<T> | null {
     try {
       const raw = localStorage.getItem(key);
       if (!raw) return null;
       const { data, timestamp } = JSON.parse(raw) as { data: T; timestamp: number };
-      if (Date.now() - timestamp > this.CACHE_TTL_MS) return null;
-      return data;
+      return {
+        data,
+        isFresh: Date.now() - timestamp <= this.CACHE_TTL_MS,
+      };
     } catch {
       return null;
     }
@@ -105,6 +112,25 @@ export class GithubService {
     } catch {
       // localStorage may be unavailable (private browsing, storage full, etc.)
     }
+  }
+
+  private sharedValue<T>(data: T): Observable<T> {
+    return of(data).pipe(shareReplay(1));
+  }
+
+  private refreshInBackground<T>(
+    fresh$: Observable<T>,
+    cacheObservable: (value$: Observable<T>) => void,
+    label: string,
+  ): void {
+    fresh$
+      .pipe(
+        catchError((err) => {
+          console.warn(`Background ${label} refresh failed:`, err.message || err);
+          return EMPTY;
+        }),
+      )
+      .subscribe((data) => cacheObservable(this.sharedValue(data)));
   }
 
   /**
@@ -124,17 +150,21 @@ export class GithubService {
       const fresh$ = this.http.get<GithubUser>(this.endpoints.profile).pipe(
         timeout(API_CONFIG.TIMEOUT_MS),
         tap((data) => this.setCache('github_profile', data)),
-        catchError((err) => {
-          console.warn('Profile API call failed or timed out:', err.message || err);
-          return of({} as GithubUser);
-        }),
         shareReplay(1),
       );
-      if (cached) {
-        this.profile$ = of(cached).pipe(shareReplay(1));
-        fresh$.subscribe({ error: (err) => console.warn('Background profile refresh failed:', err.message || err) });
+      if (cached?.data) {
+        this.profile$ = this.sharedValue(cached.data);
+        if (!cached.isFresh) {
+          this.refreshInBackground(fresh$, (value$) => (this.profile$ = value$), 'profile');
+        }
       } else {
-        this.profile$ = fresh$;
+        this.profile$ = fresh$.pipe(
+          catchError((err) => {
+            console.warn('Profile API call failed or timed out:', err.message || err);
+            return of({} as GithubUser);
+          }),
+          shareReplay(1),
+        );
       }
     }
     return this.profile$;
@@ -157,17 +187,21 @@ export class GithubService {
       const fresh$ = this.http.get<SocialLink[]>(this.endpoints.social).pipe(
         timeout(API_CONFIG.TIMEOUT_MS),
         tap((data) => this.setCache('github_social', data)),
-        catchError((err) => {
-          console.warn('Social links API call failed or timed out:', err.message || err);
-          return of([]);
-        }),
         shareReplay(1),
       );
-      if (cached) {
-        this.socialLinks$ = of(cached).pipe(shareReplay(1));
-        fresh$.subscribe({ error: (err) => console.warn('Background social refresh failed:', err.message || err) });
+      if (cached?.data) {
+        this.socialLinks$ = this.sharedValue(cached.data);
+        if (!cached.isFresh) {
+          this.refreshInBackground(fresh$, (value$) => (this.socialLinks$ = value$), 'social');
+        }
       } else {
-        this.socialLinks$ = fresh$;
+        this.socialLinks$ = fresh$.pipe(
+          catchError((err) => {
+            console.warn('Social links API call failed or timed out:', err.message || err);
+            return of([]);
+          }),
+          shareReplay(1),
+        );
       }
     }
     return this.socialLinks$;
@@ -185,22 +219,47 @@ export class GithubService {
     if (env.screenshotMode) {
       return of(MOCK_COMMIT_DATA).pipe(shareReplay(1));
     }
+    const cachedCommits$ = this.commitsByMonths.get(months);
+    if (cachedCommits$) {
+      return cachedCommits$;
+    }
+
     const url = `${this.endpoints.commits}?months=${months}`;
-    return this.http.get<CommitData[]>(url).pipe(
+    const cacheKey = `github_commits_${months}`;
+    const cached = this.getCached<CommitData[]>(cacheKey);
+    const fresh$ = this.http.get<CommitData[]>(url).pipe(
       timeout(API_CONFIG.TIMEOUT_MS),
-      catchError((err) => {
-        console.warn('Commits API call failed or timed out:', err.message || err);
-        return of([]);
-      }),
+      tap((data) => this.setCache(cacheKey, data)),
       shareReplay(1),
     );
+
+    if (cached?.data) {
+      const cached$ = this.sharedValue(cached.data);
+      this.commitsByMonths.set(months, cached$);
+      if (!cached.isFresh) {
+        this.refreshInBackground(fresh$, (value$) => this.commitsByMonths.set(months, value$), 'commits');
+      }
+    } else {
+      this.commitsByMonths.set(
+        months,
+        fresh$.pipe(
+          catchError((err) => {
+            console.warn('Commits API call failed or timed out:', err.message || err);
+            return of([]);
+          }),
+          shareReplay(1),
+        ),
+      );
+    }
+
+    return this.commitsByMonths.get(months)!;
   }
 
   /**
    * Clear cached commit data to force a refresh on next request.
    */
   refreshCommits(): void {
-    this.commits$ = undefined;
+    this.commitsByMonths.clear();
   }
 
   /**
@@ -221,17 +280,21 @@ export class GithubService {
       const fresh$ = this.http.get<GithubRelease>(url).pipe(
         timeout(API_CONFIG.TIMEOUT_MS),
         tap((data) => this.setCache('github_release', data)),
-        catchError((err) => {
-          console.warn('Release API call failed or timed out:', err.message || err);
-          return of({} as GithubRelease);
-        }),
         shareReplay(1),
       );
-      if (cached) {
-        this.release$ = of(cached).pipe(shareReplay(1));
-        fresh$.subscribe({ error: (err) => console.warn('Background release refresh failed:', err.message || err) });
+      if (cached?.data) {
+        this.release$ = this.sharedValue(cached.data);
+        if (!cached.isFresh) {
+          this.refreshInBackground(fresh$, (value$) => (this.release$ = value$), 'release');
+        }
       } else {
-        this.release$ = fresh$;
+        this.release$ = fresh$.pipe(
+          catchError((err) => {
+            console.warn('Release API call failed or timed out:', err.message || err);
+            return of({} as GithubRelease);
+          }),
+          shareReplay(1),
+        );
       }
     }
     return this.release$;

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, from, concat } from 'rxjs';
+import { EMPTY, Observable, of, from, concat } from 'rxjs';
 import { map, catchError, shareReplay, timeout, concatMap, delay } from 'rxjs/operators';
 
 import { LinkItem } from '../models';
@@ -16,6 +16,11 @@ interface NotionApiResponse {
   education?: LinkItem[];
   hobbies?: LinkItem[];
   tech_stack?: LinkItem[];
+}
+
+interface CachedNotion {
+  data: NotionApiResponse;
+  isFresh: boolean;
 }
 
 /**
@@ -53,13 +58,15 @@ export class NotionService {
   private readonly NOTION_CACHE_TTL_MS = 2 * 60 * 60 * 1000; // 2 hours
   private readonly NOTION_CACHE_KEY = 'notion_cms';
 
-  private getCachedNotion(): NotionApiResponse | null {
+  private getCachedNotion(): CachedNotion | null {
     try {
       const raw = localStorage.getItem(this.NOTION_CACHE_KEY);
       if (!raw) return null;
       const { data, timestamp } = JSON.parse(raw) as { data: NotionApiResponse; timestamp: number };
-      if (Date.now() - timestamp > this.NOTION_CACHE_TTL_MS) return null;
-      return data;
+      return {
+        data,
+        isFresh: Date.now() - timestamp <= this.NOTION_CACHE_TTL_MS,
+      };
     } catch {
       return null;
     }
@@ -71,6 +78,22 @@ export class NotionService {
     } catch {
       // localStorage may be unavailable
     }
+  }
+
+  private applyNotionContent(res: NotionApiResponse): void {
+    this.stuffs = res.stuff ?? [];
+    this.experiences = res.experience ?? [];
+    this.educations = res.education ?? [];
+    this.hobbies = res.hobbies ?? [];
+    this.techStacks = res.tech_stack ?? [];
+  }
+
+  private applyEmptyContent(): void {
+    this.stuffs = [];
+    this.experiences = [];
+    this.educations = [];
+    this.hobbies = [];
+    this.techStacks = [];
   }
 
   stuffs: LinkItem[] = [];
@@ -94,39 +117,36 @@ export class NotionService {
       const fresh$ = this.http.get<NotionApiResponse>(`${this.baseUrl}/notion/cms`).pipe(
         timeout(API_CONFIG.TIMEOUT_MS),
         map((res) => {
-          this.stuffs = res.stuff ?? [];
-          this.experiences = res.experience ?? [];
-          this.educations = res.education ?? [];
-          this.hobbies = res.hobbies ?? [];
-          this.techStacks = res.tech_stack ?? [];
+          this.applyNotionContent(res);
           this.setCacheNotion(res);
-        }),
-        catchError((err) => {
-          console.warn('Notion API call failed or timed out:', err.message || err);
-          this.stuffs = [];
-          this.experiences = [];
-          this.educations = [];
-          this.hobbies = [];
-          this.techStacks = [];
-          return of();
         }),
         shareReplay(1),
       );
 
-      if (cached) {
-        // Pre-populate arrays immediately from cache so progressive loading starts at once
-        this.stuffs = cached.stuff ?? [];
-        this.experiences = cached.experience ?? [];
-        this.educations = cached.education ?? [];
-        this.hobbies = cached.hobbies ?? [];
-        this.techStacks = cached.tech_stack ?? [];
-        // Emit immediately so components can render; refresh cache silently in background
+      if (cached?.data) {
+        // Pre-populate arrays immediately from cache so content renders without waiting on the API.
+        this.applyNotionContent(cached.data);
+        // Emit immediately so components can render; refresh memory and localStorage silently.
         this.fetchAll$ = of<void>(undefined).pipe(shareReplay(1));
-        fresh$.subscribe({
-          error: (err) => console.warn('Background Notion refresh failed:', err.message || err),
-        });
+        if (!cached.isFresh) {
+          fresh$
+            .pipe(
+              catchError((err) => {
+                console.warn('Background Notion refresh failed:', err.message || err);
+                return EMPTY;
+              }),
+            )
+            .subscribe();
+        }
       } else {
-        this.fetchAll$ = fresh$;
+        this.fetchAll$ = fresh$.pipe(
+          catchError((err) => {
+            console.warn('Notion API call failed or timed out:', err.message || err);
+            this.applyEmptyContent();
+            return of();
+          }),
+          shareReplay(1),
+        );
       }
     }
     return this.fetchAll$;
