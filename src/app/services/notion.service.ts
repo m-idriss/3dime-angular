@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, from, concat } from 'rxjs';
+import { EMPTY, Observable, of, from, concat } from 'rxjs';
 import { map, catchError, shareReplay, timeout, concatMap, delay } from 'rxjs/operators';
 
 import { LinkItem } from '../models';
@@ -80,6 +80,22 @@ export class NotionService {
     }
   }
 
+  private applyNotionContent(res: NotionApiResponse): void {
+    this.stuffs = res.stuff ?? [];
+    this.experiences = res.experience ?? [];
+    this.educations = res.education ?? [];
+    this.hobbies = res.hobbies ?? [];
+    this.techStacks = res.tech_stack ?? [];
+  }
+
+  private applyEmptyContent(): void {
+    this.stuffs = [];
+    this.experiences = [];
+    this.educations = [];
+    this.hobbies = [];
+    this.techStacks = [];
+  }
+
   stuffs: LinkItem[] = [];
   experiences: LinkItem[] = [];
   educations: LinkItem[] = [];
@@ -101,41 +117,36 @@ export class NotionService {
       const fresh$ = this.http.get<NotionApiResponse>(`${this.baseUrl}/notion/cms`).pipe(
         timeout(API_CONFIG.TIMEOUT_MS),
         map((res) => {
-          this.stuffs = res.stuff ?? [];
-          this.experiences = res.experience ?? [];
-          this.educations = res.education ?? [];
-          this.hobbies = res.hobbies ?? [];
-          this.techStacks = res.tech_stack ?? [];
+          this.applyNotionContent(res);
           this.setCacheNotion(res);
-        }),
-        catchError((err) => {
-          console.warn('Notion API call failed or timed out:', err.message || err);
-          this.stuffs = [];
-          this.experiences = [];
-          this.educations = [];
-          this.hobbies = [];
-          this.techStacks = [];
-          return of();
         }),
         shareReplay(1),
       );
 
       if (cached?.data) {
         // Pre-populate arrays immediately from cache so content renders without waiting on the API.
-        this.stuffs = cached.data.stuff ?? [];
-        this.experiences = cached.data.experience ?? [];
-        this.educations = cached.data.education ?? [];
-        this.hobbies = cached.data.hobbies ?? [];
-        this.techStacks = cached.data.tech_stack ?? [];
-        // Emit immediately so components can render; refresh cache silently in background
+        this.applyNotionContent(cached.data);
+        // Emit immediately so components can render; refresh memory and localStorage silently.
         this.fetchAll$ = of<void>(undefined).pipe(shareReplay(1));
         if (!cached.isFresh) {
-          fresh$.subscribe({
-            error: (err) => console.warn('Background Notion refresh failed:', err.message || err),
-          });
+          fresh$
+            .pipe(
+              catchError((err) => {
+                console.warn('Background Notion refresh failed:', err.message || err);
+                return EMPTY;
+              }),
+            )
+            .subscribe();
         }
       } else {
-        this.fetchAll$ = fresh$;
+        this.fetchAll$ = fresh$.pipe(
+          catchError((err) => {
+            console.warn('Notion API call failed or timed out:', err.message || err);
+            this.applyEmptyContent();
+            return of();
+          }),
+          shareReplay(1),
+        );
       }
     }
     return this.fetchAll$;
