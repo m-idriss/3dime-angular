@@ -52,6 +52,11 @@ export interface GithubRelease {
   published_at?: string;
 }
 
+interface CachedData<T> {
+  data: T;
+  isFresh: boolean;
+}
+
 /**
  * Service for fetching GitHub profile data and commit activity.
  * Uses caching with shareReplay to prevent duplicate API calls.
@@ -82,18 +87,20 @@ export class GithubService {
 
   private profile$?: Observable<GithubUser>;
   private socialLinks$?: Observable<SocialLink[]>;
-  private commits$?: Observable<CommitData[]>;
+  private readonly commitsByMonths = new Map<number, Observable<CommitData[]>>();
   private release$?: Observable<GithubRelease>;
 
   private readonly CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
-  private getCached<T>(key: string): T | null {
+  private getCached<T>(key: string): CachedData<T> | null {
     try {
       const raw = localStorage.getItem(key);
       if (!raw) return null;
       const { data, timestamp } = JSON.parse(raw) as { data: T; timestamp: number };
-      if (Date.now() - timestamp > this.CACHE_TTL_MS) return null;
-      return data;
+      return {
+        data,
+        isFresh: Date.now() - timestamp <= this.CACHE_TTL_MS,
+      };
     } catch {
       return null;
     }
@@ -130,9 +137,13 @@ export class GithubService {
         }),
         shareReplay(1),
       );
-      if (cached) {
-        this.profile$ = of(cached).pipe(shareReplay(1));
-        fresh$.subscribe({ error: (err) => console.warn('Background profile refresh failed:', err.message || err) });
+      if (cached?.data) {
+        this.profile$ = of(cached.data).pipe(shareReplay(1));
+        if (!cached.isFresh) {
+          fresh$.subscribe({
+            error: (err) => console.warn('Background profile refresh failed:', err.message || err),
+          });
+        }
       } else {
         this.profile$ = fresh$;
       }
@@ -163,9 +174,13 @@ export class GithubService {
         }),
         shareReplay(1),
       );
-      if (cached) {
-        this.socialLinks$ = of(cached).pipe(shareReplay(1));
-        fresh$.subscribe({ error: (err) => console.warn('Background social refresh failed:', err.message || err) });
+      if (cached?.data) {
+        this.socialLinks$ = of(cached.data).pipe(shareReplay(1));
+        if (!cached.isFresh) {
+          fresh$.subscribe({
+            error: (err) => console.warn('Background social refresh failed:', err.message || err),
+          });
+        }
       } else {
         this.socialLinks$ = fresh$;
       }
@@ -185,22 +200,44 @@ export class GithubService {
     if (env.screenshotMode) {
       return of(MOCK_COMMIT_DATA).pipe(shareReplay(1));
     }
+    const cachedCommits$ = this.commitsByMonths.get(months);
+    if (cachedCommits$) {
+      return cachedCommits$;
+    }
+
     const url = `${this.endpoints.commits}?months=${months}`;
-    return this.http.get<CommitData[]>(url).pipe(
+    const cacheKey = `github_commits_${months}`;
+    const cached = this.getCached<CommitData[]>(cacheKey);
+    const fresh$ = this.http.get<CommitData[]>(url).pipe(
       timeout(API_CONFIG.TIMEOUT_MS),
+      tap((data) => this.setCache(cacheKey, data)),
       catchError((err) => {
         console.warn('Commits API call failed or timed out:', err.message || err);
         return of([]);
       }),
       shareReplay(1),
     );
+
+    if (cached?.data) {
+      const cached$ = of(cached.data).pipe(shareReplay(1));
+      this.commitsByMonths.set(months, cached$);
+      if (!cached.isFresh) {
+        fresh$.subscribe({
+          error: (err) => console.warn('Background commits refresh failed:', err.message || err),
+        });
+      }
+    } else {
+      this.commitsByMonths.set(months, fresh$);
+    }
+
+    return this.commitsByMonths.get(months)!;
   }
 
   /**
    * Clear cached commit data to force a refresh on next request.
    */
   refreshCommits(): void {
-    this.commits$ = undefined;
+    this.commitsByMonths.clear();
   }
 
   /**
@@ -227,9 +264,13 @@ export class GithubService {
         }),
         shareReplay(1),
       );
-      if (cached) {
-        this.release$ = of(cached).pipe(shareReplay(1));
-        fresh$.subscribe({ error: (err) => console.warn('Background release refresh failed:', err.message || err) });
+      if (cached?.data) {
+        this.release$ = of(cached.data).pipe(shareReplay(1));
+        if (!cached.isFresh) {
+          fresh$.subscribe({
+            error: (err) => console.warn('Background release refresh failed:', err.message || err),
+          });
+        }
       } else {
         this.release$ = fresh$;
       }

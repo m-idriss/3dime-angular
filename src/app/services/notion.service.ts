@@ -18,6 +18,11 @@ interface NotionApiResponse {
   tech_stack?: LinkItem[];
 }
 
+interface CachedNotion {
+  data: NotionApiResponse;
+  isFresh: boolean;
+}
+
 /**
  * Delay between progressive item emissions in milliseconds.
  * This creates a staggered effect where items appear one by one.
@@ -53,13 +58,15 @@ export class NotionService {
   private readonly NOTION_CACHE_TTL_MS = 2 * 60 * 60 * 1000; // 2 hours
   private readonly NOTION_CACHE_KEY = 'notion_cms';
 
-  private getCachedNotion(): NotionApiResponse | null {
+  private getCachedNotion(): CachedNotion | null {
     try {
       const raw = localStorage.getItem(this.NOTION_CACHE_KEY);
       if (!raw) return null;
       const { data, timestamp } = JSON.parse(raw) as { data: NotionApiResponse; timestamp: number };
-      if (Date.now() - timestamp > this.NOTION_CACHE_TTL_MS) return null;
-      return data;
+      return {
+        data,
+        isFresh: Date.now() - timestamp <= this.NOTION_CACHE_TTL_MS,
+      };
     } catch {
       return null;
     }
@@ -113,18 +120,20 @@ export class NotionService {
         shareReplay(1),
       );
 
-      if (cached) {
-        // Pre-populate arrays immediately from cache so progressive loading starts at once
-        this.stuffs = cached.stuff ?? [];
-        this.experiences = cached.experience ?? [];
-        this.educations = cached.education ?? [];
-        this.hobbies = cached.hobbies ?? [];
-        this.techStacks = cached.tech_stack ?? [];
+      if (cached?.data) {
+        // Pre-populate arrays immediately from cache so content renders without waiting on the API.
+        this.stuffs = cached.data.stuff ?? [];
+        this.experiences = cached.data.experience ?? [];
+        this.educations = cached.data.education ?? [];
+        this.hobbies = cached.data.hobbies ?? [];
+        this.techStacks = cached.data.tech_stack ?? [];
         // Emit immediately so components can render; refresh cache silently in background
         this.fetchAll$ = of<void>(undefined).pipe(shareReplay(1));
-        fresh$.subscribe({
-          error: (err) => console.warn('Background Notion refresh failed:', err.message || err),
-        });
+        if (!cached.isFresh) {
+          fresh$.subscribe({
+            error: (err) => console.warn('Background Notion refresh failed:', err.message || err),
+          });
+        }
       } else {
         this.fetchAll$ = fresh$;
       }
