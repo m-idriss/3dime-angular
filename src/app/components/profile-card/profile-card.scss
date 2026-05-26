@@ -6,6 +6,7 @@
 .container {
   /* Positioning */
   position: relative;
+  isolation: isolate;
   overflow: visible;
   z-index: 10;
 

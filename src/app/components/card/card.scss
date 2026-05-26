@@ -6,6 +6,7 @@
 .container {
   /* Positioning */
   position: relative;
+  isolation: isolate;
 
   /* Box Model */
   width: 100%;
