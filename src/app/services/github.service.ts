@@ -233,7 +233,9 @@ export class GithubService {
       shareReplay(1),
     );
 
-    if (cached?.data) {
+    // An empty response can be produced while the authenticated GitHub API is unavailable.
+    // Treat it as a cache miss so a recovered backend repopulates the activity immediately.
+    if (cached?.data?.length) {
       const cached$ = this.sharedValue(cached.data);
       this.commitsByMonths.set(months, cached$);
       if (!cached.isFresh) {
