@@ -7,7 +7,7 @@
 <h3>Modern personal portfolio with GitHub integration — instantly ✨</h3>
 
 <a href="https://3dime.com"><img src="https://img.shields.io/badge/Live_Demo-3dime.com-00D4AA?style=for-the-badge" alt="Live Demo" /></a>
-<a href="https://angular.dev"><img src="https://img.shields.io/badge/Angular-20.3-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular" /></a>
+<a href="https://angular.dev"><img src="https://img.shields.io/badge/Angular-21.2-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular" /></a>
 <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" /></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="MIT License" /></a>
 <a href="public/assets/manifest.json"><img src="https://img.shields.io/badge/PWA-Ready-9C27B0?style=for-the-badge" alt="PWA Ready" /></a>
@@ -38,18 +38,37 @@
 | 📱 **PWA — Works Offline** | Install on your phone or desktop like a native app |
 | 🌐 **Fully Responsive** | Perfect experience on mobile, tablet, and desktop |
 
-Backend: [3dime-api](https://github.com/m-idriss/3dime-api) (Quarkus REST API)
+## Technology
+
+| Layer | Technology |
+|-------|------------|
+| Frontend | Angular 21.2, TypeScript 5.9, RxJS, Bootstrap |
+| Data visualization | Cal-Heatmap and D3 |
+| Backend | [3dime-api](https://github.com/m-idriss/3dime-api), a Quarkus REST API |
+| Production | Vercel for the frontend, Google Cloud Run for the API |
+
+## Production architecture
+
+```text
+Browser → https://www.3dime.com (Angular on Vercel)
+        → https://api.3dime.com (Quarkus on Cloud Run)
+        → GitHub and Notion APIs
+```
+
+Production deployments are source-controlled: merge a reviewed pull request into `main`, then Vercel builds and publishes that commit automatically. Direct production deployments from a local checkout are not part of this project's release workflow.
 
 ## Quick Start
 
 **Prerequisites:** Node.js 20+, npm 10+
 
 ```bash
-npm install       # Install dependencies
+npm ci            # Install the locked dependency versions
 npm start         # Dev server → http://localhost:4200
 npm test          # Unit tests
 npm run build -- --configuration=production  # Production build
 ```
+
+The frontend expects the API at `https://api.3dime.com` in production. Environment-specific configuration lives under `src/environments/`; never commit API tokens or other secrets.
 
 ## Documentation
 
